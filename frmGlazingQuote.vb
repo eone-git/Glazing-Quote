@@ -806,6 +806,8 @@ Public Class frmGlazingQuote
     '-----------------------------
 
     Private Sub cmbAccount_ValueChanged(sender As Object, e As EventArgs) Handles cmbAccount.ValueChanged
+        ucmbQuoteLineType.Visible = True
+        LoadQuoteLineType()
         InitializesCustomerDetails()
         UG2.Enabled = True
         Dim row As UltraGridRow
@@ -902,7 +904,9 @@ Public Class frmGlazingQuote
             quateFiedTypesList.ValueListItems.Add(5, "Stock Item")
             With e.Layout.Bands(0).Columns("QuoteFiedType")
                 .Style = Infragistics.Win.UltraWinGrid.ColumnStyle.DropDownValidate
-                .ValueList = quateFiedTypesList
+                '.ValueList = quateFiedTypesList
+                '.EditorComponent = ucmbQuoteLineType
+
             End With
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
@@ -910,6 +914,14 @@ Public Class frmGlazingQuote
         End Try
     End Sub
 
+    Private Sub LoadQuoteLineType()
+        Try
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
     Sub QuoteGirdRowFormat(e As CellEventArgs)
         Try
             If Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
@@ -999,18 +1011,18 @@ Public Class frmGlazingQuote
 
         End Try
     End Sub
-    Sub ColumsVisibility(e As CellEventArgs, isHiiden As Boolean)
+    Sub ColumsVisibility(e As CellEventArgs, isHdden As Boolean)
         Try
-            Me.UG2.ActiveRow.Cells("Height").Hidden = isHiiden
-            Me.UG2.ActiveRow.Cells("Width").Hidden = isHiiden
-            Me.UG2.ActiveRow.Cells("Qty").Hidden = isHiiden
-            Me.UG2.ActiveRow.Cells("Price").Hidden = isHiiden
-            Me.UG2.ActiveRow.Cells("Amount").Hidden = isHiiden
-            Me.UG2.ActiveRow.Cells("LineNotes").Hidden = isHiiden
-            Me.UG2.ActiveRow.Cells("MarkAs").Hidden = isHiiden
-            Me.UG2.ActiveRow.Cells("ItemImage").Hidden = isHiiden
-            Me.UG2.ActiveRow.Cells("TaxRate").Hidden = isHiiden
-            Me.UG2.ActiveRow.Cells("Shape").Hidden = isHiiden
+            Me.UG2.ActiveRow.Cells("Height").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("Width").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("Qty").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("Price").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("Amount").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("LineNotes").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("MarkAs").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("ItemImage").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("TaxRate").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("Shape").Hidden = isHdden
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
@@ -2648,7 +2660,7 @@ Public Class frmGlazingQuote
 
         Try
             UG2.Rows.Band.Override.ExpansionIndicator = ShowExpansionIndicator.CheckOnDisplay
-            setQuateFiedType(sender, e)
+            'setQuateFiedType(sender, e)
 
             SetCellApperance()
             UG2.DisplayLayout.Override.CellAppearance.TextVAlign = VAlign.Middle
@@ -2733,6 +2745,8 @@ Public Class frmGlazingQuote
     End Sub
 
     Private Sub UG2_CellChange(sender As Object, e As CellEventArgs) Handles UG2.CellChange
+        'Dim test2 = e.Cell.Text
+        'Dim a2 = Me.UG2.ActiveCell.Text
         'If isStockItemActive = False Then
         '    If isStockItemClosing = False Then
         '        If e.Cell.Column.Key = "QuoteFiedType" Then
@@ -3167,7 +3181,7 @@ Public Class frmGlazingQuote
                 If isStockItemClosing = False Then
                     If Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
                         Dim ex As CellEventArgs
-                        QuoteGirdRowFormat(ex)
+                        'QuoteGirdRowFormat(ex)
 
                         'ElseIf e.Cell.Column.Key = "TaxRate" Then
                         'If e.Cell.Row.Cells("Price").Text > 0 Then
@@ -4194,4 +4208,103 @@ Public Class frmGlazingQuote
     End Sub
 
 
+    Private Sub ucmbQuoteLineType_InitializeLayout(sender As Object, e As InitializeLayoutEventArgs) Handles ucmbQuoteLineType.InitializeLayout
+        Try
+            ucmbQuoteLineType.DisplayLayout.Bands(0).ColHeadersVisible = False
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub ucmbQuoteLineType_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles ucmbQuoteLineType.RowSelected
+        'If ucmbQuoteLineType.ActiveRow.Cells("LineTypeName").Value = "Text" Then
+        '    Me.UG2.ActiveCell = Me.UG2.ActiveRow.Cells("LineComments")
+        '    Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
+
+        'Else
+        '    Me.UG2.ActiveRow.Appearance.BackColor = Nothing
+
+        'End If
+        QuoteGirdRowStyling()
+        'If isStockItemActive = False Then
+        '    If Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
+        '        QuoteGirdRowFormat(ex)
+
+        '    End If
+        'End If
+
+    End Sub
+
+    Sub QuoteGirdRowStyling()
+        Dim lineTypeCell As UltraGridCell = ucmbQuoteLineType.ActiveRow.Cells("LineTypeName")
+        Dim gridActiveRow As UltraGridRow = Me.UG2.ActiveRow
+        Dim gridActiveCell As UltraGridCell = Me.UG2.ActiveCell
+
+        Try
+            lineTypeCell.Appearance.Reset()
+            lineTypeCell.Appearance.FontData.Reset()
+
+            If lineTypeCell.Text = "Header-Main" Then
+                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 14
+                GrideColumsVisibility(gridActiveRowe, True)
+
+            ElseIf lineTypeCell.Text = "Header-Sub" Then
+                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                gridActiveRow.Appearance.FontData.Underline = DefaultableBoolean.True
+                gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 12
+                GrideColumsVisibility(gridActiveRow, True)
+
+            ElseIf lineTypeCell.Text = "Subtotal" Then
+                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                Me.UG2.ActiveRow.Cells("Amount").Appearance.BackColor = Color.LightGreen
+                Me.UG2.ActiveRow.Cells("Amount").Appearance.BorderColor = Color.Green
+                gridActiveRow.Cells("LineComments").Appearance.FontData.Reset()
+                GrideColumsVisibility(gridActiveRow, True)
+                Me.UG2.ActiveRow.Cells("Amount").Hidden = False
+                Me.UG2.ActiveRow.Cells("LineComments").Hidden = True
+
+            ElseIf lineTypeCell.Text = "Stock Item" Then
+                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.False
+                gridActiveRow.Appearance.FontData.Underline = DefaultableBoolean.False
+                gridActiveRow.Cells("LineComments").Appearance.FontData.Reset()
+                GrideColumsVisibility(gridActiveRow, False)
+
+
+            ElseIf lineTypeCell.Text = "Text" Then
+                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.False
+                gridActiveRow.Appearance.FontData.Underline = DefaultableBoolean.False
+                gridActiveRow.Cells("LineComments").Appearance.FontData.Reset()
+                GrideColumsVisibility(gridActiveRow, False)
+
+            End If
+
+            gridActiveRow.PerformAutoSize()
+            Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub GrideColumsVisibility(ByRef row As UltraGridRow, ByRef isHdden As Boolean)
+        Try
+            Me.UG2.ActiveRow.Cells("Height").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("Width").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("Qty").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("Price").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("Amount").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("LineNotes").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("MarkAs").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("ItemImage").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("TaxRate").Hidden = isHdden
+            Me.UG2.ActiveRow.Cells("Shape").Hidden = isHdden
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
 End Class
