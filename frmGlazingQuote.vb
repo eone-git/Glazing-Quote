@@ -1,0 +1,4197 @@
+﻿Imports Infragistics.Win.UltraWinGrid
+Imports System.Data.SqlClient
+Imports Infragistics.Win
+Imports SPIL.Shapes
+Imports System.Drawing.Imaging
+Imports System.Runtime.Serialization.Formatters.Binary
+Imports System.IO
+Imports GlassInventoryModule
+Imports GMap.NET.Core
+Imports GMap.NET.WindowsForms
+
+Imports GMap.NET.MapProviders
+Imports GMap.NET
+Imports GMap.NET.WindowsForms.Markers
+
+Public Class frmGlazingQuote
+    Dim oPriceUnits As New clsSOPricingAndUnits
+    Dim oSOModuleDefaults As New clsSOModuleDefaults
+    Dim oFormCustomer As clsCustomer
+    Public pubMeQuoteDocument As clsInvHeader
+    Public pubMeIsNewRecord As Boolean
+    Public pubMeCalledBy As Integer
+    Public pubMeOrderIndex As Integer
+    Public pubMeSpilDocTypeID As Integer
+    Public pubMeSpilDocStatusID As Integer
+    Public pubMemyLineState As Integer
+    Public pubMeProductType As Integer
+    Public pubMeToughened As Boolean
+    Public pubmyProductionState As Integer
+    Dim con As New SqlConnection(strCon)
+    Dim Trans As SqlTransaction
+    Dim oProdDefaults As New clsProdDefaults("")
+    Dim isNew As Boolean = True
+    'Public Shared UG2ActiveRow As UltraGridRow
+    Dim UG2ActiveRow As UltraGridRow
+    'Public  UG2ActiveRow As UltraGridRow
+    Public Shared selectedDocDes As String
+    Dim footteIsActive As Boolean = False
+    Dim isJobDescriptionActive As Boolean = False
+
+    Public subHeaderID As Integer = 0
+    Dim groupStarted As Boolean = False
+    Public Shared priceType As String = ""
+
+    Dim isDefaultChanged As Boolean = False
+
+    Dim isExistingOrder As Boolean = False
+    Dim canUpdate As Boolean = True
+    Public openedModeulename As String = ""
+
+    'Taxed or not
+    Public isTaxedPrice As Boolean = False
+    Public defaultTaxtRate As Integer = 0
+    Public defaultTaxtRateValue As Decimal = 0
+    Public sAllowBlankCustomerOrderNo As Boolean = False
+
+
+    Dim isCopied As Boolean = False
+    Dim isPasting As Boolean = False
+
+    Public quoteOrdeIndex As Integer = 0
+    Dim quoteOrderNum As String = ""
+    Dim quoteDocRepID As Integer = 0
+
+    Dim collDeletedItemLines As New Collection
+    Dim rowCopied As New List(Of UltraGridRow)
+
+
+    Dim isOpeningQuote As Boolean = False
+    Dim calculateWhilePasting As Boolean = False
+    Dim IsCellClearing As Boolean = False
+    Public isStockItemActive As Boolean = False
+    Dim objClsInvHeader As New clsInvHeader
+
+    Public jobDescription As String = ""
+
+    'map
+    Private latitude As Double = 0.0
+    Private longitude As Double = 0.0
+    Dim emptyArray As Byte() = New Byte(63) {}
+
+    Dim subTotalByGroup As List(Of Double)
+    Public isStockItemClosing As Boolean = False
+
+    'Public Modeulename As String = ""
+
+    Private Sub GET_CUSTOMERS(ByVal value As String)
+
+        Dim IsProspect As Boolean = False
+        If value = "Prospect" Then
+            IsProspect = True
+        Else
+            IsProspect = False
+        End If
+
+        SQL = "SELECT Name, Account, DCLink, (Physical1 + ' ' + Physical2 + ' ' + Physical3 + ' ' + Physical4 + ' ' + Physical5 + ' ' + Physical5) as DeliveryAddress " & _
+            "FROM  Client  LEFT OUTER JOIN " & _
+            " spilFuelLevRates ON Client.FLID = spilFuelLevRates.FLID WHERE Client.IsProspect = '" & IsProspect & "'"
+
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            Try
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                cmbAccount.DataSource = DS_BATCHES.Tables(0)
+                cmbAccount.DisplayMember = "Name"
+                cmbAccount.ValueMember = "DCLink"
+                cmbAccount.DisplayLayout.Bands(0).Columns("Name").Width = 300
+                cmbAccount.DisplayLayout.Bands(0).Columns("DeliveryAddress").Width = 500
+                cmbAccount.DisplayLayout.Bands(0).Columns("Account").Hidden = True
+                cmbAccount.DisplayLayout.Bands(0).Columns("DCLink").Hidden = True
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+            Finally
+                .Dispose()
+                objSQL = Nothing
+            End Try
+        End With
+
+    End Sub
+
+    Private Sub InitializesCustomerDetails()
+        Try
+            Dim mUgR As UltraGridRow
+            mUgR = cmbAccount.ActiveRow
+            If Not mUgR Is Nothing Then
+                If Set_Customer(mUgR) = 0 Then
+                    Exit Sub
+                End If
+            Else
+                txtPhy1.Text = ""
+                txtPhy2.Text = ""
+                txtPhy3.Text = ""
+                txtPhy4.Text = ""
+                txtPhy5.Text = ""
+                txtPhyPostCode.Text = ""
+                cboArea.Text = ""
+                txtPost1.Text = ""
+                txtPost2.Text = ""
+                txtPost3.Text = ""
+                txtPost4.Text = ""
+                txtPost5.Text = ""
+                txtPostCode.Text = ""
+                txtContact1.Text = ""
+                txtContact2.Text = ""
+                txtTele1.Text = ""
+                txtTele2.Text = ""
+                txtMobile.Text = ""
+                cmbContPerson.Text = ""
+                txtContPerTel.Text = ""
+                txtContEmail.Text = ""
+                'cmbAccount.Text = ""
+                cmbAccount.Focus()
+            End If
+        Catch ex As Exception
+            Exit Sub
+        End Try
+
+    End Sub
+
+    Private Function Set_Customer(ByVal ugR As UltraGridRow) As Integer
+        Try
+            '0=Customer   1=Prospect
+            If cmbCusType.Value = 0 Or cmbCusType.Value = 1 Then
+
+                'Initialize Customer and Price Objects
+                oFormCustomer = New clsCustomer(ugR.Cells("DCLink").Value)
+                oPriceUnits.oCustomer = oFormCustomer
+                oPriceUnits.iDefaultStockPriceListID = oSOModuleDefaults.DefaultTradePriceListID ' iFormDefaultTradePriceListID
+                iFormDefaultTradePriceListID = oSOModuleDefaults.DefaultTradePriceListID
+                'End of Initialize Customer and Price Objects
+
+                'Fill currency and Exchange Rate
+                'txtCurrency.Text = oFormCustomer.CurrencyCode
+                'txtExRate.Text = oFormCustomer.ExRate
+
+                'Fill Tax code and Tax Rate
+                dCusTaxCode = oFormCustomer.TaxCode
+                dCusTaxRate = oFormCustomer.TaxRate
+
+                'Q1.Text = "(" & oFormCustomer.CurrencyCode & ")"
+                'Q2.Text = "(" & oFormCustomer.CurrencyCode & ")"
+                'Q3.Text = "(" & oFormCustomer.CurrencyCode & ")"
+
+                'T1.Text = "(" & oFormCustomer.CurrencyCode & ")"
+                'T2.Text = "(" & oFormCustomer.CurrencyCode & ")"
+                'T3.Text = "(" & oFormCustomer.CurrencyCode & ")"
+
+                UG2.Enabled = True
+
+                If IsDBNull(oFormCustomer.iClassID) = True Then
+                    MsgBox("Please assign valid customer group for selected customer", MsgBoxStyle.Exclamation, "Validation")
+                    Return 0
+                    Exit Function
+                End If
+
+                '>>intCustGroup = ugR.Cells("iClassID").Value
+                '>>intPriceListID = 0
+                '>>intDCLink = ugR.Cells("DCLink").Value
+                Call SetContact()
+
+                'cmbCustGroup.Value = oFormCustomer.iClassID
+
+                '>>If ugR.Cells("CashDebtor").Value = True Or ugR.Cells("bCODAccount").Value = True Then
+                If oFormCustomer.CashDebtor = True Or oFormCustomer.bCODAccount = True Then
+                    IsCustCODorIWG = True
+                Else
+                    IsCustCODorIWG = False
+                End If
+
+                Call Set_Cust_Address()
+
+                Call GET_Projects(ugR.Cells("DCLink").Value)
+
+                ''To fix customer edit issue (StakeGlass)
+                cmbSalesRep.Value = oFormCustomer.RepID '>> ugR.Cells("RepID").Value
+
+                If pubMeIsNewRecord Or pubmyProductionState = GlassProdState.Ready2Batch Then
+                    cmbDelMethod.Value = oFormCustomer.uiARDeliveryMethod '>> ugR.Cells("uiARDeliveryMethod").Value
+                End If
+
+                cboArea.Value = oFormCustomer.iAreasID '>>ugR.Cells("iAreasID").Value
+                txtPostCode.Text = oFormCustomer.PostPC ' IIf(IsDBNull(ugR.Cells("PostPC").Value), "", ugR.Cells("PostPC").Value)
+
+                If pubMeIsNewRecord = False Then
+                    Return 1
+                    Exit Function
+                End If
+
+                If pubMeCalledBy = GlassDocCalledBy.NewNCRFromSO Or pubMeCalledBy = GlassDocCalledBy.NewSOFromQuote Then
+                    Exit Function
+                End If
+
+                ''To fix customer edit issue (StakeGlass)
+                ''cmbSalesRep.Value = oFormCustomer.RepID '>> ugR.Cells("RepID").Value
+                ''cmbDelMethod.Value = oFormCustomer.uiARDeliveryMethod '>> ugR.Cells("uiARDeliveryMethod").Value
+                ''cboArea.Value = oFormCustomer.iAreasID '>>ugR.Cells("iAreasID").Value
+                ''txtPostCode.Text = oFormCustomer.PostPC ' IIf(IsDBNull(ugR.Cells("PostPC").Value), "", ugR.Cells("PostPC").Value)
+
+
+                'If pubMeSpilDocTypeID = GlassDocTypes.CreditNote Then
+                '    txtFuelLevPercen.Value = 0
+                'Else
+                '    'txtFuelLevPercen.Value = IIf(IsDBNull(cmbAccount.ActiveRow.Cells("FuelLevyPercen").Value) = True, 0, cmbAccount.ActiveRow.Cells("FuelLevyPercen").Value)
+                '    txtFuelLevPercen.Value = 0
+                'End If
+
+                If pubMeSpilDocStatusID = GlassDocState.Archived Then
+                    ' GetInvoiceDueDate()
+                    Dim DueDateWithAccountTerms() As String
+                    Dim objCustomer As New clsCustomer
+
+                    DueDateWithAccountTerms = Split(objCustomer.GetInvoiceDueDate(ugR.Cells("DCLink").Value, txtDueDate.Value), ";")
+                    txtDueDate.Value = Convert.ToDateTime(DueDateWithAccountTerms(0))
+                End If
+
+                If cmbDelMethod.Value = 1 Then
+                    cmbDelivery.Value = oFormCustomer.FLID 'ugR.Cells("FLID").Value
+                    If IsNumeric(cmbDelivery.Text) = True Then
+                        If Convert.ToDouble(cmbDelivery.Text) > 0 Then
+                            'chkFuelLev.Enabled = True
+                            'chkFuelLev.Checked = False
+                            'chkFuelLev.Text = "Delivery Charge : " & String.Format("{0:0.00}", cmbDelivery.Text) & "$ to be added "
+                            'txtFuelLevPercen.Value = Convert.ToDouble(cmbDelivery.Text)
+                        Else
+                            'chkFuelLev.Enabled = False
+                            'chkFuelLev.Checked = False
+                            'chkFuelLev.Text = "No Delivery Charge to be added "
+                            'txtFuelLevPercen.Value = 0
+                        End If
+                    End If
+                Else
+                    'cmbDelivery.Value = 1
+                    'chkFuelLev.Enabled = False
+                    'chkFuelLev.Checked = False
+                    'chkFuelLev.Text = "No Delivery Charge to be added "
+                End If
+
+
+
+                Dim i As Integer = 0
+                For Each mugR As UltraGridRow In UG2.Rows
+                    If Not IsDBNull(mugR.Cells("StockLink").Value) Then
+                        If mugR.Cells("StockLink").Value > 0 Then
+                            i += 1
+                        Else
+                            mugR.Delete(False)
+                        End If
+                    End If
+                Next
+
+                If i > 0 Then
+                    If MessageBox.Show("Do you want to clear all entered lines", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                        For Each mugR As UltraGridRow In UG2.Rows.All
+                            mugR.Delete(False)
+                        Next
+
+                        Dim dr As UltraGridRow = UG2.DisplayLayout.Bands(0).AddNew
+                        If pubMeSpilDocTypeID = GlassDocTypes.CreditNote Then
+                            dr.Cells("ItemType").Value = GlassItemTypes.Service
+                        Else
+                            dr.Cells("ItemType").Value = 1
+                        End If
+                        dr.Cells("Method").Value = 1
+                        dr.Cells("Measure").Value = 1
+                        UG2.ActiveRow.Cells(1).Selected = True
+
+                        If cmbFacility.Text = "" Then
+                            dr.Cells("FacilityID").Value = 0
+                        Else
+                            dr.Cells("FacilityID").Value = IIf(IsDBNull(cmbFacility.Value), 0, cmbFacility.Value)
+                        End If
+
+
+                        UG2.DisplayLayout.Override.CellClickAction = Infragistics.Win.UltraWinGrid.CellClickAction.Edit
+
+                    End If
+                End If
+
+
+
+            End If
+            Return 1
+        Catch ex As Exception
+            Return 0
+        End Try
+
+    End Function
+
+    Public Sub SetContact()
+        Try
+            txtContact1.Text = oFormCustomer.Contact_Person ' Dr("Contact_Person")
+            txtContact2.Text = oFormCustomer.Delivered_To 'Dr("Delivered_To")
+            txtTele1.Text = oFormCustomer.Telephone 'Dr("Telephone")
+            txtTele2.Text = oFormCustomer.Telephone2 'Dr("Telephone2")
+            txtMobile.Text = oFormCustomer.Fax1 '  Dr("Fax1")
+            cmbContPerson.DataSource = oFormCustomer.CustomerContactsDS
+            cmbContPerson.DisplayLayout.Bands(0).ColHeadersVisible = False
+            cmbContPerson.DisplayMember = "ContName"
+            cmbContPerson.Text = oFormCustomer.Contact_Person
+            txtContPerTel.Text = oFormCustomer.Telephone
+            txtContEmail.Text = oFormCustomer.EMail ' Dr("EMail")
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub Set_Cust_Address()
+        Try
+            ugDelAddress.DataSource = Nothing
+            ugDelAddress.DataSource = oFormCustomer.DeliveryAddressesDS 'DS_BATCHES2.Tables(2)
+            ugDelAddress.DisplayLayout.Bands(0).Columns("cDescription").Header.Caption = "Description"
+            ugDelAddress.DisplayLayout.Bands(0).Columns("cDelAddress1").Header.Caption = "DelAddress1"
+            ugDelAddress.DisplayLayout.Bands(0).Columns("cDelAddress2").Header.Caption = "DelAddress2"
+            ugDelAddress.DisplayLayout.Bands(0).Columns("cDelAddress3").Header.Caption = "DelAddress3"
+            ugDelAddress.DisplayLayout.Bands(0).Columns("cDelAddress4").Header.Caption = "DelAddress4"
+            ugDelAddress.DisplayLayout.Bands(0).Columns("cDelAddress5").Header.Caption = "DelAddress5"
+            ugDelAddress.DisplayLayout.Bands(0).Columns("cDelAddressPC").Header.Caption = "Post Code"
+
+            txtPost1.ResetText()
+            txtPost2.ResetText()
+            txtPost3.ResetText()
+            txtPost4.ResetText()
+            txtPost5.ResetText()
+            txtPostCode.ResetText()
+
+            '>>For Each dr4 In DS_BATCHES2.Tables(0).Rows
+            txtPost1.Text = oFormCustomer.Post1 ' IIf(IsDBNull(dr4("Post1")) = True, "", dr4("Post1"))
+            txtPost2.Text = oFormCustomer.Post2 ' IIf(IsDBNull(dr4("Post2")) = True, "", dr4("Post2"))
+            txtPost3.Text = oFormCustomer.Post3 ' IIf(IsDBNull(dr4("Post3")) = True, "", dr4("Post3"))
+            txtPost4.Text = oFormCustomer.Post4 ' IIf(IsDBNull(dr4("Post4")) = True, "", dr4("Post4"))
+            txtPost5.Text = oFormCustomer.Post5 ' IIf(IsDBNull(dr4("Post5")) = True, "", dr4("Post5"))
+            txtPostCode.Text = oFormCustomer.PostPC ' IIf(IsDBNull(dr4("PostPC")) = True, "", dr4("PostPC"))
+            '>>Next
+
+            txtPhy1.ResetText()
+            txtPhy2.ResetText()
+            txtPhy3.ResetText()
+            txtPhy4.ResetText()
+            txtPhy5.ResetText()
+            txtPhyPostCode.ResetText()
+
+            '>>For Each dr4 In DS_BATCHES2.Tables(1).Rows
+            txtPhy1.Text = oFormCustomer.Physical1 ' IIf(IsDBNull(dr4("Physical1")) = True, "", dr4("Physical1"))
+            txtPhy2.Text = oFormCustomer.Physical2 ' IIf(IsDBNull(dr4("Physical2")) = True, "", dr4("Physical2"))
+            txtPhy3.Text = oFormCustomer.Physical3 ' IIf(IsDBNull(dr4("Physical3")) = True, "", dr4("Physical3"))
+            txtPhy4.Text = oFormCustomer.Physical4 ' IIf(IsDBNull(dr4("Physical4")) = True, "", dr4("Physical4"))
+            txtPhy5.Text = oFormCustomer.Physical5 ' IIf(IsDBNull(dr4("Physical5")) = True, "", dr4("Physical5"))
+            txtPhyPostCode.Text = oFormCustomer.PhysicalPC ' IIf(IsDBNull(dr4("PhysicalPC")) = True, "", dr4("PhysicalPC"))
+            '>>Next
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+
+        End Try
+    End Sub
+
+    Private Sub GET_Projects(ByVal vAccountID As Integer)
+        Dim DS_Project As DataSet
+
+        If pubMeIsNewRecord Then
+            SQL = "SELECT ProjID, ProjectName, ProjectNumber  " & _
+                  "FROM spilProjectMaster where Active=1 and AccountID=" & vAccountID & " " & _
+                  "order by ProjectName"
+        Else 'this is to fill even inactive projects for retreving records at later stage
+            SQL = "SELECT ProjID, ProjectName, ProjectNumber  " & _
+                  "FROM spilProjectMaster where AccountID=" & vAccountID & " " & _
+                  "order by ProjectName"
+        End If
+
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            Try
+                DS_Project = .GET_INSERT_UPDATE(SQL)
+                cmbProject.DataSource = Nothing
+                cmbProject.DataSource = DS_Project.Tables(0)
+                cmbProject.DisplayMember = "ProjectName"
+                cmbProject.ValueMember = "ProjID"
+                cmbProject.DisplayLayout.Bands(0).Columns(1).Width = cmbProject.Width - 100
+                cmbProject.DisplayLayout.Bands(0).Columns(2).Width = 100
+                cmbProject.DisplayLayout.Bands(0).Columns(0).Hidden = True
+                If DS_Project.Tables(0).Rows.Count > 0 Then
+                    cmbProject.Enabled = True
+                Else
+                    cmbProject.Enabled = False
+                End If
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+            Finally
+                .Dispose()
+                objSQL = Nothing
+            End Try
+        End With
+    End Sub
+
+    '-----------------------------
+    Private Sub GET_Del_Method()
+
+        SQL = "SELECT     Counter, Method  FROM DelTbl ORDER BY Counter"   'Delivery methods
+
+        Dim objSQL As New clsSqlConn
+
+        With objSQL
+            Try
+
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                'cmbDelMethod.DataSource = DS_BATCHES.Tables(0)
+                'cmbDelMethod.DisplayMember = "Method"
+                'cmbDelMethod.ValueMember = "Counter"
+                'cmbDelMethod.DisplayLayout.Bands(0).Columns(0).Hidden = True
+                ''cmbDelMethod.DisplayLayout.Bands(0).Columns(0).Width = 139
+                'cmbDelMethod.DisplayLayout.Bands(0).Columns(1).Width = cmbDelMethod.Width '200
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+
+            Finally
+
+                .Dispose()
+                objSQL = Nothing
+
+            End Try
+
+        End With
+
+    End Sub
+
+    Private Sub GET_Couriers()
+        SQL = "SELECT     CourierID, CourierName  FROM spilCourierMaster ORDER BY CourierName"
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            Try
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                'cmbCourier.DataSource = DS_BATCHES.Tables(0)
+                'cmbCourier.DisplayMember = "CourierName"
+                'cmbCourier.ValueMember = "CourierID"
+                'cmbCourier.DisplayLayout.Bands(0).Columns(1).Width = 200
+                'cmbCourier.DisplayLayout.Bands(0).Columns(0).Hidden = True
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+
+            Finally
+
+                .Dispose()
+                objSQL = Nothing
+
+            End Try
+
+        End With
+
+    End Sub
+
+    Private Sub GET_CUST_GROUPS()
+
+        SQL = "SELECT IdCliClass, Description, Code FROM CliClass"
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            Try
+
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                'cmbCustGroup.DataSource = DS_BATCHES.Tables(0)
+                'cmbCustGroup.DisplayMember = "Description"
+                'cmbCustGroup.ValueMember = "IdCliClass"
+                'cmbCustGroup.DisplayLayout.Bands(0).Columns(0).Hidden = True
+                'cmbCustGroup.DisplayLayout.Bands(0).Columns(1).Width = 100
+                'cmbCustGroup.DisplayLayout.Bands(0).Columns(2).Width = 50
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+            Finally
+                .Dispose()
+                objSQL = Nothing
+            End Try
+        End With
+
+    End Sub
+
+    Public Sub GetProjects(ByVal custId As Integer, Optional ByVal isEnabled As Boolean = False)
+
+        Dim dsProjects As DataSet
+        SQL = "SELECT   Id,Name FROM  SpilGlazing_Project WHERE CustomerID=" & custId
+        dsProjects = New clsSqlConn().GET_DataSet(SQL)
+        If dsProjects.Tables(0).Rows.Count > 0 Then
+            cmbCustProject.Enabled = True
+        End If
+
+        cmbCustProject.DataSource = dsProjects.Tables(0)
+        cmbCustProject.ValueMember = "Id"
+        cmbCustProject.DisplayMember = "Name"
+        cmbCustProject.DisplayLayout.Bands(0).Columns(1).Width = 200
+        cmbCustProject.DisplayLayout.Bands(0).Columns(0).Hidden = True
+        If _ProjectId > 0 Then
+            cmbCustProject.Value = _ProjectId
+        End If
+        cmbCustProject.Enabled = isEnabled
+    End Sub
+
+    Private Sub GET_SalesRep()
+        SQL = "SELECT     idSalesRep, Code, Name ,(Code + '  (' + Name + ')' ) as ToShow  FROM SalesRep ORDER BY Code "
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            Try
+
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                cmbSalesRep.DataSource = DS_BATCHES.Tables(0)
+                cmbSalesRep.DisplayMember = "ToShow"
+                cmbSalesRep.ValueMember = "idSalesRep"
+                cmbSalesRep.DisplayLayout.Bands(0).Columns(0).Width = 50
+                cmbSalesRep.DisplayLayout.Bands(0).Columns(1).Width = 139
+                cmbSalesRep.DisplayLayout.Bands(0).Columns(2).Width = 200
+                cmbSalesRep.DisplayLayout.Bands(0).Columns(0).Hidden = True
+                cmbSalesRep.DisplayLayout.Bands(0).Columns(3).Hidden = True
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+            Finally
+                .Dispose()
+                objSQL = Nothing
+            End Try
+        End With
+    End Sub
+
+    Public Sub GetStages(ByVal projectId As Integer, Optional ByVal isEnabled As Boolean = False)
+        Try
+            Dim dsProjects As DataSet
+            If (projectId = 0) Then
+                SQL = "SELECT    Id,StageName FROM   SpilGlazing_ProjectStage"
+            Else
+                SQL = "SELECT    Id,StageName FROM   SpilGlazing_ProjectStage WHERE ProjectID=" & projectId
+            End If
+
+            dsProjects = New clsSqlConn().GET_DataSet(SQL)
+            If dsProjects.Tables(0).Rows.Count > 0 Then
+                cmbProjectStage.Enabled = True
+            End If
+
+            cmbProjectStage.DataSource = dsProjects.Tables(0)
+            cmbProjectStage.ValueMember = "Id"
+            cmbProjectStage.DisplayMember = "StageName"
+            cmbProjectStage.DisplayLayout.Bands(0).Columns(1).Width = 200
+            cmbProjectStage.DisplayLayout.Bands(0).Columns(0).Hidden = True
+            If _StageId > 0 Then
+                cmbProjectStage.Value = _StageId
+            End If
+            cmbProjectStage.Enabled = isEnabled
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub GET_ItemsCategories()
+        Dim DS_Stock_Main As DataSet
+
+        SQL = "SELECT ItemCatID, ItemCategory " & _
+              "FROM spilItemCategory " & _
+              "order by ItemCategory"
+
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            Try
+
+                DS_Stock_Main = .GET_INSERT_UPDATE(SQL)
+
+                'cmbItemCat.DataSource = Nothing
+                'cmbItemCat.DataSource = DS_Stock_Main.Tables(0)
+                'cmbItemCat.DisplayMember = "ItemCategory"
+                'cmbItemCat.ValueMember = "ItemCatID"
+                'cmbItemCat.DisplayLayout.Bands(0).Columns(1).Width = cmbItemCat.Width
+                'cmbItemCat.DisplayLayout.Bands(0).Columns(0).Hidden = True
+
+                'cmbItemCat.DisplayLayout.Bands(0).ColHeadersVisible = False
+
+                'cmbItemCat.ActiveRow = cmbItemCat.Rows(0)
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+            Finally
+                .Dispose()
+                objSQL = Nothing
+            End Try
+        End With
+    End Sub
+
+    Public Sub GetJobs(ByVal projectId As Integer, Optional ByVal isEnabled As Boolean = False)
+        Try
+            Dim dsProjects As DataSet
+            If (projectId = 0) Then
+                SQL = "SELECT Id,Name FROM  SpilGlazing_Job"
+            Else
+                SQL = "SELECT Id,Name FROM  SpilGlazing_Job WHERE ProjectId=" & projectId
+            End If
+
+            dsProjects = New clsSqlConn().GET_DataSet(SQL)
+            If dsProjects.Tables(0).Rows.Count > 0 Then
+                cmbCustJob.Enabled = True
+            End If
+
+            cmbCustJob.DataSource = dsProjects.Tables(0)
+            cmbCustJob.ValueMember = "Id"
+            cmbCustJob.DisplayMember = "Name"
+            cmbCustJob.DisplayLayout.Bands(0).Columns(1).Width = 200
+            cmbCustJob.DisplayLayout.Bands(0).Columns(0).Hidden = True
+            If _JobId > 0 Then
+                cmbCustJob.Value = _JobId
+            End If
+            cmbCustJob.Enabled = isEnabled
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub GET_AREAS1() '
+        Dim DS_BATCHES As DataSet
+        SQL = "SELECT  Code, Description FROM Areas1 order by Description"
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            Try
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                'txtPost4.DataSource = DS_BATCHES.Tables(0)
+                'txtPost4.DisplayMember = "Description"
+                'txtPost4.ValueMember = "Description"
+                'txtPost4.DisplayLayout.Bands(0).Columns(1).Width = cboArea.Width
+
+                'txtPhy4.DataSource = DS_BATCHES.Tables(0)
+                'txtPhy4.DisplayMember = "Description"
+                'txtPhy4.ValueMember = "Description"
+
+                'txtPhy4.DisplayLayout.Bands(0).Columns(1).Width = cboArea.Width
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+            Finally
+                .Dispose()
+                objSQL = Nothing
+            End Try
+        End With
+    End Sub
+
+    Private Sub GET_AREAS() '
+        Dim DS_BATCHES As DataSet
+        SQL = "SELECT  idAreas, Description FROM Areas order by Description"
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            Try
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                cboArea.DataSource = DS_BATCHES.Tables(0)
+                cboArea.DisplayMember = "Description"
+                cboArea.ValueMember = "idAreas"
+                cboArea.DisplayLayout.Bands(0).Columns(0).Hidden = True '.Width = 50
+                cboArea.DisplayLayout.Bands(0).Columns(1).Width = cboArea.Width
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+            Finally
+                .Dispose()
+                objSQL = Nothing
+            End Try
+        End With
+    End Sub
+
+    Sub GET_StkItems()
+        Dim DS_BATCHES As DataSet
+        SQL = "SELECT StockLink, Code, Description_1  FROM StkItem"
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            Try
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                ucmbMainStkCmb.DataSource = DS_BATCHES.Tables(0)
+                ucmbMainStkCmb.DisplayMember = "cSimpleCode"
+                ucmbMainStkCmb.ValueMember = "StockLink"
+                ucmbMainStkCmb.DisplayLayout.Bands(0).Columns(0).Hidden = True
+                ucmbMainStkCmb.DisplayLayout.AutoFitStyle = AutoFitStyle.ResizeAllColumns
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+            Finally
+                .Dispose()
+                objSQL = Nothing
+            End Try
+        End With
+    End Sub
+
+
+    Private Sub GetTerms() '
+        Dim DS_BATCHES As DataSet
+        SQL = "SELECT AccountTerms, AccTermDescription FROM spilCustTerms"
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            Try
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                uCmbTerms.DataSource = DS_BATCHES.Tables(0)
+                uCmbTerms.DisplayMember = "AccTermDescription"
+                uCmbTerms.ValueMember = "AccountTerms"
+                uCmbTerms.DisplayLayout.Bands(0).Columns(0).Hidden = True '.Width = 50
+                uCmbTerms.DisplayLayout.Bands(0).Columns(1).Width = cboArea.Width
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+            Finally
+                .Dispose()
+                objSQL = Nothing
+            End Try
+        End With
+    End Sub
+
+    Private Sub GET_TaxRates()
+        SQL = "SELECT * FROM TaxRate Order by code"
+        Dim objSQL As New clsSqlConn
+        Dim dsTax As DataSet
+        With objSQL
+            Try
+                dsTax = .GET_INSERT_UPDATE(SQL)
+
+                ucmbTaxRate.DataSource = Nothing
+                ucmbTaxRate.DataSource = dsTax.Tables(0)
+                ucmbTaxRate.DisplayMember = "TaxRate"
+                ucmbTaxRate.ValueMember = "idTaxRate"
+                ucmbTaxRate.DisplayLayout.Bands(0).Columns("idTaxRate").Hidden = True
+                'ucmbTaxRate.DisplayLayout.Bands(0).Columns("Code").Hidden = True
+                ucmbTaxRate.DisplayLayout.Bands(0).Columns("TaxRate").Hidden = False
+                'cmbTaxRate.DisplayLayout.Bands(0).Columns("Description").InvalidValueBehavior = InvalidValueBehavior.RevertValueAndRetainFocus
+                ucmbTaxRate.DisplayLayout.Bands(0).ColHeadersVisible = False
+                ucmbTaxRate.Value = Nothing
+                'If dsTax.Tables(0).Rows.Count > 0 Then
+                '    Dim ugRow As UltraGridRow = cmbTaxRate.GetRow(ChildRow.First)
+                '    ugRow.Activate()
+                'End If
+                'ucmbTaxRate.Visible = True
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+            Finally
+                '.Dispose()
+                objSQL = Nothing
+            End Try
+        End With
+    End Sub
+
+    Sub LoadQuoteState()
+        Dim DS_ As DataSet
+        SQL = "SELECT JQSID, JQSName, JQSState FROM GlzQuote_State Where JQSState = 1"
+        Dim objSQL As New clsSqlConn
+        With objSQL
+            DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+            utxtQuoteState.DataSource = DS_BATCHES.Tables(0)
+            utxtQuoteState.DisplayMember = "JQSName"
+            utxtQuoteState.ValueMember = "JQSID"
+            utxtQuoteState.DisplayLayout.Bands(0).Columns("JQSID").Hidden = True
+            utxtQuoteState.DisplayLayout.Bands(0).Columns("JQSState").Hidden = True
+            utxtQuoteState.DisplayLayout.Bands(0).ColHeadersVisible = False
+
+            utxtQuoteState.Value = 1
+        End With
+        Try
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+
+        End Try
+
+    End Sub
+    '-----------------------------
+
+    Private Sub cmbAccount_ValueChanged(sender As Object, e As EventArgs) Handles cmbAccount.ValueChanged
+        InitializesCustomerDetails()
+        UG2.Enabled = True
+        Dim row As UltraGridRow
+        If quoteOrdeIndex = 0 Then
+            If Me.UG2.Rows.Count = 0 Then
+                row = AddNewRow("after")
+                row.ParentCollection.Move(row, UG2.ActiveRow.Index)
+                Me.UG2.ActiveRowScrollRegion.ScrollRowIntoView(row)
+
+            ElseIf Me.UG2.Rows.Count > 0 Then
+                Me.UG2.Rows((UG2.Rows.Count) - 1).Cells("QuoteFiedType").DroppedDown = True
+
+            End If
+        End If
+    End Sub
+
+    Private Sub cmbCusType_ValueChanged(sender As Object, e As EventArgs) Handles cmbCusType.ValueChanged, UltraComboEditor3.ValueChanged
+        GET_CUSTOMERS(cmbCusType.Text)
+    End Sub
+
+    Private Sub frmGlazingQuote_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        GetQuoteTaxState(-1, Nothing)
+        GET_Del_Method()
+        GET_Couriers()
+        GET_CUST_GROUPS()
+        GET_SalesRep()
+        GET_ItemsCategories()
+        GET_AREAS1()
+        GET_AREAS()
+        GET_StkItems()
+        GetTerms()
+        cmbCusType.Value = 0
+        GET_TaxRates()
+        GET_Facility()
+        LoadQuoteState()
+        LoadExstingQuote()
+        TotalValuesBeahavior()
+
+    End Sub
+
+    Private Sub GET_Facility()
+
+        SQL = "SELECT     FacilityID, FacilityName  FROM spilPROD_Facility ORDER BY FacilityID"   '
+
+        Dim objSQL As New clsSqlConn
+
+        With objSQL
+            Try
+
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                cmbFacility.DataSource = DS_BATCHES.Tables(0)
+                cmbFacility.DisplayMember = "FacilityName"
+                cmbFacility.ValueMember = "FacilityID"
+                cmbFacility.DisplayLayout.Bands(0).ColHeadersVisible = False
+                cmbFacility.DisplayLayout.Bands(0).Columns(0).Hidden = True ' Width = 139
+                cmbFacility.DisplayLayout.Bands(0).Columns(1).Width = cmbFacility.Width '200
+
+                uddBranch.DataSource = DS_BATCHES.Tables(0)
+                uddBranch.DisplayMember = "FacilityName"
+                uddBranch.ValueMember = "FacilityID"
+                uddBranch.DisplayLayout.Bands(0).Columns(0).Hidden = True ' Width = 139
+
+                uddBranch.DisplayLayout.Bands(0).Columns(1).Header.Caption = "Branch"
+
+                If cmbFacility.Rows.Count > 0 Then
+                    cmbFacility.Value = cmbFacility.GetRow(ChildRow.First).Cells("FacilityID").Value
+                End If
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
+
+            Finally
+
+                .Dispose()
+                objSQL = Nothing
+
+            End Try
+
+        End With
+
+    End Sub
+
+    Private Sub setQuateFiedType(sender As Object, e As InitializeLayoutEventArgs) Handles ugQuote.InitializeLayout, UltraGrid2.InitializeLayout
+        Try
+            e.Layout.AutoFitStyle = AutoFitStyle.ResizeAllColumns
+            e.Layout.Override.RowSizing = RowSizing.Fixed
+            e.Layout.Override.CellMultiLine = DefaultableBoolean.True
+
+            Dim quateFiedTypesList As ValueList = New ValueList()
+            quateFiedTypesList.ValueListItems.Add(1, "Text")
+            quateFiedTypesList.ValueListItems.Add(2, "Header-Main")
+            quateFiedTypesList.ValueListItems.Add(3, "Header-Sub")
+            quateFiedTypesList.ValueListItems.Add(4, "Subtotal")
+            quateFiedTypesList.ValueListItems.Add(5, "Stock Item")
+            With e.Layout.Bands(0).Columns("QuoteFiedType")
+                .Style = Infragistics.Win.UltraWinGrid.ColumnStyle.DropDownValidate
+                .ValueList = quateFiedTypesList
+            End With
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub QuoteGirdRowFormat(e As CellEventArgs)
+        Try
+            If Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
+                Me.UG2.ActiveRow.Cells("LineComments").Appearance.Reset()
+                Me.UG2.ActiveRow.Appearance.FontData.Reset()
+
+                If isExistingOrder = False Then
+                    If Me.UG2.ActiveRow.Cells("LineComments").Text <> "" Or Me.UG2.ActiveRow.Cells("Amount").Text <> "0.00" Then
+                        If Me.UG2.ActiveCell.Text = "Header-Main" Then
+                            If canUpdate = True Then
+                                CellValuesClear(e)
+                            End If
+                        End If
+                    End If
+                End If
+
+                If Me.UG2.ActiveCell.Text = "Header-Main" Then
+                    Me.UG2.ActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                    Me.UG2.ActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 14
+                    ColumsVisibility(e, True)
+
+                ElseIf Me.UG2.ActiveCell.Text = "Header-Sub" Then
+                    If groupStarted = False Then
+                        groupStarted = True
+                        subHeaderID = subHeaderID + 1
+                    End If
+                    Me.UG2.ActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                    Me.UG2.ActiveRow.Appearance.FontData.Underline = DefaultableBoolean.True
+                    Me.UG2.ActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 12
+                    Me.UG2.ActiveRow.Cells("ItmGroupID").Value = subHeaderID
+                    ColumsVisibility(e, True)
+
+                ElseIf Me.UG2.ActiveCell.Text = "Subtotal" Then
+                    Me.UG2.ActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                    Me.UG2.ActiveRow.Cells("Amount").Appearance.BackColor = Color.LightGreen
+                    Me.UG2.ActiveRow.Cells("Amount").Appearance.BorderColor = Color.Green
+                    ColumsVisibility(e, True)
+
+                    Me.UG2.ActiveRow.Cells("Amount").Hidden = False
+                    Me.UG2.ActiveRow.Cells("LineComments").Hidden = True
+                    'Me.UG2.ActiveRow.Cells("ItmGroupID").Value = subHeaderID
+                    'Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = Subtotal
+                    SetSubTotal(e)
+
+                ElseIf Me.UG2.ActiveCell.Text = "Stock Item" Then
+                    If isStockItemClosing = False Then
+                        'e.Cell.Row.Appearance.BackColor = Color.WhiteSmoke
+                        ColumsVisibility(e, False)
+
+                        If IsNothing(UG2.ActiveRow) = False Then
+                            'UG2ActiveRow = UG2.ActiveRow
+
+                            If isPasting = False And isOpeningQuote = False Then
+                                Dim glazingDocStockItem As New frmGlazingDocStockItem(Me)
+                                glazingDocStockItem.ShowDialog()
+                            End If
+
+                            Me.UG2.ActiveRow.Cells("Amount").Tag = Me.UG2.ActiveRow.Cells("ItmGroupID").Value
+                            ' Me.UG2.ActiveRow.Cells("ItmGroupID").Value = subHeaderID
+
+                        End If
+                    Else
+
+                    End If
+                Else
+                    Me.UG2.ActiveRow.Cells("LineComments").Appearance.Reset()
+                    Me.UG2.ActiveRow.Appearance.FontData.Bold = DefaultableBoolean.False
+                    Me.UG2.ActiveRow.Appearance.FontData.Underline = DefaultableBoolean.False
+                    Me.UG2.ActiveRow.Cells("Amount").Tag = Me.UG2.ActiveRow.Cells("ItmGroupID").Value
+                    'Me.UG2.ActiveRow.Cells("ItmGroupID").Value = subHeaderID
+
+                    ColumsVisibility(e, False)
+                End If
+
+                If Me.UG2.ActiveCell.Text = "Subtotal" Then
+                    'Me.UG2.ActiveCell = Me.UG2.ActiveRow.Cells("Amount")
+                Else
+                    ' Me.UG2.ActiveCell = Me.UG2.ActiveRow.Cells("LineComments")
+                    'Me.UG2.ActiveCell = Me.UG2.ActiveRow.Cells("LineComments")
+
+                End If
+                Me.UG2.ActiveRow.PerformAutoSize()
+                Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
+            End If
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    Sub ColumsVisibility(e As CellEventArgs, isHiiden As Boolean)
+        Try
+            Me.UG2.ActiveRow.Cells("Height").Hidden = isHiiden
+            Me.UG2.ActiveRow.Cells("Width").Hidden = isHiiden
+            Me.UG2.ActiveRow.Cells("Qty").Hidden = isHiiden
+            Me.UG2.ActiveRow.Cells("Price").Hidden = isHiiden
+            Me.UG2.ActiveRow.Cells("Amount").Hidden = isHiiden
+            Me.UG2.ActiveRow.Cells("LineNotes").Hidden = isHiiden
+            Me.UG2.ActiveRow.Cells("MarkAs").Hidden = isHiiden
+            Me.UG2.ActiveRow.Cells("ItemImage").Hidden = isHiiden
+            Me.UG2.ActiveRow.Cells("TaxRate").Hidden = isHiiden
+            Me.UG2.ActiveRow.Cells("Shape").Hidden = isHiiden
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    Public Sub CellValuesClear(ByRef e As CellEventArgs)
+        Try
+            If isPasting = False Then
+                Me.UG2.ActiveRow.Cells("Height").Value = 0
+                Me.UG2.ActiveRow.Cells("Width").Value = 0
+                Me.UG2.ActiveRow.Cells("Qty").Value = 0
+                Me.UG2.ActiveRow.Cells("Price").Value = 0
+                Me.UG2.ActiveRow.Cells("Amount").Value = 0
+                Me.UG2.ActiveRow.Cells("LineNotes").Value = ""
+                Me.UG2.ActiveRow.Cells("MarkAs").Value = ""
+                Me.UG2.ActiveRow.Cells("ItemImage").Value = DBNull.Value
+                Me.UG2.ActiveRow.Cells("LineComments").Value = ""
+            End If
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    Public Sub CellValuesClearExtended()
+        Try
+            Dim ugActiveRow As UltraGridRow = UG2.ActiveRow
+
+            ugActiveRow.Cells("ItemTypeCategory").Value = String.Empty
+            ugActiveRow.Cells("Description1").Value = String.Empty
+            ugActiveRow.Cells("SimpleCode").Value = String.Empty
+            ugActiveRow.Cells("Description2").Value = String.Empty
+
+            ugActiveRow.Cells("PriceType").Value = DBNull.Value
+            ugActiveRow.Cells("PriceCat").Value = 0
+            ugActiveRow.Cells("PriceList").Value = DBNull.Value
+
+            ugActiveRow.Cells("IsPriceItem").Value = True
+            ugActiveRow.Cells("Width").Value = 0.0
+            ugActiveRow.Cells("Height").Value = 0.0
+            ugActiveRow.Cells("Volume").Value = 0.0
+            ugActiveRow.Cells("Qty").Value = 0
+            ugActiveRow.Cells("Price").Value = 0
+
+            ugActiveRow.Cells("Net").Value = 0
+            ugActiveRow.Cells("Tax").Value = 0
+            ugActiveRow.Cells("LineTot").Value = 0
+
+            QuoteGirdRowFormatExtended()
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub QuoteGirdRowFormatExtended()
+        Dim ugActiveRow As UltraGridRow = UG2ActiveRow
+
+        Try
+            Select Case ugActiveRow.Cells("ItemType").Value
+                Case GlassItemTypes.Glass
+
+                    ugActiveRow.Cells("Service").Hidden = False
+                    ugActiveRow.Cells("Width").Hidden = False
+                    ugActiveRow.Cells("Height").Hidden = False
+
+                Case GlassItemTypes.Template
+
+                    ugActiveRow.Cells("Service").Hidden = True
+                    ugActiveRow.Cells("Width").Hidden = False
+                    ugActiveRow.Cells("Height").Hidden = False
+                Case GlassItemTypes.Consumable
+
+                    ugActiveRow.Cells("Service").Hidden = True
+                    ugActiveRow.Cells("Width").Hidden = True
+                    ugActiveRow.Cells("Height").Hidden = True
+                    ugActiveRow.Cells("Qty").Value = 1
+
+                Case GlassItemTypes.Service
+
+                    ugActiveRow.Cells("Service").Hidden = True
+                    ugActiveRow.Cells("Width").Hidden = True
+                    ugActiveRow.Cells("Height").Hidden = True
+                    ugActiveRow.Cells("Qty").Value = 1
+
+                Case GlassItemTypes.Aluminium
+                    ugActiveRow.Cells("Service").Hidden = False
+                    ugActiveRow.Cells("Width").Hidden = False
+                    ugActiveRow.Cells("Height").Hidden = False
+                    ugActiveRow.Cells("Qty").Value = 1
+
+            End Select
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+
+    End Sub
+
+
+    Private Sub btnAddRow_Click(sender As Object, e As EventArgs) Handles btnAddRowButton16.Click, Button7.Click
+        Try
+            Dim row As UltraGridRow = UG2.DisplayLayout.Bands(0).AddNew
+            row.ParentCollection.Move(row, UG2.ActiveRow.Index)
+            Me.UG2.ActiveRowScrollRegion.ScrollRowIntoView(row)
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub tsbSave_Click(sender As Object, e As EventArgs) Handles tsbSave.Click
+        SaveDocument()
+    End Sub
+
+    Sub SaveDocument()
+
+        Try
+            If IsNothing(objClsInvHeader) = True Then
+                objClsInvHeader = New clsInvHeader
+
+            End If
+
+            Dim orderIndex As Integer = 0
+            Dim recState As Integer = 0
+            If OrderValidation() = 0 Then Exit Sub
+
+            objClsInvHeader.Begin_Trans()
+
+            'Start quote Header
+            objClsInvHeader.AccountID = cmbAccount.ActiveRow.Cells("DCLink").Value
+            objClsInvHeader.DocType = GlassDocTypes.Quotation
+            objClsInvHeader.DocState = GlassDocState.GlazingQuote
+            objClsInvHeader.InvoiceNotes = utxtNoteText.Text
+            objClsInvHeader.ApprovedReason = ""
+            objClsInvHeader.iAgentID = AgentID
+
+            If isExistingOrder = False Then
+                objClsInvHeader.OrderNum = objClsInvHeader.GetNextDocumentNumber
+                lblOrderNo.Text = objClsInvHeader.OrderNum
+            Else
+                objClsInvHeader.OrderNum = lblOrderNo.Text
+            End If
+
+            objClsInvHeader.FacilityIDCurrent = cmbFacility.Value
+            objClsInvHeader.FacilityIDOrigin = cmbFacility.Value
+            objClsInvHeader.iCusType = cmbCusType.Value
+            objClsInvHeader.EnteredBy = strUserName
+
+            objClsInvHeader.TaxRate = defaultTaxtRate
+            objClsInvHeader.ExtOrderNum = txtCustOrdNo.Text.Trim
+            objClsInvHeader.iAgentID = AgentID
+            objClsInvHeader.LastEditedBy = AgentID
+            objClsInvHeader.LastEditedDateTime = Today.Date
+            objClsInvHeader.cAccountName = cmbAccount.ActiveRow.Cells("DCLink").Value
+
+            objClsInvHeader.Address1 = txtPhy1.Text
+            objClsInvHeader.Address2 = txtPhy2.Text
+            objClsInvHeader.Address3 = txtPhy3.Text
+            objClsInvHeader.Address4 = txtPhy4.Text
+            objClsInvHeader.Address5 = txtPhy5.Text
+            objClsInvHeader.Address6 = txtPhyPostCode.Text
+            objClsInvHeader.ContactName = txtContact1.Text
+            objClsInvHeader.ContactTelephone = txtContPerTel.Text
+            objClsInvHeader.ContactEmail = txtContEmail.Text
+            objClsInvHeader.iAreasID = cboArea.Value
+            objClsInvHeader.CreditState = uCmbTerms.Value
+            objClsInvHeader.OrderIndex = quoteOrdeIndex
+            objClsInvHeader.Delivery_Status = subHeaderID
+            objClsInvHeader.OrderDate = Today.Date
+            objClsInvHeader.DueDate = txtDueDate.Value
+            objClsInvHeader.InvoiceNotes = utxtNoteText.Text
+            'objClsInvHeader.Delivery_Status = ""
+
+            objClsInvHeader.Delivery_Status = DeliveryState.UnDelivered 'for delivery
+            objClsInvHeader.ProductionState = GlassProdState.None
+            objClsInvHeader.QuotedAmt = lblTotExcAmo.Text
+            objClsInvHeader.Quoted_Tax = lblTotVatAmo.Text
+            objClsInvHeader.Quoted_Incl = lblTotIncAmo.Text
+            objClsInvHeader.DocRepID = cmbSalesRep.Value
+            'objClsInvHeader.OrderNum = objClsInvHeader.GetNextDocumentNumber
+            orderIndex = objClsInvHeader.AddHeader()
+
+            If orderIndex = -1 Or SaveGlzQuoteJobDetails(objClsInvHeader, orderIndex) = 0 Then
+                objClsInvHeader.Rollback_Trans()
+                Exit Sub
+
+            End If
+
+            quoteOrdeIndex = orderIndex
+            Dim objClsInvHeaderDetailLine As New clsInvDetailLine
+            Dim rowTypes As GridRowType = GridRowType.DataRow
+            Dim band As UltraGridBand = Me.UG2.DisplayLayout.Bands(0)
+            Dim enumerator As IEnumerable = band.GetRowEnumerator(rowTypes)
+            Dim subTotal As Integer = 0
+            Dim row As UltraGridRow
+
+            If collDeletedItemLines.Count > 0 Then
+                For c = 1 To collDeletedItemLines.Count
+                    If objClsInvHeader.DeleteLinesFromDB(collDeletedItemLines.Item(c), "ItemLines", oProdDefaults) <> 1 Then
+                        objClsInvHeader.Rollback_Trans()
+                        MsgBox("Error occured while deleting Item lines", MsgBoxStyle.Information, "Validation")
+                        Exit Sub
+                    End If
+                Next
+
+                'objClsInvHeader.Commit_Trans()
+                Dim objDLItem As New clsDocumentLogEntry
+                objDLItem.iDocID = InvHeaderID
+                objDLItem.iDocTypeID = pubMeSpilDocTypeID
+                objDLItem.LogAction = "Delete Items"
+                objDLItem.DocItemCount = c - 1
+                objDLItem.DocServiceCount = 0
+                objDLItem.LogDateTime = Now
+                objDLItem.EnteredBy = strUserName
+                objDLItem.Description1 = c - 1 & " Line Item(s) deleted"
+                If objDLItem.AddDocLogWithTrans(objClsInvHeader.Con, objClsInvHeader.Trans) = 0 Then
+                    objClsInvHeader.Rollback_Trans()
+                    Exit Sub
+                End If
+                objDLItem = Nothing
+            End If
+
+
+
+            ' Dim idInvoiceLines = 0
+            For Each row In enumerator
+
+                'idInvoiceLines = row.Index
+                objClsInvHeaderDetailLine = New clsInvDetailLine
+
+                '----Starting Item Line identifers----
+                objClsInvHeaderDetailLine.iInvDetailID = row.Cells("iInvDetailID").Value
+                objClsInvHeaderDetailLine.LN = row.Cells("ItmGroupID").Value
+                objClsInvHeaderDetailLine.OrderIndex = orderIndex
+                objClsInvHeaderDetailLine.idInvoiceLines = row.Index
+
+                '----Ending Item Line identifers----
+
+                '----Starting Stock Items details----
+                objClsInvHeaderDetailLine.ItemType = row.Cells("ItemType").Text
+                objClsInvHeaderDetailLine.StockLink = row.Cells("StockLink").Text
+                objClsInvHeaderDetailLine.cDescription = row.Cells("Description1").Value
+                '----Starting Stock Items details----
+
+                If row.Cells("Qty").Text = "" Then
+                    objClsInvHeaderDetailLine.fQuantity = 0
+                Else
+                    objClsInvHeaderDetailLine.fQuantity = row.Cells("Qty").Text
+                End If
+                objClsInvHeaderDetailLine.iHeight = row.Cells("Height").Text
+                objClsInvHeaderDetailLine.iWidth = row.Cells("Width").Text
+                objClsInvHeaderDetailLine.fVolume = row.Cells("Volume").Value
+
+                '----Starting finance data----
+                objClsInvHeaderDetailLine.PRICE_TYPES_ID = row.Cells("Price_Type").Value
+                objClsInvHeaderDetailLine.fOriginal_Price = row.Cells("Price").Text
+                objClsInvHeaderDetailLine.fDiscount_Amount = row.Cells("DiscAmt").Value
+                objClsInvHeaderDetailLine.fItem_Gross = row.Cells("ItmExcAmount").Value
+
+                objClsInvHeaderDetailLine.Foreign_InvTotIncl = row.Cells("OrgPrice").Value
+
+                objClsInvHeaderDetailLine.fItem_tax = row.Cells("Tax").Value
+                objClsInvHeaderDetailLine.iTaxTypeID = row.Cells("TaxRate").Value
+                objClsInvHeaderDetailLine.fTaxRate = row.Cells("TaxRateValue").Value
+                objClsInvHeaderDetailLine.fItem_Net = row.Cells("Net").Value
+                objClsInvHeaderDetailLine.fTotal_Amt = row.Cells("Amount").Text
+                '----Ending finance data----
+
+                objClsInvHeaderDetailLine.LineNotes = row.Cells("LineNotes").Text
+                objClsInvHeaderDetailLine.Comment2 = row.Cells("MarkAs").Text
+                objClsInvHeaderDetailLine.LineType = row.Cells("QuoteFiedType").Value
+                objClsInvHeaderDetailLine.LineComments = row.Cells("LineComments").Text
+                objClsInvHeaderDetailLine.IsPriceItem = row.Cells("IsPriceItem").Value
+                objClsInvHeaderDetailLine.ShapeFileName = IIf(IsDBNull(row.Cells("Shape").Value), "", row.Cells("Shape").Value)
+
+                objClsInvHeader.AddInvDetailLines(objClsInvHeaderDetailLine)
+
+            Next
+
+            recState = objClsInvHeader.UpdateInvDetailLines()
+            If recState = -1 Then
+                objClsInvHeader.Rollback_Trans()
+                Exit Sub
+            Else
+
+                If oSOModuleDefaults.UseShapes = True And oProdDefaults.OptimizeApp = GlassOptimizeApp.PerfectCut Then
+                    SQL = "DELETE FROM spilInvNumLines_ShapeDetails WHERE OrderIndex = " & orderIndex & " "
+                    If objClsInvHeader.Execute_Sql_Trans(SQL) = 0 Then
+                        MsgBox("Error in Perfect Cut Shapes", MsgBoxStyle.Critical, "SPIL Glass")
+                        objClsInvHeader.Rollback_Trans()
+                        Exit Sub
+                    End If
+                End If
+
+                Dim collspPara As New Collection
+                Dim colPara As New spParameters
+                Dim newSQLQuery As String = ""
+
+                colPara.ParaName = "@QuoteStateID"
+                colPara.ParaValue = utxtQuoteState.Value
+                collspPara.Add(colPara)
+
+
+                newSQLQuery = "UPDATE spilInvNum SET QuoteStateID = @QuoteStateID WHERE OrderIndex = '" & quoteOrdeIndex & "'"
+
+                If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
+                    ShowMessage("Erro in item Quote State ID", Me.Text, MsgBoxStyle.Critical)
+                    objClsInvHeader.Rollback_Trans()
+                    Exit Sub
+                End If
+
+                collspPara.Clear()
+
+                'Picture
+                Dim imageArray = row.Cells("ItemImageByteArray").Value
+
+
+                For Each row In enumerator
+                    If IsDBNull(row.Cells("ItemImage").Value) = False And IsDBNull(row.Cells("ItemImageByteArray").Value) = False Then
+                        imageArray = row.Cells("ItemImageByteArray").Value
+
+                    Else
+                        imageArray = emptyArray
+
+                    End If
+
+                    colPara.ParaName = "@ItemImage"
+                    colPara.ParaValue = imageArray
+                    collspPara.Add(colPara)
+
+                    colPara.ParaName = "@isImageAttached"
+                    colPara.ParaValue = row.Cells("isImageAttached").Value
+                    collspPara.Add(colPara)
+
+                    colPara.ParaName = "@isShapeAttached"
+                    colPara.ParaValue = row.Cells("isShapeAttached").Value
+                    collspPara.Add(colPara)
+
+
+                    newSQLQuery = "UPDATE spilInvNumLines SET ItemImage = @ItemImage, isImageAttached = @isImageAttached, isShapeAttached = @isShapeAttached WHERE OrderIndex = '" & quoteOrdeIndex & "' AND idInvoiceLines = '" & row.Index & "'"
+
+                    If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
+                        ShowMessage("Erro in item pictures", Me.Text, MsgBoxStyle.Critical)
+                        objClsInvHeader.Rollback_Trans()
+                        Exit Sub
+                    End If
+                    collspPara.Clear()
+
+
+                    If row.Cells("ShapeDetails").Value.GetType() Is GetType(PCShapeDetails) Then
+                        Dim Shape As PCShapeDetails = CType(row.Cells("ShapeDetails").Value, PCShapeDetails)
+                        If Not IsNothing(Shape) Then
+                            For Each oLine As clsInvDetailLine In objClsInvHeader.collDetailInvLines
+                                If oLine.idInvoiceLines = row.Index Then
+                                    Shape.iInvDetailID = oLine.iInvDetailID
+                                    Exit For
+                                End If
+                            Next
+                            Shape.OrderIndex = orderIndex
+                            colPara.ParaName = "@OrderIndex"
+                            colPara.ParaValue = Shape.OrderIndex
+                            collspPara.Add(colPara)
+                            colPara.ParaName = "@iInvDetailID"
+                            colPara.ParaValue = Shape.iInvDetailID
+                            collspPara.Add(colPara)
+                            colPara.ParaName = "@ShapeXML"
+                            colPara.ParaValue = Shape.ShapeXML
+                            collspPara.Add(colPara)
+                            colPara.ParaName = "@ShapeSAX"
+                            colPara.ParaValue = Shape.ShapeSAX
+                            collspPara.Add(colPara)
+                            colPara.ParaName = "@ShapePNG"
+                            colPara.ParaValue = Shape.ShapePNG
+                            collspPara.Add(colPara)
+                            colPara.ParaName = "@ShapeDimensions"
+                            colPara.ParaValue = Shape.ShapeDimensions
+                            collspPara.Add(colPara)
+                            colPara.ParaName = "@ShapeSizes"
+                            colPara.ParaValue = Shape.ShapeSizes
+                            collspPara.Add(colPara)
+                            colPara.ParaName = "@ShapeName"
+                            colPara.ParaValue = Shape.ShapeName
+                            collspPara.Add(colPara)
+                            SQL = "INSERT INTO spilInvNumLines_ShapeDetails (OrderIndex,iInvDetailID,ShapeXML,ShapeSAX,ShapePNG,ShapeDimensions,ShapeSizes,ShapeName) VALUES(@OrderIndex,@iInvDetailID,@ShapeXML,@ShapeSAX,@ShapePNG,@ShapeDimensions,@ShapeSizes,@ShapeName)"
+                            If objClsInvHeader.EXE_SQL_Trans_Para_Return(SQL, collspPara) = 0 Then
+                                sError = "Error in Perfect Cut Shapes "
+                                objClsInvHeader.Rollback_Trans()
+                                Exit Sub
+                            End If
+                            collspPara.Clear()
+                        End If
+                    End If
+                Next
+                'Update Shape table with Line and Order ID
+
+
+
+            End If
+
+            SQL = "DELETE FROM spilInvDocs WHERE OrderIndex = " & orderIndex & " "
+            If objClsInvHeader.Execute_Sql_Trans(SQL) = 0 Then
+                MsgBox("Error in Attched Documents", MsgBoxStyle.Critical, "SPIL Glass")
+                objClsInvHeader.Rollback_Trans()
+                Exit Sub
+            End If
+
+            Dim IsDocFound As Boolean = False
+            For Each mdr As UltraGridRow In UGDocs.Rows
+                SQL = " set dateformat dmy INSERT INTO spilInvDocs " & _
+                        "(OrderIndex, Line_No,  Path   ) VALUES (" & orderIndex & "," & mdr.Index + 1 & ", '" & IIf(IsDBNull(mdr.Cells(1).Value) = True, String.Empty, mdr.Cells(1).Value) & "' )"
+                If objClsInvHeader.Execute_Sql_Trans(SQL) = 0 Then
+                    MsgBox("Error in Attched Documents", MsgBoxStyle.Critical, "SPIL Glass")
+                    objClsInvHeader.Rollback_Trans()
+                    Exit Sub
+                End If
+            Next
+
+            Dim newGlazingNotification As New frmGlazingNotification()
+            If newGlazingNotification.GetNotificationDetails(objClsInvHeader, isExistingOrder, utxtQuoteJobID.Text) = 0 Then
+                objClsInvHeader.Rollback_Trans()
+                Exit Sub
+            End If
+
+            objClsInvHeader.Commit_Trans()
+
+
+            If MsgBox("Do you want to print the Quotation : " & objClsInvHeader.OrderNum.ToString & " ?", MsgBoxStyle.YesNo + MessageBoxIcon.Question, "Quotation") = MsgBoxResult.Yes Then
+                LoadPrint(objClsInvHeader, orderIndex)
+            End If
+            If MsgBox("Do you want to exit now ?", MessageBoxButtons.YesNo + MessageBoxIcon.Question, "Confirmation") = MsgBoxResult.Yes Then
+
+                Me.Dispose()
+                Exit Sub
+            Else
+                LoadExstingQuote()
+
+            End If
+
+            objClsInvHeader = Nothing
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            lblOrderNo.Text = ""
+            quoteOrdeIndex = 0
+
+        Finally
+
+        End Try
+
+    End Sub
+    Function SaveGlzQuoteJobDetails(objSQL As clsInvHeader, ByRef quoteOrdeIndex As Integer) As Integer
+
+        Dim collspPara As New Collection
+        Dim colPara As New spParameters
+        Dim newSQLQuery As String
+        Dim glzQuoteJobID As String
+
+        If IsNothing(utxtQuoteJobID.Text) = False Then
+            If utxtQuoteJobID.Text <> "" Then
+                glzQuoteJobID = utxtQuoteJobID.Text
+            End If
+        End If
+
+        Try
+
+            If IsNothing(glzQuoteJobID) Then
+
+                'If SaveNotificationDetails(objSQL) = 0 Then
+                '    Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+                '    Return 0
+                '    Exit Function
+                'End If
+
+                glzQuoteJobID = GetNextJobumentNumber(objSQL)
+                utxtQuoteJobID.Text = glzQuoteJobID
+
+                newSQLQuery = "INSERT INTO GlzQuote_Job_Details (GlzQuoteJobID, GlzQuoteJobName, GlzQuoteJobDes, OrderIndex) " & _
+                "VALUES (@GlzQuoteJobID, @GlzQuoteJobName, @GlzQuoteJobDes, @OrderIndex)"
+
+            Else
+                newSQLQuery = "UPDATE GlzQuote_Job_Details SET GlzQuoteJobName = @GlzQuoteJobName, GlzQuoteJobDes = @GlzQuoteJobDes WHERE OrderIndex  = @OrderIndex AND GlzQuoteJobID = @GlzQuoteJobID"
+
+            End If
+
+            colPara.ParaName = "@OrderIndex"
+            colPara.ParaValue = quoteOrdeIndex
+            collspPara.Add(colPara)
+
+            colPara.ParaName = "@GlzQuoteJobID"
+            colPara.ParaValue = glzQuoteJobID
+            collspPara.Add(colPara)
+
+            colPara.ParaName = "@GlzQuoteJobName"
+            colPara.ParaValue = utxtQuoteJobName.Text
+            collspPara.Add(colPara)
+
+            colPara.ParaName = "@GlzQuoteJobDes"
+
+            If IsNothing(jobDescription) = True Then
+                jobDescription = " "
+
+            End If
+
+            colPara.ParaValue = jobDescription
+            collspPara.Add(colPara)
+
+
+            If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
+                Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+                Return 0
+                Exit Function
+
+            Else
+                Return 1
+
+            End If
+
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            glzQuoteJobID = Nothing
+            utxtQuoteJobID.Text = ""
+            lblOrderNo.Text = ""
+
+        Finally
+            collspPara.Clear()
+        End Try
+
+    End Function
+
+    Function SaveNotificationDetails(ByRef objSQL As clsInvHeader) As Integer
+
+
+        Dim objIncident As New clsIncident
+        Dim iIncident As Integer = 0
+        Dim expDate As Date = txtDueDate.Value
+
+        With objIncident
+            .Outline = utxtQuoteJobName.Text
+
+            .CurrentAgent = AgentID
+            .Customer = cmbAccount.Value
+            .IncidentActionID = 1
+            .IncidentCreated = Date.Now
+            .IncidentDueDate = expDate.AddDays(-2).Date
+            .IncidentLastModified = Date.Now
+            .IncidentType = 1
+            .IncidentTypeGroup = 1
+            .IsRequireAck = 1
+            .isSendRejectionNotification = 0
+            .OurRef = .GetIncidentNo()
+            .YourRef = objSQL.OrderNum
+
+            'Update Incident Master
+            iIncident = .Add_Incident
+            If iIncident = -1 Then
+                Return 0
+                Exit Function
+            End If
+
+            'Update Incident Log 
+            Dim iIncidentLog As Integer = 0
+            .IncidentID = iIncident
+            .IncidentActionDate = expDate.AddDays(-2).Date
+            .IncidentActionID = 1
+            .Revolution = .Outline
+            .CurrentAgent = AgentID
+            .Proxy = 0
+            .NewAgentID = AgentID
+            iIncidentLog = .Add_Incident_Log
+            If iIncidentLog = -1 Then
+                Return 0
+                Exit Function
+            End If
+
+            'SQL = "INSERT INTO _rtblNotify(dNotifyDate, iForAgentID, iIncidentID, iIncidentLogID," & _
+            '" bRead) VALUES ('" & Format(Date.Now, "MM/dd/yyyy") & "'," & mDr("AgentID") & "," & iIncident & "," & iIncidentLog & ",'0')"
+            Dim collspPara As New Collection
+            Dim colPara As New spParameters
+            SQL = "INSERT INTO _rtblNotify(dNotifyDate, iForAgentID, iIncidentID, iIncidentLogID,bRead) VALUES (@dNotifyDate,@iForAgentID,@iIncidentID,@iIncidentLogID,@bRead)"
+            colPara.ParaName = "@dNotifyDate"
+            colPara.ParaValue = expDate.AddDays(-2).Date
+            collspPara.Add(colPara)
+            colPara.ParaName = "@iForAgentID"
+            colPara.ParaValue = AgentID
+            collspPara.Add(colPara)
+            colPara.ParaName = "@iIncidentID"
+            colPara.ParaValue = iIncident
+            collspPara.Add(colPara)
+            colPara.ParaName = "@iIncidentLogID"
+            colPara.ParaValue = iIncidentLog
+            collspPara.Add(colPara)
+            colPara.ParaName = "@bRead"
+            colPara.ParaValue = 0
+            collspPara.Add(colPara)
+            If .EXE_SQL_Trans_Para_Return(SQL, collspPara) = 0 Then
+                Return 0
+                Exit Function
+            End If
+
+        End With
+        Return iIncident
+
+        'Dim collspPara As New Collection
+        'Dim colPara As New spParameters
+        'Dim newSQLQuery As String
+        'Dim glzQuoteJobID As String
+        'Dim incidentsID As Integer
+        'Dim incidentLogID As Integer
+
+        'Try
+
+        '    newSQLQuery = " INSERT INTO _rtblIncidents (cYourRef, iDebtorID, cOutline, dCreated, dLastModified) " & _
+        '    "VALUES (@cYourRef, @iDebtorID, @cOutline, @dCreated, @dLastModified)"
+
+        '    colPara.ParaName = "@cYourRef"
+        '    colPara.ParaValue = objSQL.OrderNum
+        '    collspPara.Add(colPara)
+
+        '    colPara.ParaName = "@iDebtorID"
+        '    colPara.ParaValue = objSQL.AccountID
+        '    collspPara.Add(colPara)
+
+        '    colPara.ParaName = "@cOutline"
+        '    colPara.ParaValue = utxtQuoteJobName.Text
+        '    collspPara.Add(colPara)
+
+        '    colPara.ParaName = "@dCreated"
+        '    colPara.ParaValue = Today.Date
+        '    collspPara.Add(colPara)
+
+        '    colPara.ParaName = "@dLastModified"
+        '    colPara.ParaValue = Today.Date
+        '    collspPara.Add(colPara)
+
+
+
+        '    incidentsID = objClsInvHeader.EXE_SQL_Para_Return_ID(newSQLQuery, collspPara)
+
+
+
+        '    If idIncidents = 0 Then
+        '        Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+        '        Return 0
+        '        Exit Function
+
+        '    Else
+
+        '        newSQLQuery = "set dateformat INSERT INTO _rtblIncidentLog (iIncidentID, cResolution, dActionDate) " & _
+        '        "VALUES (@iIncidentID, @cResolution, @dActionDate)"
+
+        '        colPara.ParaName = "@iIncidentID"
+        '        colPara.ParaValue = idIncidents
+        '        collspPara.Add(colPara)
+
+        '        colPara.ParaName = "@cResolution"
+        '        colPara.ParaValue = utxtQuoteJobName.Text
+        '        collspPara.Add(colPara)
+
+        '        colPara.ParaName = "@dActionDate"
+        '        colPara.ParaValue = objSQL.DueDate
+        '        collspPara.Add(colPara)
+
+        '        incidentLogID = objClsInvHeader.EXE_SQL_Para_Return_ID(newSQLQuery, collspPara)
+
+        '        If incidentLogID = 0 Then
+        '            Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+        '            Return 0
+        '            Exit Function
+        '        Else
+
+        '            newSQLQuery = "set dateformat INSERT INTO _rtblNotify (iIncidentID, iIncidentLogID, iForAgentID, dNotifyDate) " & _
+        '            "VALUES (@iIncidentID, @cResolution, @dActionDate)"
+
+        '            colPara.ParaName = "@iIncidentID"
+        '            colPara.ParaValue = incidentID
+        '            collspPara.Add(colPara)
+
+        '            colPara.ParaName = "@iIncidentLogID"
+        '            colPara.ParaValue = incidentLogID
+        '            collspPara.Add(colPara)
+
+        '            colPara.ParaName = "@iForAgentID"
+        '            colPara.ParaValue = AgentID
+        '            collspPara.Add(colPara)
+
+        '            colPara.ParaName = "@dNotifyDate"
+        '            colPara.ParaValue = objSQL.DueDate
+        '            collspPara.Add(colPara)
+
+        '            incidentLogID = objClsInvHeader.EXE_SQL_Para_Return_ID(newSQLQuery, collspPara)
+
+        '            If idIncidents = 0 Then
+        '                Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+        '                Return 0
+        '                Exit Function
+        '            Else
+
+
+        '            End If
+
+        '        End If
+
+        '       Return incidentsID
+
+        '    End If
+
+
+        'Catch ex As Exception
+        '    ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+        '    glzQuoteJobID = Nothing
+        '    utxtQuoteJobID.Text = ""
+        '    lblOrderNo.Text = ""
+
+        'Finally
+        '    collspPara.Clear()
+        'End Try
+
+    End Function
+
+    Public Function GetNextJobumentNumber(objSQL As clsInvHeader) As String
+
+        Dim DS_ITEMS As DataSet
+        Dim dr1 As DataRow
+        Dim strSONo As String = Nothing
+        Dim myDocType As Integer = mintDocType
+
+        Try
+            strSQL = "SELECT * FROM  spilDocDefault WHERE Line_ID = 1 "
+            DS_ITEMS = objSQL.Get_Data_Trans(strSQL)
+            If DS_ITEMS.Tables.Count = 0 Then
+                MsgBox("Error in Spil DocsDf Table", MsgBoxStyle.Critical, "SPIL Glass")
+                strSONo = Nothing
+            Else
+                For Each dr1 In DS_ITEMS.Tables(0).Rows
+                    strSONo = dr1("JobQuote_Prefix") & Format(dr1("Next_JobQuote_No"), "000")
+                Next
+            End If
+
+            If strSONo <> Nothing Then
+                strSQL = "Update spilDocDefault SET Next_JobQuote_No = Next_JobQuote_No + 1 where Line_ID = 1"
+
+
+                If objSQL.Update_DataOnOpenConnection(strSQL) = 0 Then
+                    MsgBox("Error in Updating spilDocDefault", MsgBoxStyle.Critical, "SPIL Glass")
+                    strSONo = Nothing
+
+                End If
+
+            End If
+
+            Return strSONo
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            Return strSONo
+
+        End Try
+
+
+    End Function
+
+
+    Sub SaveExtraItemLineData(ByRef quoteOrdeIndex As Integer, ByRef enumerator As IEnumerable)
+
+
+    End Sub
+
+    Sub LoadPrint(exClsInvHeader As clsInvHeader, ByRef InvHeaderID As Integer)
+        Dim objSQL As clsInvHeader
+
+        Try
+            If IsNothing(exClsInvHeader) = False Then
+                objSQL = exClsInvHeader
+            Else
+                objSQL = New clsInvHeader
+            End If
+
+            If isExistingOrder = True Then
+                objSQL.OrderNum = lblOrderNo.Text
+                objSQL.ExtOrderNum = txtCustOrdNo.Text
+                'objSQL.ExtOrderNum = utxtQuoteJobID.Text
+            End If
+
+            frmDocumentPrint_Email.pubMeDocID = quoteOrdeIndex
+            frmDocumentPrint_Email.pubMeSpilDocTypeID = GlassDocTypes.Quotation
+            frmDocumentPrint_Email.pubMeSpilDocStatusID = GlassDocState.GlazingQuote
+            'frmDocumentPrint_Email.pubMeBranchID = cmbFacility.Value
+            frmDocumentPrint_Email.pubAccountID = cmbAccount.ActiveRow.Cells("DCLink").Value
+            frmDocumentPrint_Email.pubMeDocNumber = objSQL.OrderNum
+            frmDocumentPrint_Email.pubSalesRepID = quoteDocRepID
+            frmDocumentPrint_Email.pubSalesRepID = cmbSalesRep.Value
+            frmDocumentPrint_Email.pubFollowupID = 0
+            frmDocumentPrint_Email.pubDocRefNo = objSQL.ExtOrderNum
+            If frmDocumentPrint_Email.LoadEmailPara(AgentID) = 0 Then
+                frmDocumentPrint_Email.cmdEmail.Enabled = False
+                frmDocumentPrint_Email.chkEmail.Enabled = False
+            End If
+            frmDocumentPrint_Email.SetDocumentControlProperties()
+            frmDocumentPrint_Email.LoadGridData()
+            frmDocumentPrint_Email.FillEmailData()
+            frmDocumentPrint_Email.StartPosition = FormStartPosition.CenterScreen
+            frmDocumentPrint_Email.WindowState = FormWindowState.Normal
+            frmDocumentPrint_Email.ShowDialog()
+
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+
+    End Sub
+
+    'Public Function UpdateQuoteData(SQLNew As clsSqlConn) As Integer
+    '    Try
+    '        Dim sqlQuary As String = ""
+    '        Dim band As UltraGridBand = Me.UG2.DisplayLayout.Bands(0)
+    '        Dim row As UltraGridRow
+    '        Dim DS = New DataSet
+    '        Dim bError As Boolean = False
+    '        sqlQuary = "INSERT INTO spilInvNum (AccountID, DocType, DocState, InvoiceNotes) VALUES (" & cmbAccount.ActiveRow.Cells("DCLink").Value & ", 5, 12, '" & utxtNoteText.Text & "') SELECT SCOPE_IDENTITY()"
+
+    '        DS = SQLNew.Exe_Query_Trans(sqlQuary)
+    '        For Each row In band.GetRowEnumerator(GridRowType.DataRow)
+    '            sqlQuary = "INSERT INTO spilInvNumLines (OrderIndex, LineComments, iHeight, iWidth, fQuantity, fItem_Net, fItem_Gross, Image) VALUES (" & OrderIndex & ", " & row.Cells("LineComments").Value & ", " & row.Cells("Height").Value & ", " & row.Cells("Width").Value & ", " & row.Cells("Qty").Value & ",  " & row.Cells("Price").Value & ", " & row.Cells("ExclPrice").Value & ",  " & row.Cells("ItemImage").Value & ")"
+    '            If SQLNew.Exe_Query_Trans(sqlQuary) = 0 Then
+    '                bError = True
+    '            End If
+    '        Next row
+    '        If bError Then
+    '            Return 0
+    '        Else
+    '            Return 1
+    '        End If
+    '    Catch ex As Exception
+    '        Return 0
+    '    Finally
+    '        oSQLQuery = ""
+    '    End Try
+    'End Function
+
+    Public Function ShowMessage(msgBoxMessage As String, formName As String, messageButtons As MessageBoxButtons) As DialogResult
+        Try
+            If messageButtons = MessageBoxButtons.YesNo Then
+                Return MessageBox.Show(msgBoxMessage, formName, MessageBoxButtons.YesNo)
+            Else
+                Return MessageBox.Show(msgBoxMessage, formName, MessageBoxButtons.OK)
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+
+        End Try
+    End Function
+
+    Private Sub btnSaveDocDes_Click(sender As Object, e As EventArgs) Handles btnSaveDocDes.Click
+        Try
+            utxtDocDecHEaderMain.Tabs("Documents").Visible = True
+            utxtDocDecHEaderMain.Tabs("docDescription").Visible = False
+            Me.UG2.ActiveCell = UG2.Rows(UG2ActiveRow.Index).Cells("LineComments")
+            Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
+            UG2.Rows(UG2ActiveRow.Index).Cells("LineComments").Value = utxtDocDec.Text
+            utxtDocDec.Text = ""
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub utxtDocDec_KeyDown(sender As Object, e As KeyEventArgs)
+        utxtDocDec.Select()
+    End Sub
+
+    Private Sub utxtDocDec_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles utxtDocDec.PreviewKeyDown, UltraFormattedTextEditor3.PreviewKeyDown, utxtNoteText.PreviewKeyDown
+        If e.KeyCode = Keys.Tab Then
+            utxtDocDec.Text = utxtDocDec.Text + ControlChars.Tab
+            utxtDocDec.Select()
+        End If
+    End Sub
+
+    Private Sub TextBox1_Enter(sender As Object, e As EventArgs) Handles TextBox1.Enter, TextBox2.Enter
+        utxtDocDec.Select()
+    End Sub
+
+    Sub AddNewRowsValidator(ByVal rowPostion As String)
+        Try
+            If IsNothing(Me.UG2.ActiveRow) = False Then
+                If IsDBNull(Me.UG2.ActiveRow.Cells("QuoteFiedType").Value) = False Then
+                    If IsNothing(Me.UG2.ActiveCell) = False Then
+                        If Me.UG2.ActiveRow.Cells("QuoteFiedType").Value <> "" Then
+                            If Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item Then
+                                If UG2.ActiveCell.Column.Key = "MarkAs" Then
+                                    AddNewRow(rowPostion)
+                                End If
+                            ElseIf Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Subtotal Then
+                                If UG2.ActiveCell.Column.Key = "Amount" Then
+                                    AddNewRow(rowPostion)
+                                End If
+                            Else
+                                If UG2.ActiveCell.Column.Key = "LineComments" Then
+                                    AddNewRow(rowPostion)
+                                End If
+                            End If
+                        End If
+                    End If
+                ElseIf UG2.Rows(UG2.ActiveRow.Index).Selected = True Then
+                    AddNewRow(rowPostion)
+                End If
+            End If
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Public Function AddNewRow(ByVal rowPostion As String) As UltraGridRow
+        Try
+            Dim activeRowIndex As Integer = 0
+            'Dim ty1 = Me.UG2.Rows(Me.UG2.ActiveRow.Index).Cells("ItmGroupID").Value
+            ' Dim ty2 = Me.UG2.Rows(Me.UG2.ActiveRow.Index).Cells("LineComments").Value
+
+            If IsNothing(Me.UG2.ActiveRow) = False Then
+                If rowPostion = "before" Then
+                    activeRowIndex = Me.UG2.ActiveRow.Index
+
+                ElseIf rowPostion = "after" Then
+                    activeRowIndex = Me.UG2.ActiveRow.Index + 1
+
+                End If
+            End If
+
+            Dim row As UltraGridRow = UG2.DisplayLayout.Bands(0).AddNew
+
+            row.ParentCollection.Move(row, activeRowIndex)
+            Me.UG2.ActiveRowScrollRegion.ScrollRowIntoView(row)
+            Me.UG2.Rows(activeRowIndex).Activate()
+            Me.UG2.Rows(activeRowIndex).Cells("QuoteFiedType").Activate()
+
+            'Set new values
+            Me.UG2.Rows(activeRowIndex).Cells("TaxRate").Value = defaultTaxtRate
+
+            Me.UG2.Rows(activeRowIndex).Cells("TaxRateValue").Value = defaultTaxtRateValue
+            If activeRowIndex > 0 Then
+                Me.UG2.Rows(activeRowIndex).Cells("ItmGroupID").Value = Me.UG2.Rows(activeRowIndex - 1).Cells("ItmGroupID").Value
+            Else
+                Me.UG2.Rows(activeRowIndex).Cells("ItmGroupID").Value = 0
+            End If
+            Me.UG2.Rows(activeRowIndex).Cells("QuoteFiedType").DroppedDown = True
+            Return row
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Function
+
+    Sub RowDataOverride(ByVal RowIndex As Integer)
+        Try
+            If IsDBNull(UG2.Rows(RowIndex).Cells("QuoteFiedType").Value) = False Then
+                'Pasting
+                If UG2.Rows(RowIndex).Cells("QuoteFiedType").Value = QuateFiedTypesList.Header_Sub Then
+                    Me.UG2.Rows(activeRowIndex).Cells("ItmGroupID").Value = subHeaderID + 1
+
+                Else
+                    If RowIndex > 0 Then
+                        Me.UG2.Rows(RowIndex).Cells("ItmGroupID").Value = Me.UG2.Rows(RowIndex - 1).Cells("ItmGroupID").Value
+                    Else
+                        Me.UG2.Rows(RowIndex).Cells("ItmGroupID").Value = 0
+                    End If
+                End If
+                Me.UG2.Rows(RowIndex).Cells("InvLineID").Value = 0
+                Me.UG2.Rows(RowIndex).Cells("iInvDetailID").Value = 0
+
+            End If
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+
+    Private Sub btnCloseDocDes_Click(sender As Object, e As EventArgs) Handles btnCloseDocDes.Click, Button8.Click
+        Me.UG2.ActiveCell = UG2.Rows(UG2ActiveRow.Index).Cells("LineComments")
+        Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
+    End Sub
+
+    Private Sub btnFooter_Click(sender As Object, e As EventArgs) Handles btnFooter.Click
+        Try
+            If footteIsActive = False Then
+                footteIsActive = True
+                btnFooter.FlatAppearance.BorderColor = Color.Yellow
+                btnFooter.BackColor = Color.Yellow
+                btnFooter.ForeColor = Color.Black
+                'UG2.Visible = False
+                btnFooter.Text = "Save (Press F8 to add predefined text)"
+                'UG2.Visible = True
+            End If
+
+            Dim newGlazingNote As New frmGlazingNote(Me)
+            newGlazingNote.utxtNoteText.Value = utxtNoteText.Text
+            newGlazingNote.ShowDialog()
+
+            If footteIsActive = True Then
+                footteIsActive = False
+                If utxtNoteText.Text <> "" And utxtNoteText.Text <> Nothing Then
+                    btnFooter.Text = "Footer Area - Enabled"
+                    btnFooter.FlatAppearance.BorderColor = Color.Green
+                    btnFooter.BackColor = Color.Green
+                Else
+                    btnFooter.Text = " Footer Area - Disabled"
+                    btnFooter.FlatAppearance.BorderColor = Color.FromArgb(71, 164, 248)
+                    btnFooter.BackColor = Color.FromArgb(71, 164, 248)
+                End If
+                'UG2.Visible = True
+            End If
+
+        Catch ex As Exception
+            footteIsActive = False
+            utxtNoteText.Text = ""
+            btnFooter.Text = " Footer Area - Disabled"
+            btnFooter.FlatAppearance.BorderColor = Color.FromArgb(71, 164, 248)
+            btnFooter.BackColor = Color.FromArgb(71, 164, 248)
+            UG2.Visible = True
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub utxtNoteText_KeyDown(sender As Object, e As KeyEventArgs) Handles utxtNoteText.KeyDown
+        GlazingNote(e)
+    End Sub
+
+    Public Sub GlazingNote(e As KeyEventArgs)
+        Try
+            If e.KeyCode = 119 Then
+                Dim newGlazingDocDescription As New frmGlazingDocDescription
+                newGlazingDocDescription.DocDesTypeName = "Footer Note"
+                newGlazingDocDescription.ShowDialog()
+
+                If utxtNoteText.Text <> "" Then
+                    utxtNoteText.Value = utxtNoteText.Text + vbCrLf + selectedDocDes
+                ElseIf utxtNoteText.Text = "" Then
+                    utxtNoteText.Value = selectedDocDes
+                End If
+            End If
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    Sub SetSubTotal(e As CellEventArgs)
+        Try
+            'If groupStarted = True Then
+            Dim rowTypes As GridRowType = GridRowType.DataRow
+            Dim band As UltraGridBand = Me.UG2.DisplayLayout.Bands(0)
+            Dim enumerator As IEnumerable = band.GetRowEnumerator(rowTypes)
+            Dim row As UltraGridRow
+            Dim subTotal As Decimal = 0.0
+            Dim groupID As Integer = Me.UG2.ActiveRow.Cells("ItmGroupID").Value
+
+            Dim exGroupAmount As Decimal = 0.0
+
+            For Each row In enumerator
+
+                'Loop similer group items
+                If IsNothing(row.Cells("ItmGroupID").Value) = False Then
+                    If groupID = row.Cells("ItmGroupID").Value Then
+
+                        'IF this is an item
+                        If IsNothing(row.Cells("QuoteFiedType").Text) = False Then
+
+                            'If row.Cells("Amount").Text > 0 Then
+                            '    Dim a = 0
+                            '    a = row.Cells("ItmGroupID").Value
+                            'End If
+
+                            If row.Cells("QuoteFiedType").Text = "Text" Or row.Cells("QuoteFiedType").Text = "Stock Item" Then
+                                If IsNothing(row.Cells("Amount").Text) = False Then
+                                    If row.Cells("ItmGroupID").Value > 0 Then
+                                        subTotal = subTotal + row.Cells("Amount").Text
+                                        'row.Cells("Net").Value = row.Cells("Amount")
+                                        'row.Cells("Tax").Value = (row.Cells("Amount").Text * row.Cells("TaxRate").Text) / 100
+                                        'row.Cells("ItmExcAmount").Value = row.Cells("ItmIncAmount").Text + row.Cells("Tax").Text
+                                    End If
+
+                                End If
+
+                            ElseIf row.Cells("QuoteFiedType").Text = "Subtotal" Then
+                                row.Cells("Amount").Value = subTotal
+
+                            End If
+
+                        End If
+
+                    End If
+                End If
+
+            Next
+            groupStarted = False
+            'SetTotalAmounts(True)
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+
+    End Sub
+
+    Sub SetTotalAmounts(ByVal isAmountChanging As Boolean)
+        Try
+            Dim rowTypes As GridRowType = GridRowType.DataRow
+            Dim band As UltraGridBand = Me.UG2.DisplayLayout.Bands(0)
+            Dim enumerator As IEnumerable = band.GetRowEnumerator(rowTypes)
+            Dim row As UltraGridRow
+            Dim TotalExc As Decimal = 0.0
+            Dim TotalTax As Decimal = 0.0
+            Dim TotalInc As Decimal = 0.0
+
+            For Each row In enumerator
+                'Dim a2 = row.Index
+                If row.Cells("QuoteFiedType").Value <> "" Then
+                    If row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item Then
+
+                        TotalExc = TotalExc + Convert.ToDecimal(row.Cells("ItmExcAmount").Text)
+                        TotalTax = TotalTax + Convert.ToDecimal(row.Cells("Tax").Text)
+                        TotalInc = TotalInc + Convert.ToDecimal(row.Cells("Net").Text)
+                    End If
+                End If
+            Next
+
+            lblTotExcAmo.Text = TotalExc
+            lblTotVatAmo.Text = TotalTax
+            lblTotIncAmo.Text = TotalInc
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub ClearRowCellsAfterAmountChange()
+        Try
+            Me.UG2.ActiveRow.Cells("Qty").Value = 0
+            Me.UG2.ActiveRow.Cells("Height").Value = 0
+            Me.UG2.ActiveRow.Cells("Width").Value = 0
+            Me.UG2.ActiveRow.Cells("Volume").Value = 0
+            Me.UG2.ActiveRow.Cells("Price").Value = 0
+            'Me.UG2.ActiveRow.Cells("DiscAmt").Value = 0
+            'Me.UG2.ActiveRow.Cells("Net").Value = 0
+            'Me.UG2.ActiveRow.Cells("TaxRate").Value = 0
+            'Me.UG2.ActiveRow.Cells("TaxRateValue").Value = 0
+            'Me.UG2.ActiveRow.Cells("Tax").Value = 0
+            'Me.UG2.ActiveRow.Cells("ItmExcAmount").Value = 0
+
+            If isTaxedPrice = False And isAmountChanging = True Then
+                'exc
+                Me.UG2.ActiveRow.Cells("Net").Value = Me.UG2.ActiveRow.Cells("Amount").Value
+
+            ElseIf isTaxedPrice = True And isAmountChanging = True Then
+                'inc
+                Me.UG2.ActiveRow.Cells("ItmExcAmount").Value = Me.UG2.ActiveRow.Cells("Amount").Value
+
+            End If
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    Public Enum RowColumKey As Integer
+        Qty = 1
+        Height = 2
+        Width = 3
+        Volume = 4
+        Price = 5
+        DiscAmt = 6
+        Net = 7
+        TaxRate = 8
+        TaxRateValue = 9
+        Tax = 10
+        ItmExcAmount = 11
+
+    End Enum
+
+
+    Private Sub lineTypeNavigator_TextChanged(sender As Object, e As EventArgs) Handles lineTypeNavigator.TextChanged
+        Me.UG2.Focus()
+        Me.UG2.ActiveCell = Me.UG2.Rows(lineTypeNavigator.Text).Cells("QuoteFiedType")
+
+    End Sub
+
+    Sub LoadExstingQuote()
+        'pubMeSODocument = New clsInvHeader(quoteOrdeIndex)
+        txtOrdDate.Value = Today.Date
+        txtDueDate.Value = Today.AddDays(2).Date
+        Try
+            If quoteOrdeIndex > 0 Then
+                isOpeningQuote = True
+                tsbPrint.Enabled = True
+
+                Dim index As Integer = Me.UG2.Rows.Count
+                Dim isRowExist As Boolean = False
+
+                'clear the gride
+                Do
+                    If index > 0 Then
+                        Me.UG2.Rows(index - 1).Delete()
+                        index -= 1
+                    Else
+                        Exit Do
+                    End If
+                Loop Until index = 0
+
+                Dim documentData As clsInvHeader = New clsInvHeader(quoteOrdeIndex)
+                oFormCustomer = New clsCustomer(documentData.AccountID)
+
+                'Stop updating the gride values
+                canUpdate = False
+
+                Dim sqlQuary As String = "SELECT * FROM  spilInvNum LEFT JOIN GlzQuote_Job_Details ON spilInvNum.OrderIndex = GlzQuote_Job_Details.OrderIndex WHERE spilInvNum.OrderIndex = " & quoteOrdeIndex
+
+                Dim objSQL As New clsSqlConn
+                With objSQL
+
+                    Dim ds As DataSet = .GET_INSERT_UPDATE(sqlQuary)
+                    If ds.Tables(0).Rows.Count > 0 Then
+
+                        isExistingOrder = True
+                        Dim dr As UltraGridRow
+
+                        For Each objQutDetailline In ds.Tables(0).Rows
+                            pubMeSpilDocStatusID = objQutDetailline("DocState")
+                            cmbCusType.Value = objQutDetailline("iCusType")
+
+                            If cmbCusType.Value = 0 Then
+                                cmbAccount.Value = objQutDetailline("AccountID")
+                                'cmbAccount.ReadOnly = True
+                            Else
+                                cmbAccount.Value = objQutDetailline("AccountID")
+                                'cmbAccount.ReadOnly = True
+                            End If
+
+                            'txtCustOrdNo.Focus()
+
+                            cmbAccount.Value = (objQutDetailline("AccountID"))
+
+                            txtOrdDate.Value = objQutDetailline("OrderDate")                                  ' dr1("OrderDate")
+                            txtDelDate.Value = objQutDetailline("DeliveryDate")                                ' dr1("DeliveryDate")
+                            txtDueDate.Value = objQutDetailline("DueDate")                                       ' dr1("DueDate")
+                            txtInvDate.Value = objQutDetailline("InvDate")                                       ' dr1("InvDate")
+                            txtCustOrdNo.Text = objQutDetailline("ExtOrderNum")                               ' dr1("ExtOrderNum")
+                            lblOrderNo.Text = objQutDetailline("OrderNum")
+                            headder = objQutDetailline("OrderNum")
+                            subHeaderID = objQutDetailline("FacilityIDCurrent")
+                            cmbFacility.Value = objQutDetailline("FacilityIDCurrent")
+
+                            'defaultTaxtRate = objQutDetailline("TaxRate")
+                            'lblInNo.Text = objQutDetailline("SimpleCode").ToString
+                            'lblLinkedTo.Text = objQutDetailline("Description1").ToString
+                            'lblLinkedTo.Text = objQutDetailline("Price_Type").ToString
+                            'lblLinkedTo.Text = objQutDetailline("Volume").ToString
+                            'Me.Text = "Quotation - " & objQutDetailline("Price_Type")
+
+                            'Contacts
+                            'oFormCustomer = New clsCustomer(objQutDetailline("AccountID"))
+                            txtPhy1.Value = objQutDetailline("Address1")
+                            txtPhy2.Value = objQutDetailline("Address2")
+                            txtPhy3.Value = objQutDetailline("Address3")
+                            txtPhy4.Value = objQutDetailline("Address4")
+                            txtPhy5.Value = objQutDetailline("Address5")
+                            txtPhyPostCode.Value = objQutDetailline("Address6")
+                            cmbContPerson.Value = objQutDetailline("ContactName")
+                            txtContPerTel.Value = objQutDetailline("ContactTelephone")
+                            txtContEmail.Value = objQutDetailline("ContactEmail")
+                            cboArea.Value = objQutDetailline("iAreasID")
+                            uCmbTerms.Value = objQutDetailline("CreditState")
+                            utxtNoteText.Value = objQutDetailline("InvoiceNotes")
+                            quoteDocRepID = objQutDetailline("DocRepID")
+                            utxtQuoteState.Value = objQutDetailline("QuoteStateID")
+                            cmbSalesRep.Value = objQutDetailline("DocRepID")
+
+                            If IsDBNull(objQutDetailline("GlzQuoteJobID")) = False Then
+
+                                utxtQuoteJobID.Text = objQutDetailline("GlzQuoteJobID")
+                                utxtQuoteJobName.Text = objQutDetailline("GlzQuoteJobName")
+                                jobDescription = objQutDetailline("GlzQuoteJobDes")
+
+                            End If
+                        Next
+                    End If
+                    loadLineData()
+
+                    SQL = "SELECT     OrderIndex, Line_No, Path FROM spilInvDocs WHERE OrderIndex = " & quoteOrdeIndex & ""
+                    ds = New DataSet()
+                    ds = .GET_DATA_SQL(SQL)
+                    Dim ugR1 As UltraGridRow
+                    For Each mDr As DataRow In ds.Tables(0).Rows
+                        ugR1 = UGDocs.DisplayLayout.Bands(0).AddNew
+                        ugR1.Cells("LineNo").Value = mDr(1)
+                        ugR1.Cells("Path").Value = mDr(2)
+                    Next
+
+                End With
+
+                Dim customerID As String = cmbAccount.ActiveRow.Cells("DCLink").Value
+                If customerID <> Nothing Or customerID <> "" Then
+                    'If Set_Customer(cmbAccount.ActiveRow.Cells("DCLink").Value) = 0 Then
+                    '    Exit Sub
+                    'End If
+                End If
+                'sqlQuary = "SELECT *  FROM  Client WHERE OrderIndex = " & cmbAccount.Value & ""
+                'objSQL = New clsSqlConn
+                'With objSQL
+                '    Dim ds As DataSet = .GET_INSERT_UPDATE(sqlQuary)
+                '    If ds.Tables(0).Rows.Count > 0 Then
+                '        For Each objQutDetailline In ds.Tables(0).Rows
+                '            txtPhy1.Text = objQutDetailline("Address1")                                      ' IIf(IsDBNull(objQutDetailline("Address1")) = True, "", objQutDetailline("Address1"))
+                '            txtPhy2.Text = objQutDetailline("Address2")                                        'IIf(IsDBNull(objQutDetailline("Address2")) = True, "", objQutDetailline("Address2"))
+                '            txtPhy3.Text = objQutDetailline("Address3")                                        'IIf(IsDBNull(objQutDetailline("Address3")) = True, "", objQutDetailline("Address3"))
+                '            txtPhy4.Text = objQutDetailline("Address4")                                        'IIf(IsDBNull(objQutDetailline("Address4")) = True, "", objQutDetailline("Address4"))
+                '            txtPhy5.Text = objQutDetailline("Address5")                                       'IIf(IsDBNull(objQutDetailline("Address5")) = True, "", objQutDetailline("Address5"))
+                '            txtPhyPostCode.Text = objQutDetailline("PhysicalPC")                                       'IIf(IsDBNull(objQutDetailline("Address5")) = True, "", objQutDetailline("Address5"))
+
+                '            cmbContPerson.Text = objQutDetailline("Contact_Person")                                     ' IIf(IsDBNull(objQutDetailline("PostAdd1")) = True, "", objQutDetailline("PostAdd1"))
+                '            txtContPerTel.Text = objQutDetailline("Telephone")                                       ' IIf(IsDBNull(objQutDetailline("PostAdd2")) = True, "", objQutDetailline("PostAdd2"))
+                '            txtContEmail.Text = objQutDetailline("PostAdd3")                                       ' IIf(IsDBNull(objQutDetailline("PostAdd3")) = True, "", objQutDetailline("PostAdd3"))
+                '            cboArea.Text = objQutDetailline("PostAdd4")                                       ' IIf(IsDBNull(objQutDetailline("PostAdd4")) = True, "", objQutDetailline("PostAdd4"))
+                '        Next
+                '    End If
+                'End With
+                isOpeningQuote = False
+            End If
+
+        Catch ex As Exception
+            Me.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            Exit Sub
+
+        Finally
+            canUpdate = True
+        End Try
+    End Sub
+
+    Public Sub loadLineData()
+        Try
+            Dim objSQL As New clsSqlConn
+            With objSQL
+                Dim sqlQuary As String = "SELECT * FROM  spilInvNumLines LEFT JOIN StkItem ON spilInvNumLines.StockLink = StkItem.StockLink  WHERE spilInvNumLines.OrderIndex = " & quoteOrdeIndex & " ORDER BY spilInvNumLines.idInvoiceLines"
+                Dim ds As DataSet = .GET_INSERT_UPDATE(sqlQuary)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    isExistingOrder = True
+                    Dim dr As UltraGridRow
+                    For Each objQutDetailline In ds.Tables(0).Rows
+
+                        dr = AddNewRow("after")
+
+                        'Set identifer as a exsiting item
+                        dr.Cells("IsAExistingItem").Value = True
+
+                        '----Starting Item Line identifers----
+                        dr.Cells("iInvDetailID").Value = objQutDetailline("iInvDetailID")
+                        dr.Cells("QuoteFiedType").Value = objQutDetailline("LineType")
+                        dr.Cells("ItmGroupID").Value = objQutDetailline("LN")
+                        dr.Cells("InvLineID").Value = objQutDetailline("idInvoiceLines")
+                        '----Ending Item Line identifers----
+
+                        '----Starting Stock Items details----    
+                        dr.Cells("ItemType").Value = objQutDetailline("ItemType")
+                        dr.Cells("StockLink").Value = objQutDetailline("StockLink")
+                        dr.Cells("Description1").Value = objQutDetailline("cDescription")
+                        dr.Cells("Price_Type").Value = objQutDetailline("PRICE_TYPES_ID")
+                        '----Starting Stock Items details----
+
+                        dr.Cells("Qty").Value = objQutDetailline("fQuantity")
+                        dr.Cells("Height").Value = objQutDetailline("iHeight")
+                        dr.Cells("Width").Value = objQutDetailline("iWidth")
+                        dr.Cells("Volume").Value = objQutDetailline("fVolume")
+
+                        '----Starting finance data----
+                        dr.Cells("Price").Value = objQutDetailline("fOriginal_Price")
+                        dr.Cells("DiscAmt").Value = objQutDetailline("fDiscount_Amount")
+                        dr.Cells("ItmExcAmount").Value = objQutDetailline("fItem_Gross")
+                        dr.Cells("Tax").Value = objQutDetailline("fItem_tax")
+                        dr.Cells("TaxRate").Value = objQutDetailline("iTaxTypeID")
+                        dr.Cells("TaxRateValue").Value = objQutDetailline("fTaxRate")
+                        dr.Cells("NET").Value = objQutDetailline("fItem_Net")
+                        dr.Cells("amount").Value = objQutDetailline("fTotal_Amt")
+
+                        dr.Cells("OrgPrice").Value = objQutDetailline("Foreign_InvTotIncl")
+                        '----Ending finance data----
+
+
+                        dr.Cells("LineNotes").Value = objQutDetailline("LineNotes")
+                        dr.Cells("MarkAs").Value = objQutDetailline("Comment2")
+                        dr.Cells("IsPriceItem").Value = objQutDetailline("IsPriceItem")
+                        dr.Cells("LineComments").Value = objQutDetailline("LineComments")
+
+                        If IsDBNull(objQutDetailline("ItemImage")) = False Then
+                            Dim image As Byte() = objQutDetailline("ItemImage")
+                            If image.Length = 64 Then
+
+                            Else
+                                dr.Cells("ItemImageByteArray").Value = objQutDetailline("ItemImage")
+                                dr.Cells("ItemImage").Value = ByteToImage(objQutDetailline("ItemImage"))
+                                Me.UG2.ActiveCell.Row.PerformAutoSize()
+                                Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
+                                dr.Cells("isImageAttached").Value = True
+                            End If
+                        End If
+
+                        dr.Cells("Shape").Value = objQutDetailline("ShapeFileName")
+                        If Not String.IsNullOrWhiteSpace(objQutDetailline("ShapeFileName")) Then
+                            dr.Cells("Shape").Appearance.BackColor = Color.LightBlue
+                            dr.Cells("Shape").ButtonAppearance.Image = Global.SPIL_Glass.My.Resources.Resources.shapesadd
+                            dr.Cells("Shape").Value = "Added"
+                            ''DisableProcessedLineFeilds(dr)
+                            dr.Cells("isShapeAttached").Value = True
+                        Else
+                            dr.Cells("Shape").Appearance.BackColor = Color.Empty
+                            dr.Cells("Shape").ButtonAppearance.Image = Nothing
+
+                        End If
+
+
+                    Next
+
+                    ' Dim ty1 = Me.UG2.Rows(Me.UG2.ActiveRow.Index - 12).Cells("ItmGroupID").Value
+
+                    If oSOModuleDefaults.UseShapes = True And oProdDefaults.OptimizeApp = GlassOptimizeApp.PerfectCut Then
+                        SQL = "SELECT spd.ID ,spd.OrderIndex,spd.iInvDetailID,spd.ShapeXML,spd.ShapeSAX,spd.ShapePNG,spd.ShapeDimensions,spd.ShapeSizes,spd.ShapeName FROM spilInvNumLines_ShapeDetails spd INNER JOIN spilInvNumLines  ind ON ind.iInvDetailID=spd.iInvDetailID WHERE spd.OrderIndex = " & quoteOrdeIndex & ""
+                        Dim perfectDS As New DataSet()
+                        perfectDS = .GET_DATA_SQL(SQL)
+                        If Not perfectDS.Tables Is Nothing Then
+                            If perfectDS.Tables.Count > 0 Then
+                                If perfectDS.Tables(0).Rows.Count > 0 Then
+                                    Dim myRowId As UltraGridRow
+                                    For Each myRowId In UG2.Rows.GetRowEnumerator(GridRowType.DataRow, Nothing, Nothing)
+                                        For Each row As DataRow In perfectDS.Tables(0).Rows
+                                            If myRowId.Cells("iInvDetailID").Value = CInt(row("iInvDetailID")) Then
+                                                Dim shape As New PCShapeDetails()
+                                                shape.ID = row("ID")
+                                                shape.UniqueLN = myRowId.Cells("UniqueLN").Value
+                                                shape.OrderIndex = row("OrderIndex")
+                                                shape.iInvDetailID = row("iInvDetailID")
+                                                shape.ShapeXML = row("ShapeXML")
+                                                shape.ShapeSAX = row("ShapeSAX")
+                                                shape.ShapePNG = row("ShapePNG")
+                                                shape.ShapeDimensions = row("ShapeDimensions")
+                                                shape.ShapeSizes = row("ShapeSizes")
+                                                shape.ShapeName = row("ShapeName")
+                                                myRowId.Cells("ShapeDetails").Value = shape
+                                                Exit For
+                                            End If
+                                        Next
+                                    Next
+                                End If
+                            End If
+                        End If
+                    End If
+
+                    'Dim ty1 = Me.UG2.Rows(Me.UG2.ActiveRow.Index - 12).Cells("ItmGroupID").Value
+
+
+                    SetTotalAmounts(fasle)
+
+                End If
+            End With
+        Catch ex As Exception
+            Me.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        Finally
+            SQLNew = Nothing
+
+        End Try
+    End Sub
+
+    Private Sub tsmiOptions_Click(sender As Object, e As EventArgs) Handles tsmiOptions.Click
+        Dim docDefaultSetting As New frmGlazingDocDefaultSetting(Me)
+        docDefaultSetting.ShowDialog()
+
+
+    End Sub
+
+    Public Sub GetQuoteTaxState(ByRef taxCheckState As Integer, ByRef taxtRate As Integer)
+
+        If IsNothing(taxCheckState) = False Then
+            'Button16.Visible = True
+            'User default tax rate
+            If taxCheckState = -1 Then
+                Dim glzQuoteTax As DataSet
+                Dim sqlQuary As String = ""
+                Try
+                    sqlQuary = "SELECT GlzQuote_Defaults.isTaxInc, GlzQuote_Defaults.defaultTaxtRate, GlzQuote_Defaults.AllowBlankCustomerOrderNo, TaxRate.TaxRate FROM  GlzQuote_Defaults INNER JOIN TaxRate ON GlzQuote_Defaults.defaultTaxtRate = TaxRate.idTaxRate WHERE GlzQuote_Defaults.createdBy= " & AgentID
+                    Dim objSQL = New clsSqlConn
+                    With objSQL
+                        glzQuoteTax = .GET_INSERT_UPDATE(sqlQuary)
+                        If glzQuoteTax.Tables(0).Rows.Count > 0 Then
+                            For Each row In glzQuoteTax.Tables(0).Rows
+                                If IsDBNull(row("isTaxInc")) = False Then
+                                    isTaxedPrice = row("isTaxInc")
+                                    If row("isTaxInc") = True Then
+                                        If IsDBNull(row("defaultTaxtRate")) = False Then
+                                            defaultTaxtRate = row("defaultTaxtRate")
+                                            defaultTaxtRateValue = row("TaxRate")
+                                        End If
+                                    Else
+                                        defaultTaxtRate = 0
+                                        defaultTaxtRateValue = 0
+                                    End If
+                                End If
+                                AllowBlankCustomerOrderNo = row("AllowBlankCustomerOrderNo")
+                            Next
+                        End If
+                    End With
+                Catch ex As Exception
+                    ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+                End Try
+            Else
+                'If IsNothing(taxtRate) = False Then
+                '    defaultTaxtRate = taxtRate
+                'End If
+
+                If taxCheckState = 1 Then
+                    isTaxedPrice = True
+                    defaultTaxtRate = taxtRate
+
+                Else
+                    isTaxedPrice = False
+                    defaultTaxtRate = 0
+
+                End If
+            End If
+        Else
+            taxCheckState = -1
+        End If
+        SetTaxedPriceLable(isTaxedPrice)
+    End Sub
+
+
+
+    Sub SetTaxedPriceLable(taxedPrice As Boolean)
+        Try
+            If IsNothing(taxedPrice) = False Then
+                lblTaxType.Visible = True
+                If taxedPrice = True Then
+                    lblTaxType.Text = "Tax inclusive"
+                    priceType = "Inc"
+                    Me.UG2.Rows.Band.Columns("Amount").Header.Caption = "Amount (Inc)"
+
+                Else
+                    lblTaxType.Text = "Tax exclusive"
+                    priceType = "Exc"
+                    Me.UG2.Rows.Band.Columns("Amount").Header.Caption = "Amount (Exc)"
+
+                End If
+            End If
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub AfterDefaultTaxePriceChaged(ByVal newTaxtRate As Integer, ByVal newTaxtRateValue As Integer, ByVal newIsTaxedPrice As Boolean)
+        Try
+            If isTaxedPrice <> newIsTaxedPrice Then
+                isTaxedPrice = newIsTaxedPrice
+                isDefaultChange = True
+
+            End If
+
+            If newTaxtRate <> defaultTaxtRate And isTaxedPrice = True Then
+                defaultTaxtRate = newTaxtRate
+                isDefaultChange = True
+
+            End If
+
+            If isDefaultChange = True Then
+                Dim rowTypes As GridRowType = GridRowType.DataRow
+                Dim band As UltraGridBand = Me.UG2.DisplayLayout.Bands(0)
+                Dim enumerator As IEnumerable = band.GetRowEnumerator(rowTypes)
+                Dim row As UltraGridRow
+
+                For Each row In UG2.DisplayLayout.Bands(0).GetRowEnumerator(rowTypes)
+                    If IsDBNull(row.Cells("QuoteFiedType").Value) = False Then
+                        If (row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item) And row.Cells("IsAExistingItem").Value = False Then
+                            If isTaxedPrice = True Then
+                                defaultTaxtRate = newTaxtRate
+                                defaultTaxtRateValue = newTaxtRateValue
+                                row.Cells("TaxRate").Value = newTaxtRate
+                                row.Cells("TaxRateValue").Value = newTaxtRateValue
+                            Else
+                                defaultTaxtRate = 0
+                                defaultTaxtRateValue = 0
+                                row.Cells("TaxRate").Value = 0
+                                row.Cells("TaxRateValue").Value = 0
+                            End If
+                        End If
+                    End If
+                Next
+            End If
+            isDefaultChange = False
+            SetTaxedPriceLable(isTaxedPrice)
+            TotalValuesBeahavior()
+            SetTotalAmounts(True)
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+
+    End Sub
+
+    Private Sub tsmAddRowBefore_Click(sender As Object, e As EventArgs) Handles tsmAddRowBefore.Click
+        AddNewRow("before")
+    End Sub
+
+    Private Sub tsmAddRowAfter_Click(sender As Object, e As EventArgs) Handles tsmAddRowAfter.Click
+        AddNewRow("after")
+    End Sub
+
+
+
+#Region "UltraGrid : UG2"
+
+#Region "ultraGrid behaviour"
+
+    Private Sub UG2_AfterRowsDeleted(sender As Object, e As EventArgs) Handles UG2.AfterRowsDeleted
+        SetSubTotalByGroup()
+
+    End Sub
+    '------------------------start ultraGrid behaviour------------------------
+    Private Sub UG2_InitializeLayout(sender As Object, e As InitializeLayoutEventArgs) Handles UG2.InitializeLayout, UltraGrid1.InitializeLayout
+
+        Try
+            UG2.Rows.Band.Override.ExpansionIndicator = ShowExpansionIndicator.CheckOnDisplay
+            setQuateFiedType(sender, e)
+
+            SetCellApperance()
+            UG2.DisplayLayout.Override.CellAppearance.TextVAlign = VAlign.Middle
+            UG2.DisplayLayout.ColumnChooserEnabled = DefaultableBoolean.True
+            UG2.DisplayLayout.Rows.Band.Columns("LineComments").DefaultCellValue = ""
+
+            ' Set the RowSelectorHeaderStyle to ColumnChooserButton.
+            Me.UG2.DisplayLayout.Override.RowSelectorHeaderStyle = _
+              RowSelectorHeaderStyle.ColumnChooserButton
+
+            ' Enable the RowSelectors. This is necessary because the column chooser
+            ' button is displayed over the row selectors in the column headers area.
+            Me.UG2.DisplayLayout.Override.RowSelectors = DefaultableBoolean.True
+
+            e.Layout.Bands(1).ExcludeFromColumnChooser = ExcludeFromColumnChooser.True
+            For Each ugCol As UltraGridColumn In e.Layout.Bands(0).Columns
+                e.Layout.Bands(0).Columns(ugCol.Key).ExcludeFromColumnChooser = ExcludeFromColumnChooser.True
+            Next
+            e.Layout.Bands(0).Columns("Volume").ExcludeFromColumnChooser = ExcludeFromColumnChooser.False
+            e.Layout.Bands(0).Columns("StockLink").ExcludeFromColumnChooser = ExcludeFromColumnChooser.False
+            e.Layout.Bands(0).Columns("ItmGroupID").ExcludeFromColumnChooser = ExcludeFromColumnChooser.False
+            'e.Layout.Bands(0).Columns("ItemImage").Style = ColumnStyle.Edit
+
+            'e.Layout.Bands(0).Columns(1).ColumnChooserCaption = "Column Chooser Caption"
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub SetCellApperance()
+        Try
+            UG2.Rows.Band.Columns("QuoteFiedType").CellAppearance.TextHAlign = HAlign.Center
+            UG2.Rows.Band.Columns("QuoteFiedType").CellAppearance.TextVAlign = VAlign.Middle
+            UG2.Rows.Band.Columns("Height").CellAppearance.TextHAlign = HAlign.Right
+            UG2.Rows.Band.Columns("Width").CellAppearance.TextHAlign = HAlign.Right
+            UG2.Rows.Band.Columns("Qty").CellAppearance.TextHAlign = HAlign.Right
+            UG2.Rows.Band.Columns("Price").CellAppearance.TextHAlign = HAlign.Right
+            UG2.Rows.Band.Columns("Amount").CellAppearance.TextHAlign = HAlign.Right
+            UG2.Refresh()
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+        'UG2.
+        'UG2.Rows.Band.Columns("Qty").CellAppearance.TextHAlign = HAlign.Right
+
+    End Sub
+
+    Private Sub UG2_AfterExitEditMode(sender As Object, e As EventArgs) Handles UG2.AfterExitEditMode, UltraGrid1.AfterExitEditMode
+        Try
+            If isStockItemActive = False Then
+                If Me.UG2.ActiveCell.Column.Key = "LineComments" Then
+                    Me.UG2.ActiveCell.Column.Header.Caption = "Doc Description"
+                Else
+                End If
+
+            End If
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    '___________________________________End ultraGrid behaviour___________________________________
+#End Region
+
+#Region "cell behaviour"
+    '------------------------start cell behaviour------------------------
+    Private Sub UG2_AfterCellActivate(sender As Object, e As EventArgs) Handles UG2.AfterCellActivate, UltraGrid1.AfterCellActivate
+        If isStockItemActive = False Then
+            If Me.UG2.ActiveCell.Column.Key = "LineComments" Then
+                If Me.UG2.ActiveRow.Cells("QuoteFiedType").Text = "" Then
+                    Me.UG2.ActiveRow.Cells("QuoteFiedType").DroppedDown = True
+                Else
+                    Me.UG2.ActiveCell.Column.Header.Caption = "Doc Description (Press F8 to add predefined text)"
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub UG2_CellChange(sender As Object, e As CellEventArgs) Handles UG2.CellChange
+        'If isStockItemActive = False Then
+        '    If isStockItemClosing = False Then
+        '        If e.Cell.Column.Key = "QuoteFiedType" Then
+        '            QuoteGirdRowFormat(e)
+
+        '            'ElseIf e.Cell.Column.Key = "TaxRate" Then
+        '            'If e.Cell.Row.Cells("Price").Text > 0 Then
+        '            '    CalculateItemAmount(e)
+
+        '        End If
+        '    Else
+        '        isStockItemClosing = False
+        '    End If
+        'End If
+    End Sub
+
+    Private Sub UG2_AfterCellUpdate(sender As Object, e As CellEventArgs) Handles ugQuote.AfterCellUpdate, UG2.AfterCellUpdate, UltraGrid2.AfterCellUpdate, UltraGrid1.AfterCellUpdate
+        Try
+            'If (e.Cell.Row.Cells("IsAExistingItem").Value = True And isOpeningQuote = False) And (e.Cell.Column.Key <> "TaxRate" Or e.Cell.Column.Key <> "TaxRateValue" Or e.Cell.Column.Key <> "IsAExistingItem") Then
+            'e.Cell.Row.Cells("TaxRate").Value = defaultTaxtRate
+            'e.Cell.Row.Cells("TaxRateValue").Value = defaultTaxtRateValue
+            'If e.Cell.Row.Cells("IsAExistingItem").Value = True Then
+            '    e.Cell.Row.Cells("IsAExistingItem").Value = False
+            'End If
+            'End If
+
+            If isStockItemActive = False Then
+
+                If isPasting = True Then
+                    If e.Cell.Column.Key = "QuoteFiedType" Or calculateWhilePasting = True Then
+                        QuoteGirdRowFormat(e)
+                        Me.UG2.ActiveRow.Cells("LineComments").Activated = True
+                    ElseIf e.Cell.Column.Key = "iInvDetailID" Then
+                        'e.Cell.Row.Cells("iInvDetailID").Value = 0
+                    End If
+                End If
+
+                If e.Cell.Column.Key = "LineComments" Then
+                    e.Cell.Row.PerformAutoSize()
+                    SetCellApperance()
+
+                ElseIf e.Cell.Column.Key = "Width" Or e.Cell.Column.Key = "Height" Then
+                    CalculateItemVolume(e)
+
+                ElseIf e.Cell.Column.Key = "Qty" Or e.Cell.Column.Key = "Volume" Or e.Cell.Column.Key = "Price" Or e.Cell.Column.Key = "TaxRate" Or e.Cell.Column.Key = "DiscAmt" Then
+                    If e.Cell.Row.Cells("Price").Text > 0 And isOpeningQuote = False And IsCellClearing = False Then
+                        CalculateItemAmount(e)
+                    End If
+
+                ElseIf e.Cell.Column.Key = "Amount" Then
+
+                    If e.Cell.Row.Cells("QuoteFiedType").Text = "Subtotal" Then
+                        'UG2.Rows(headderSubRow).Cells("OrgPrice").Value = e.Cell.Row.Cells("Amount").Value
+                        SetTotalAmounts(True)
+
+                    Else
+                        'If isPasting = False Or calculateWhilePasting = True Then
+                        SetSubTotal(e)
+
+                        ''End If
+                    End If
+                ElseIf e.Cell.Column.Key = "OrgPrice" Then
+                    If e.Cell.Row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Subtotal Then
+
+                    End If
+                ElseIf e.Cell.Column.Key = "OrgPrice" Then
+
+                End If
+
+                If (isExistingOrder = True Or openedModeulename = "Temp") And e.Cell.Text <> "Stock Item" Then
+                    QuoteGirdRowFormat(e)
+                End If
+
+            End If
+            SetActiveCell(e)
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    '________________________________________________End cell behaviour________________________________________________
+#End Region
+
+#Region "cell behaviour"
+    '------------------------------------------------start key behaviour------------------------------------------------
+
+    Private Sub UG2_KeyDown(sender As Object, e As KeyEventArgs) Handles UG2.KeyDown, UltraGrid1.KeyDown
+        Try
+            If e.KeyCode = 119 Then
+                If IsNothing(Me.UG2.ActiveCell) = False Then
+                    UG2ActiveRow = UG2.ActiveRow
+                    Dim selectedColum As Integer
+                    If UG2.ActiveCell.Column.Key = "LineComments" Then
+                        Dim newGlazingDocDescription As New frmGlazingDocDescription
+                        newGlazingDocDescription.DocDesTypeID = UG2.ActiveRow.Cells("QuoteFiedType").Value
+                        newGlazingDocDescription.DocDesTypeName = UG2.ActiveRow.Cells("QuoteFiedType").Text
+                        newGlazingDocDescription.ShowDialog()
+                        If UG2.Rows(UG2ActiveRow.Index).Cells("LineComments").Text <> "" Then
+                            UG2.Rows(UG2ActiveRow.Index).Cells("LineComments").Value = UG2.Rows(UG2ActiveRow.Index).Cells("LineComments").Text + vbCrLf + selectedDocDes
+                        ElseIf UG2.Rows(UG2ActiveRow.Index).Cells("LineComments").Text = "" Then
+                            UG2.Rows(UG2ActiveRow.Index).Cells("LineComments").Value = selectedDocDes
+                        Else
+                        End If
+                        selectedDocDes = ""
+                    End If
+                End If
+            ElseIf e.KeyCode = Keys.Tab Then
+                AddNewRowsValidator("after")
+
+            End If
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    '___________________________________Endstart key behaviourbehaviour___________________________________
+#End Region
+
+#End Region
+
+    Private Sub CalculateItemVolume(e As CellEventArgs)
+        Try
+            Dim itemHight As Decimal = 0
+            Dim itemWidth As Decimal = 0
+
+            If IsNumeric(e.Cell.Row.Cells("Width").Text) Then
+                itemWidth = e.Cell.Row.Cells("Width").Text
+            End If
+            If IsNumeric(e.Cell.Row.Cells("Height").Text) Then
+                itemHight = e.Cell.Row.Cells("Height").Text
+            End If
+
+            e.Cell.Row.Cells("Volume").Value = (itemWidth * itemHight) / 1000000
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub CalculateItemAmount(e As CellEventArgs)
+        Try
+            ' Dim a3 = isTaxedPrice
+            Dim itemVolume As Decimal = 0
+            Dim itemPrice As Decimal = 0
+            Dim ItemQty As Decimal = 0
+            Dim itemTaxRate As Decimal = 0
+            Dim itemDiscount As Decimal = 0
+            Dim itemAmount As Decimal = 0
+
+            Dim itemDiscountedPrice As Decimal = 0
+            Dim DiscountPrice As Decimal = 0
+            Dim itemIncAmount As Decimal = 0
+            Dim itemExcAmount As Decimal = 0
+            Dim TaxAmount As Decimal = 0
+
+            Dim itemPreExcAmount As Decimal = 0
+            Dim itemPreAmount As Decimal = 0
+            Dim itemPreTax As Decimal = 0
+
+
+            If IsNumeric(e.Cell.Row.Cells("Volume").Text) Then
+                itemVolume = e.Cell.Row.Cells("Volume").Text
+            End If
+            If IsNumeric(e.Cell.Row.Cells("Price").Text) Then
+                itemPrice = e.Cell.Row.Cells("Price").Text
+                'itemDiscountedPrice = itemPrice
+                'itemIncAmount = itemPrice
+            End If
+
+            'If IsNothing(e.Cell.Row.Cells("TaxRate").Value) = False Then
+            '    If IsNumeric(e.Cell.Row.Cells("TaxRate").Value) = True Then
+            '        ucmbTaxRate.Value = e.Cell.Row.Cells("TaxRate").Value
+            '        If IsNothing(ucmbTaxRate.SelectedRow) = False Then
+            '            itemTaxRate = ucmbTaxRate.SelectedRow.Cells("TaxRate").Value
+
+            '        End If
+            '    End If
+            'Else
+
+            If IsNothing(e.Cell.Row.Cells("TaxRate").Text) = False Then
+                If e.Cell.Row.Cells("TaxRate").Text > -1 Then
+                    itemTaxRate = e.Cell.Row.Cells("TaxRate").Text
+                Else
+                    itemTaxRate = defaultTaxtRateValue
+                End If
+            End If
+
+            If IsNumeric(e.Cell.Row.Cells("DiscAmt").Text) Then
+                itemDiscount = e.Cell.Row.Cells("DiscAmt").Text
+            End If
+            If IsNumeric(e.Cell.Row.Cells("Qty").Text) Then
+                ItemQty = e.Cell.Row.Cells("Qty").Text
+            End If
+            If IsNumeric(e.Cell.Row.Cells("Amount").Text) Then
+                itemPreAmount = e.Cell.Row.Cells("Amount").Text
+            End If
+            If IsNumeric(e.Cell.Row.Cells("ItmExcAmount").Text) Then
+                itemPreExcAmount = e.Cell.Row.Cells("ItmExcAmount").Text
+            End If
+            If IsNumeric(e.Cell.Row.Cells("Tax").Text) Then
+                itemPreTax = e.Cell.Row.Cells("Tax").Text
+            End If
+
+            'Adding discount
+            If itemDiscount > 0 And itemPrice > 0 Then
+                DiscountPrice = ((itemPrice / 100) * itemDiscount)
+                itemDiscountedPrice = itemPrice - DiscountPrice
+            End If
+
+            'Exclusive amount
+            If itemVolume > 0 Then
+                'Glass
+                itemExcAmount = ((itemPrice - DiscountPrice) * itemVolume) * ItemQty
+
+            ElseIf ItemQty > 0 Then
+                'Other
+                itemExcAmount = (itemPrice - DiscountPrice) * ItemQty
+
+            End If
+
+            'Inclusive amount
+            If itemTaxRate > 0 And itemExcAmount > 0 Then
+                'adding tax
+                TaxAmount = ((itemExcAmount / 100) * itemTaxRate)
+                itemIncAmount = TaxAmount + itemExcAmount
+            Else
+                itemIncAmount = itemExcAmount
+                'TaxAmount = 0
+            End If
+
+
+            'Total amount
+            If isTaxedPrice = True Then
+                e.Cell.Row.Cells("Amount").Value = itemIncAmount
+            Else
+                e.Cell.Row.Cells("Amount").Value = itemExcAmount
+
+            End If
+
+            e.Cell.Row.Cells("DiscAmt").Value = DiscountPrice
+            e.Cell.Row.Cells("ItmExcAmount").Value = itemExcAmount
+            e.Cell.Row.Cells("Tax").Value = TaxAmount
+            e.Cell.Row.Cells("Net").Value = itemIncAmount
+
+            If isOpeningQuote = False Then
+                lblTotExcAmo.Text = Format((Val(lblTotExcAmo.Text - itemPreExcAmount) + itemExcAmount), "0.00")
+                lblTotVatAmo.Text = Format((Val(lblTotVatAmo.Text - itemPreTax) + TaxAmount), "0.00")
+                lblTotIncAmo.Text = Format((Val(lblTotIncAmo.Text - itemPreAmount) + itemIncAmount), "0.00")
+            End If
+            calculateWhilePasting = False
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+        'If IsNothing(UG2.ActiveRow) = False Then
+        '    UG2ActiveRow = UG2.ActiveRow
+        '    Dim glazingDocStockItem As New frmGlazingDocStockItem(Me)
+        '    'glazingDocStockItem.StartPosition = FormStartPosition.CenterParent
+        '    'glazingDocStockItem.Location = New Point(UG2.Location.X, UltraTabControl1.Location.Y)
+        '    glazingDocStockItem.ShowDialog()
+
+        'End If
+        SetCellApperance()
+
+    End Sub
+
+    Private Sub UG2_DoubleClickRow(sender As Object, e As DoubleClickRowEventArgs) Handles UG2.DoubleClickRow
+        Try
+            If IsNothing(e.Row) = False And IsDBNull(UG2.ActiveRow.Cells("QuoteFiedType").Value) = False Then
+                If UG2.ActiveRow.Cells("QuoteFiedType").Value <> "" Then
+                    If UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item And UG2.ActiveRow.Cells("ItemImage").Activated = False Then
+                        Dim glazingDocStockItem As New frmGlazingDocStockItem(Me)
+                        'glazingDocStockItem.selectedRow = UG2.ActiveRow
+                        ' Dim yesy2 = UG2.ActiveRow.Cells("stockLink").Value
+                        glazingDocStockItem.ShowDialog()
+                    End If
+                End If
+            End If
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub UltraTabPageControl13_Paint(sender As Object, e As PaintEventArgs) Handles UltraTabPageControl13.Paint
+
+    End Sub
+
+    Private Sub btnBrowse_Click(sender As Object, e As EventArgs) Handles btnBrowse.Click
+        Try
+            Dim SelectedFile As String = String.Empty
+
+            If utcQuoteGrids.ActiveTab.Index <> 1 Then Exit Sub
+
+            Dim R As UltraGridRow
+            R = UGDocs.DisplayLayout.Bands(0).AddNew
+
+            UGDocs.ActiveRow.Cells("LineNo").Value = UGDocs.ActiveRow.Index + 1
+            OpenFileDialog1.ShowDialog()
+            R.Cells(1).Activated = True
+            R.Cells(1).Value = OpenFileDialog1.FileName
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub UGDocs_ClickCellButton(ByVal sender As Object, ByVal e As Infragistics.Win.UltraWinGrid.CellEventArgs) Handles UGDocs.ClickCellButton
+        Try
+            If e.Cell.Column.Index = 2 Then
+                Dim Proc As New System.Diagnostics.Process
+                Proc.StartInfo.FileName = UGDocs.ActiveRow.Cells(1).Value.ToString
+                Proc.Start()
+            End If
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+
+    End Sub
+
+    Private Sub UGDocs_DoubleClickRow(ByVal sender As Object, ByVal e As Infragistics.Win.UltraWinGrid.DoubleClickRowEventArgs) Handles UGDocs.DoubleClickRow
+        Try
+
+            'If e.Cell.Column.Index = 2 Then
+            Dim Proc As New System.Diagnostics.Process
+            Proc.StartInfo.FileName = UGDocs.ActiveRow.Cells(1).Value.ToString
+            Proc.Start()
+            'End If
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub tsmiExportTemplate_Click(sender As Object, e As EventArgs) Handles tsmiExportTemplate.Click
+        Try
+            Dim newGlazingDocTemplate As New frmGlazingDocTemplate(Me)
+            newGlazingDocTemplate.ShowDialog()
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Public Sub SaveTempalteData(dsQuoteTemp As DataSet, tempName As String)
+        Try
+            Dim oSQL = New clsSqlConn
+            Dim newSQLQuery As String
+            oSQL.Begin_Trans()
+
+            Dim i As Integer = 0
+            Dim docDescription As String = ""
+            For Each ugR As UltraGridRow In UG2.Rows
+                If Not IsDBNull(ugR.Cells("quoteFiedType").Value) Then
+                    If ugR.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or ugR.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item Then
+                        docDescription = ""
+                    Else
+                        docDescription = ugR.Cells("LineComments").Value
+                    End If
+
+                    newSQLQuery = "INSERT INTO GlzQuote_Temp (TempName, TempQuoteFiedType, AgentID, EditedDate, LastEditedBy, DocDescription, RowGroupID) VALUES ('" & tempName & "', " & ugR.Cells("QuoteFiedType").Value & "," & AgentID & "," & Today.Date & "," & AgentID & ",'" & docDescription & "', " & ugR.Cells("ItmGroupID").Value & ")"
+                    If oSQL.Exe_Query_Trans(newSQLQuery) = 0 Then
+                        Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+                        oSQL.Rollback_Trans()
+                        Exit Sub
+                    End If
+
+
+                End If
+            Next
+
+            oSQL.Commit_Trans()
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub UG2_BeforeRowsDeleted(sender As Object, e As BeforeRowsDeletedEventArgs) Handles UG2.BeforeRowsDeleted
+        Try
+            If IsNothing(UG2.ActiveRow) = False Then
+                Dim rowSelected As UltraGridRow
+                If UG2.Selected.Rows.Count > 0 Then
+                    For Each rowSelected In Me.UG2.Selected.Rows
+                        If rowSelected.Cells("iInvDetailID").Value > 0 Then
+                            collDeletedItemLines.Add(rowSelected.Cells("iInvDetailID").Value)
+
+                        End If
+                    Next
+                End If
+            End If
+            e.DisplayPromptMsg = False
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub UG2_BeforeExitEditMode(sender As Object, e As UltraWinGrid.BeforeExitEditModeEventArgs) Handles UG2.BeforeExitEditMode
+        Try
+            'If UG2.ActiveCell.Column.Key = "Qty" Or UG2.ActiveCell.Column.Key = "Volume" Or UG2.ActiveCell.Column.Key = "Price" Or UG2.ActiveCell.Column.Key = "TaxRate" Or UG2.ActiveCell.Column.Key = "DiscAmt" Then
+            '    'If UG2.ActiveRow.Cells("Price").Text > 0 Then
+            '    '    CalculateItemAmount()
+            '    'End If
+
+            If Me.UG2.ActiveCell.Column.Key = "Amount" Then
+                If IsDBNull(Me.UG2.ActiveRow.Cells("QuoteFiedType").Value) = False Then
+                    If Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item Then
+                        If IsNumeric(Me.UG2.ActiveRow.Cells("Amount").Text) = True Then
+                            If Me.UG2.ActiveRow.Cells("Amount").Value <> Me.UG2.ActiveRow.Cells("Amount").Text Then
+                                IsCellClearing = True
+                                ClearRowCellsAfterAmountChange()
+                                IsCellClearing = False
+                                SetTotalAmounts(True)
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+
+            If isStockItemActive = False Then
+                If isStockItemClosing = False Then
+                    If Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
+                        Dim ex As CellEventArgs
+                        QuoteGirdRowFormat(ex)
+
+                        'ElseIf e.Cell.Column.Key = "TaxRate" Then
+                        'If e.Cell.Row.Cells("Price").Text > 0 Then
+                        '    CalculateItemAmount(e)
+
+                    End If
+                Else
+                    isStockItemClosing = False
+                End If
+            End If
+            SetTotalAmounts(True)
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    Sub TotalValuesBeahavior()
+        Try
+            If isTaxedPrice = True Then
+                lblTotExcAmo.Visible = True
+                lblTotVatAmo.Visible = True
+                lblTotIncAmo.Visible = True
+
+                lblTotalExc.Visible = True
+                lblTotalVat.Visible = True
+                lblTotalInc.Visible = True
+            Else
+                lblTotExcAmo.Visible = True
+                lblTotVatAmo.Visible = False
+                lblTotIncAmo.Visible = False
+
+                lblTotalExc.Visible = True
+                lblTotalVat.Visible = False
+                lblTotalInc.Visible = False
+            End If
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
+    Sub getTotalAmount()
+
+        Dim totExc As Decimal = 0
+        Dim totInc As Decimal = 0
+        Dim totvat As Decimal = 0
+        Dim totAmount As Decimal = 0
+
+        Try
+            For Each ugRow As UltraGridRow In UG2.Rows
+
+                If ugRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item Or ugRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Then
+
+                    If IsNothing(ugRow.Cells("Price").Value) = False Then
+
+                        'no price
+                        If ugRow.Cells("Price").Value = 0 Then
+                            If isTaxedPrice = False Then
+                            Else
+
+
+                            End If
+                        End If
+
+                        'Exclusive
+                        If IsNothing(ugRow.Cells("Amount").Value) = False Then
+
+                            'have Amount
+                            If ugRow.Cells("Amount").Value > 0 Then
+                                totExc += ugRow.Cells("Amount").Value
+                            End If
+
+
+                        Else
+                            ugRow.Cells("Amount").Value = 0
+                        End If
+
+
+                        'Have a price
+                    Else
+                        If IsNothing(ugRow.Cells("Qty").Value) = False Then
+
+                            'have a price no qty
+                            If ugRow.Cells("Price").Value > 0 And ugRow.Cells("Qty").Value = 0 Then
+                                If IsNothing(ugRow.Cells("Amount").Value) = False Then
+
+                                    'have Amount
+                                    If ugRow.Cells("Amount").Value > 0 And isTaxedPrice = False Then
+                                        totExc += ugRow.Cells("Amount").Value
+                                    End If
+                                End If
+                            Else
+
+                                'have a price and qty
+                                totAmount += ugRow.Cells("Price").Value * ugRow.Cells("Qty").Value
+                                totExc += totAmount
+
+                            End If
+                        Else
+                            ugRow.Cells("Qty").Value = 0
+                        End If
+                    End If
+                Else
+                    ugRow.Cells("Price").Value = 0
+
+                End If
+                'End If
+            Next
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    Sub GetDefaultTaxtRate()
+
+    End Sub
+
+    Sub CopyRow()
+        'UnhideColums()
+        'Me.UG2.DisplayLayout.Override.AllowMultiCellOperations = AllowMultiCellOperation.Copy
+        'Me.UG2.PerformAction(UltraGridAction.Copy)
+        Try
+
+            rowCopied.Clear()
+            If IsNothing(UG2.Selected.Rows) = False Then
+                If UG2.Selected.Rows.Count > 0 Then
+                    For Each rowSelected In Me.UG2.Selected.Rows
+                        rowCopied.Add(rowSelected)
+                    Next
+                End If
+            End If
+            'HideColums()
+            isCopied = True
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub PastRow()
+        Try
+            isPasting = True
+            Dim copiedRowCount As Integer = rowCopied.Count
+            Dim cellCount As Integer
+            Dim row As UltraGridRow
+            Dim cell As UltraGridCell
+            If UG2.Selected.Rows.Count > 0 Then
+                For Each row In rowCopied
+                    copiedRowCount -= 1
+                    cellCount = row.Cells.Count
+
+                    For Each cell In row.Cells
+                        cellCount -= 1
+                        If cell.Column.Key = "iInvDetailID" Then
+                            If Me.UG2.ActiveRow.Cells("iInvDetailID").Value > 0 Then
+                                'Updating the row
+                            Else
+                                Me.UG2.ActiveRow.Cells("iInvDetailID").Value = 0
+
+                            End If
+
+                        ElseIf cell.Column.Key = "ItmGroupID" Then
+                            RowDataOverride(Me.UG2.ActiveRow.Index)
+
+
+                        ElseIf cell.Column.Key = "InvLineID" Then
+                            If Me.UG2.ActiveRow.Cells("InvLineID").Value > 0 Then
+                                'Updating the row
+                            Else
+                                Me.UG2.ActiveRow.Cells("InvLineID").Value = 0
+
+                            End If
+
+                        ElseIf cell.Column.Key = "isPastedRow" Then
+                            'calculateWhilePasting = True
+                            Me.UG2.ActiveRow.Cells(cell.Column.Key).Value = True
+                            'calculateWhilePasting = False
+
+                        ElseIf cell.Column.Key = "Shape" Then
+                            If IsNothing(Me.UG2.ActiveRow.Cells("Shape")) = False Then
+                                If IsNothing(cell.Row.Cells("Shape").ButtonAppearance.Image) = False Then
+                                    Me.UG2.ActiveRow.Cells("Shape").Appearance.BackColor = Color.LightBlue
+                                    Me.UG2.ActiveRow.Cells("Shape").ButtonAppearance.Image = Global.SPIL_Glass.My.Resources.Resources.shapesadd
+                                    Me.UG2.ActiveRow.Cells("Shape").Value = "Add"
+                                End If
+
+                            End If
+                        Else
+                            Me.UG2.ActiveRow.Cells(cell.Column.Key).Value = row.Cells(cell.Column.Key).Value
+
+                        End If
+
+                    Next
+                    If copiedRowCount > 0 Then
+                        AddNewRow("after")
+                    End If
+
+                Next
+            End If
+            'UnhideColums()
+            'Me.UG2.DisplayLayout.Override.AllowMultiCellOperations = AllowMultiCellOperation.Paste
+            'Me.UG2.PerformAction(UltraGridAction.Paste)
+            'HideColums()
+            isPasting = False
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+
+    End Sub
+
+
+    Private Sub tsmDeli_Click(sender As Object, e As EventArgs) Handles tsmiDel.Click
+        Me.UG2.DeleteSelectedRows()
+    End Sub
+
+    Private Sub tsbPrint_Click(sender As Object, e As EventArgs) Handles tsbPrint.Click
+        LoadPrint(Nothing, quoteOrdeIndex)
+    End Sub
+
+    Private Sub frmGlazingQuote_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        quoteOrdeIndex = 0
+        Me.Dispose()
+    End Sub
+
+    Sub UnhideColums()
+        Try
+            Me.UG2.ActiveRow.Cells("Tax").Column.Hidden = False
+            Me.UG2.ActiveRow.Cells("DiscAmt").Column.Hidden = False
+            Me.UG2.ActiveRow.Cells("Original_Price").Column.Hidden = False
+            Me.UG2.ActiveRow.Cells("iInvDetailID").Column.Hidden = False
+            Me.UG2.ActiveRow.Cells("InvLineID").Column.Hidden = False
+            Me.UG2.ActiveRow.Cells("OrgPrice").Column.Hidden = False
+            Me.UG2.ActiveRow.Cells("TaxRate").Column.Hidden = False
+            Me.UG2.ActiveRow.Cells("Volume").Column.Hidden = False
+            Me.UG2.ActiveRow.Cells("ItmExcAmount").Column.Hidden = False
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+    Sub HideColums()
+        Try
+            Me.UG2.ActiveRow.Cells("Tax").Column.Hidden = True
+            Me.UG2.ActiveRow.Cells("DiscAmt").Column.Hidden = True
+            Me.UG2.ActiveRow.Cells("Original_Price").Column.Hidden = True
+            Me.UG2.ActiveRow.Cells("iInvDetailID").Column.Hidden = True
+            Me.UG2.ActiveRow.Cells("InvLineID").Column.Hidden = True
+            Me.UG2.ActiveRow.Cells("OrgPrice").Column.Hidden = True
+            Me.UG2.ActiveRow.Cells("TaxRate").Column.Hidden = True
+            Me.UG2.ActiveRow.Cells("Volume").Column.Hidden = True
+            Me.UG2.ActiveRow.Cells("ItmExcAmount").Column.Hidden = True
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub tsmiCopy_Click(sender As Object, e As EventArgs) Handles tsmiCopy.Click
+        If UG2.Selected.Rows.Count > 0 Then
+            CopyRow()
+        End If
+    End Sub
+
+    Private Sub tsmiPaste_Click(sender As Object, e As EventArgs) Handles tsmiPaste.Click
+        If UG2.Selected.Rows.Count > 0 Then
+            PastRow()
+        End If
+    End Sub
+    Public Enum QuateFiedTypesList As Integer
+        Text = 1
+        Header_Main = 2
+        Header_Sub = 3
+        Subtotal = 4
+        Stock_Item = 5
+    End Enum
+
+    Private Sub mnuSave_Click(sender As Object, e As EventArgs) Handles mnuSave.Click
+        SaveDocument()
+    End Sub
+
+    Private Sub mnuNewDocument_Click(sender As Object, e As EventArgs) Handles mnuNewDocument.Click
+        Dim gazingQuote As New frmGlazingQuote()
+        gazingQuote.Show()
+        gazingQuote.Refresh()
+    End Sub
+
+    Private Sub UG2_ClickCellButton(sender As Object, e As CellEventArgs) Handles UG2.ClickCellButton
+        Try
+            If e.Cell.Column.Key = "Shape" Then
+
+                If oProdDefaults.OptimizeApp = GlassOptimizeApp.OptiWay Then
+
+                    Dim oShape As New SPIL.Shapes.frmShapeEdit
+
+                    If Not e.Cell.Row.Cells("Shape").Value Is Nothing And Not IsDBNull(e.Cell.Row.Cells("Shape").Value) Then
+                        SPIL.Shapes.GlobalVariables.SPILShapeName = CStr(e.Cell.Row.Cells("Shape").Value)
+                        SPIL.Shapes.GlobalVariables.SPILShapeHeight = CStr(e.Cell.Row.Cells("Height").Value)
+                        SPIL.Shapes.GlobalVariables.SPILShapeWidth = CStr(e.Cell.Row.Cells("Width").Value)
+                    Else
+                        SPIL.Shapes.GlobalVariables.SPILShapeName = ""
+                        SPIL.Shapes.GlobalVariables.SPILShapeHeight = ""
+                        SPIL.Shapes.GlobalVariables.SPILShapeWidth = ""
+                    End If
+
+                    oShape.StartPosition = FormStartPosition.CenterScreen
+                    oShape.ShowDialog()
+
+                    If SPIL.Shapes.GlobalVariables.SPILShapeHeight <> "" And SPIL.Shapes.GlobalVariables.SPILShapeWidth <> "" And SPIL.Shapes.GlobalVariables.SPILShapeName <> "" Then
+                        e.Cell.Row.Cells("Height").Value = CInt(SPIL.Shapes.GlobalVariables.SPILShapeHeight)
+                        e.Cell.Row.Cells("Width").Value = CInt(SPIL.Shapes.GlobalVariables.SPILShapeWidth)
+                        e.Cell.Row.Cells("Shape").Value = CStr(SPIL.Shapes.GlobalVariables.SPILShapeName)
+
+                        'For Template Items like IGU and Custom Lam
+                        If e.Cell.Row.ChildBands.HasChildRows = True Then
+                            ''UpdateParametersOnChildRows(e.Cell.Row)
+                        End If
+                        'end of.. For Template Items like IGU and Custom Lam
+
+                        oPriceUnits.SetUnitsAndVolumeOnThisRow(e.Cell.Row)
+                        oPriceUnits.CalculateLineAmountsOnthisRow(e.Cell.Row)
+
+                        ''Call SetUnitsAndPriceOnExistingServices(e.Cell.Row)
+
+                        '' Call CalculateOrderTotalAmount()
+
+
+                    End If
+
+                Else '>> Perfect Cut 
+
+                    'Delete files
+                    If My.Computer.FileSystem.FileExists(strAppPath & "\Shape\Image\" & "PC_Credted_PNG_1.png") Then
+                        My.Computer.FileSystem.DeleteFile(strAppPath & "\Shape\Image\" & "PC_Credted_PNG_1.png")
+                    End If
+                    If My.Computer.FileSystem.FileExists(strAppPath & "\Shape\Temp\" & "PC_CredtedXML_1.xml") Then
+                        My.Computer.FileSystem.DeleteFile(strAppPath & "\Shape\Temp\" & "PC_CredtedXML_1.xml")
+                    End If
+                    If My.Computer.FileSystem.FileExists(strAppPath & "\Shape\Temp\" & "PC_CredtedSAX_1.sax") Then
+                        My.Computer.FileSystem.DeleteFile(strAppPath & "\Shape\Temp\" & "PC_CredtedSAX_1.sax")
+                    End If
+                    'Delete files
+
+                    SPIL.Shapes.SecondaryDBConn.secondaryConnectionString = "Server=" & strSVR_Name & ";Database=" & strSVR_DBName & ";User ID=" & strSVR_UserName & ";Password=" & strSVR_PW & ""
+
+
+                    Dim oShape As New SPIL.Shapes.frmShapeEditPerfectCut
+
+                    'strCon = "Server=" & strSVR_Name & ";Database=" & strSVR_DBName & ";User ID=" & strSVR_UserName & ";Password=" & strSVR_PW & ""
+                    'CRM_ConnectionString = "Data Source=" & strSVR_Name & ";Initial Catalog=" & strSVR_DBName & ";Persist " & _
+                    '    "Security Info=True;User ID=" & strSVR_UserName & ";Password=" & strSVR_PW & ""
+
+
+
+                    If Not e.Cell.Row.Cells("Shape").Value Is Nothing And Not IsDBNull(e.Cell.Row.Cells("Shape").Value) Then
+                        SPIL.Shapes.GlobalVariables.SPILShapeName = CStr(e.Cell.Row.Cells("Shape").Value)
+                        SPIL.Shapes.GlobalVariables.SPILShapeHeight = CStr(e.Cell.Row.Cells("Height").Value)
+                        SPIL.Shapes.GlobalVariables.SPILShapeWidth = CStr(e.Cell.Row.Cells("Width").Value)
+                    Else
+                        SPIL.Shapes.GlobalVariables.SPILShapeName = ""
+                        SPIL.Shapes.GlobalVariables.SPILShapeHeight = ""
+                        SPIL.Shapes.GlobalVariables.SPILShapeWidth = ""
+                    End If
+
+
+                    If pubMeSpilDocTypeID = GlassDocTypes.SalesOrder Or pubMeSpilDocTypeID = GlassDocTypes.Quotation Then
+                        If e.Cell.Row.Cells("iInvDetailID").Value = 0 Then
+
+                            ''Copy As new Sales Order Modification
+                            SPIL.Shapes.GlobalVariables.SPILShapeOrderIndex = 0
+                            SPIL.Shapes.GlobalVariables.SPILShapeiInvDetailID = CInt(e.Cell.Row.Index)
+                            SPIL.Shapes.GlobalVariables.SPILShapeUniqueLN = CInt(e.Cell.Row.Index)
+                        Else
+                            SPIL.Shapes.GlobalVariables.SPILShapeOrderIndex = pubMeOrderIndex
+                            SPIL.Shapes.GlobalVariables.SPILShapeiInvDetailID = CInt(e.Cell.Row.Index)
+                            SPIL.Shapes.GlobalVariables.SPILShapeUniqueLN = CInt(e.Cell.Row.Index)
+                        End If
+
+                    Else
+                        If pubMeSpilDocTypeID = GlassDocTypes.NCR Then
+
+                            If e.Cell.Row.Cells("iInvDetailID").Value = 0 Then
+                                If Not IsNothing(e.Cell.Row.Cells("ShapeDetails").Value) Then
+                                    SPIL.Shapes.GlobalVariables.SPILShapeOrderIndex = pubMeOrderIndex
+                                    SPIL.Shapes.GlobalVariables.SPILShapeiInvDetailID = CInt(e.Cell.Row.Index)
+                                    SPIL.Shapes.GlobalVariables.SPILShapeUniqueLN = CInt(e.Cell.Row.Index)
+                                Else
+                                    SPIL.Shapes.GlobalVariables.SPILShapeOrderIndex = pubMeOrderIndex
+                                    SPIL.Shapes.GlobalVariables.SPILShapeiInvDetailID = CInt(e.Cell.Row.Index)
+                                    SPIL.Shapes.GlobalVariables.SPILShapeUniqueLN = CInt(e.Cell.Row.Index)
+                                End If
+
+
+                            Else
+                                SPIL.Shapes.GlobalVariables.SPILShapeOrderIndex = pubMeOrderIndex
+                                SPIL.Shapes.GlobalVariables.SPILShapeiInvDetailID = CInt(e.Cell.Row.Index)
+                                SPIL.Shapes.GlobalVariables.SPILShapeUniqueLN = CInt(e.Cell.Row.Index)
+                            End If
+
+                        End If
+                    End If
+
+                    oShape.StartPosition = FormStartPosition.CenterScreen
+
+                    Dim Result As DialogResult
+                    If IsNothing(e.Cell.Row.Cells("ShapeDetails").Value) Or IsDBNull(e.Cell.Row.Cells("ShapeDetails").Value) Then
+                        Result = oShape.ShowDialog()
+                        'Dim Status As Integer = oShape.SelectShape()
+                        'If Status > 0 Then
+                        '    If e.Cell.Row.Cells("ShapeDetails").Value.GetType() Is GetType(PCShapeDetails) Then
+                        '        oShape.ShapeDetails = e.Cell.Row.Cells("ShapeDetails").Value
+                        '    End If
+                        '    oShape.ShowDialog()
+                        'Else
+                        '    oShape.ShowDialog()
+                        'End If
+                    ElseIf e.Cell.Row.Cells("Shape").Value = String.Empty Then
+                        Result = oShape.ShowDialog()
+                        'Dim Status As Integer = oShape.SelectShape()
+                        'If Status > 0 Then
+                        '    If e.Cell.Row.Cells("ShapeDetails").Value.GetType() Is GetType(PCShapeDetails) Then
+                        '        oShape.ShapeDetails = e.Cell.Row.Cells("ShapeDetails").Value
+                        '    End If
+                        '    oShape.ShowDialog()
+                        'Else
+                        '    oShape.ShowDialog()
+                        'End If
+                    Else
+                        If e.Cell.Row.Cells("ShapeDetails").Value.GetType() Is GetType(PCShapeDetails) Then
+                            oShape.ShapeDetails = e.Cell.Row.Cells("ShapeDetails").Value
+                        End If
+                        Result = oShape.ShowDialog()
+                    End If
+
+                    If Result = Windows.Forms.DialogResult.OK And Not IsNothing(oShape.ShapeDetails) Then
+                        e.Cell.Row.Cells("ShapeDetails").Value = oShape.ShapeDetails
+                    ElseIf Result = Windows.Forms.DialogResult.No Then
+                        e.Cell.Row.Cells("ShapeDetails").Value = New Object
+                        oShape.ShapeDetails = Nothing
+                        SPIL.Shapes.GlobalVariables.SPILShapeName = ""
+                        SPIL.Shapes.GlobalVariables.SPILShapeHeight = ""
+                        SPIL.Shapes.GlobalVariables.SPILShapeWidth = ""
+                    End If
+
+                    e.Cell.Row.Cells("isShapeAttached").Value = False
+                    e.Cell.Row.Cells("Shape").Value = String.Empty
+                    e.Cell.Row.Cells("Shape").Appearance.BackColor = Nothing
+                    e.Cell.Row.Cells("Shape").ButtonAppearance.Image = Nothing
+                    If SPIL.Shapes.GlobalVariables.SPILShapeHeight <> "" And SPIL.Shapes.GlobalVariables.SPILShapeWidth <> "" And SPIL.Shapes.GlobalVariables.SPILShapeName <> "" Then
+                        If CInt(SPIL.Shapes.GlobalVariables.SPILShapeHeight) > 0 Then e.Cell.Row.Cells("Height").Value = CInt(SPIL.Shapes.GlobalVariables.SPILShapeHeight)
+                        If CInt(SPIL.Shapes.GlobalVariables.SPILShapeWidth) > 0 Then e.Cell.Row.Cells("Width").Value = CInt(SPIL.Shapes.GlobalVariables.SPILShapeWidth)
+                        e.Cell.Row.Cells("Shape").Value = CStr(SPIL.Shapes.GlobalVariables.SPILShapeName)
+                        e.Cell.Row.Cells("Shape").Value = "Added"
+                        e.Cell.Row.Cells("Shape").Appearance.BackColor = Color.LightBlue
+                        e.Cell.Row.Cells("Shape").ButtonAppearance.Image = Global.SPIL_Glass.My.Resources.Resources.shapesadd
+                        e.Cell.Row.Cells("isShapeAttached").Value = True
+                        'For Template Items like IGU and Custom Lam
+                        If e.Cell.Row.HasChild Then
+                            If e.Cell.Row.ChildBands.HasChildRows = True Then
+                                'UpdateParametersOnChildRows(e.Cell.Row)
+                            End If
+                        End If
+                        'end of.. For Template Items like IGU and Custom Lam
+
+                        oPriceUnits.SetUnitsAndVolumeOnThisRow(e.Cell.Row)
+                        oPriceUnits.CalculateLineAmountsOnthisRow(e.Cell.Row)
+
+                        'Call SetUnitsAndPriceOnExistingServices(e.Cell.Row)
+
+                        'Call CalculateOrderTotalAmount()
+                        '' DisableProcessedLineFeilds(e.Cell.Row)
+                    End If
+
+
+                End If
+
+            End If
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+
+    Public Function ByteToImage(ByVal blob As Byte()) As Bitmap
+        Dim mStream As MemoryStream = New MemoryStream()
+        Dim bm As Bitmap = Nothing
+        If blob.Length > 64 Then
+            Dim pData As Byte() = blob
+            mStream.Write(pData, 0, Convert.ToInt32(pData.Length))
+            bm = New Bitmap(mStream, False)
+            mStream.Dispose()
+        End If
+
+        Return bm
+    End Function
+
+    Private Sub tsmiSavetext_Click(sender As Object, e As EventArgs) Handles tsmiSavetext.Click
+        Try
+            Dim newSqlQuery As String
+            newSqlQuery = "Insert INTO GlzQuote_Texts_Master (TextTypeID,Text) values(" & Me.UG2.ActiveRow.Cells("QuoteFiedType").Value & ", '" & Me.UG2.ActiveCell.Text & "')"
+            Dim obSQL = New clsSqlConn
+            obSQL.GET_INSERT_UPDATE(newSqlQuery)
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub cmsQuoteGide_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cmsQuoteGide.Opening
+        Try
+            If utcQuoteGrids.ActiveTab.Index <> 0 Then
+                If UG2.Selected.Rows.Count > 0 And IsNothing(UG2.ActiveCell) = True Then
+                    cmsQuoteGide.Items("tsmAdd").Visible = True
+                    cmsQuoteGide.Items("tsmiCopy").Visible = True
+                    cmsQuoteGide.Items("tsmiPaste").Visible = True
+                    cmsQuoteGide.Items("tsmiDel").Visible = True
+                    cmsQuoteGide.Items("tsmiSavetext").Visible = False
+
+                ElseIf UG2.Selected.Rows.Count = 0 And IsNothing(UG2.ActiveCell) = False Then
+                    cmsQuoteGide.Items("tsmAdd").Visible = False
+                    cmsQuoteGide.Items("tsmiCopy").Visible = False
+                    cmsQuoteGide.Items("tsmiPaste").Visible = False
+                    cmsQuoteGide.Items("tsmiDel").Visible = False
+
+                    If UG2.ActiveCell.IsInEditMode = True And UG2.ActiveCell.Column.Key = "LineComments" Then
+                        cmsQuoteGide.Items("tsmiSavetext").Visible = True
+                    Else
+                        cmsQuoteGide.Visible = False
+
+                    End If
+                End If
+            ElseIf utcQuoteGrids.ActiveTab.Index <> 1 Then
+                If UG2.Selected.Rows.Count > 0 And IsNothing(UG2.ActiveCell) = True Then
+                    cmsQuoteGide.Items("tsmiDel").Visible = True
+                    cmsQuoteGide.Items("tsmiSavetext").Visible = True
+                End If
+            End If
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub tsbExit_Click(sender As Object, e As EventArgs) Handles tsbExit.Click
+        Me.Dispose()
+        Me.Close()
+    End Sub
+
+    Private Sub mnuClose_Click(sender As Object, e As EventArgs) Handles mnuClose.Click
+        Me.Dispose()
+        Me.Close()
+    End Sub
+
+    Private Sub utxtNoteText_TextChanged(sender As Object, e As EventArgs) Handles utxtNoteText.TextChanged
+        If utxtNoteText.Text <> "" And utxtNoteText.Text <> Nothing Then
+            btnFooter.Text = "Footer Area - Enabled"
+            btnFooter.FlatAppearance.BorderColor = Color.Green
+            btnFooter.BackColor = Color.Green
+        Else
+            btnFooter.Text = " Footer Area - Disabled"
+            btnFooter.FlatAppearance.BorderColor = Color.FromArgb(71, 164, 248)
+            btnFooter.BackColor = Color.FromArgb(71, 164, 248)
+        End If
+    End Sub
+
+
+    Private Function OrderValidation() As Integer
+        Try
+
+            Dim sErrorMsg As String = ""
+
+            If cmbAccount.Value = 0 Then
+                sErrorMsg = sErrorMsg + vbCrLf + "Select Customer"
+            End If
+
+            If cmbFacility.Value = 0 Then
+                sErrorMsg = sErrorMsg + vbCrLf + "Please select the Branch"
+                cmbFacility.Enabled = True
+            End If
+
+            'If sAllowBlankCustomerOrderNo = False Then
+            '    If txtCustOrdNo.Text.Trim = "" Then
+            '        sErrorMsg = sErrorMsg + vbCrLf + "Customer order number can not be left blank"
+
+            '    End If
+            'End If
+
+            Dim row As UltraGridRow
+            Dim emptyLine As Boolean = False
+            Dim count As Integer = 0
+            For Each row In Me.UG2.Rows
+                If row.Cells("QuoteFiedType").Value = "" Then
+                    row.Appearance.BackColor = Color.LightCoral
+                    emptyLine = True
+                    count = count + 1
+                End If
+            Next
+            Dim messageDiff As String = ""
+            If emptyLine = True Then
+                If count > 1 Then
+                    messageDiff = "There are rows with an empty "
+                Else
+                    messageDiff = "There is a row with an empty "
+
+                End If
+                sErrorMsg = sErrorMsg & vbCrLf & messageDiff & Me.UG2.DisplayLayout.Bands(0).Columns("QuoteFiedType").Header.Caption
+
+            End If
+
+            If sErrorMsg = "" Then
+                Return 1
+
+            Else
+                ShowMessage(sErrorMsg, "Form Validation", MsgBoxStyle.Exclamation)
+                Return 0
+
+            End If
+
+
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, "Form Validation", MsgBoxStyle.Exclamation)
+            Return 0
+        End Try
+    End Function
+
+
+    Private Sub UG2_InitializeRow(sender As Object, e As InitializeRowEventArgs) Handles UG2.InitializeRow
+        Dim testcell As UltraGridCell = e.Row.Cells("Shape")
+        testcell.ToolTipText = "Click to insert a shape"
+    End Sub
+
+    Private Sub UG2_DoubleClickCell(sender As Object, e As DoubleClickCellEventArgs) Handles UG2.DoubleClickCell
+        If e.Cell.Column.Key = ("ItemImage") Then
+            'e.Cell.Value = ""
+            'e.Cell.CancelUpdate()
+            '+e.Cell.Style = ColumnStyle.Image
+            OpenFileDialogBox()
+            e.Cell.Row.PerformAutoSize()
+            Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
+            e.Cell.Row.Cells("ItemImageByteArray").Value = New GlassInventoryModule.frmInventoryItem().ImageToByteArray(CType(pbUG2ItemPic.Image, Bitmap))
+
+        End If
+    End Sub
+
+    Private Sub OpenFileDialogBox()
+        Try
+            Dim dlg As OpenFileDialog = New OpenFileDialog()
+            dlg.Filter = ""
+            Dim codecs As ImageCodecInfo() = ImageCodecInfo.GetImageEncoders()
+            Dim sep As String = String.Empty
+            For Each c In codecs
+            Next
+
+            dlg.Filter = String.Format("{0}{1}{2} ({3})|{3}", dlg.Filter, sep, "Image files", "*.JPEG;*.JPG;*.JFIF;*.JPEG2000;*.Exif;*.TIFF;*.GIF;*.*.BMP;*.PNG;*.PPM; *.PGM; *.PBM; *.PNM;*.WebP;*.HEIF;*.BAT;*.BPG;")
+            dlg.DefaultExt = ".jpg"
+            dlg.ShowDialog()
+            Dim fileName As String = dlg.FileName
+            If fileName = "" OrElse fileName Is Nothing Then
+            Else
+                If ValidFile(dlg.FileName, 102400) Then
+                    Me.UG2.ActiveCell.Value = Image.FromFile(fileName)
+                    pbUG2ItemPic.Image = Image.FromFile(fileName)
+                    ItemImage = Nothing
+
+                Else
+                    Me.UG2.ActiveCell.Value = Image.FromStream(CompreddedImageToByteArray(Image.FromFile(fileName), 50))
+                    ItemImage = Nothing
+                    pbUG2ItemPic.Image = Image.FromStream(CompreddedImageToByteArray(Image.FromFile(fileName), 50))
+
+                End If
+
+                Me.UG2.ActiveRow.Cells("isImageAttached").Value = True
+
+            End If
+
+        Catch ex As Exception
+
+
+        End Try
+    End Sub
+
+    Public Function ImageToByteArray(ByVal image As System.Drawing.Image) As Byte()
+
+        Dim byteArea As Byte()
+        Using msX As New IO.MemoryStream
+            pbUG2ItemPic.Image.Save(msX, Imaging.ImageFormat.Bmp)
+            byteArea = msX.ToArray()
+        End Using
+
+
+
+        'Dim format As ImageFormat = image.RawFormat
+        'Dim codec As ImageCodecInfo = ImageCodecInfo.GetImageDecoders().(Function(c) c.FormatID = format.Guid)
+        'Dim mimeType As String = codec.MimeType
+        'Using ms = New MemoryStream()
+        '    image.Save(ms, image.RawFormat)
+        '   Return ms.ToArray()
+        UG2.ActiveRow.Cells("ItemImageByteArray").Value = byteArea
+        Return byteArea
+        'End Using
+    End Function
+
+    Private Function ValidFile(ByVal filename As String, ByVal limitInBytes As Long) As Boolean
+        Dim fileSizeInBytes = New FileInfo(filename).Length
+        If fileSizeInBytes > limitInBytes Then
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+
+    Public Function CompreddedImageToByteArray(ByVal img As Image, ByVal quality As Integer) As MemoryStream
+        If quality < 0 OrElse quality > 100 Then Throw New ArgumentOutOfRangeException("quality must be between 0 and 100.")
+        Dim qualityParam As EncoderParameter = New EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality)
+        Dim jpegCodec As ImageCodecInfo = GetEncoderInfo("image/jpeg")
+        Dim encoderParams As EncoderParameters = New EncoderParameters(1)
+        encoderParams.Param(0) = qualityParam
+        Dim ms = New MemoryStream()
+        img.Save(ms, jpegCodec, encoderParams)
+        Return ms
+
+    End Function
+
+    Private Shared Function GetEncoderInfo(ByVal mimeType As String) As ImageCodecInfo
+        Dim codecs As ImageCodecInfo() = ImageCodecInfo.GetImageEncoders()
+        For i As Integer = 0 To codecs.Length - 1
+            If codecs(i).MimeType = mimeType Then Return codecs(i)
+        Next
+
+        Return Nothing
+    End Function
+
+    Private Sub cmCustAddNew_Click(sender As Object, e As EventArgs) Handles cmCustAddNew.Click
+        Dim frmCustomerObj As New frmCustomer()
+        frmCustomerObj.pubIsSaveNew = True
+        frmCustomerObj.CID = String.Empty
+        frmCustomerObj.txtCustID.Text = 0
+
+        If cmbCusType.Value = 0 Then
+            frmCustomerObj.cmbCustType.Value = 1
+
+        Else
+            frmCustomerObj.cmbCustType.Value = 2
+
+        End If
+        frmCustomerObj.ShowDialog()
+        Call GET_CUSTOMERS(cmbCusType.Text)
+        cmbAccount.Value = frmCustomerObj.pubCustID
+        frmCustomerObj.Dispose()
+    End Sub
+
+
+    Private Sub cmCustEdit_Click(sender As Object, e As EventArgs) Handles cmCustEdit.Click
+        If cmbAccount.Value <> 0 Then
+            Dim custID As Integer = cmbAccount.Value
+            frmCustomer.pubIsSaveNew = False
+            frmCustomer.CID = cmbAccount.ActiveRow.Cells("Account").Value
+            frmCustomer.pubCustID = cmbAccount.Value
+            frmCustomer.StartPosition = FormStartPosition.CenterParent
+            frmCustomer.ShowDialog()
+            cmbAccount.Enabled = True
+            Call GET_CUSTOMERS(cmbCusType.Text)
+            cmbAccount.Value = custID
+
+        End If
+    End Sub
+
+    Private Sub cmCustView_Click(sender As Object, e As EventArgs) Handles cmCustView.Click
+        If cmbAccount.Value <> 0 Then
+            Dim custID As Integer = cmbAccount.Value
+
+            frmCustomer.pubIsSaveNew = False
+            frmCustomer.CID = cmbAccount.ActiveRow.Cells("Account").Value
+            frmCustomer.cmdSave.Enabled = False
+            frmCustomer.pubCustID = cmbAccount.Value
+            frmCustomer.StartPosition = FormStartPosition.CenterParent
+            frmCustomer.ShowDialog()
+
+            cmbAccount.Enabled = True
+            Call GET_CUSTOMERS(cmbCusType.Value)
+            cmbAccount.Value = custID
+
+        End If
+    End Sub
+
+    Private Sub cmSameAsPostalAdd_Click(sender As Object, e As EventArgs) Handles cmSameAsPostalAdd.Click
+        txtPhy1.Text = txtPost1.Text
+        txtPhy2.Text = txtPost2.Text
+        txtPhy3.Text = txtPost3.Text
+        txtPhy4.Text = txtPost4.Text
+        txtPhy5.Text = txtPost5.Text
+        txtPhyPostCode.Text = txtPostCode.Text
+    End Sub
+
+
+    Private Sub btnJobDescription_Click(sender As Object, e As EventArgs) Handles btnJobDescription.Click
+        Try
+            Dim newGlazingJobDescription As New frmGlazingNote(Me)
+            newGlazingJobDescription.isJobDescriptionActive = True
+            newGlazingJobDescription.utxtNoteText.Value = jobDescription
+            newGlazingJobDescription.ShowDialog()
+
+            If isJobDescriptionActive = True Then
+                btnJobDescription.Text = "Job description*"
+
+            Else
+                btnJobDescription.Text = "Job description"
+
+            End If
+
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+        Finally
+            SetJobDescriptionButtonState()
+
+        End Try
+    End Sub
+
+
+
+    Private Sub btnExpandMap_Click()
+        Try
+            Dim GlazingAddessLocatorGmap As frmGlazingAddessLocatorGmap = New frmGlazingAddessLocatorGmap(Me.latitude, Me.longitude)
+            GlazingAddessLocatorGmap.ShowDialog()
+            Dim placeMark As List(Of Result) = GlazingAddessLocatorGmap.ReturnNewAddress()
+            If placeMark IsNot Nothing Then
+
+
+                'txtPhy2.Text = placeMark.Item(0).address_components.Item(1).long_name
+                'txtPhy3.Text = placeMark.Item(0).address_components.Item(2).long_name
+                'txtPhy4.Text = placeMark.Item(0).address_components.Item(3).long_name
+                'txtPhy5.Text = placeMark.Item(0).address_components.Item(5).long_name
+                'txtPhyPostCode.Text = placeMark.Item(0).address_components.Item(7).long_name
+
+
+                For Each addressItem As AddressComponent In placeMark.Item(0).address_components
+
+                    For Each itemType As String In addressItem.types
+
+                        Select Case itemType
+
+                            Case "premise"
+                                txtPhy1.Text = addressItem.long_name
+
+                            Case "street_number"
+                                txtPhy1.Text = addressItem.long_name
+
+                            Case "route"
+                                txtPhy2.Text = addressItem.long_name
+
+
+                            Case "sublocality_level_1"
+                                txtPhy2.Text = txtPhy2.Text & ", " & addressItem.long_name
+
+                            Case "administrative_area_level_2"
+                                txtPhy4.Text = addressItem.long_name
+
+
+                            Case "administrative_area_level_1"
+                                txtPhy5.Text = addressItem.long_name
+
+                            Case "country"
+
+                            Case "postal_code"
+                                txtPhyPostCode.Text = addressItem.long_name
+
+                        End Select
+
+                    Next
+                Next
+
+                Dim overlay As GMapOverlay = New GMapOverlay("Address Overlay")
+                Dim point As PointLatLng? = FindLatLngByAddress(placeMark.Item(1).formatted_address)
+
+                If point IsNot Nothing Then
+                    Dim marker As GMapMarker = New GMarkerGoogle(New PointLatLng(point.Value.Lat, point.Value.Lng), GMarkerGoogleType.blue)
+                    marker.ToolTipMode = MarkerTooltipMode.OnMouseOver
+                    addressMap.Position = New PointLatLng(point.Value.Lat, point.Value.Lng)
+                    overlay.Markers.Add(marker)
+                    Me.latitude = point.Value.Lat
+                    Me.longitude = point.Value.Lng
+                End If
+                addressMap.Overlays.Clear()
+                addressMap.Overlays.Add(overlay)
+            End If
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
+    Private Sub btnAddressLocator_Click(sender As Object, e As EventArgs) Handles btnAddressLocator.Click
+        btnExpandMap_Click()
+    End Sub
+
+    Public Function FindLatLngByAddress(ByVal address As String) As PointLatLng?
+        Dim address64 As String = EncodeTo64(address)
+        Dim status As GeoCoderStatusCode
+        Dim point As PointLatLng? = GMapProviders.GoogleMap.GetPoint(address, status)
+        If status = GeoCoderStatusCode.G_GEO_SUCCESS AndAlso point IsNot Nothing Then
+            Return point
+
+        End If
+
+        Return Nothing
+    End Function
+
+    Public Shared Function EncodeTo64(ByVal toEncode As String) As String
+        Dim toEncodeAsBytes As Byte() = System.Text.ASCIIEncoding.ASCII.GetBytes(toEncode)
+        Dim returnValue As String = System.Convert.ToBase64String(toEncodeAsBytes)
+        Return returnValue
+    End Function
+
+    Private Sub btnAddressLocator_MouseEnter(sender As Object, e As EventArgs) Handles btnAddressLocator.MouseEnter
+        addressMap.Visible = False
+    End Sub
+
+    Private Sub btnAddressLocator_MouseLeave(sender As Object, e As EventArgs) Handles btnAddressLocator.MouseLeave
+        addressMap.Visible = False
+    End Sub
+
+    Private Sub tsmRemovePicture_Click(sender As Object, e As EventArgs) Handles tsmRemovePicture.Click
+        UG2.ActiveRow.Cells("ItemImage").Value = DBNull.Value
+        UG2.ActiveRow.Cells("ItemImageByteArray").Value = ""
+        UG2.ActiveRow.Cells("isImageAttached").Value = False
+
+    End Sub
+
+    Private Sub UG2_AfterEnterEditMode(sender As Object, e As EventArgs) Handles UG2.AfterEnterEditMode
+        Me.UG2.ActiveRow.Appearance.BackColor = Nothing
+    End Sub
+
+    Sub SetJobDescriptionButtonState()
+        Try
+            If IsNothing(jobDescription) = True Then
+                If jobDescription = "" Then
+                    btnJobDescription.Text = "Job description (Inactive)"
+
+                Else
+                    btnJobDescription.Text = "Job description (Active)"
+
+                End If
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Sub SetSubTotalByGroup()
+        Dim ug2Row As UltraGridRow
+        Dim groupID As Integer = 0.0
+        Dim subtotal As Double = 0.0
+        Dim sumOfsubtotal As Double = 0.0
+
+        Dim TotalExcAmount As Double = 0.0
+        Dim TotalTaxedtAmount As Double = 0.0
+        Dim TotalIncAmount As Double = 0.0
+
+        Try
+            For Each ug2Row In UG2.Rows
+                If IsNothing(ug2Row.Cells("ItmGroupID").Value) = False Then
+                    groupID = ug2Row.Cells("ItmGroupID").Value
+
+                End If
+
+                If ug2Row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Subtotal Then
+                    ug2Row.Cells("Amount").Value = subtotal
+
+                ElseIf ug2Row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or ug2Row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item Then
+                    If groupID = ug2Row.Cells("ItmGroupID").Value Then
+                        subtotal = subtotal + ug2Row.Cells("Amount").Value
+                        sumOfsubtotal = sumOfsubtotal + subtotal
+
+                    Else
+                        groupID = ug2Row.Cells("ItmGroupID").Value
+                        subtotal = 0
+
+                    End If
+                    TotalExcAmount = TotalExc + ug2Row.Cells("ItmExcAmount").Text
+                    TotalTaxedtAmount = TotalTax + ug2Row.Cells("Tax").Text
+                    TotalIncAmount = TotalInc + ug2Row.Cells("Net").Text
+
+                    If sumOfsubtotal <> TotalIncAmount Then
+                        'ShowMessage("Error occered while calculating Total Insive Amount", Me.Text, MsgBoxStyle.Critical)
+                        'lblTotIncAmo.Text = "0"
+                        'Exit Sub
+                    End If
+                End If
+            Next
+
+            'lblTotExcAmo.Text = TotalExc
+            'lblTotVatAmo.Text = TotalTax
+            'lblTotIncAmo.Text = TotalInc
+
+        Catch ex As Exception
+            ShowMessage(ex.message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub SetActiveCell(e As CellEventArgs)
+        Try
+            If e.Cell.Column.Key = "QuoteFiedType" Then
+                If e.Cell.Value = QuateFiedTypesList.Text Or e.Cell.Value = QuateFiedTypesList.Stock_Item Or e.Cell.Value = QuateFiedTypesList.Header_Main Or e.Cell.Value = QuateFiedTypesList.Header_Sub Then
+                    Me.UG2.ActiveRow.Cells("LineComments").Activated = True
+
+                ElseIf e.Cell.Value = QuateFiedTypesList.Subtotal Then
+                    'Me.UG2.ActiveRow.Cells("Amount").Activated = True
+
+                End If
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+
+End Class
