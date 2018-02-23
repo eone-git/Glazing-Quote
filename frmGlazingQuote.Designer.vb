@@ -1565,7 +1565,7 @@ Partial Class frmGlazingQuote
         Me.ulblQuoteState = New Infragistics.Win.Misc.UltraLabel()
         Me.ulblQuoteJobName = New Infragistics.Win.Misc.UltraLabel()
         Me.UltraLabel102 = New Infragistics.Win.Misc.UltraLabel()
-        Me.uxtQuoteState = New Infragistics.Win.UltraWinGrid.UltraCombo()
+        Me.utxtQuoteLineType = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.ucmbMainStkCmb = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.Button16 = New System.Windows.Forms.Button()
         Me.btnAddRowButton16 = New System.Windows.Forms.Button()
@@ -1780,7 +1780,7 @@ Partial Class frmGlazingQuote
         CType(Me.cmbSalesRep,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.utxtQuoteState,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.UltraDataSource3,System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.uxtQuoteState,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.utxtQuoteLineType,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.ucmbMainStkCmb,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.utcQuoteGrids,System.ComponentModel.ISupportInitialize).BeginInit
         Me.utcQuoteGrids.SuspendLayout
@@ -9214,7 +9214,7 @@ Partial Class frmGlazingQuote
         Me.GroupBox1.Controls.Add(Me.addressMap)
         Me.GroupBox1.Controls.Add(Me.btnAddressLocator)
         Me.GroupBox1.Controls.Add(Me.GroupBox3)
-        Me.GroupBox1.Controls.Add(Me.uxtQuoteState)
+        Me.GroupBox1.Controls.Add(Me.utxtQuoteLineType)
         Me.GroupBox1.Controls.Add(Me.ucmbMainStkCmb)
         Me.GroupBox1.Controls.Add(Me.ucmbTaxRate)
         Me.GroupBox1.Controls.Add(Me.Button16)
@@ -9488,30 +9488,30 @@ Partial Class frmGlazingQuote
         Me.UltraLabel102.TabIndex = 17
         Me.UltraLabel102.Text = "Representative"
         '
-        'uxtQuoteState
+        'utxtQuoteLineType
         '
         Appearance244.BorderColor = System.Drawing.Color.DodgerBlue
         Appearance244.BorderColor2 = System.Drawing.Color.DodgerBlue
         Appearance244.BorderColor3DBase = System.Drawing.Color.DodgerBlue
-        Me.uxtQuoteState.Appearance = Appearance244
-        Me.uxtQuoteState.AutoSize = false
+        Me.utxtQuoteLineType.Appearance = Appearance244
+        Me.utxtQuoteLineType.AutoSize = False
         Appearance245.BorderColor = System.Drawing.Color.Silver
-        Me.uxtQuoteState.DisplayLayout.Appearance = Appearance245
-        Me.uxtQuoteState.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
+        Me.utxtQuoteLineType.DisplayLayout.Appearance = Appearance245
+        Me.utxtQuoteLineType.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
         UltraGridColumn5.Header.Caption = "Copy"
         UltraGridColumn5.Header.VisiblePosition = 1
         UltraGridColumn6.Header.Caption = "Edit mode"
         UltraGridColumn6.Header.VisiblePosition = 0
         UltraGridBand24.Columns.AddRange(New Object() {UltraGridColumn5, UltraGridColumn6})
-        Me.uxtQuoteState.DisplayLayout.BandsSerializer.Add(UltraGridBand24)
-        Me.uxtQuoteState.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
-        Me.uxtQuoteState.Font = New System.Drawing.Font("Tahoma", 9!)
-        Me.uxtQuoteState.Location = New System.Drawing.Point(793, 230)
-        Me.uxtQuoteState.Name = "uxtQuoteState"
-        Me.uxtQuoteState.Size = New System.Drawing.Size(173, 21)
-        Me.uxtQuoteState.TabIndex = 19
-        Me.uxtQuoteState.TabStop = false
-        Me.uxtQuoteState.Visible = false
+        Me.utxtQuoteLineType.DisplayLayout.BandsSerializer.Add(UltraGridBand24)
+        Me.utxtQuoteLineType.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
+        Me.utxtQuoteLineType.Font = New System.Drawing.Font("Tahoma", 9.0!)
+        Me.utxtQuoteLineType.Location = New System.Drawing.Point(793, 230)
+        Me.utxtQuoteLineType.Name = "utxtQuoteLineType"
+        Me.utxtQuoteLineType.Size = New System.Drawing.Size(173, 21)
+        Me.utxtQuoteLineType.TabIndex = 19
+        Me.utxtQuoteLineType.TabStop = false
+        Me.utxtQuoteLineType.Visible = false
         '
         'ucmbMainStkCmb
         '
@@ -11337,7 +11337,7 @@ Partial Class frmGlazingQuote
         CType(Me.cmbSalesRep,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.utxtQuoteState,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.UltraDataSource3,System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.uxtQuoteState,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.utxtQuoteLineType,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.ucmbMainStkCmb,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.utcQuoteGrids,System.ComponentModel.ISupportInitialize).EndInit
         Me.utcQuoteGrids.ResumeLayout(false)
@@ -11802,7 +11802,7 @@ End Sub
     Friend WithEvents utxtQuoteState As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents ulblQuoteState As Infragistics.Win.Misc.UltraLabel
     Friend WithEvents UltraDataSource3 As Infragistics.Win.UltraWinDataSource.UltraDataSource
-    Friend WithEvents uxtQuoteState As Infragistics.Win.UltraWinGrid.UltraCombo
+    Friend WithEvents utxtQuoteLineType As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents cmbSalesRep As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents UltraLabel102 As Infragistics.Win.Misc.UltraLabel
 End Class
