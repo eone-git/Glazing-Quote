@@ -148,160 +148,161 @@ Partial Class frmGlazingQuote
         Dim Appearance153 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance216 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance("addRow")
         Dim UltraGridBand5 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn471 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("QuoteFiedType")
-        Dim Appearance202 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance214 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim UltraGridColumn474 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("iInvDetailID")
-        Dim UltraGridColumn475 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("InvLineID")
-        Dim UltraGridColumn476 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItmGroupID")
-        Dim UltraGridColumn477 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineComments")
-        Dim UltraGridColumn478 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemType")
-        Dim UltraGridColumn479 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("StockLink")
-        Dim UltraGridColumn483 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Description1")
-        Dim UltraGridColumn484 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price_Type")
-        Dim UltraGridColumn485 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Qty")
-        Dim UltraGridColumn486 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Height")
-        Dim UltraGridColumn487 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Width")
-        Dim UltraGridColumn488 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Volume")
-        Dim UltraGridColumn489 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceCat")
-        Dim UltraGridColumn490 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("DiscPre")
-        Dim UltraGridColumn491 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceList")
-        Dim UltraGridColumn492 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price")
-        Dim UltraGridColumn494 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("DiscAmt")
-        Dim UltraGridColumn495 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsPriceItem")
-        Dim UltraGridColumn497 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Net")
-        Dim UltraGridColumn498 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("TaxRate")
-        Dim UltraGridColumn500 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("TaxRateValue")
-        Dim UltraGridColumn501 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Tax")
-        Dim UltraGridColumn502 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItmExcAmount")
-        Dim UltraGridColumn503 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Amount")
-        Dim UltraGridColumn504 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineNotes")
-        Dim UltraGridColumn505 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("MarkAs")
-        Dim UltraGridColumn506 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemImage")
-        Dim Appearance226 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim UltraGridColumn507 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("OrgPrice")
-        Dim UltraGridColumn508 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsAExistingItem")
-        Dim UltraGridColumn509 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isPastedRow")
-        Dim UltraGridColumn510 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ShapeDetails")
-        Dim UltraGridColumn511 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Description2")
-        Dim UltraGridColumn512 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceType")
-        Dim UltraGridColumn513 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("NA")
-        Dim UltraGridColumn514 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SimpleCode")
-        Dim UltraGridColumn515 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Original_Price")
-        Dim UltraGridColumn516 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineTot")
-        Dim UltraGridColumn517 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Thickness")
-        Dim UltraGridColumn518 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Toughened")
-        Dim UltraGridColumn519 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsExternalItem")
-        Dim UltraGridColumn520 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceItemTotNet")
-        Dim UltraGridColumn521 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceItemTax")
-        Dim UltraGridColumn522 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceGross")
-        Dim UltraGridColumn523 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Service")
-        Dim UltraGridColumn524 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Std_Cost")
-        Dim UltraGridColumn525 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Notes")
-        Dim UltraGridColumn526 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Percen")
-        Dim UltraGridColumn527 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("MainItem")
-        Dim UltraGridColumn528 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemTypeCategory")
-        Dim UltraGridColumn529 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Measure")
-        Dim UltraGridColumn530 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LN")
-        Dim UltraGridColumn531 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Unit")
-        Dim UltraGridColumn532 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Method")
-        Dim UltraGridColumn533 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Deleted")
-        Dim UltraGridColumn534 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ProcessedID")
-        Dim UltraGridColumn535 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SurChrg")
-        Dim UltraGridColumn536 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Motif")
-        Dim UltraGridColumn537 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("StockLink2")
-        Dim UltraGridColumn538 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ProductionState")
-        Dim UltraGridColumn539 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("UniqueLN")
-        Dim UltraGridColumn540 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("FacilityID")
-        Dim UltraGridColumn541 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LinkediInvDetailID")
-        Dim UltraGridColumn542 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("CreditState")
-        Dim UltraGridColumn543 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("H1")
-        Dim UltraGridColumn544 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SubStockLink")
-        Dim UltraGridColumn545 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ReservedQty")
-        Dim UltraGridColumn546 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("QtyOnSO")
-        Dim UltraGridColumn547 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Shape")
-        Dim UltraGridColumn548 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineType")
-        Dim UltraGridColumn549 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("RackNo")
-        Dim UltraGridColumn550 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Profit")
-        Dim UltraGridColumn551 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Cost")
-        Dim UltraGridColumn552 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemImageByteArray")
-        Dim UltraGridColumn553 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Band 1")
-        Dim UltraGridColumn554 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isImageAttached", 0)
-        Dim UltraGridColumn555 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isShapeAttached", 1)
-        Dim UltraGridColumn556 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("QuoteStateID", 2)
-        Dim Appearance229 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim UltraGridColumn7 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("QuoteFiedType")
+        Dim Appearance10 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance75 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim UltraGridColumn8 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("iInvDetailID")
+        Dim UltraGridColumn9 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("InvLineID")
+        Dim UltraGridColumn10 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItmGroupID")
+        Dim UltraGridColumn30 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineComments")
+        Dim UltraGridColumn34 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemType")
+        Dim UltraGridColumn35 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("StockLink")
+        Dim UltraGridColumn41 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Description1")
+        Dim UltraGridColumn42 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price_Type")
+        Dim UltraGridColumn143 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Qty")
+        Dim UltraGridColumn144 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Height")
+        Dim UltraGridColumn148 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Width")
+        Dim UltraGridColumn149 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Volume")
+        Dim UltraGridColumn150 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceCat")
+        Dim UltraGridColumn151 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("DiscPre")
+        Dim UltraGridColumn152 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceList")
+        Dim UltraGridColumn153 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price")
+        Dim UltraGridColumn156 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("DiscAmt")
+        Dim UltraGridColumn157 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsPriceItem")
+        Dim UltraGridColumn158 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Net")
+        Dim UltraGridColumn162 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("TaxRate")
+        Dim UltraGridColumn163 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("TaxRateValue")
+        Dim UltraGridColumn164 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Tax")
+        Dim UltraGridColumn165 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItmExcAmount")
+        Dim UltraGridColumn166 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Amount")
+        Dim UltraGridColumn167 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineNotes")
+        Dim UltraGridColumn171 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("MarkAs")
+        Dim UltraGridColumn172 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemImage")
+        Dim Appearance154 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim UltraGridColumn173 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("OrgPrice")
+        Dim UltraGridColumn177 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsAExistingItem")
+        Dim UltraGridColumn178 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isPastedRow")
+        Dim UltraGridColumn179 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ShapeDetails")
+        Dim UltraGridColumn180 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Description2")
+        Dim UltraGridColumn181 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceType")
+        Dim UltraGridColumn182 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("NA")
+        Dim UltraGridColumn183 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SimpleCode")
+        Dim UltraGridColumn184 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Original_Price")
+        Dim UltraGridColumn185 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineTot")
+        Dim UltraGridColumn186 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Thickness")
+        Dim UltraGridColumn187 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Toughened")
+        Dim UltraGridColumn188 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsExternalItem")
+        Dim UltraGridColumn189 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceItemTotNet")
+        Dim UltraGridColumn190 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceItemTax")
+        Dim UltraGridColumn191 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceGross")
+        Dim UltraGridColumn192 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Service")
+        Dim UltraGridColumn193 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Std_Cost")
+        Dim UltraGridColumn194 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Notes")
+        Dim UltraGridColumn195 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Percen")
+        Dim UltraGridColumn196 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("MainItem")
+        Dim UltraGridColumn197 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemTypeCategory")
+        Dim UltraGridColumn198 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Measure")
+        Dim UltraGridColumn199 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LN")
+        Dim UltraGridColumn200 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Unit")
+        Dim UltraGridColumn201 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Method")
+        Dim UltraGridColumn202 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Deleted")
+        Dim UltraGridColumn203 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ProcessedID")
+        Dim UltraGridColumn204 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SurChrg")
+        Dim UltraGridColumn205 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Motif")
+        Dim UltraGridColumn206 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("StockLink2")
+        Dim UltraGridColumn207 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ProductionState")
+        Dim UltraGridColumn208 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("UniqueLN")
+        Dim UltraGridColumn209 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("FacilityID")
+        Dim UltraGridColumn210 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LinkediInvDetailID")
+        Dim UltraGridColumn211 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("CreditState")
+        Dim UltraGridColumn212 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("H1")
+        Dim UltraGridColumn213 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SubStockLink")
+        Dim UltraGridColumn214 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ReservedQty")
+        Dim UltraGridColumn215 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("QtyOnSO")
+        Dim UltraGridColumn216 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Shape")
+        Dim UltraGridColumn217 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineType")
+        Dim UltraGridColumn218 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("RackNo")
+        Dim UltraGridColumn219 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Profit")
+        Dim UltraGridColumn220 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Cost")
+        Dim UltraGridColumn221 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemImageByteArray")
+        Dim UltraGridColumn222 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Band 1")
+        Dim UltraGridColumn223 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isImageAttached", 0)
+        Dim UltraGridColumn224 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isShapeAttached", 1)
+        Dim UltraGridColumn225 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("QuoteStateID", 2)
+        Dim Appearance155 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand6 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 1", 0)
-        Dim UltraGridColumn557 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("StockLink")
-        Dim UltraGridColumn558 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Description1")
-        Dim UltraGridColumn559 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SimpleCode")
-        Dim UltraGridColumn560 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Description2")
-        Dim UltraGridColumn561 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceType")
-        Dim UltraGridColumn562 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price_Type")
-        Dim UltraGridColumn563 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Qty")
-        Dim UltraGridColumn564 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Height")
-        Dim UltraGridColumn565 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Width")
-        Dim UltraGridColumn566 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("NA")
-        Dim UltraGridColumn567 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Volume")
-        Dim UltraGridColumn568 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price")
-        Dim UltraGridColumn569 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("TaxRate")
-        Dim UltraGridColumn570 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Net")
-        Dim UltraGridColumn571 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Tax")
-        Dim UltraGridColumn572 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineTot")
-        Dim UltraGridColumn573 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Thickness")
-        Dim UltraGridColumn574 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Toughened")
-        Dim UltraGridColumn575 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceItemTotNet")
-        Dim UltraGridColumn576 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceItemTax")
-        Dim UltraGridColumn577 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceGross")
-        Dim UltraGridColumn578 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Original_Price")
-        Dim UltraGridColumn579 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Service")
-        Dim UltraGridColumn580 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("DiscAmt")
-        Dim UltraGridColumn581 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("DiscPre")
-        Dim UltraGridColumn582 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Std_Cost")
-        Dim UltraGridColumn583 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Notes")
-        Dim UltraGridColumn584 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Percen")
-        Dim UltraGridColumn585 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("MainItem")
-        Dim UltraGridColumn586 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceCat")
-        Dim UltraGridColumn587 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("OrgPrice")
-        Dim UltraGridColumn588 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemType")
-        Dim UltraGridColumn589 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemTypeCategory")
-        Dim UltraGridColumn590 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Measure")
-        Dim UltraGridColumn594 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LN")
-        Dim UltraGridColumn595 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Unit")
-        Dim UltraGridColumn596 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Method")
-        Dim UltraGridColumn597 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("InvLineID")
-        Dim UltraGridColumn598 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Deleted")
-        Dim UltraGridColumn599 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ProcessedID")
-        Dim UltraGridColumn600 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SurChrg")
-        Dim UltraGridColumn601 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("MainLNNo")
-        Dim UltraGridColumn602 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsPriceItem")
-        Dim UltraGridColumn603 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Motif")
-        Dim UltraGridColumn604 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("StockLink2")
-        Dim UltraGridColumn605 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceList")
-        Dim UltraGridColumn606 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("iInvDetailID")
-        Dim UltraGridColumn607 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ProductionState")
-        Dim UltraGridColumn608 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("UniqueLN")
-        Dim UltraGridColumn609 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("FacilityID")
-        Dim UltraGridColumn610 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LinkediInvDetailID")
-        Dim UltraGridColumn611 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineNotes")
-        Dim UltraGridColumn612 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineComments")
-        Dim UltraGridColumn613 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsExternalItem")
-        Dim UltraGridColumn614 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("H1")
-        Dim UltraGridColumn615 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SubStockLink")
-        Dim UltraGridColumn616 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ReservedQty")
-        Dim UltraGridColumn617 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("QtyOnSO")
-        Dim UltraGridColumn618 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Shape")
-        Dim UltraGridColumn619 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineType")
-        Dim UltraGridColumn620 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("RackNo")
-        Dim UltraGridColumn621 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("CreditState")
-        Dim UltraGridColumn622 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Cost")
-        Dim UltraGridColumn623 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Profit")
-        Dim UltraGridColumn624 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ShapeDetails")
-        Dim UltraGridColumn625 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Picture")
+        Dim UltraGridColumn226 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("StockLink")
+        Dim UltraGridColumn227 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Description1")
+        Dim UltraGridColumn228 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SimpleCode")
+        Dim UltraGridColumn229 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Description2")
+        Dim UltraGridColumn230 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceType")
+        Dim UltraGridColumn231 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price_Type")
+        Dim UltraGridColumn232 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Qty")
+        Dim UltraGridColumn233 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Height")
+        Dim UltraGridColumn234 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Width")
+        Dim UltraGridColumn235 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("NA")
+        Dim UltraGridColumn236 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Volume")
+        Dim UltraGridColumn237 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price")
+        Dim UltraGridColumn238 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("TaxRate")
+        Dim UltraGridColumn239 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Net")
+        Dim UltraGridColumn240 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Tax")
+        Dim UltraGridColumn241 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineTot")
+        Dim UltraGridColumn242 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Thickness")
+        Dim UltraGridColumn243 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Toughened")
+        Dim UltraGridColumn244 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceItemTotNet")
+        Dim UltraGridColumn245 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceItemTax")
+        Dim UltraGridColumn246 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ServiceGross")
+        Dim UltraGridColumn247 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Original_Price")
+        Dim UltraGridColumn248 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Service")
+        Dim UltraGridColumn249 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("DiscAmt")
+        Dim UltraGridColumn250 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("DiscPre")
+        Dim UltraGridColumn251 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Std_Cost")
+        Dim UltraGridColumn252 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Notes")
+        Dim UltraGridColumn253 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Percen")
+        Dim UltraGridColumn254 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("MainItem")
+        Dim UltraGridColumn255 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceCat")
+        Dim UltraGridColumn256 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("OrgPrice")
+        Dim UltraGridColumn257 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemType")
+        Dim UltraGridColumn258 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemTypeCategory")
+        Dim UltraGridColumn259 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Measure")
+        Dim UltraGridColumn260 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LN")
+        Dim UltraGridColumn261 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Unit")
+        Dim UltraGridColumn262 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Method")
+        Dim UltraGridColumn263 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("InvLineID")
+        Dim UltraGridColumn264 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Deleted")
+        Dim UltraGridColumn265 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ProcessedID")
+        Dim UltraGridColumn266 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SurChrg")
+        Dim UltraGridColumn267 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("MainLNNo")
+        Dim UltraGridColumn268 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsPriceItem")
+        Dim UltraGridColumn269 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Motif")
+        Dim UltraGridColumn270 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("StockLink2")
+        Dim UltraGridColumn271 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("PriceList")
+        Dim UltraGridColumn272 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("iInvDetailID")
+        Dim UltraGridColumn273 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ProductionState")
+        Dim UltraGridColumn274 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("UniqueLN")
+        Dim UltraGridColumn275 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("FacilityID")
+        Dim UltraGridColumn276 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LinkediInvDetailID")
+        Dim UltraGridColumn277 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineNotes")
+        Dim UltraGridColumn278 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineComments")
+        Dim UltraGridColumn279 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsExternalItem")
+        Dim UltraGridColumn280 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("H1")
+        Dim UltraGridColumn281 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("SubStockLink")
+        Dim UltraGridColumn282 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ReservedQty")
+        Dim UltraGridColumn283 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("QtyOnSO")
+        Dim UltraGridColumn284 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Shape")
+        Dim UltraGridColumn285 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineType")
+        Dim UltraGridColumn286 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("RackNo")
+        Dim UltraGridColumn287 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("CreditState")
+        Dim UltraGridColumn288 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Cost")
+        Dim UltraGridColumn289 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Profit")
+        Dim UltraGridColumn290 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ShapeDetails")
+        Dim UltraGridColumn291 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Picture")
         Dim Appearance285 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance286 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance288 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance289 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance290 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGlazingQuote))
         Dim UltraDataBand1 As Infragistics.Win.UltraWinDataSource.UltraDataBand = New Infragistics.Win.UltraWinDataSource.UltraDataBand("Band 1")
         Dim UltraDataColumn1 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("StockLink")
         Dim UltraDataColumn2 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("Description1")
@@ -535,17 +536,17 @@ Partial Class frmGlazingQuote
         Dim Appearance535 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance536 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand13 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn626 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteFiedType")
-        Dim UltraGridColumn627 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("loadText")
-        Dim UltraGridColumn628 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineComments")
-        Dim UltraGridColumn629 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Height", -1, Nothing, 0, Infragistics.Win.UltraWinGrid.SortIndicator.Descending, false)
-        Dim UltraGridColumn630 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Width")
-        Dim UltraGridColumn631 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Qty")
-        Dim UltraGridColumn632 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price")
-        Dim UltraGridColumn633 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Amount")
-        Dim UltraGridColumn634 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("lineNotes")
-        Dim UltraGridColumn635 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("markAs")
-        Dim UltraGridColumn636 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("picture")
+        Dim UltraGridColumn292 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteFiedType")
+        Dim UltraGridColumn293 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("loadText")
+        Dim UltraGridColumn294 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineComments")
+        Dim UltraGridColumn295 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Height", -1, Nothing, 0, Infragistics.Win.UltraWinGrid.SortIndicator.Descending, false)
+        Dim UltraGridColumn296 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Width")
+        Dim UltraGridColumn297 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Qty")
+        Dim UltraGridColumn298 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price")
+        Dim UltraGridColumn299 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Amount")
+        Dim UltraGridColumn300 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("lineNotes")
+        Dim UltraGridColumn301 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("markAs")
+        Dim UltraGridColumn302 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("picture")
         Dim Appearance537 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance538 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance539 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -570,9 +571,9 @@ Partial Class frmGlazingQuote
         Dim UltraDataColumn151 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("picture")
         Dim Appearance486 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand14 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn637 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineNo")
-        Dim UltraGridColumn638 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Path")
-        Dim UltraGridColumn639 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Open")
+        Dim UltraGridColumn303 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineNo")
+        Dim UltraGridColumn304 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Path")
+        Dim UltraGridColumn305 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Open")
         Dim UltraDataColumn152 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("LineNo")
         Dim UltraDataColumn153 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("Path")
         Dim UltraDataColumn154 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("Open")
@@ -1106,8 +1107,8 @@ Partial Class frmGlazingQuote
         Dim Appearance162 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance163 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand23 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn640 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateID")
-        Dim UltraGridColumn641 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateName")
+        Dim UltraGridColumn306 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateID")
+        Dim UltraGridColumn307 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateName")
         Dim UltraDataColumn155 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("quoteStateID")
         Dim UltraDataColumn156 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("quoteStateName")
         Dim Appearance213 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -1253,7 +1254,6 @@ Partial Class frmGlazingQuote
         Dim ValueListItem1 As Infragistics.Win.ValueListItem = New Infragistics.Win.ValueListItem()
         Dim ValueListItem2 As Infragistics.Win.ValueListItem = New Infragistics.Win.ValueListItem()
         Dim Appearance260 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGlazingQuote))
         Me.ucmbTaxRate = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.UltraTabPageControl7 = New Infragistics.Win.UltraWinTabControl.UltraTabPageControl()
         Me.txtContEmail = New Infragistics.Win.UltraWinEditors.UltraTextEditor()
@@ -1307,6 +1307,14 @@ Partial Class frmGlazingQuote
         Me.lblDocDes2 = New System.Windows.Forms.Label()
         Me.UG2 = New Infragistics.Win.UltraWinGrid.UltraGrid()
         Me.cmsQuoteGide = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.tsmAdd = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmAddRowBefore = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmAddRowAfter = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmiCopy = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmiPaste = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmiDel = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmiSavetext = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmRemovePicture = New System.Windows.Forms.ToolStripMenuItem()
         Me.udsQuoteData = New Infragistics.Win.UltraWinDataSource.UltraDataSource(Me.components)
         Me.utxtNoteText = New Infragistics.Win.FormattedLinkLabel.UltraFormattedTextEditor()
         Me.uddBranch = New Infragistics.Win.UltraWinGrid.UltraDropDown()
@@ -1489,24 +1497,63 @@ Partial Class frmGlazingQuote
         Me.UltraTabSharedControlsPage2 = New Infragistics.Win.UltraWinTabControl.UltraTabSharedControlsPage()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.mnuFile = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuNewDocument = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuSave = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuSeperatorCancel = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsmiExportTemplate = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuCancelDocument = New System.Windows.Forms.ToolStripMenuItem()
+        Me.resetSaveMySettings = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuClose = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuConvertToSO = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuNCR = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuCreditNote = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuSeperatorPayment = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuPayment = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuProcessInvoice = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuProcessDespatch = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuOnHoldLine = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuReleaseLine = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ConvertToQuoteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ApprovedQuoteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CancelApprovedQuoteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuCustomerEdit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuChangeDeliveryMethod = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuEnterFiscalNo = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsmView = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmSalesOrderDefault = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuNoteBoard = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsbViewSubtotals = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuPurchHistory = New System.Windows.Forms.ToolStripMenuItem()
         Me.TradePriceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SpecialPriceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CustomerListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OptimisedPreviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuPrint = New System.Windows.Forms.ToolStripMenuItem()
         Me.PrintLabelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PrintOrderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsmiOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.tsbExit = New System.Windows.Forms.ToolStripButton()
+        Me.tsbSave = New System.Windows.Forms.ToolStripButton()
+        Me.tsbPrint = New System.Windows.Forms.ToolStripButton()
+        Me.tsbNoteBoard = New System.Windows.Forms.ToolStripButton()
+        Me.tsbConvertToSalesOrder = New System.Windows.Forms.ToolStripButton()
+        Me.tsbCreateNCR = New System.Windows.Forms.ToolStripButton()
+        Me.tsbCreateCreditNote = New System.Windows.Forms.ToolStripButton()
+        Me.tsButtonFiscalPrinter = New System.Windows.Forms.ToolStripDropDownButton()
+        Me.PrintFiscalPrinterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditInvoiceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditCustomerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.pbUG2ItemPic = New System.Windows.Forms.PictureBox()
         Me.addressMap = New GMap.NET.WindowsForms.GMapControl()
+        Me.btnAddressLocator = New System.Windows.Forms.Button()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.utxtQuoteJobName = New System.Windows.Forms.TextBox()
         Me.btnJobDescription = New System.Windows.Forms.Button()
@@ -1554,9 +1601,16 @@ Partial Class frmGlazingQuote
         Me.ulSub = New Infragistics.Win.Misc.UltraLabel()
         Me.cmbAccount = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.cmCustomer = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.cmCustAddNew = New System.Windows.Forms.ToolStripMenuItem()
+        Me.cmCustEdit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.cmCustView = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuCustPurchaseHistory = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator()
+        Me.AlertNotesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SendAIncidentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
+        Me.cmSameAsPostalAdd = New System.Windows.Forms.ToolStripMenuItem()
         Me.lblTaxType = New System.Windows.Forms.Label()
         Me.CachedrptCheque1 = New SPIL_Glass.CachedrptCheque()
         Me.UltraLabel10 = New Infragistics.Win.Misc.UltraLabel()
@@ -1607,60 +1661,6 @@ Partial Class frmGlazingQuote
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.ttAddressLocator = New System.Windows.Forms.ToolTip(Me.components)
-        Me.tsbExit = New System.Windows.Forms.ToolStripButton()
-        Me.tsbSave = New System.Windows.Forms.ToolStripButton()
-        Me.tsbPrint = New System.Windows.Forms.ToolStripButton()
-        Me.tsbNoteBoard = New System.Windows.Forms.ToolStripButton()
-        Me.tsbConvertToSalesOrder = New System.Windows.Forms.ToolStripButton()
-        Me.tsbCreateNCR = New System.Windows.Forms.ToolStripButton()
-        Me.tsbCreateCreditNote = New System.Windows.Forms.ToolStripButton()
-        Me.tsButtonFiscalPrinter = New System.Windows.Forms.ToolStripDropDownButton()
-        Me.PrintFiscalPrinterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EditInvoiceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EditCustomerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.pbUG2ItemPic = New System.Windows.Forms.PictureBox()
-        Me.btnAddressLocator = New System.Windows.Forms.Button()
-        Me.tsmAdd = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmAddRowBefore = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmAddRowAfter = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmiCopy = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmiPaste = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmiDel = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmiSavetext = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmRemovePicture = New System.Windows.Forms.ToolStripMenuItem()
-        Me.cmCustAddNew = New System.Windows.Forms.ToolStripMenuItem()
-        Me.cmCustEdit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.cmCustView = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuCustPurchaseHistory = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AlertNotesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SendAIncidentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.cmSameAsPostalAdd = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuNewDocument = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuSave = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmiExportTemplate = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuCancelDocument = New System.Windows.Forms.ToolStripMenuItem()
-        Me.resetSaveMySettings = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuClose = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuConvertToSO = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuNCR = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuCreditNote = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuPayment = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuProcessInvoice = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuProcessDespatch = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuOnHoldLine = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuReleaseLine = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ConvertToQuoteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ApprovedQuoteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CancelApprovedQuoteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuCustomerEdit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuChangeDeliveryMethod = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuEnterFiscalNo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmSalesOrderDefault = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuNoteBoard = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsbViewSubtotals = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuPurchHistory = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OptimisedPreviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.tsmiOptions = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.ucmbTaxRate,System.ComponentModel.ISupportInitialize).BeginInit
         Me.UltraTabPageControl7.SuspendLayout
         CType(Me.txtContEmail,System.ComponentModel.ISupportInitialize).BeginInit
@@ -1774,6 +1774,7 @@ Partial Class frmGlazingQuote
         Me.MenuStrip1.SuspendLayout
         Me.ToolStrip1.SuspendLayout
         Me.GroupBox1.SuspendLayout
+        CType(Me.pbUG2ItemPic,System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox3.SuspendLayout
         CType(Me.txtDueDate,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.cmbSalesRep,System.ComponentModel.ISupportInitialize).BeginInit
@@ -1813,7 +1814,6 @@ Partial Class frmGlazingQuote
         CType(Me.UltraComboEditor3,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.UltraTabControl4,System.ComponentModel.ISupportInitialize).BeginInit
         Me.Panel1.SuspendLayout
-        CType(Me.pbUG2ItemPic,System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
         'ucmbTaxRate
@@ -2922,496 +2922,496 @@ Partial Class frmGlazingQuote
         Appearance216.BorderColor = System.Drawing.Color.Silver
         Me.UG2.DisplayLayout.Appearance = Appearance216
         Me.UG2.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
-        Appearance202.TextVAlignAsString = "Middle"
-        UltraGridColumn471.CellAppearance = Appearance202
-        Appearance214.TextVAlignAsString = "Middle"
-        UltraGridColumn471.CellButtonAppearance = Appearance214
-        UltraGridColumn471.DefaultCellValue = ""
-        UltraGridColumn471.Header.Caption = "Line Type"
-        UltraGridColumn471.Header.VisiblePosition = 0
-        UltraGridColumn471.RowLayoutColumnInfo.OriginX = 0
-        UltraGridColumn471.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn471.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(75, 0)
-        UltraGridColumn471.RowLayoutColumnInfo.SpanX = 2
-        UltraGridColumn471.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn471.Width = 82
-        UltraGridColumn474.DefaultCellValue = "0"
-        UltraGridColumn474.Header.VisiblePosition = 48
-        UltraGridColumn474.Hidden = true
-        UltraGridColumn474.Width = 16
-        UltraGridColumn475.DefaultCellValue = "0"
-        UltraGridColumn475.Header.VisiblePosition = 39
-        UltraGridColumn475.Hidden = true
-        UltraGridColumn475.Width = 17
-        UltraGridColumn476.DefaultCellValue = "0"
-        UltraGridColumn476.Header.VisiblePosition = 68
-        UltraGridColumn476.Hidden = true
-        UltraGridColumn477.AutoCompleteMode = Infragistics.Win.AutoCompleteMode.Suggest
-        UltraGridColumn477.AutoSizeEdit = Infragistics.Win.DefaultableBoolean.[True]
-        UltraGridColumn477.CellClickAction = Infragistics.Win.UltraWinGrid.CellClickAction.Edit
-        UltraGridColumn477.CellMultiLine = Infragistics.Win.DefaultableBoolean.[True]
-        UltraGridColumn477.DefaultCellValue = ""
-        UltraGridColumn477.Header.Caption = "Doc Description"
-        UltraGridColumn477.Header.VisiblePosition = 2
-        UltraGridColumn477.RowLayoutColumnInfo.OriginX = 2
-        UltraGridColumn477.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn477.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(259, 0)
-        UltraGridColumn477.RowLayoutColumnInfo.SpanX = 2
-        UltraGridColumn477.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn477.Width = 8
-        UltraGridColumn478.DefaultCellValue = "0"
-        UltraGridColumn478.Header.VisiblePosition = 33
-        UltraGridColumn478.Hidden = true
-        UltraGridColumn478.Width = 17
-        UltraGridColumn479.DefaultCellValue = "0"
-        UltraGridColumn479.Header.VisiblePosition = 3
-        UltraGridColumn479.Hidden = true
-        UltraGridColumn479.Width = 21
-        UltraGridColumn483.DefaultCellValue = ""
-        UltraGridColumn483.Header.VisiblePosition = 41
-        UltraGridColumn483.Hidden = true
-        UltraGridColumn483.Width = 8
-        UltraGridColumn484.DefaultCellValue = "0"
-        UltraGridColumn484.Header.VisiblePosition = 4
-        UltraGridColumn484.Hidden = true
-        UltraGridColumn484.Width = 8
-        UltraGridColumn485.DefaultCellValue = "0"
-        UltraGridColumn485.Format = "0.0"
-        UltraGridColumn485.Header.VisiblePosition = 5
-        UltraGridColumn485.RowLayoutColumnInfo.OriginX = 4
-        UltraGridColumn485.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn485.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(48, 0)
-        UltraGridColumn485.RowLayoutColumnInfo.SpanX = 3
-        UltraGridColumn485.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn485.Width = 26
-        UltraGridColumn486.DefaultCellValue = "0"
-        UltraGridColumn486.Format = "0"
-        UltraGridColumn486.Header.VisiblePosition = 6
-        UltraGridColumn486.RowLayoutColumnInfo.OriginX = 7
-        UltraGridColumn486.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn486.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(41, 0)
-        UltraGridColumn486.RowLayoutColumnInfo.SpanX = 2
-        UltraGridColumn486.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn486.Width = 8
-        UltraGridColumn487.DefaultCellValue = "0"
-        UltraGridColumn487.Format = "0"
-        UltraGridColumn487.Header.VisiblePosition = 7
-        UltraGridColumn487.RowLayoutColumnInfo.OriginX = 9
-        UltraGridColumn487.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn487.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(41, 0)
-        UltraGridColumn487.RowLayoutColumnInfo.SpanX = 2
-        UltraGridColumn487.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn487.Width = 8
-        UltraGridColumn488.DefaultCellValue = "0"
-        UltraGridColumn488.Format = "0.00"
-        UltraGridColumn488.Header.VisiblePosition = 8
-        UltraGridColumn488.Hidden = true
-        UltraGridColumn488.Width = 8
-        UltraGridColumn489.DefaultCellValue = ""
-        UltraGridColumn489.Header.VisiblePosition = 31
-        UltraGridColumn489.Hidden = true
-        UltraGridColumn489.Width = 21
-        UltraGridColumn490.DefaultCellValue = "0"
-        UltraGridColumn490.Format = "0.00"
-        UltraGridColumn490.Header.VisiblePosition = 25
-        UltraGridColumn490.Hidden = true
-        UltraGridColumn490.MaskInput = " -n,nnn,nnn.nn"
-        UltraGridColumn490.Width = 17
-        UltraGridColumn491.DefaultCellValue = "0"
-        UltraGridColumn491.Header.VisiblePosition = 47
-        UltraGridColumn491.Hidden = true
-        UltraGridColumn491.Width = 17
-        UltraGridColumn492.DefaultCellValue = "0"
-        UltraGridColumn492.Format = "0.00"
-        UltraGridColumn492.Header.VisiblePosition = 9
-        UltraGridColumn492.MaskInput = ""
-        UltraGridColumn492.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
-        UltraGridColumn492.RowLayoutColumnInfo.OriginX = 11
-        UltraGridColumn492.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn492.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(46, 0)
-        UltraGridColumn492.RowLayoutColumnInfo.SpanX = 2
-        UltraGridColumn492.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn492.Width = 8
-        UltraGridColumn494.DefaultCellValue = "0"
-        UltraGridColumn494.Format = "0.00"
-        UltraGridColumn494.Header.VisiblePosition = 10
-        UltraGridColumn494.Hidden = true
-        UltraGridColumn494.Width = 17
-        UltraGridColumn495.DefaultCellValue = "False"
-        UltraGridColumn495.Header.VisiblePosition = 44
-        UltraGridColumn495.Hidden = true
-        UltraGridColumn495.Width = 17
-        UltraGridColumn497.DefaultCellValue = "0"
-        UltraGridColumn497.Format = "0.00"
-        UltraGridColumn497.Header.VisiblePosition = 11
-        UltraGridColumn497.Hidden = true
-        UltraGridColumn497.Width = 10
-        UltraGridColumn498.DefaultCellValue = "0"
-        UltraGridColumn498.EditorComponent = Me.ucmbTaxRate
-        UltraGridColumn498.Header.Caption = "Tax Rate"
-        UltraGridColumn498.Header.VisiblePosition = 12
-        UltraGridColumn498.RowLayoutColumnInfo.OriginX = 15
-        UltraGridColumn498.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn498.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(85, 0)
-        UltraGridColumn498.RowLayoutColumnInfo.SpanX = 3
-        UltraGridColumn498.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn498.Width = 8
-        UltraGridColumn500.DefaultCellValue = "0"
-        UltraGridColumn500.Header.Caption = "Tax Rate Value"
-        UltraGridColumn500.Header.VisiblePosition = 70
-        UltraGridColumn500.Hidden = true
-        UltraGridColumn501.DefaultCellValue = "0"
-        UltraGridColumn501.Format = "0.00"
-        UltraGridColumn501.Header.VisiblePosition = 13
-        UltraGridColumn501.Hidden = true
-        UltraGridColumn501.Width = 17
-        UltraGridColumn502.DefaultCellValue = "0"
-        UltraGridColumn502.Header.Caption = "Item Exc Amount"
-        UltraGridColumn502.Header.VisiblePosition = 67
-        UltraGridColumn502.Hidden = true
-        UltraGridColumn503.DefaultCellValue = "0"
-        UltraGridColumn503.Format = "0.00"
-        UltraGridColumn503.Header.VisiblePosition = 66
-        UltraGridColumn503.MaskInput = ""
-        UltraGridColumn503.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
-        UltraGridColumn503.RowLayoutColumnInfo.OriginX = 13
-        UltraGridColumn503.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn503.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(54, 0)
-        UltraGridColumn503.RowLayoutColumnInfo.SpanX = 2
-        UltraGridColumn503.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn503.Width = 90
-        UltraGridColumn504.DefaultCellValue = ""
-        UltraGridColumn504.Header.Caption = "Line Notes"
-        UltraGridColumn504.Header.VisiblePosition = 53
-        UltraGridColumn504.RowLayoutColumnInfo.OriginX = 18
-        UltraGridColumn504.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn504.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(137, 0)
-        UltraGridColumn504.RowLayoutColumnInfo.SpanX = 2
-        UltraGridColumn504.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn504.Width = 8
-        UltraGridColumn505.DefaultCellValue = ""
-        UltraGridColumn505.Header.Caption = "Mark As"
-        UltraGridColumn505.Header.VisiblePosition = 64
-        UltraGridColumn505.RowLayoutColumnInfo.OriginX = 20
-        UltraGridColumn505.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn505.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(76, 0)
-        UltraGridColumn505.RowLayoutColumnInfo.SpanX = 2
-        UltraGridColumn505.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn505.Width = 702
-        Appearance226.TextVAlignAsString = "Middle"
-        UltraGridColumn506.CellAppearance = Appearance226
-        UltraGridColumn506.Header.Caption = "Picture"
-        UltraGridColumn506.Header.VisiblePosition = 65
-        UltraGridColumn506.RowLayoutColumnInfo.OriginX = 22
-        UltraGridColumn506.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn506.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(137, 0)
-        UltraGridColumn506.RowLayoutColumnInfo.SpanX = 2
-        UltraGridColumn506.RowLayoutColumnInfo.SpanY = 2
-        UltraGridColumn506.Style = Infragistics.Win.UltraWinGrid.ColumnStyle.Image
-        UltraGridColumn506.Width = 59
-        UltraGridColumn507.DefaultCellValue = "0"
-        UltraGridColumn507.Format = "0.00"
-        UltraGridColumn507.Header.VisiblePosition = 32
-        UltraGridColumn507.Hidden = true
-        UltraGridColumn507.Width = 17
-        UltraGridColumn508.DefaultCellValue = "False"
-        UltraGridColumn508.Header.VisiblePosition = 69
-        UltraGridColumn508.Hidden = true
-        UltraGridColumn509.DefaultCellValue = "False"
-        UltraGridColumn509.Header.Caption = "Is Pasted Row"
-        UltraGridColumn509.Header.VisiblePosition = 72
-        UltraGridColumn509.Hidden = true
-        UltraGridColumn510.DefaultCellValue = "0"
-        UltraGridColumn510.Header.VisiblePosition = 63
-        UltraGridColumn510.Hidden = true
-        UltraGridColumn510.Width = 17
-        UltraGridColumn511.DefaultCellValue = ""
-        UltraGridColumn511.Header.VisiblePosition = 15
-        UltraGridColumn511.Hidden = true
-        UltraGridColumn511.Width = 8
-        UltraGridColumn512.DefaultCellValue = "0"
-        UltraGridColumn512.Header.VisiblePosition = 71
-        UltraGridColumn512.Hidden = true
-        UltraGridColumn512.Width = 8
-        UltraGridColumn513.Header.VisiblePosition = 16
-        UltraGridColumn513.Hidden = true
-        UltraGridColumn513.Width = 8
-        UltraGridColumn514.DefaultCellValue = ""
-        UltraGridColumn514.Header.VisiblePosition = 14
-        UltraGridColumn514.Hidden = true
-        UltraGridColumn514.Width = 8
-        UltraGridColumn515.DefaultCellValue = "0"
-        UltraGridColumn515.Format = "0.00"
-        UltraGridColumn515.Header.VisiblePosition = 23
-        UltraGridColumn515.Hidden = true
-        UltraGridColumn515.Width = 18
-        UltraGridColumn516.Header.VisiblePosition = 17
-        UltraGridColumn516.Hidden = true
-        UltraGridColumn516.Width = 17
-        UltraGridColumn517.Header.VisiblePosition = 18
-        UltraGridColumn517.Hidden = true
-        UltraGridColumn517.Width = 17
-        UltraGridColumn518.Header.VisiblePosition = 19
-        UltraGridColumn518.Hidden = true
-        UltraGridColumn518.Width = 17
-        UltraGridColumn519.Header.VisiblePosition = 54
-        UltraGridColumn519.Hidden = true
-        UltraGridColumn519.Width = 19
-        UltraGridColumn520.Header.VisiblePosition = 20
-        UltraGridColumn520.Hidden = true
-        UltraGridColumn520.Width = 23
-        UltraGridColumn521.Header.VisiblePosition = 21
-        UltraGridColumn521.Hidden = true
-        UltraGridColumn521.Width = 20
-        UltraGridColumn522.Header.VisiblePosition = 22
-        UltraGridColumn522.Hidden = true
-        UltraGridColumn522.Width = 17
-        UltraGridColumn523.Header.VisiblePosition = 24
-        UltraGridColumn523.Hidden = true
-        UltraGridColumn523.Width = 17
-        UltraGridColumn524.Header.VisiblePosition = 26
-        UltraGridColumn524.Hidden = true
-        UltraGridColumn524.Width = 17
-        UltraGridColumn525.Header.VisiblePosition = 27
-        UltraGridColumn525.Hidden = true
-        UltraGridColumn525.Width = 21
-        UltraGridColumn526.Header.VisiblePosition = 29
-        UltraGridColumn526.Hidden = true
-        UltraGridColumn526.Width = 17
-        UltraGridColumn527.Header.VisiblePosition = 30
-        UltraGridColumn527.Hidden = true
-        UltraGridColumn527.Width = 17
-        UltraGridColumn528.Header.VisiblePosition = 34
-        UltraGridColumn528.Hidden = true
-        UltraGridColumn528.Width = 23
-        UltraGridColumn529.Header.VisiblePosition = 35
-        UltraGridColumn529.Hidden = true
-        UltraGridColumn529.Width = 21
-        UltraGridColumn530.Header.VisiblePosition = 36
-        UltraGridColumn530.Hidden = true
-        UltraGridColumn530.Width = 17
-        UltraGridColumn531.Header.VisiblePosition = 37
-        UltraGridColumn531.Hidden = true
-        UltraGridColumn531.Width = 17
-        UltraGridColumn532.Header.VisiblePosition = 38
-        UltraGridColumn532.Hidden = true
-        UltraGridColumn532.Width = 21
-        UltraGridColumn533.Header.VisiblePosition = 40
-        UltraGridColumn533.Hidden = true
-        UltraGridColumn533.Width = 17
-        UltraGridColumn534.Header.VisiblePosition = 42
-        UltraGridColumn534.Hidden = true
-        UltraGridColumn534.Width = 16
-        UltraGridColumn535.Header.VisiblePosition = 43
-        UltraGridColumn535.Hidden = true
-        UltraGridColumn535.Width = 17
-        UltraGridColumn536.Header.VisiblePosition = 45
-        UltraGridColumn536.Hidden = true
-        UltraGridColumn536.Width = 17
-        UltraGridColumn537.Header.VisiblePosition = 46
-        UltraGridColumn537.Hidden = true
-        UltraGridColumn537.Width = 15
-        UltraGridColumn538.Header.VisiblePosition = 49
-        UltraGridColumn538.Hidden = true
-        UltraGridColumn538.Width = 20
-        UltraGridColumn539.Header.VisiblePosition = 50
-        UltraGridColumn539.Hidden = true
-        UltraGridColumn539.Width = 13
-        UltraGridColumn540.Header.VisiblePosition = 51
-        UltraGridColumn540.Hidden = true
-        UltraGridColumn540.Width = 13
-        UltraGridColumn541.Header.VisiblePosition = 52
-        UltraGridColumn541.Hidden = true
-        UltraGridColumn541.Width = 22
-        UltraGridColumn542.Header.VisiblePosition = 60
-        UltraGridColumn542.Hidden = true
-        UltraGridColumn542.Width = 15
-        UltraGridColumn543.Header.VisiblePosition = 55
-        UltraGridColumn543.Hidden = true
-        UltraGridColumn543.Width = 12
-        UltraGridColumn544.Header.VisiblePosition = 56
-        UltraGridColumn544.Hidden = true
-        UltraGridColumn544.Width = 17
-        UltraGridColumn545.Header.VisiblePosition = 57
-        UltraGridColumn545.Hidden = true
-        UltraGridColumn545.Width = 17
-        UltraGridColumn546.Header.VisiblePosition = 58
-        UltraGridColumn546.Hidden = true
-        UltraGridColumn546.Width = 17
-        UltraGridColumn547.ButtonDisplayStyle = Infragistics.Win.UltraWinGrid.ButtonDisplayStyle.Always
-        UltraGridColumn547.DefaultCellValue = ""
-        UltraGridColumn547.Header.VisiblePosition = 28
-        UltraGridColumn547.RowLayoutColumnInfo.OriginX = 38
-        UltraGridColumn547.RowLayoutColumnInfo.OriginY = 0
-        UltraGridColumn547.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(35, 0)
-        UltraGridColumn547.Style = Infragistics.Win.UltraWinGrid.ColumnStyle.Button
-        UltraGridColumn547.Width = 21
-        UltraGridColumn548.Header.VisiblePosition = 1
-        UltraGridColumn548.Hidden = true
-        UltraGridColumn548.Width = 13
-        UltraGridColumn549.Header.VisiblePosition = 59
-        UltraGridColumn549.Hidden = true
-        UltraGridColumn549.Width = 21
-        UltraGridColumn550.Header.VisiblePosition = 62
-        UltraGridColumn550.Hidden = true
-        UltraGridColumn550.Width = 17
-        UltraGridColumn551.Format = "0.00"
-        UltraGridColumn551.Header.VisiblePosition = 61
-        UltraGridColumn551.Hidden = true
-        UltraGridColumn551.Width = 17
-        UltraGridColumn552.Header.VisiblePosition = 73
-        UltraGridColumn552.Hidden = true
-        UltraGridColumn553.Header.VisiblePosition = 77
-        UltraGridColumn554.DataType = GetType(Boolean)
-        UltraGridColumn554.DefaultCellValue = false
-        UltraGridColumn554.Header.Caption = "Is Image Attached"
-        UltraGridColumn554.Header.VisiblePosition = 74
-        UltraGridColumn554.Hidden = true
-        UltraGridColumn555.DataType = GetType(Boolean)
-        UltraGridColumn555.DefaultCellValue = false
-        UltraGridColumn555.Header.Caption = "is Shape Attached"
-        UltraGridColumn555.Header.VisiblePosition = 75
-        UltraGridColumn555.Hidden = true
-        UltraGridColumn556.Header.Caption = "Quote State ID"
-        UltraGridColumn556.Header.VisiblePosition = 76
-        UltraGridColumn556.Hidden = true
-        UltraGridBand5.Columns.AddRange(New Object() {UltraGridColumn471, UltraGridColumn474, UltraGridColumn475, UltraGridColumn476, UltraGridColumn477, UltraGridColumn478, UltraGridColumn479, UltraGridColumn483, UltraGridColumn484, UltraGridColumn485, UltraGridColumn486, UltraGridColumn487, UltraGridColumn488, UltraGridColumn489, UltraGridColumn490, UltraGridColumn491, UltraGridColumn492, UltraGridColumn494, UltraGridColumn495, UltraGridColumn497, UltraGridColumn498, UltraGridColumn500, UltraGridColumn501, UltraGridColumn502, UltraGridColumn503, UltraGridColumn504, UltraGridColumn505, UltraGridColumn506, UltraGridColumn507, UltraGridColumn508, UltraGridColumn509, UltraGridColumn510, UltraGridColumn511, UltraGridColumn512, UltraGridColumn513, UltraGridColumn514, UltraGridColumn515, UltraGridColumn516, UltraGridColumn517, UltraGridColumn518, UltraGridColumn519, UltraGridColumn520, UltraGridColumn521, UltraGridColumn522, UltraGridColumn523, UltraGridColumn524, UltraGridColumn525, UltraGridColumn526, UltraGridColumn527, UltraGridColumn528, UltraGridColumn529, UltraGridColumn530, UltraGridColumn531, UltraGridColumn532, UltraGridColumn533, UltraGridColumn534, UltraGridColumn535, UltraGridColumn536, UltraGridColumn537, UltraGridColumn538, UltraGridColumn539, UltraGridColumn540, UltraGridColumn541, UltraGridColumn542, UltraGridColumn543, UltraGridColumn544, UltraGridColumn545, UltraGridColumn546, UltraGridColumn547, UltraGridColumn548, UltraGridColumn549, UltraGridColumn550, UltraGridColumn551, UltraGridColumn552, UltraGridColumn553, UltraGridColumn554, UltraGridColumn555, UltraGridColumn556})
-        Appearance229.BackColor = System.Drawing.Color.DodgerBlue
-        UltraGridBand5.Header.Appearance = Appearance229
+        Appearance10.TextVAlignAsString = "Middle"
+        UltraGridColumn7.CellAppearance = Appearance10
+        Appearance75.TextVAlignAsString = "Middle"
+        UltraGridColumn7.CellButtonAppearance = Appearance75
+        UltraGridColumn7.DefaultCellValue = ""
+        UltraGridColumn7.Header.Caption = "Line Type"
+        UltraGridColumn7.Header.VisiblePosition = 0
+        UltraGridColumn7.RowLayoutColumnInfo.OriginX = 0
+        UltraGridColumn7.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn7.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(75, 0)
+        UltraGridColumn7.RowLayoutColumnInfo.SpanX = 2
+        UltraGridColumn7.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn7.Width = 82
+        UltraGridColumn8.DefaultCellValue = "0"
+        UltraGridColumn8.Header.VisiblePosition = 48
+        UltraGridColumn8.Hidden = true
+        UltraGridColumn8.Width = 16
+        UltraGridColumn9.DefaultCellValue = "0"
+        UltraGridColumn9.Header.VisiblePosition = 39
+        UltraGridColumn9.Hidden = true
+        UltraGridColumn9.Width = 17
+        UltraGridColumn10.DefaultCellValue = "0"
+        UltraGridColumn10.Header.VisiblePosition = 68
+        UltraGridColumn10.Hidden = true
+        UltraGridColumn30.AutoCompleteMode = Infragistics.Win.AutoCompleteMode.Suggest
+        UltraGridColumn30.AutoSizeEdit = Infragistics.Win.DefaultableBoolean.[True]
+        UltraGridColumn30.CellClickAction = Infragistics.Win.UltraWinGrid.CellClickAction.Edit
+        UltraGridColumn30.CellMultiLine = Infragistics.Win.DefaultableBoolean.[True]
+        UltraGridColumn30.DefaultCellValue = ""
+        UltraGridColumn30.Header.Caption = "Doc Description"
+        UltraGridColumn30.Header.VisiblePosition = 2
+        UltraGridColumn30.RowLayoutColumnInfo.OriginX = 2
+        UltraGridColumn30.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn30.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(259, 0)
+        UltraGridColumn30.RowLayoutColumnInfo.SpanX = 2
+        UltraGridColumn30.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn30.Width = 8
+        UltraGridColumn34.DefaultCellValue = "0"
+        UltraGridColumn34.Header.VisiblePosition = 33
+        UltraGridColumn34.Hidden = true
+        UltraGridColumn34.Width = 17
+        UltraGridColumn35.DefaultCellValue = "0"
+        UltraGridColumn35.Header.VisiblePosition = 3
+        UltraGridColumn35.Hidden = true
+        UltraGridColumn35.Width = 21
+        UltraGridColumn41.DefaultCellValue = ""
+        UltraGridColumn41.Header.VisiblePosition = 41
+        UltraGridColumn41.Hidden = true
+        UltraGridColumn41.Width = 8
+        UltraGridColumn42.DefaultCellValue = "0"
+        UltraGridColumn42.Header.VisiblePosition = 4
+        UltraGridColumn42.Hidden = true
+        UltraGridColumn42.Width = 8
+        UltraGridColumn143.DefaultCellValue = "0"
+        UltraGridColumn143.Format = "0.0"
+        UltraGridColumn143.Header.VisiblePosition = 5
+        UltraGridColumn143.RowLayoutColumnInfo.OriginX = 4
+        UltraGridColumn143.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn143.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(48, 0)
+        UltraGridColumn143.RowLayoutColumnInfo.SpanX = 3
+        UltraGridColumn143.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn143.Width = 26
+        UltraGridColumn144.DefaultCellValue = "0"
+        UltraGridColumn144.Format = "0"
+        UltraGridColumn144.Header.VisiblePosition = 6
+        UltraGridColumn144.RowLayoutColumnInfo.OriginX = 7
+        UltraGridColumn144.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn144.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(41, 0)
+        UltraGridColumn144.RowLayoutColumnInfo.SpanX = 2
+        UltraGridColumn144.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn144.Width = 8
+        UltraGridColumn148.DefaultCellValue = "0"
+        UltraGridColumn148.Format = "0"
+        UltraGridColumn148.Header.VisiblePosition = 7
+        UltraGridColumn148.RowLayoutColumnInfo.OriginX = 9
+        UltraGridColumn148.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn148.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(41, 0)
+        UltraGridColumn148.RowLayoutColumnInfo.SpanX = 2
+        UltraGridColumn148.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn148.Width = 8
+        UltraGridColumn149.DefaultCellValue = "0"
+        UltraGridColumn149.Format = "0.00"
+        UltraGridColumn149.Header.VisiblePosition = 8
+        UltraGridColumn149.Hidden = true
+        UltraGridColumn149.Width = 8
+        UltraGridColumn150.DefaultCellValue = ""
+        UltraGridColumn150.Header.VisiblePosition = 31
+        UltraGridColumn150.Hidden = true
+        UltraGridColumn150.Width = 21
+        UltraGridColumn151.DefaultCellValue = "0"
+        UltraGridColumn151.Format = "0.00"
+        UltraGridColumn151.Header.VisiblePosition = 25
+        UltraGridColumn151.Hidden = true
+        UltraGridColumn151.MaskInput = " -n,nnn,nnn.nn"
+        UltraGridColumn151.Width = 17
+        UltraGridColumn152.DefaultCellValue = "0"
+        UltraGridColumn152.Header.VisiblePosition = 47
+        UltraGridColumn152.Hidden = true
+        UltraGridColumn152.Width = 17
+        UltraGridColumn153.DefaultCellValue = "0"
+        UltraGridColumn153.Format = "0.00"
+        UltraGridColumn153.Header.VisiblePosition = 9
+        UltraGridColumn153.MaskInput = ""
+        UltraGridColumn153.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
+        UltraGridColumn153.RowLayoutColumnInfo.OriginX = 11
+        UltraGridColumn153.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn153.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(46, 0)
+        UltraGridColumn153.RowLayoutColumnInfo.SpanX = 2
+        UltraGridColumn153.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn153.Width = 8
+        UltraGridColumn156.DefaultCellValue = "0"
+        UltraGridColumn156.Format = "0.00"
+        UltraGridColumn156.Header.VisiblePosition = 10
+        UltraGridColumn156.Hidden = true
+        UltraGridColumn156.Width = 17
+        UltraGridColumn157.DefaultCellValue = "False"
+        UltraGridColumn157.Header.VisiblePosition = 44
+        UltraGridColumn157.Hidden = true
+        UltraGridColumn157.Width = 17
+        UltraGridColumn158.DefaultCellValue = "0"
+        UltraGridColumn158.Format = "0.00"
+        UltraGridColumn158.Header.VisiblePosition = 11
+        UltraGridColumn158.Hidden = true
+        UltraGridColumn158.Width = 10
+        UltraGridColumn162.DefaultCellValue = "0"
+        UltraGridColumn162.EditorComponent = Me.ucmbTaxRate
+        UltraGridColumn162.Header.Caption = "Tax Rate"
+        UltraGridColumn162.Header.VisiblePosition = 12
+        UltraGridColumn162.RowLayoutColumnInfo.OriginX = 15
+        UltraGridColumn162.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn162.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(85, 0)
+        UltraGridColumn162.RowLayoutColumnInfo.SpanX = 3
+        UltraGridColumn162.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn162.Width = 8
+        UltraGridColumn163.DefaultCellValue = "0"
+        UltraGridColumn163.Header.Caption = "Tax Rate Value"
+        UltraGridColumn163.Header.VisiblePosition = 70
+        UltraGridColumn163.Hidden = true
+        UltraGridColumn164.DefaultCellValue = "0"
+        UltraGridColumn164.Format = "0.00"
+        UltraGridColumn164.Header.VisiblePosition = 13
+        UltraGridColumn164.Hidden = true
+        UltraGridColumn164.Width = 17
+        UltraGridColumn165.DefaultCellValue = "0"
+        UltraGridColumn165.Header.Caption = "Item Exc Amount"
+        UltraGridColumn165.Header.VisiblePosition = 67
+        UltraGridColumn165.Hidden = true
+        UltraGridColumn166.DefaultCellValue = "0"
+        UltraGridColumn166.Format = "0.00"
+        UltraGridColumn166.Header.VisiblePosition = 66
+        UltraGridColumn166.MaskInput = ""
+        UltraGridColumn166.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
+        UltraGridColumn166.RowLayoutColumnInfo.OriginX = 13
+        UltraGridColumn166.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn166.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(54, 0)
+        UltraGridColumn166.RowLayoutColumnInfo.SpanX = 2
+        UltraGridColumn166.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn166.Width = 90
+        UltraGridColumn167.DefaultCellValue = ""
+        UltraGridColumn167.Header.Caption = "Line Notes"
+        UltraGridColumn167.Header.VisiblePosition = 53
+        UltraGridColumn167.RowLayoutColumnInfo.OriginX = 18
+        UltraGridColumn167.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn167.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(137, 0)
+        UltraGridColumn167.RowLayoutColumnInfo.SpanX = 2
+        UltraGridColumn167.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn167.Width = 8
+        UltraGridColumn171.DefaultCellValue = ""
+        UltraGridColumn171.Header.Caption = "Mark As"
+        UltraGridColumn171.Header.VisiblePosition = 64
+        UltraGridColumn171.RowLayoutColumnInfo.OriginX = 20
+        UltraGridColumn171.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn171.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(76, 0)
+        UltraGridColumn171.RowLayoutColumnInfo.SpanX = 2
+        UltraGridColumn171.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn171.Width = 702
+        Appearance154.TextVAlignAsString = "Middle"
+        UltraGridColumn172.CellAppearance = Appearance154
+        UltraGridColumn172.Header.Caption = "Picture"
+        UltraGridColumn172.Header.VisiblePosition = 65
+        UltraGridColumn172.RowLayoutColumnInfo.OriginX = 22
+        UltraGridColumn172.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn172.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(137, 0)
+        UltraGridColumn172.RowLayoutColumnInfo.SpanX = 2
+        UltraGridColumn172.RowLayoutColumnInfo.SpanY = 2
+        UltraGridColumn172.Style = Infragistics.Win.UltraWinGrid.ColumnStyle.Image
+        UltraGridColumn172.Width = 59
+        UltraGridColumn173.DefaultCellValue = "0"
+        UltraGridColumn173.Format = "0.00"
+        UltraGridColumn173.Header.VisiblePosition = 32
+        UltraGridColumn173.Hidden = true
+        UltraGridColumn173.Width = 17
+        UltraGridColumn177.DefaultCellValue = "False"
+        UltraGridColumn177.Header.VisiblePosition = 69
+        UltraGridColumn177.Hidden = true
+        UltraGridColumn178.DefaultCellValue = "False"
+        UltraGridColumn178.Header.Caption = "Is Pasted Row"
+        UltraGridColumn178.Header.VisiblePosition = 72
+        UltraGridColumn178.Hidden = true
+        UltraGridColumn179.DefaultCellValue = "0"
+        UltraGridColumn179.Header.VisiblePosition = 63
+        UltraGridColumn179.Hidden = true
+        UltraGridColumn179.Width = 17
+        UltraGridColumn180.DefaultCellValue = ""
+        UltraGridColumn180.Header.VisiblePosition = 15
+        UltraGridColumn180.Hidden = true
+        UltraGridColumn180.Width = 8
+        UltraGridColumn181.DefaultCellValue = "0"
+        UltraGridColumn181.Header.VisiblePosition = 71
+        UltraGridColumn181.Hidden = true
+        UltraGridColumn181.Width = 8
+        UltraGridColumn182.Header.VisiblePosition = 16
+        UltraGridColumn182.Hidden = true
+        UltraGridColumn182.Width = 8
+        UltraGridColumn183.DefaultCellValue = ""
+        UltraGridColumn183.Header.VisiblePosition = 14
+        UltraGridColumn183.Hidden = true
+        UltraGridColumn183.Width = 8
+        UltraGridColumn184.DefaultCellValue = "0"
+        UltraGridColumn184.Format = "0.00"
+        UltraGridColumn184.Header.VisiblePosition = 23
+        UltraGridColumn184.Hidden = true
+        UltraGridColumn184.Width = 18
+        UltraGridColumn185.Header.VisiblePosition = 17
+        UltraGridColumn185.Hidden = true
+        UltraGridColumn185.Width = 17
+        UltraGridColumn186.Header.VisiblePosition = 18
+        UltraGridColumn186.Hidden = true
+        UltraGridColumn186.Width = 17
+        UltraGridColumn187.Header.VisiblePosition = 19
+        UltraGridColumn187.Hidden = true
+        UltraGridColumn187.Width = 17
+        UltraGridColumn188.Header.VisiblePosition = 54
+        UltraGridColumn188.Hidden = true
+        UltraGridColumn188.Width = 19
+        UltraGridColumn189.Header.VisiblePosition = 20
+        UltraGridColumn189.Hidden = true
+        UltraGridColumn189.Width = 23
+        UltraGridColumn190.Header.VisiblePosition = 21
+        UltraGridColumn190.Hidden = true
+        UltraGridColumn190.Width = 20
+        UltraGridColumn191.Header.VisiblePosition = 22
+        UltraGridColumn191.Hidden = true
+        UltraGridColumn191.Width = 17
+        UltraGridColumn192.Header.VisiblePosition = 24
+        UltraGridColumn192.Hidden = true
+        UltraGridColumn192.Width = 17
+        UltraGridColumn193.Header.VisiblePosition = 26
+        UltraGridColumn193.Hidden = true
+        UltraGridColumn193.Width = 17
+        UltraGridColumn194.Header.VisiblePosition = 27
+        UltraGridColumn194.Hidden = true
+        UltraGridColumn194.Width = 21
+        UltraGridColumn195.Header.VisiblePosition = 29
+        UltraGridColumn195.Hidden = true
+        UltraGridColumn195.Width = 17
+        UltraGridColumn196.Header.VisiblePosition = 30
+        UltraGridColumn196.Hidden = true
+        UltraGridColumn196.Width = 17
+        UltraGridColumn197.Header.VisiblePosition = 34
+        UltraGridColumn197.Hidden = true
+        UltraGridColumn197.Width = 23
+        UltraGridColumn198.Header.VisiblePosition = 35
+        UltraGridColumn198.Hidden = true
+        UltraGridColumn198.Width = 21
+        UltraGridColumn199.Header.VisiblePosition = 36
+        UltraGridColumn199.Hidden = true
+        UltraGridColumn199.Width = 17
+        UltraGridColumn200.Header.VisiblePosition = 37
+        UltraGridColumn200.Hidden = true
+        UltraGridColumn200.Width = 17
+        UltraGridColumn201.Header.VisiblePosition = 38
+        UltraGridColumn201.Hidden = true
+        UltraGridColumn201.Width = 21
+        UltraGridColumn202.Header.VisiblePosition = 40
+        UltraGridColumn202.Hidden = true
+        UltraGridColumn202.Width = 17
+        UltraGridColumn203.Header.VisiblePosition = 42
+        UltraGridColumn203.Hidden = true
+        UltraGridColumn203.Width = 16
+        UltraGridColumn204.Header.VisiblePosition = 43
+        UltraGridColumn204.Hidden = true
+        UltraGridColumn204.Width = 17
+        UltraGridColumn205.Header.VisiblePosition = 45
+        UltraGridColumn205.Hidden = true
+        UltraGridColumn205.Width = 17
+        UltraGridColumn206.Header.VisiblePosition = 46
+        UltraGridColumn206.Hidden = true
+        UltraGridColumn206.Width = 15
+        UltraGridColumn207.Header.VisiblePosition = 49
+        UltraGridColumn207.Hidden = true
+        UltraGridColumn207.Width = 20
+        UltraGridColumn208.Header.VisiblePosition = 50
+        UltraGridColumn208.Hidden = true
+        UltraGridColumn208.Width = 13
+        UltraGridColumn209.Header.VisiblePosition = 51
+        UltraGridColumn209.Hidden = true
+        UltraGridColumn209.Width = 13
+        UltraGridColumn210.Header.VisiblePosition = 52
+        UltraGridColumn210.Hidden = true
+        UltraGridColumn210.Width = 22
+        UltraGridColumn211.Header.VisiblePosition = 60
+        UltraGridColumn211.Hidden = true
+        UltraGridColumn211.Width = 15
+        UltraGridColumn212.Header.VisiblePosition = 55
+        UltraGridColumn212.Hidden = true
+        UltraGridColumn212.Width = 12
+        UltraGridColumn213.Header.VisiblePosition = 56
+        UltraGridColumn213.Hidden = true
+        UltraGridColumn213.Width = 17
+        UltraGridColumn214.Header.VisiblePosition = 57
+        UltraGridColumn214.Hidden = true
+        UltraGridColumn214.Width = 17
+        UltraGridColumn215.Header.VisiblePosition = 58
+        UltraGridColumn215.Hidden = true
+        UltraGridColumn215.Width = 17
+        UltraGridColumn216.ButtonDisplayStyle = Infragistics.Win.UltraWinGrid.ButtonDisplayStyle.Always
+        UltraGridColumn216.DefaultCellValue = ""
+        UltraGridColumn216.Header.VisiblePosition = 28
+        UltraGridColumn216.RowLayoutColumnInfo.OriginX = 38
+        UltraGridColumn216.RowLayoutColumnInfo.OriginY = 0
+        UltraGridColumn216.RowLayoutColumnInfo.PreferredCellSize = New System.Drawing.Size(35, 0)
+        UltraGridColumn216.Style = Infragistics.Win.UltraWinGrid.ColumnStyle.Button
+        UltraGridColumn216.Width = 21
+        UltraGridColumn217.Header.VisiblePosition = 1
+        UltraGridColumn217.Hidden = true
+        UltraGridColumn217.Width = 13
+        UltraGridColumn218.Header.VisiblePosition = 59
+        UltraGridColumn218.Hidden = true
+        UltraGridColumn218.Width = 21
+        UltraGridColumn219.Header.VisiblePosition = 62
+        UltraGridColumn219.Hidden = true
+        UltraGridColumn219.Width = 17
+        UltraGridColumn220.Format = "0.00"
+        UltraGridColumn220.Header.VisiblePosition = 61
+        UltraGridColumn220.Hidden = true
+        UltraGridColumn220.Width = 17
+        UltraGridColumn221.Header.VisiblePosition = 73
+        UltraGridColumn221.Hidden = true
+        UltraGridColumn222.Header.VisiblePosition = 77
+        UltraGridColumn223.DataType = GetType(Boolean)
+        UltraGridColumn223.DefaultCellValue = false
+        UltraGridColumn223.Header.Caption = "Is Image Attached"
+        UltraGridColumn223.Header.VisiblePosition = 74
+        UltraGridColumn223.Hidden = true
+        UltraGridColumn224.DataType = GetType(Boolean)
+        UltraGridColumn224.DefaultCellValue = false
+        UltraGridColumn224.Header.Caption = "is Shape Attached"
+        UltraGridColumn224.Header.VisiblePosition = 75
+        UltraGridColumn224.Hidden = true
+        UltraGridColumn225.Header.Caption = "Quote State ID"
+        UltraGridColumn225.Header.VisiblePosition = 76
+        UltraGridColumn225.Hidden = true
+        UltraGridBand5.Columns.AddRange(New Object() {UltraGridColumn7, UltraGridColumn8, UltraGridColumn9, UltraGridColumn10, UltraGridColumn30, UltraGridColumn34, UltraGridColumn35, UltraGridColumn41, UltraGridColumn42, UltraGridColumn143, UltraGridColumn144, UltraGridColumn148, UltraGridColumn149, UltraGridColumn150, UltraGridColumn151, UltraGridColumn152, UltraGridColumn153, UltraGridColumn156, UltraGridColumn157, UltraGridColumn158, UltraGridColumn162, UltraGridColumn163, UltraGridColumn164, UltraGridColumn165, UltraGridColumn166, UltraGridColumn167, UltraGridColumn171, UltraGridColumn172, UltraGridColumn173, UltraGridColumn177, UltraGridColumn178, UltraGridColumn179, UltraGridColumn180, UltraGridColumn181, UltraGridColumn182, UltraGridColumn183, UltraGridColumn184, UltraGridColumn185, UltraGridColumn186, UltraGridColumn187, UltraGridColumn188, UltraGridColumn189, UltraGridColumn190, UltraGridColumn191, UltraGridColumn192, UltraGridColumn193, UltraGridColumn194, UltraGridColumn195, UltraGridColumn196, UltraGridColumn197, UltraGridColumn198, UltraGridColumn199, UltraGridColumn200, UltraGridColumn201, UltraGridColumn202, UltraGridColumn203, UltraGridColumn204, UltraGridColumn205, UltraGridColumn206, UltraGridColumn207, UltraGridColumn208, UltraGridColumn209, UltraGridColumn210, UltraGridColumn211, UltraGridColumn212, UltraGridColumn213, UltraGridColumn214, UltraGridColumn215, UltraGridColumn216, UltraGridColumn217, UltraGridColumn218, UltraGridColumn219, UltraGridColumn220, UltraGridColumn221, UltraGridColumn222, UltraGridColumn223, UltraGridColumn224, UltraGridColumn225})
+        Appearance155.BackColor = System.Drawing.Color.DodgerBlue
+        UltraGridBand5.Header.Appearance = Appearance155
         UltraGridBand5.RowLayoutStyle = Infragistics.Win.UltraWinGrid.RowLayoutStyle.ColumnLayout
-        UltraGridColumn557.Header.VisiblePosition = 0
-        UltraGridColumn557.Width = 10
-        UltraGridColumn558.Header.VisiblePosition = 1
-        UltraGridColumn558.Width = 9
-        UltraGridColumn559.Header.VisiblePosition = 2
-        UltraGridColumn559.Width = 35
-        UltraGridColumn560.Header.VisiblePosition = 3
-        UltraGridColumn560.Width = 35
-        UltraGridColumn561.Header.VisiblePosition = 4
-        UltraGridColumn561.Width = 17
-        UltraGridColumn562.Header.VisiblePosition = 5
-        UltraGridColumn562.Width = 8
-        UltraGridColumn563.Header.VisiblePosition = 6
-        UltraGridColumn563.Width = 8
-        UltraGridColumn564.Header.VisiblePosition = 7
-        UltraGridColumn564.Width = 8
-        UltraGridColumn565.Header.VisiblePosition = 8
-        UltraGridColumn565.Width = 8
-        UltraGridColumn566.Header.VisiblePosition = 9
-        UltraGridColumn566.Width = 8
-        UltraGridColumn567.Header.VisiblePosition = 10
-        UltraGridColumn567.Width = 8
-        UltraGridColumn568.Header.VisiblePosition = 11
-        UltraGridColumn568.Width = 8
-        UltraGridColumn569.Header.VisiblePosition = 12
-        UltraGridColumn569.Width = 8
-        UltraGridColumn570.Header.VisiblePosition = 13
-        UltraGridColumn570.Width = 8
-        UltraGridColumn571.Header.VisiblePosition = 14
-        UltraGridColumn571.Width = 8
-        UltraGridColumn572.Header.VisiblePosition = 15
-        UltraGridColumn572.Width = 8
-        UltraGridColumn573.Header.VisiblePosition = 16
-        UltraGridColumn573.Width = 8
-        UltraGridColumn574.Header.VisiblePosition = 17
-        UltraGridColumn574.Width = 126
-        UltraGridColumn575.Header.VisiblePosition = 18
-        UltraGridColumn575.Width = 13
-        UltraGridColumn576.Header.VisiblePosition = 19
-        UltraGridColumn576.Width = 8
-        UltraGridColumn577.Header.VisiblePosition = 20
-        UltraGridColumn577.Width = 8
-        UltraGridColumn578.Header.VisiblePosition = 21
-        UltraGridColumn578.Width = 8
-        UltraGridColumn579.Header.VisiblePosition = 22
-        UltraGridColumn579.Width = 17
-        UltraGridColumn580.Header.VisiblePosition = 23
-        UltraGridColumn580.Width = 8
-        UltraGridColumn581.Header.VisiblePosition = 24
-        UltraGridColumn581.Width = 8
-        UltraGridColumn582.Header.VisiblePosition = 25
-        UltraGridColumn582.Width = 8
-        UltraGridColumn583.Header.VisiblePosition = 26
-        UltraGridColumn583.Width = 8
-        UltraGridColumn584.Header.VisiblePosition = 27
-        UltraGridColumn584.Width = 9
-        UltraGridColumn585.Header.VisiblePosition = 28
-        UltraGridColumn585.Width = 46
-        UltraGridColumn586.Header.VisiblePosition = 29
-        UltraGridColumn586.Width = 39
-        UltraGridColumn587.Header.VisiblePosition = 30
-        UltraGridColumn587.Width = 30
-        UltraGridColumn588.Header.VisiblePosition = 31
-        UltraGridColumn588.Width = 26
-        UltraGridColumn589.Header.VisiblePosition = 32
-        UltraGridColumn589.Width = 10
-        UltraGridColumn590.Header.VisiblePosition = 33
-        UltraGridColumn590.Width = 10
-        UltraGridColumn594.Header.VisiblePosition = 34
-        UltraGridColumn594.Width = 11
-        UltraGridColumn595.Header.VisiblePosition = 35
-        UltraGridColumn595.Width = 11
-        UltraGridColumn596.Header.VisiblePosition = 36
-        UltraGridColumn596.Width = 12
-        UltraGridColumn597.Header.VisiblePosition = 37
-        UltraGridColumn597.Width = 8
-        UltraGridColumn598.Header.VisiblePosition = 38
-        UltraGridColumn598.Width = 17
-        UltraGridColumn599.Header.VisiblePosition = 39
-        UltraGridColumn599.Width = 8
-        UltraGridColumn600.Header.VisiblePosition = 40
-        UltraGridColumn600.Width = 8
-        UltraGridColumn601.Header.VisiblePosition = 41
-        UltraGridColumn601.Width = 8
-        UltraGridColumn602.Header.VisiblePosition = 42
-        UltraGridColumn602.Width = 17
-        UltraGridColumn603.Header.VisiblePosition = 43
-        UltraGridColumn603.Width = 20
-        UltraGridColumn604.Header.VisiblePosition = 44
-        UltraGridColumn604.Width = 9
-        UltraGridColumn605.Header.VisiblePosition = 45
-        UltraGridColumn605.Width = 9
-        UltraGridColumn606.Header.VisiblePosition = 46
-        UltraGridColumn606.Width = 9
-        UltraGridColumn607.Header.VisiblePosition = 47
-        UltraGridColumn607.Width = 9
-        UltraGridColumn608.Header.VisiblePosition = 48
-        UltraGridColumn608.Width = 9
-        UltraGridColumn609.Header.VisiblePosition = 49
-        UltraGridColumn609.Width = 9
-        UltraGridColumn610.Header.VisiblePosition = 50
-        UltraGridColumn610.Width = 9
-        UltraGridColumn611.Header.VisiblePosition = 51
-        UltraGridColumn611.Width = 13
-        UltraGridColumn612.Header.VisiblePosition = 52
-        UltraGridColumn612.Width = 13
-        UltraGridColumn613.Header.VisiblePosition = 53
-        UltraGridColumn613.Width = 22
-        UltraGridColumn614.Header.VisiblePosition = 54
-        UltraGridColumn614.Width = 9
-        UltraGridColumn615.Header.VisiblePosition = 55
-        UltraGridColumn615.Width = 11
-        UltraGridColumn616.Header.VisiblePosition = 56
-        UltraGridColumn616.Width = 9
-        UltraGridColumn617.Header.VisiblePosition = 57
-        UltraGridColumn617.Width = 9
-        UltraGridColumn618.Header.VisiblePosition = 58
-        UltraGridColumn618.Width = 13
-        UltraGridColumn619.Header.VisiblePosition = 59
-        UltraGridColumn619.Width = 9
-        UltraGridColumn620.Header.VisiblePosition = 60
-        UltraGridColumn620.Width = 13
-        UltraGridColumn621.Header.VisiblePosition = 61
-        UltraGridColumn621.Width = 9
-        UltraGridColumn622.Header.VisiblePosition = 62
-        UltraGridColumn622.Width = 9
-        UltraGridColumn623.Header.VisiblePosition = 63
-        UltraGridColumn623.Width = 9
-        UltraGridColumn624.Header.VisiblePosition = 64
-        UltraGridColumn624.Width = 9
-        UltraGridColumn625.Header.VisiblePosition = 65
-        UltraGridColumn625.Width = 60
-        UltraGridBand6.Columns.AddRange(New Object() {UltraGridColumn557, UltraGridColumn558, UltraGridColumn559, UltraGridColumn560, UltraGridColumn561, UltraGridColumn562, UltraGridColumn563, UltraGridColumn564, UltraGridColumn565, UltraGridColumn566, UltraGridColumn567, UltraGridColumn568, UltraGridColumn569, UltraGridColumn570, UltraGridColumn571, UltraGridColumn572, UltraGridColumn573, UltraGridColumn574, UltraGridColumn575, UltraGridColumn576, UltraGridColumn577, UltraGridColumn578, UltraGridColumn579, UltraGridColumn580, UltraGridColumn581, UltraGridColumn582, UltraGridColumn583, UltraGridColumn584, UltraGridColumn585, UltraGridColumn586, UltraGridColumn587, UltraGridColumn588, UltraGridColumn589, UltraGridColumn590, UltraGridColumn594, UltraGridColumn595, UltraGridColumn596, UltraGridColumn597, UltraGridColumn598, UltraGridColumn599, UltraGridColumn600, UltraGridColumn601, UltraGridColumn602, UltraGridColumn603, UltraGridColumn604, UltraGridColumn605, UltraGridColumn606, UltraGridColumn607, UltraGridColumn608, UltraGridColumn609, UltraGridColumn610, UltraGridColumn611, UltraGridColumn612, UltraGridColumn613, UltraGridColumn614, UltraGridColumn615, UltraGridColumn616, UltraGridColumn617, UltraGridColumn618, UltraGridColumn619, UltraGridColumn620, UltraGridColumn621, UltraGridColumn622, UltraGridColumn623, UltraGridColumn624, UltraGridColumn625})
+        UltraGridColumn226.Header.VisiblePosition = 0
+        UltraGridColumn226.Width = 10
+        UltraGridColumn227.Header.VisiblePosition = 1
+        UltraGridColumn227.Width = 9
+        UltraGridColumn228.Header.VisiblePosition = 2
+        UltraGridColumn228.Width = 35
+        UltraGridColumn229.Header.VisiblePosition = 3
+        UltraGridColumn229.Width = 35
+        UltraGridColumn230.Header.VisiblePosition = 4
+        UltraGridColumn230.Width = 17
+        UltraGridColumn231.Header.VisiblePosition = 5
+        UltraGridColumn231.Width = 8
+        UltraGridColumn232.Header.VisiblePosition = 6
+        UltraGridColumn232.Width = 8
+        UltraGridColumn233.Header.VisiblePosition = 7
+        UltraGridColumn233.Width = 8
+        UltraGridColumn234.Header.VisiblePosition = 8
+        UltraGridColumn234.Width = 8
+        UltraGridColumn235.Header.VisiblePosition = 9
+        UltraGridColumn235.Width = 8
+        UltraGridColumn236.Header.VisiblePosition = 10
+        UltraGridColumn236.Width = 8
+        UltraGridColumn237.Header.VisiblePosition = 11
+        UltraGridColumn237.Width = 8
+        UltraGridColumn238.Header.VisiblePosition = 12
+        UltraGridColumn238.Width = 8
+        UltraGridColumn239.Header.VisiblePosition = 13
+        UltraGridColumn239.Width = 8
+        UltraGridColumn240.Header.VisiblePosition = 14
+        UltraGridColumn240.Width = 8
+        UltraGridColumn241.Header.VisiblePosition = 15
+        UltraGridColumn241.Width = 8
+        UltraGridColumn242.Header.VisiblePosition = 16
+        UltraGridColumn242.Width = 8
+        UltraGridColumn243.Header.VisiblePosition = 17
+        UltraGridColumn243.Width = 126
+        UltraGridColumn244.Header.VisiblePosition = 18
+        UltraGridColumn244.Width = 13
+        UltraGridColumn245.Header.VisiblePosition = 19
+        UltraGridColumn245.Width = 8
+        UltraGridColumn246.Header.VisiblePosition = 20
+        UltraGridColumn246.Width = 8
+        UltraGridColumn247.Header.VisiblePosition = 21
+        UltraGridColumn247.Width = 8
+        UltraGridColumn248.Header.VisiblePosition = 22
+        UltraGridColumn248.Width = 17
+        UltraGridColumn249.Header.VisiblePosition = 23
+        UltraGridColumn249.Width = 8
+        UltraGridColumn250.Header.VisiblePosition = 24
+        UltraGridColumn250.Width = 8
+        UltraGridColumn251.Header.VisiblePosition = 25
+        UltraGridColumn251.Width = 8
+        UltraGridColumn252.Header.VisiblePosition = 26
+        UltraGridColumn252.Width = 8
+        UltraGridColumn253.Header.VisiblePosition = 27
+        UltraGridColumn253.Width = 9
+        UltraGridColumn254.Header.VisiblePosition = 28
+        UltraGridColumn254.Width = 46
+        UltraGridColumn255.Header.VisiblePosition = 29
+        UltraGridColumn255.Width = 39
+        UltraGridColumn256.Header.VisiblePosition = 30
+        UltraGridColumn256.Width = 30
+        UltraGridColumn257.Header.VisiblePosition = 31
+        UltraGridColumn257.Width = 26
+        UltraGridColumn258.Header.VisiblePosition = 32
+        UltraGridColumn258.Width = 10
+        UltraGridColumn259.Header.VisiblePosition = 33
+        UltraGridColumn259.Width = 10
+        UltraGridColumn260.Header.VisiblePosition = 34
+        UltraGridColumn260.Width = 11
+        UltraGridColumn261.Header.VisiblePosition = 35
+        UltraGridColumn261.Width = 11
+        UltraGridColumn262.Header.VisiblePosition = 36
+        UltraGridColumn262.Width = 12
+        UltraGridColumn263.Header.VisiblePosition = 37
+        UltraGridColumn263.Width = 8
+        UltraGridColumn264.Header.VisiblePosition = 38
+        UltraGridColumn264.Width = 17
+        UltraGridColumn265.Header.VisiblePosition = 39
+        UltraGridColumn265.Width = 8
+        UltraGridColumn266.Header.VisiblePosition = 40
+        UltraGridColumn266.Width = 8
+        UltraGridColumn267.Header.VisiblePosition = 41
+        UltraGridColumn267.Width = 8
+        UltraGridColumn268.Header.VisiblePosition = 42
+        UltraGridColumn268.Width = 17
+        UltraGridColumn269.Header.VisiblePosition = 43
+        UltraGridColumn269.Width = 20
+        UltraGridColumn270.Header.VisiblePosition = 44
+        UltraGridColumn270.Width = 9
+        UltraGridColumn271.Header.VisiblePosition = 45
+        UltraGridColumn271.Width = 9
+        UltraGridColumn272.Header.VisiblePosition = 46
+        UltraGridColumn272.Width = 9
+        UltraGridColumn273.Header.VisiblePosition = 47
+        UltraGridColumn273.Width = 9
+        UltraGridColumn274.Header.VisiblePosition = 48
+        UltraGridColumn274.Width = 9
+        UltraGridColumn275.Header.VisiblePosition = 49
+        UltraGridColumn275.Width = 9
+        UltraGridColumn276.Header.VisiblePosition = 50
+        UltraGridColumn276.Width = 9
+        UltraGridColumn277.Header.VisiblePosition = 51
+        UltraGridColumn277.Width = 13
+        UltraGridColumn278.Header.VisiblePosition = 52
+        UltraGridColumn278.Width = 13
+        UltraGridColumn279.Header.VisiblePosition = 53
+        UltraGridColumn279.Width = 22
+        UltraGridColumn280.Header.VisiblePosition = 54
+        UltraGridColumn280.Width = 9
+        UltraGridColumn281.Header.VisiblePosition = 55
+        UltraGridColumn281.Width = 11
+        UltraGridColumn282.Header.VisiblePosition = 56
+        UltraGridColumn282.Width = 9
+        UltraGridColumn283.Header.VisiblePosition = 57
+        UltraGridColumn283.Width = 9
+        UltraGridColumn284.Header.VisiblePosition = 58
+        UltraGridColumn284.Width = 13
+        UltraGridColumn285.Header.VisiblePosition = 59
+        UltraGridColumn285.Width = 9
+        UltraGridColumn286.Header.VisiblePosition = 60
+        UltraGridColumn286.Width = 13
+        UltraGridColumn287.Header.VisiblePosition = 61
+        UltraGridColumn287.Width = 9
+        UltraGridColumn288.Header.VisiblePosition = 62
+        UltraGridColumn288.Width = 9
+        UltraGridColumn289.Header.VisiblePosition = 63
+        UltraGridColumn289.Width = 9
+        UltraGridColumn290.Header.VisiblePosition = 64
+        UltraGridColumn290.Width = 9
+        UltraGridColumn291.Header.VisiblePosition = 65
+        UltraGridColumn291.Width = 60
+        UltraGridBand6.Columns.AddRange(New Object() {UltraGridColumn226, UltraGridColumn227, UltraGridColumn228, UltraGridColumn229, UltraGridColumn230, UltraGridColumn231, UltraGridColumn232, UltraGridColumn233, UltraGridColumn234, UltraGridColumn235, UltraGridColumn236, UltraGridColumn237, UltraGridColumn238, UltraGridColumn239, UltraGridColumn240, UltraGridColumn241, UltraGridColumn242, UltraGridColumn243, UltraGridColumn244, UltraGridColumn245, UltraGridColumn246, UltraGridColumn247, UltraGridColumn248, UltraGridColumn249, UltraGridColumn250, UltraGridColumn251, UltraGridColumn252, UltraGridColumn253, UltraGridColumn254, UltraGridColumn255, UltraGridColumn256, UltraGridColumn257, UltraGridColumn258, UltraGridColumn259, UltraGridColumn260, UltraGridColumn261, UltraGridColumn262, UltraGridColumn263, UltraGridColumn264, UltraGridColumn265, UltraGridColumn266, UltraGridColumn267, UltraGridColumn268, UltraGridColumn269, UltraGridColumn270, UltraGridColumn271, UltraGridColumn272, UltraGridColumn273, UltraGridColumn274, UltraGridColumn275, UltraGridColumn276, UltraGridColumn277, UltraGridColumn278, UltraGridColumn279, UltraGridColumn280, UltraGridColumn281, UltraGridColumn282, UltraGridColumn283, UltraGridColumn284, UltraGridColumn285, UltraGridColumn286, UltraGridColumn287, UltraGridColumn288, UltraGridColumn289, UltraGridColumn290, UltraGridColumn291})
         Me.UG2.DisplayLayout.BandsSerializer.Add(UltraGridBand5)
         Me.UG2.DisplayLayout.BandsSerializer.Add(UltraGridBand6)
         Me.UG2.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
@@ -3446,6 +3446,63 @@ Partial Class frmGlazingQuote
         Me.cmsQuoteGide.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsmAdd, Me.tsmiCopy, Me.tsmiPaste, Me.tsmiDel, Me.tsmiSavetext, Me.tsmRemovePicture})
         Me.cmsQuoteGide.Name = "ContextMenuStrip1"
         Me.cmsQuoteGide.Size = New System.Drawing.Size(172, 136)
+        '
+        'tsmAdd
+        '
+        Me.tsmAdd.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsmAddRowBefore, Me.tsmAddRowAfter})
+        Me.tsmAdd.Image = CType(resources.GetObject("tsmAdd.Image"),System.Drawing.Image)
+        Me.tsmAdd.Name = "tsmAdd"
+        Me.tsmAdd.Size = New System.Drawing.Size(171, 22)
+        Me.tsmAdd.Text = "Add Row"
+        '
+        'tsmAddRowBefore
+        '
+        Me.tsmAddRowBefore.Image = CType(resources.GetObject("tsmAddRowBefore.Image"),System.Drawing.Image)
+        Me.tsmAddRowBefore.Name = "tsmAddRowBefore"
+        Me.tsmAddRowBefore.Size = New System.Drawing.Size(154, 22)
+        Me.tsmAddRowBefore.Text = "Shift row up"
+        '
+        'tsmAddRowAfter
+        '
+        Me.tsmAddRowAfter.Image = CType(resources.GetObject("tsmAddRowAfter.Image"),System.Drawing.Image)
+        Me.tsmAddRowAfter.Name = "tsmAddRowAfter"
+        Me.tsmAddRowAfter.Size = New System.Drawing.Size(154, 22)
+        Me.tsmAddRowAfter.Text = "Shift row down"
+        '
+        'tsmiCopy
+        '
+        Me.tsmiCopy.Image = CType(resources.GetObject("tsmiCopy.Image"),System.Drawing.Image)
+        Me.tsmiCopy.Name = "tsmiCopy"
+        Me.tsmiCopy.Size = New System.Drawing.Size(171, 22)
+        Me.tsmiCopy.Text = "Copy selected row"
+        '
+        'tsmiPaste
+        '
+        Me.tsmiPaste.Image = CType(resources.GetObject("tsmiPaste.Image"),System.Drawing.Image)
+        Me.tsmiPaste.Name = "tsmiPaste"
+        Me.tsmiPaste.Size = New System.Drawing.Size(171, 22)
+        Me.tsmiPaste.Text = "Paste Row"
+        '
+        'tsmiDel
+        '
+        Me.tsmiDel.Image = CType(resources.GetObject("tsmiDel.Image"),System.Drawing.Image)
+        Me.tsmiDel.Name = "tsmiDel"
+        Me.tsmiDel.Size = New System.Drawing.Size(171, 22)
+        Me.tsmiDel.Text = "Remove Row"
+        '
+        'tsmiSavetext
+        '
+        Me.tsmiSavetext.Image = CType(resources.GetObject("tsmiSavetext.Image"),System.Drawing.Image)
+        Me.tsmiSavetext.Name = "tsmiSavetext"
+        Me.tsmiSavetext.Size = New System.Drawing.Size(171, 22)
+        Me.tsmiSavetext.Text = "Save Selected Text"
+        '
+        'tsmRemovePicture
+        '
+        Me.tsmRemovePicture.Image = CType(resources.GetObject("tsmRemovePicture.Image"),System.Drawing.Image)
+        Me.tsmRemovePicture.Name = "tsmRemovePicture"
+        Me.tsmRemovePicture.Size = New System.Drawing.Size(171, 22)
+        Me.tsmRemovePicture.Text = "Remove Picture"
         '
         'udsQuoteData
         '
@@ -4209,37 +4266,37 @@ Partial Class frmGlazingQuote
         Appearance536.BackColor = System.Drawing.SystemColors.Window
         Appearance536.BorderColor = System.Drawing.SystemColors.InactiveCaption
         Me.ugQuote.DisplayLayout.Appearance = Appearance536
-        UltraGridColumn626.Header.Caption = "Quate Fied Type"
-        UltraGridColumn626.Header.VisiblePosition = 0
-        UltraGridColumn626.Width = 71
-        UltraGridColumn627.Header.Caption = "Load Text"
-        UltraGridColumn627.Header.VisiblePosition = 1
-        UltraGridColumn627.Width = 67
-        UltraGridColumn628.CellMultiLine = Infragistics.Win.DefaultableBoolean.[True]
-        UltraGridColumn628.ColSpan = CType(2,Short)
-        UltraGridColumn628.Header.VisiblePosition = 2
-        UltraGridColumn628.Width = 283
-        UltraGridColumn629.Header.VisiblePosition = 3
-        UltraGridColumn629.Width = 57
-        UltraGridColumn630.Header.VisiblePosition = 4
-        UltraGridColumn630.Width = 54
-        UltraGridColumn631.Header.VisiblePosition = 5
-        UltraGridColumn631.Width = 50
-        UltraGridColumn632.Header.VisiblePosition = 6
-        UltraGridColumn632.Width = 54
-        UltraGridColumn633.Header.Caption = "Excl Price"
-        UltraGridColumn633.Header.VisiblePosition = 7
-        UltraGridColumn633.Width = 56
-        UltraGridColumn634.Header.Caption = "Line Notes"
-        UltraGridColumn634.Header.VisiblePosition = 8
-        UltraGridColumn634.Width = 134
-        UltraGridColumn635.Header.Caption = "Mark As"
-        UltraGridColumn635.Header.VisiblePosition = 9
-        UltraGridColumn635.Width = 48
-        UltraGridColumn636.Header.Caption = "Photo"
-        UltraGridColumn636.Header.VisiblePosition = 10
-        UltraGridColumn636.Width = 175
-        UltraGridBand13.Columns.AddRange(New Object() {UltraGridColumn626, UltraGridColumn627, UltraGridColumn628, UltraGridColumn629, UltraGridColumn630, UltraGridColumn631, UltraGridColumn632, UltraGridColumn633, UltraGridColumn634, UltraGridColumn635, UltraGridColumn636})
+        UltraGridColumn292.Header.Caption = "Quate Fied Type"
+        UltraGridColumn292.Header.VisiblePosition = 0
+        UltraGridColumn292.Width = 71
+        UltraGridColumn293.Header.Caption = "Load Text"
+        UltraGridColumn293.Header.VisiblePosition = 1
+        UltraGridColumn293.Width = 67
+        UltraGridColumn294.CellMultiLine = Infragistics.Win.DefaultableBoolean.[True]
+        UltraGridColumn294.ColSpan = CType(2,Short)
+        UltraGridColumn294.Header.VisiblePosition = 2
+        UltraGridColumn294.Width = 283
+        UltraGridColumn295.Header.VisiblePosition = 3
+        UltraGridColumn295.Width = 57
+        UltraGridColumn296.Header.VisiblePosition = 4
+        UltraGridColumn296.Width = 54
+        UltraGridColumn297.Header.VisiblePosition = 5
+        UltraGridColumn297.Width = 50
+        UltraGridColumn298.Header.VisiblePosition = 6
+        UltraGridColumn298.Width = 54
+        UltraGridColumn299.Header.Caption = "Excl Price"
+        UltraGridColumn299.Header.VisiblePosition = 7
+        UltraGridColumn299.Width = 56
+        UltraGridColumn300.Header.Caption = "Line Notes"
+        UltraGridColumn300.Header.VisiblePosition = 8
+        UltraGridColumn300.Width = 134
+        UltraGridColumn301.Header.Caption = "Mark As"
+        UltraGridColumn301.Header.VisiblePosition = 9
+        UltraGridColumn301.Width = 48
+        UltraGridColumn302.Header.Caption = "Photo"
+        UltraGridColumn302.Header.VisiblePosition = 10
+        UltraGridColumn302.Width = 175
+        UltraGridBand13.Columns.AddRange(New Object() {UltraGridColumn292, UltraGridColumn293, UltraGridColumn294, UltraGridColumn295, UltraGridColumn296, UltraGridColumn297, UltraGridColumn298, UltraGridColumn299, UltraGridColumn300, UltraGridColumn301, UltraGridColumn302})
         Me.ugQuote.DisplayLayout.BandsSerializer.Add(UltraGridBand13)
         Me.ugQuote.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.ugQuote.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]
@@ -4327,7 +4384,7 @@ Partial Class frmGlazingQuote
         Me.UltraTabPageControl17.Controls.Add(Me.UGDocs)
         Me.UltraTabPageControl17.Location = New System.Drawing.Point(-10000, -10000)
         Me.UltraTabPageControl17.Name = "UltraTabPageControl17"
-        Me.UltraTabPageControl17.Size = New System.Drawing.Size(1039, 345)
+        Me.UltraTabPageControl17.Size = New System.Drawing.Size(1043, 345)
         '
         'btnBrowse
         '
@@ -4350,20 +4407,20 @@ Partial Class frmGlazingQuote
         Appearance486.BorderColor = System.Drawing.Color.Gray
         Me.UGDocs.DisplayLayout.Appearance = Appearance486
         Me.UGDocs.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
-        UltraGridColumn637.Header.VisiblePosition = 0
-        UltraGridColumn637.Width = 97
-        UltraGridColumn638.Header.VisiblePosition = 1
-        UltraGridColumn638.Width = 674
-        UltraGridColumn639.Header.VisiblePosition = 2
-        UltraGridColumn639.Style = Infragistics.Win.UltraWinGrid.ColumnStyle.Button
-        UltraGridColumn639.Width = 247
-        UltraGridBand14.Columns.AddRange(New Object() {UltraGridColumn637, UltraGridColumn638, UltraGridColumn639})
+        UltraGridColumn303.Header.VisiblePosition = 0
+        UltraGridColumn303.Width = 95
+        UltraGridColumn304.Header.VisiblePosition = 1
+        UltraGridColumn304.Width = 666
+        UltraGridColumn305.Header.VisiblePosition = 2
+        UltraGridColumn305.Style = Infragistics.Win.UltraWinGrid.ColumnStyle.Button
+        UltraGridColumn305.Width = 244
+        UltraGridBand14.Columns.AddRange(New Object() {UltraGridColumn303, UltraGridColumn304, UltraGridColumn305})
         Me.UGDocs.DisplayLayout.BandsSerializer.Add(UltraGridBand14)
         Me.UGDocs.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.UGDocs.Dock = System.Windows.Forms.DockStyle.Top
         Me.UGDocs.Location = New System.Drawing.Point(0, 0)
         Me.UGDocs.Name = "UGDocs"
-        Me.UGDocs.Size = New System.Drawing.Size(1039, 324)
+        Me.UGDocs.Size = New System.Drawing.Size(1043, 324)
         Me.UGDocs.TabIndex = 1
         '
         'UltraDataSource2
@@ -8739,16 +8796,63 @@ Partial Class frmGlazingQuote
         Me.mnuFile.Size = New System.Drawing.Size(37, 20)
         Me.mnuFile.Text = "File"
         '
+        'mnuNewDocument
+        '
+        Me.mnuNewDocument.Image = CType(resources.GetObject("mnuNewDocument.Image"),System.Drawing.Image)
+        Me.mnuNewDocument.Name = "mnuNewDocument"
+        Me.mnuNewDocument.Size = New System.Drawing.Size(191, 22)
+        Me.mnuNewDocument.Text = "New"
+        '
+        'mnuSave
+        '
+        Me.mnuSave.Image = CType(resources.GetObject("mnuSave.Image"),System.Drawing.Image)
+        Me.mnuSave.Name = "mnuSave"
+        Me.mnuSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S),System.Windows.Forms.Keys)
+        Me.mnuSave.Size = New System.Drawing.Size(191, 22)
+        Me.mnuSave.Text = "Save"
+        '
         'mnuSeperatorCancel
         '
         Me.mnuSeperatorCancel.Name = "mnuSeperatorCancel"
         Me.mnuSeperatorCancel.Size = New System.Drawing.Size(188, 6)
         Me.mnuSeperatorCancel.Visible = false
         '
+        'tsmiExportTemplate
+        '
+        Me.tsmiExportTemplate.Image = CType(resources.GetObject("tsmiExportTemplate.Image"),System.Drawing.Image)
+        Me.tsmiExportTemplate.Name = "tsmiExportTemplate"
+        Me.tsmiExportTemplate.ShortcutKeyDisplayString = ""
+        Me.tsmiExportTemplate.Size = New System.Drawing.Size(191, 22)
+        Me.tsmiExportTemplate.Text = "Export as Template"
+        '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
         Me.ToolStripSeparator4.Size = New System.Drawing.Size(188, 6)
+        '
+        'mnuCancelDocument
+        '
+        Me.mnuCancelDocument.Enabled = false
+        Me.mnuCancelDocument.Image = CType(resources.GetObject("mnuCancelDocument.Image"),System.Drawing.Image)
+        Me.mnuCancelDocument.Name = "mnuCancelDocument"
+        Me.mnuCancelDocument.Size = New System.Drawing.Size(191, 22)
+        Me.mnuCancelDocument.Text = "Cancel Document"
+        Me.mnuCancelDocument.Visible = false
+        '
+        'resetSaveMySettings
+        '
+        Me.resetSaveMySettings.Image = CType(resources.GetObject("resetSaveMySettings.Image"),System.Drawing.Image)
+        Me.resetSaveMySettings.Name = "resetSaveMySettings"
+        Me.resetSaveMySettings.Size = New System.Drawing.Size(191, 22)
+        Me.resetSaveMySettings.Text = "Reset Save MySettings"
+        Me.resetSaveMySettings.Visible = false
+        '
+        'mnuClose
+        '
+        Me.mnuClose.Image = CType(resources.GetObject("mnuClose.Image"),System.Drawing.Image)
+        Me.mnuClose.Name = "mnuClose"
+        Me.mnuClose.Size = New System.Drawing.Size(191, 22)
+        Me.mnuClose.Text = "Exite"
         '
         'FileToolStripMenuItem
         '
@@ -8758,11 +8862,99 @@ Partial Class frmGlazingQuote
         Me.FileToolStripMenuItem.Text = "Process"
         Me.FileToolStripMenuItem.Visible = false
         '
+        'mnuConvertToSO
+        '
+        Me.mnuConvertToSO.Image = CType(resources.GetObject("mnuConvertToSO.Image"),System.Drawing.Image)
+        Me.mnuConvertToSO.Name = "mnuConvertToSO"
+        Me.mnuConvertToSO.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D1),System.Windows.Forms.Keys)
+        Me.mnuConvertToSO.Size = New System.Drawing.Size(232, 22)
+        Me.mnuConvertToSO.Text = "Convert to Sales Order"
+        Me.mnuConvertToSO.Visible = false
+        '
+        'mnuNCR
+        '
+        Me.mnuNCR.Image = CType(resources.GetObject("mnuNCR.Image"),System.Drawing.Image)
+        Me.mnuNCR.Name = "mnuNCR"
+        Me.mnuNCR.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D2),System.Windows.Forms.Keys)
+        Me.mnuNCR.Size = New System.Drawing.Size(232, 22)
+        Me.mnuNCR.Text = "Create NCR"
+        Me.mnuNCR.Visible = false
+        '
+        'mnuCreditNote
+        '
+        Me.mnuCreditNote.Image = CType(resources.GetObject("mnuCreditNote.Image"),System.Drawing.Image)
+        Me.mnuCreditNote.Name = "mnuCreditNote"
+        Me.mnuCreditNote.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D3),System.Windows.Forms.Keys)
+        Me.mnuCreditNote.Size = New System.Drawing.Size(232, 22)
+        Me.mnuCreditNote.Text = "Create Credit Note"
+        Me.mnuCreditNote.Visible = false
+        '
         'mnuSeperatorPayment
         '
         Me.mnuSeperatorPayment.Name = "mnuSeperatorPayment"
         Me.mnuSeperatorPayment.Size = New System.Drawing.Size(229, 6)
         Me.mnuSeperatorPayment.Visible = false
+        '
+        'mnuPayment
+        '
+        Me.mnuPayment.Image = CType(resources.GetObject("mnuPayment.Image"),System.Drawing.Image)
+        Me.mnuPayment.Name = "mnuPayment"
+        Me.mnuPayment.Size = New System.Drawing.Size(232, 22)
+        Me.mnuPayment.Text = "Payment"
+        '
+        'mnuProcessInvoice
+        '
+        Me.mnuProcessInvoice.Image = CType(resources.GetObject("mnuProcessInvoice.Image"),System.Drawing.Image)
+        Me.mnuProcessInvoice.Name = "mnuProcessInvoice"
+        Me.mnuProcessInvoice.Size = New System.Drawing.Size(232, 22)
+        Me.mnuProcessInvoice.Text = "Invoice"
+        Me.mnuProcessInvoice.Visible = false
+        '
+        'mnuProcessDespatch
+        '
+        Me.mnuProcessDespatch.Image = CType(resources.GetObject("mnuProcessDespatch.Image"),System.Drawing.Image)
+        Me.mnuProcessDespatch.Name = "mnuProcessDespatch"
+        Me.mnuProcessDespatch.Size = New System.Drawing.Size(232, 22)
+        Me.mnuProcessDespatch.Text = "Despatch"
+        Me.mnuProcessDespatch.Visible = false
+        '
+        'mnuOnHoldLine
+        '
+        Me.mnuOnHoldLine.Image = CType(resources.GetObject("mnuOnHoldLine.Image"),System.Drawing.Image)
+        Me.mnuOnHoldLine.Name = "mnuOnHoldLine"
+        Me.mnuOnHoldLine.Size = New System.Drawing.Size(232, 22)
+        Me.mnuOnHoldLine.Text = "On Hold Line"
+        '
+        'mnuReleaseLine
+        '
+        Me.mnuReleaseLine.Image = CType(resources.GetObject("mnuReleaseLine.Image"),System.Drawing.Image)
+        Me.mnuReleaseLine.Name = "mnuReleaseLine"
+        Me.mnuReleaseLine.Size = New System.Drawing.Size(232, 22)
+        Me.mnuReleaseLine.Text = "Release Line"
+        '
+        'ConvertToQuoteToolStripMenuItem
+        '
+        Me.ConvertToQuoteToolStripMenuItem.Image = CType(resources.GetObject("ConvertToQuoteToolStripMenuItem.Image"),System.Drawing.Image)
+        Me.ConvertToQuoteToolStripMenuItem.Name = "ConvertToQuoteToolStripMenuItem"
+        Me.ConvertToQuoteToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
+        Me.ConvertToQuoteToolStripMenuItem.Text = "Convert to Quote"
+        Me.ConvertToQuoteToolStripMenuItem.Visible = false
+        '
+        'ApprovedQuoteToolStripMenuItem
+        '
+        Me.ApprovedQuoteToolStripMenuItem.Image = CType(resources.GetObject("ApprovedQuoteToolStripMenuItem.Image"),System.Drawing.Image)
+        Me.ApprovedQuoteToolStripMenuItem.Name = "ApprovedQuoteToolStripMenuItem"
+        Me.ApprovedQuoteToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
+        Me.ApprovedQuoteToolStripMenuItem.Text = "Approved Quote"
+        Me.ApprovedQuoteToolStripMenuItem.Visible = false
+        '
+        'CancelApprovedQuoteToolStripMenuItem
+        '
+        Me.CancelApprovedQuoteToolStripMenuItem.Image = CType(resources.GetObject("CancelApprovedQuoteToolStripMenuItem.Image"),System.Drawing.Image)
+        Me.CancelApprovedQuoteToolStripMenuItem.Name = "CancelApprovedQuoteToolStripMenuItem"
+        Me.CancelApprovedQuoteToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
+        Me.CancelApprovedQuoteToolStripMenuItem.Text = "Cancel Approved Quote"
+        Me.CancelApprovedQuoteToolStripMenuItem.Visible = false
         '
         'EditToolStripMenuItem
         '
@@ -8772,6 +8964,28 @@ Partial Class frmGlazingQuote
         Me.EditToolStripMenuItem.Text = "Edit"
         Me.EditToolStripMenuItem.Visible = false
         '
+        'mnuCustomerEdit
+        '
+        Me.mnuCustomerEdit.Image = CType(resources.GetObject("mnuCustomerEdit.Image"),System.Drawing.Image)
+        Me.mnuCustomerEdit.Name = "mnuCustomerEdit"
+        Me.mnuCustomerEdit.Size = New System.Drawing.Size(191, 22)
+        Me.mnuCustomerEdit.Text = "Customer"
+        '
+        'mnuChangeDeliveryMethod
+        '
+        Me.mnuChangeDeliveryMethod.Image = CType(resources.GetObject("mnuChangeDeliveryMethod.Image"),System.Drawing.Image)
+        Me.mnuChangeDeliveryMethod.Name = "mnuChangeDeliveryMethod"
+        Me.mnuChangeDeliveryMethod.Size = New System.Drawing.Size(191, 22)
+        Me.mnuChangeDeliveryMethod.Text = "Delivery Method"
+        '
+        'mnuEnterFiscalNo
+        '
+        Me.mnuEnterFiscalNo.Image = CType(resources.GetObject("mnuEnterFiscalNo.Image"),System.Drawing.Image)
+        Me.mnuEnterFiscalNo.Name = "mnuEnterFiscalNo"
+        Me.mnuEnterFiscalNo.Size = New System.Drawing.Size(191, 22)
+        Me.mnuEnterFiscalNo.Text = "Update Fiscal Number"
+        Me.mnuEnterFiscalNo.Visible = false
+        '
         'tsmView
         '
         Me.tsmView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsmSalesOrderDefault, Me.mnuNoteBoard, Me.ToolStripSeparator6, Me.tsbViewSubtotals, Me.ToolStripSeparator8, Me.mnuPurchHistory, Me.TradePriceToolStripMenuItem, Me.SpecialPriceToolStripMenuItem, Me.CustomerListToolStripMenuItem, Me.OptimisedPreviewToolStripMenuItem})
@@ -8780,17 +8994,48 @@ Partial Class frmGlazingQuote
         Me.tsmView.Text = "View"
         Me.tsmView.Visible = false
         '
+        'tsmSalesOrderDefault
+        '
+        Me.tsmSalesOrderDefault.Image = CType(resources.GetObject("tsmSalesOrderDefault.Image"),System.Drawing.Image)
+        Me.tsmSalesOrderDefault.Name = "tsmSalesOrderDefault"
+        Me.tsmSalesOrderDefault.Size = New System.Drawing.Size(177, 22)
+        Me.tsmSalesOrderDefault.Text = "Sales Order Default"
+        Me.tsmSalesOrderDefault.Visible = false
+        '
+        'mnuNoteBoard
+        '
+        Me.mnuNoteBoard.Image = CType(resources.GetObject("mnuNoteBoard.Image"),System.Drawing.Image)
+        Me.mnuNoteBoard.Name = "mnuNoteBoard"
+        Me.mnuNoteBoard.ShortcutKeys = System.Windows.Forms.Keys.F4
+        Me.mnuNoteBoard.Size = New System.Drawing.Size(177, 22)
+        Me.mnuNoteBoard.Text = "Cockpit"
+        '
         'ToolStripSeparator6
         '
         Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
         Me.ToolStripSeparator6.Size = New System.Drawing.Size(174, 6)
         Me.ToolStripSeparator6.Visible = false
         '
+        'tsbViewSubtotals
+        '
+        Me.tsbViewSubtotals.Image = CType(resources.GetObject("tsbViewSubtotals.Image"),System.Drawing.Image)
+        Me.tsbViewSubtotals.Name = "tsbViewSubtotals"
+        Me.tsbViewSubtotals.Size = New System.Drawing.Size(177, 22)
+        Me.tsbViewSubtotals.Text = "View with Subtotals"
+        Me.tsbViewSubtotals.Visible = false
+        '
         'ToolStripSeparator8
         '
         Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
         Me.ToolStripSeparator8.Size = New System.Drawing.Size(174, 6)
         Me.ToolStripSeparator8.Visible = false
+        '
+        'mnuPurchHistory
+        '
+        Me.mnuPurchHistory.Image = CType(resources.GetObject("mnuPurchHistory.Image"),System.Drawing.Image)
+        Me.mnuPurchHistory.Name = "mnuPurchHistory"
+        Me.mnuPurchHistory.Size = New System.Drawing.Size(177, 22)
+        Me.mnuPurchHistory.Text = "Purchase History"
         '
         'TradePriceToolStripMenuItem
         '
@@ -8815,6 +9060,14 @@ Partial Class frmGlazingQuote
         Me.CustomerListToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
         Me.CustomerListToolStripMenuItem.Text = "Customer List"
         Me.CustomerListToolStripMenuItem.Visible = false
+        '
+        'OptimisedPreviewToolStripMenuItem
+        '
+        Me.OptimisedPreviewToolStripMenuItem.Image = CType(resources.GetObject("OptimisedPreviewToolStripMenuItem.Image"),System.Drawing.Image)
+        Me.OptimisedPreviewToolStripMenuItem.Name = "OptimisedPreviewToolStripMenuItem"
+        Me.OptimisedPreviewToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.OptimisedPreviewToolStripMenuItem.Text = "Optimised Preview "
+        Me.OptimisedPreviewToolStripMenuItem.Visible = false
         '
         'mnuPrint
         '
@@ -8844,6 +9097,13 @@ Partial Class frmGlazingQuote
         Me.ToolStripMenuItem1.Size = New System.Drawing.Size(47, 20)
         Me.ToolStripMenuItem1.Text = "Tools"
         '
+        'tsmiOptions
+        '
+        Me.tsmiOptions.Image = CType(resources.GetObject("tsmiOptions.Image"),System.Drawing.Image)
+        Me.tsmiOptions.Name = "tsmiOptions"
+        Me.tsmiOptions.Size = New System.Drawing.Size(116, 22)
+        Me.tsmiOptions.Text = "Options"
+        '
         'ToolStrip1
         '
         Me.ToolStrip1.AutoSize = false
@@ -8854,6 +9114,96 @@ Partial Class frmGlazingQuote
         Me.ToolStrip1.Size = New System.Drawing.Size(1051, 28)
         Me.ToolStrip1.TabIndex = 12
         Me.ToolStrip1.Text = "Same as postal address"
+        '
+        'tsbExit
+        '
+        Me.tsbExit.Image = CType(resources.GetObject("tsbExit.Image"),System.Drawing.Image)
+        Me.tsbExit.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbExit.Name = "tsbExit"
+        Me.tsbExit.Size = New System.Drawing.Size(56, 25)
+        Me.tsbExit.Text = "Close"
+        '
+        'tsbSave
+        '
+        Me.tsbSave.Image = CType(resources.GetObject("tsbSave.Image"),System.Drawing.Image)
+        Me.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbSave.Name = "tsbSave"
+        Me.tsbSave.Size = New System.Drawing.Size(104, 25)
+        Me.tsbSave.Text = "Save (Ctrl + S) "
+        '
+        'tsbPrint
+        '
+        Me.tsbPrint.Enabled = false
+        Me.tsbPrint.Image = CType(resources.GetObject("tsbPrint.Image"),System.Drawing.Image)
+        Me.tsbPrint.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbPrint.Name = "tsbPrint"
+        Me.tsbPrint.Size = New System.Drawing.Size(103, 25)
+        Me.tsbPrint.Text = "&Print (Ctrl + P)"
+        '
+        'tsbNoteBoard
+        '
+        Me.tsbNoteBoard.AutoSize = false
+        Me.tsbNoteBoard.Image = CType(resources.GetObject("tsbNoteBoard.Image"),System.Drawing.Image)
+        Me.tsbNoteBoard.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbNoteBoard.Name = "tsbNoteBoard"
+        Me.tsbNoteBoard.Size = New System.Drawing.Size(90, 23)
+        Me.tsbNoteBoard.Text = "Cockpit (F4)"
+        Me.tsbNoteBoard.Visible = false
+        '
+        'tsbConvertToSalesOrder
+        '
+        Me.tsbConvertToSalesOrder.Image = CType(resources.GetObject("tsbConvertToSalesOrder.Image"),System.Drawing.Image)
+        Me.tsbConvertToSalesOrder.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbConvertToSalesOrder.Name = "tsbConvertToSalesOrder"
+        Me.tsbConvertToSalesOrder.Size = New System.Drawing.Size(204, 25)
+        Me.tsbConvertToSalesOrder.Text = "Con&vert to a Sales Order (Ctrl + 1)"
+        Me.tsbConvertToSalesOrder.Visible = false
+        '
+        'tsbCreateNCR
+        '
+        Me.tsbCreateNCR.Image = CType(resources.GetObject("tsbCreateNCR.Image"),System.Drawing.Image)
+        Me.tsbCreateNCR.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbCreateNCR.Name = "tsbCreateNCR"
+        Me.tsbCreateNCR.Size = New System.Drawing.Size(138, 25)
+        Me.tsbCreateNCR.Text = "Create &NCR (Ctrl + 2)"
+        Me.tsbCreateNCR.Visible = false
+        '
+        'tsbCreateCreditNote
+        '
+        Me.tsbCreateCreditNote.Image = CType(resources.GetObject("tsbCreateCreditNote.Image"),System.Drawing.Image)
+        Me.tsbCreateCreditNote.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbCreateCreditNote.Name = "tsbCreateCreditNote"
+        Me.tsbCreateCreditNote.Size = New System.Drawing.Size(175, 25)
+        Me.tsbCreateCreditNote.Text = "Create Credit No&te (Ctrl + 3)"
+        Me.tsbCreateCreditNote.Visible = false
+        '
+        'tsButtonFiscalPrinter
+        '
+        Me.tsButtonFiscalPrinter.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PrintFiscalPrinterToolStripMenuItem, Me.EditInvoiceToolStripMenuItem, Me.EditCustomerToolStripMenuItem})
+        Me.tsButtonFiscalPrinter.Image = CType(resources.GetObject("tsButtonFiscalPrinter.Image"),System.Drawing.Image)
+        Me.tsButtonFiscalPrinter.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsButtonFiscalPrinter.Name = "tsButtonFiscalPrinter"
+        Me.tsButtonFiscalPrinter.Size = New System.Drawing.Size(103, 25)
+        Me.tsButtonFiscalPrinter.Text = "Fiscal Printer"
+        Me.tsButtonFiscalPrinter.Visible = false
+        '
+        'PrintFiscalPrinterToolStripMenuItem
+        '
+        Me.PrintFiscalPrinterToolStripMenuItem.Name = "PrintFiscalPrinterToolStripMenuItem"
+        Me.PrintFiscalPrinterToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.PrintFiscalPrinterToolStripMenuItem.Text = "Print Fiscal Invoice"
+        '
+        'EditInvoiceToolStripMenuItem
+        '
+        Me.EditInvoiceToolStripMenuItem.Name = "EditInvoiceToolStripMenuItem"
+        Me.EditInvoiceToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.EditInvoiceToolStripMenuItem.Text = "Edit Invoice"
+        '
+        'EditCustomerToolStripMenuItem
+        '
+        Me.EditCustomerToolStripMenuItem.Name = "EditCustomerToolStripMenuItem"
+        Me.EditCustomerToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
+        Me.EditCustomerToolStripMenuItem.Text = "Edit Customer"
         '
         'GroupBox1
         '
@@ -8908,6 +9258,15 @@ Partial Class frmGlazingQuote
         Me.GroupBox1.TabIndex = 13
         Me.GroupBox1.TabStop = false
         '
+        'pbUG2ItemPic
+        '
+        Me.pbUG2ItemPic.Location = New System.Drawing.Point(583, 226)
+        Me.pbUG2ItemPic.Name = "pbUG2ItemPic"
+        Me.pbUG2ItemPic.Size = New System.Drawing.Size(49, 20)
+        Me.pbUG2ItemPic.TabIndex = 28
+        Me.pbUG2ItemPic.TabStop = false
+        Me.pbUG2ItemPic.Visible = false
+        '
         'addressMap
         '
         Me.addressMap.Bearing = 0!
@@ -8935,6 +9294,19 @@ Partial Class frmGlazingQuote
         Me.addressMap.TabIndex = 28
         Me.addressMap.Visible = false
         Me.addressMap.Zoom = 0R
+        '
+        'btnAddressLocator
+        '
+        Me.btnAddressLocator.BackColor = System.Drawing.Color.DodgerBlue
+        Me.btnAddressLocator.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue
+        Me.btnAddressLocator.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnAddressLocator.Image = CType(resources.GetObject("btnAddressLocator.Image"),System.Drawing.Image)
+        Me.btnAddressLocator.Location = New System.Drawing.Point(488, 66)
+        Me.btnAddressLocator.Name = "btnAddressLocator"
+        Me.btnAddressLocator.Size = New System.Drawing.Size(33, 23)
+        Me.btnAddressLocator.TabIndex = 26
+        Me.ttAddressLocator.SetToolTip(Me.btnAddressLocator, "Select address using map")
+        Me.btnAddressLocator.UseVisualStyleBackColor = false
         '
         'GroupBox3
         '
@@ -9038,11 +9410,11 @@ Partial Class frmGlazingQuote
         Appearance163.BorderColor = System.Drawing.Color.Silver
         Me.utxtQuoteState.DisplayLayout.Appearance = Appearance163
         Me.utxtQuoteState.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
-        UltraGridColumn640.Header.Caption = "Copy"
-        UltraGridColumn640.Header.VisiblePosition = 1
-        UltraGridColumn641.Header.Caption = "Edit mode"
-        UltraGridColumn641.Header.VisiblePosition = 0
-        UltraGridBand23.Columns.AddRange(New Object() {UltraGridColumn640, UltraGridColumn641})
+        UltraGridColumn306.Header.Caption = "Copy"
+        UltraGridColumn306.Header.VisiblePosition = 1
+        UltraGridColumn307.Header.Caption = "Edit mode"
+        UltraGridColumn307.Header.VisiblePosition = 0
+        UltraGridBand23.Columns.AddRange(New Object() {UltraGridColumn306, UltraGridColumn307})
         Me.utxtQuoteState.DisplayLayout.BandsSerializer.Add(UltraGridBand23)
         Me.utxtQuoteState.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.utxtQuoteState.Font = New System.Drawing.Font("Tahoma", 9!)
@@ -9878,11 +10250,41 @@ Partial Class frmGlazingQuote
         Me.cmCustomer.Name = "cmCustomer"
         Me.cmCustomer.Size = New System.Drawing.Size(196, 176)
         '
+        'cmCustAddNew
+        '
+        Me.cmCustAddNew.Image = CType(resources.GetObject("cmCustAddNew.Image"),System.Drawing.Image)
+        Me.cmCustAddNew.Name = "cmCustAddNew"
+        Me.cmCustAddNew.Size = New System.Drawing.Size(195, 22)
+        Me.cmCustAddNew.Text = "Add New"
+        '
+        'cmCustEdit
+        '
+        Me.cmCustEdit.Image = CType(resources.GetObject("cmCustEdit.Image"),System.Drawing.Image)
+        Me.cmCustEdit.Name = "cmCustEdit"
+        Me.cmCustEdit.Size = New System.Drawing.Size(195, 22)
+        Me.cmCustEdit.Text = "Edit"
+        '
+        'cmCustView
+        '
+        Me.cmCustView.Image = CType(resources.GetObject("cmCustView.Image"),System.Drawing.Image)
+        Me.cmCustView.Name = "cmCustView"
+        Me.cmCustView.Size = New System.Drawing.Size(195, 22)
+        Me.cmCustView.Text = "View"
+        Me.cmCustView.Visible = false
+        '
         'ToolStripSeparator5
         '
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
         Me.ToolStripSeparator5.Size = New System.Drawing.Size(192, 6)
         Me.ToolStripSeparator5.Visible = false
+        '
+        'mnuCustPurchaseHistory
+        '
+        Me.mnuCustPurchaseHistory.Image = CType(resources.GetObject("mnuCustPurchaseHistory.Image"),System.Drawing.Image)
+        Me.mnuCustPurchaseHistory.Name = "mnuCustPurchaseHistory"
+        Me.mnuCustPurchaseHistory.Size = New System.Drawing.Size(195, 22)
+        Me.mnuCustPurchaseHistory.Text = "Purchase History "
+        Me.mnuCustPurchaseHistory.Visible = false
         '
         'ToolStripSeparator7
         '
@@ -9890,11 +10292,34 @@ Partial Class frmGlazingQuote
         Me.ToolStripSeparator7.Size = New System.Drawing.Size(192, 6)
         Me.ToolStripSeparator7.Visible = false
         '
+        'AlertNotesToolStripMenuItem
+        '
+        Me.AlertNotesToolStripMenuItem.Image = CType(resources.GetObject("AlertNotesToolStripMenuItem.Image"),System.Drawing.Image)
+        Me.AlertNotesToolStripMenuItem.Name = "AlertNotesToolStripMenuItem"
+        Me.AlertNotesToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
+        Me.AlertNotesToolStripMenuItem.Text = "Alert Notes"
+        Me.AlertNotesToolStripMenuItem.Visible = false
+        '
+        'SendAIncidentToolStripMenuItem
+        '
+        Me.SendAIncidentToolStripMenuItem.Image = CType(resources.GetObject("SendAIncidentToolStripMenuItem.Image"),System.Drawing.Image)
+        Me.SendAIncidentToolStripMenuItem.Name = "SendAIncidentToolStripMenuItem"
+        Me.SendAIncidentToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
+        Me.SendAIncidentToolStripMenuItem.Text = "Send a incident"
+        Me.SendAIncidentToolStripMenuItem.Visible = false
+        '
         'ToolStripSeparator9
         '
         Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
         Me.ToolStripSeparator9.Size = New System.Drawing.Size(192, 6)
         Me.ToolStripSeparator9.Visible = false
+        '
+        'cmSameAsPostalAdd
+        '
+        Me.cmSameAsPostalAdd.Image = CType(resources.GetObject("cmSameAsPostalAdd.Image"),System.Drawing.Image)
+        Me.cmSameAsPostalAdd.Name = "cmSameAsPostalAdd"
+        Me.cmSameAsPostalAdd.Size = New System.Drawing.Size(195, 22)
+        Me.cmSameAsPostalAdd.Text = "Same as postal address"
         '
         'lblTaxType
         '
@@ -10765,431 +11190,6 @@ Partial Class frmGlazingQuote
         '
         Me.ttAddressLocator.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info
         '
-        'tsbExit
-        '
-        Me.tsbExit.Image = CType(resources.GetObject("tsbExit.Image"),System.Drawing.Image)
-        Me.tsbExit.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbExit.Name = "tsbExit"
-        Me.tsbExit.Size = New System.Drawing.Size(56, 25)
-        Me.tsbExit.Text = "Close"
-        '
-        'tsbSave
-        '
-        Me.tsbSave.Image = CType(resources.GetObject("tsbSave.Image"),System.Drawing.Image)
-        Me.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbSave.Name = "tsbSave"
-        Me.tsbSave.Size = New System.Drawing.Size(104, 25)
-        Me.tsbSave.Text = "Save (Ctrl + S) "
-        '
-        'tsbPrint
-        '
-        Me.tsbPrint.Enabled = false
-        Me.tsbPrint.Image = CType(resources.GetObject("tsbPrint.Image"),System.Drawing.Image)
-        Me.tsbPrint.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbPrint.Name = "tsbPrint"
-        Me.tsbPrint.Size = New System.Drawing.Size(103, 25)
-        Me.tsbPrint.Text = "&Print (Ctrl + P)"
-        '
-        'tsbNoteBoard
-        '
-        Me.tsbNoteBoard.AutoSize = false
-        Me.tsbNoteBoard.Image = CType(resources.GetObject("tsbNoteBoard.Image"),System.Drawing.Image)
-        Me.tsbNoteBoard.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbNoteBoard.Name = "tsbNoteBoard"
-        Me.tsbNoteBoard.Size = New System.Drawing.Size(90, 23)
-        Me.tsbNoteBoard.Text = "Cockpit (F4)"
-        Me.tsbNoteBoard.Visible = false
-        '
-        'tsbConvertToSalesOrder
-        '
-        Me.tsbConvertToSalesOrder.Image = CType(resources.GetObject("tsbConvertToSalesOrder.Image"),System.Drawing.Image)
-        Me.tsbConvertToSalesOrder.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbConvertToSalesOrder.Name = "tsbConvertToSalesOrder"
-        Me.tsbConvertToSalesOrder.Size = New System.Drawing.Size(204, 25)
-        Me.tsbConvertToSalesOrder.Text = "Con&vert to a Sales Order (Ctrl + 1)"
-        Me.tsbConvertToSalesOrder.Visible = false
-        '
-        'tsbCreateNCR
-        '
-        Me.tsbCreateNCR.Image = CType(resources.GetObject("tsbCreateNCR.Image"),System.Drawing.Image)
-        Me.tsbCreateNCR.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbCreateNCR.Name = "tsbCreateNCR"
-        Me.tsbCreateNCR.Size = New System.Drawing.Size(138, 25)
-        Me.tsbCreateNCR.Text = "Create &NCR (Ctrl + 2)"
-        Me.tsbCreateNCR.Visible = false
-        '
-        'tsbCreateCreditNote
-        '
-        Me.tsbCreateCreditNote.Image = CType(resources.GetObject("tsbCreateCreditNote.Image"),System.Drawing.Image)
-        Me.tsbCreateCreditNote.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbCreateCreditNote.Name = "tsbCreateCreditNote"
-        Me.tsbCreateCreditNote.Size = New System.Drawing.Size(175, 25)
-        Me.tsbCreateCreditNote.Text = "Create Credit No&te (Ctrl + 3)"
-        Me.tsbCreateCreditNote.Visible = false
-        '
-        'tsButtonFiscalPrinter
-        '
-        Me.tsButtonFiscalPrinter.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PrintFiscalPrinterToolStripMenuItem, Me.EditInvoiceToolStripMenuItem, Me.EditCustomerToolStripMenuItem})
-        Me.tsButtonFiscalPrinter.Image = CType(resources.GetObject("tsButtonFiscalPrinter.Image"),System.Drawing.Image)
-        Me.tsButtonFiscalPrinter.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsButtonFiscalPrinter.Name = "tsButtonFiscalPrinter"
-        Me.tsButtonFiscalPrinter.Size = New System.Drawing.Size(103, 25)
-        Me.tsButtonFiscalPrinter.Text = "Fiscal Printer"
-        Me.tsButtonFiscalPrinter.Visible = false
-        '
-        'PrintFiscalPrinterToolStripMenuItem
-        '
-        Me.PrintFiscalPrinterToolStripMenuItem.Name = "PrintFiscalPrinterToolStripMenuItem"
-        Me.PrintFiscalPrinterToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
-        Me.PrintFiscalPrinterToolStripMenuItem.Text = "Print Fiscal Invoice"
-        '
-        'EditInvoiceToolStripMenuItem
-        '
-        Me.EditInvoiceToolStripMenuItem.Name = "EditInvoiceToolStripMenuItem"
-        Me.EditInvoiceToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
-        Me.EditInvoiceToolStripMenuItem.Text = "Edit Invoice"
-        '
-        'EditCustomerToolStripMenuItem
-        '
-        Me.EditCustomerToolStripMenuItem.Name = "EditCustomerToolStripMenuItem"
-        Me.EditCustomerToolStripMenuItem.Size = New System.Drawing.Size(172, 22)
-        Me.EditCustomerToolStripMenuItem.Text = "Edit Customer"
-        '
-        'pbUG2ItemPic
-        '
-        Me.pbUG2ItemPic.Location = New System.Drawing.Point(583, 226)
-        Me.pbUG2ItemPic.Name = "pbUG2ItemPic"
-        Me.pbUG2ItemPic.Size = New System.Drawing.Size(49, 20)
-        Me.pbUG2ItemPic.TabIndex = 28
-        Me.pbUG2ItemPic.TabStop = false
-        Me.pbUG2ItemPic.Visible = false
-        '
-        'btnAddressLocator
-        '
-        Me.btnAddressLocator.BackColor = System.Drawing.Color.DodgerBlue
-        Me.btnAddressLocator.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue
-        Me.btnAddressLocator.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnAddressLocator.Image = CType(resources.GetObject("btnAddressLocator.Image"),System.Drawing.Image)
-        Me.btnAddressLocator.Location = New System.Drawing.Point(488, 66)
-        Me.btnAddressLocator.Name = "btnAddressLocator"
-        Me.btnAddressLocator.Size = New System.Drawing.Size(33, 23)
-        Me.btnAddressLocator.TabIndex = 26
-        Me.ttAddressLocator.SetToolTip(Me.btnAddressLocator, "Select address using map")
-        Me.btnAddressLocator.UseVisualStyleBackColor = false
-        '
-        'tsmAdd
-        '
-        Me.tsmAdd.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsmAddRowBefore, Me.tsmAddRowAfter})
-        Me.tsmAdd.Image = CType(resources.GetObject("tsmAdd.Image"),System.Drawing.Image)
-        Me.tsmAdd.Name = "tsmAdd"
-        Me.tsmAdd.Size = New System.Drawing.Size(171, 22)
-        Me.tsmAdd.Text = "Add Row"
-        '
-        'tsmAddRowBefore
-        '
-        Me.tsmAddRowBefore.Image = CType(resources.GetObject("tsmAddRowBefore.Image"),System.Drawing.Image)
-        Me.tsmAddRowBefore.Name = "tsmAddRowBefore"
-        Me.tsmAddRowBefore.Size = New System.Drawing.Size(154, 22)
-        Me.tsmAddRowBefore.Text = "Shift row up"
-        '
-        'tsmAddRowAfter
-        '
-        Me.tsmAddRowAfter.Image = CType(resources.GetObject("tsmAddRowAfter.Image"),System.Drawing.Image)
-        Me.tsmAddRowAfter.Name = "tsmAddRowAfter"
-        Me.tsmAddRowAfter.Size = New System.Drawing.Size(154, 22)
-        Me.tsmAddRowAfter.Text = "Shift row down"
-        '
-        'tsmiCopy
-        '
-        Me.tsmiCopy.Image = CType(resources.GetObject("tsmiCopy.Image"),System.Drawing.Image)
-        Me.tsmiCopy.Name = "tsmiCopy"
-        Me.tsmiCopy.Size = New System.Drawing.Size(171, 22)
-        Me.tsmiCopy.Text = "Copy selected row"
-        '
-        'tsmiPaste
-        '
-        Me.tsmiPaste.Image = CType(resources.GetObject("tsmiPaste.Image"),System.Drawing.Image)
-        Me.tsmiPaste.Name = "tsmiPaste"
-        Me.tsmiPaste.Size = New System.Drawing.Size(171, 22)
-        Me.tsmiPaste.Text = "Paste Row"
-        '
-        'tsmiDel
-        '
-        Me.tsmiDel.Image = CType(resources.GetObject("tsmiDel.Image"),System.Drawing.Image)
-        Me.tsmiDel.Name = "tsmiDel"
-        Me.tsmiDel.Size = New System.Drawing.Size(171, 22)
-        Me.tsmiDel.Text = "Remove Row"
-        '
-        'tsmiSavetext
-        '
-        Me.tsmiSavetext.Image = CType(resources.GetObject("tsmiSavetext.Image"),System.Drawing.Image)
-        Me.tsmiSavetext.Name = "tsmiSavetext"
-        Me.tsmiSavetext.Size = New System.Drawing.Size(171, 22)
-        Me.tsmiSavetext.Text = "Save Selected Text"
-        '
-        'tsmRemovePicture
-        '
-        Me.tsmRemovePicture.Image = CType(resources.GetObject("tsmRemovePicture.Image"),System.Drawing.Image)
-        Me.tsmRemovePicture.Name = "tsmRemovePicture"
-        Me.tsmRemovePicture.Size = New System.Drawing.Size(171, 22)
-        Me.tsmRemovePicture.Text = "Remove Picture"
-        '
-        'cmCustAddNew
-        '
-        Me.cmCustAddNew.Image = CType(resources.GetObject("cmCustAddNew.Image"),System.Drawing.Image)
-        Me.cmCustAddNew.Name = "cmCustAddNew"
-        Me.cmCustAddNew.Size = New System.Drawing.Size(195, 22)
-        Me.cmCustAddNew.Text = "Add New"
-        '
-        'cmCustEdit
-        '
-        Me.cmCustEdit.Image = CType(resources.GetObject("cmCustEdit.Image"),System.Drawing.Image)
-        Me.cmCustEdit.Name = "cmCustEdit"
-        Me.cmCustEdit.Size = New System.Drawing.Size(195, 22)
-        Me.cmCustEdit.Text = "Edit"
-        '
-        'cmCustView
-        '
-        Me.cmCustView.Image = CType(resources.GetObject("cmCustView.Image"),System.Drawing.Image)
-        Me.cmCustView.Name = "cmCustView"
-        Me.cmCustView.Size = New System.Drawing.Size(195, 22)
-        Me.cmCustView.Text = "View"
-        Me.cmCustView.Visible = false
-        '
-        'mnuCustPurchaseHistory
-        '
-        Me.mnuCustPurchaseHistory.Image = CType(resources.GetObject("mnuCustPurchaseHistory.Image"),System.Drawing.Image)
-        Me.mnuCustPurchaseHistory.Name = "mnuCustPurchaseHistory"
-        Me.mnuCustPurchaseHistory.Size = New System.Drawing.Size(195, 22)
-        Me.mnuCustPurchaseHistory.Text = "Purchase History "
-        Me.mnuCustPurchaseHistory.Visible = false
-        '
-        'AlertNotesToolStripMenuItem
-        '
-        Me.AlertNotesToolStripMenuItem.Image = CType(resources.GetObject("AlertNotesToolStripMenuItem.Image"),System.Drawing.Image)
-        Me.AlertNotesToolStripMenuItem.Name = "AlertNotesToolStripMenuItem"
-        Me.AlertNotesToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
-        Me.AlertNotesToolStripMenuItem.Text = "Alert Notes"
-        Me.AlertNotesToolStripMenuItem.Visible = false
-        '
-        'SendAIncidentToolStripMenuItem
-        '
-        Me.SendAIncidentToolStripMenuItem.Image = CType(resources.GetObject("SendAIncidentToolStripMenuItem.Image"),System.Drawing.Image)
-        Me.SendAIncidentToolStripMenuItem.Name = "SendAIncidentToolStripMenuItem"
-        Me.SendAIncidentToolStripMenuItem.Size = New System.Drawing.Size(195, 22)
-        Me.SendAIncidentToolStripMenuItem.Text = "Send a incident"
-        Me.SendAIncidentToolStripMenuItem.Visible = false
-        '
-        'cmSameAsPostalAdd
-        '
-        Me.cmSameAsPostalAdd.Image = CType(resources.GetObject("cmSameAsPostalAdd.Image"),System.Drawing.Image)
-        Me.cmSameAsPostalAdd.Name = "cmSameAsPostalAdd"
-        Me.cmSameAsPostalAdd.Size = New System.Drawing.Size(195, 22)
-        Me.cmSameAsPostalAdd.Text = "Same as postal address"
-        '
-        'mnuNewDocument
-        '
-        Me.mnuNewDocument.Image = CType(resources.GetObject("mnuNewDocument.Image"),System.Drawing.Image)
-        Me.mnuNewDocument.Name = "mnuNewDocument"
-        Me.mnuNewDocument.Size = New System.Drawing.Size(191, 22)
-        Me.mnuNewDocument.Text = "New"
-        '
-        'mnuSave
-        '
-        Me.mnuSave.Image = CType(resources.GetObject("mnuSave.Image"),System.Drawing.Image)
-        Me.mnuSave.Name = "mnuSave"
-        Me.mnuSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S),System.Windows.Forms.Keys)
-        Me.mnuSave.Size = New System.Drawing.Size(191, 22)
-        Me.mnuSave.Text = "Save"
-        '
-        'tsmiExportTemplate
-        '
-        Me.tsmiExportTemplate.Image = CType(resources.GetObject("tsmiExportTemplate.Image"),System.Drawing.Image)
-        Me.tsmiExportTemplate.Name = "tsmiExportTemplate"
-        Me.tsmiExportTemplate.ShortcutKeyDisplayString = ""
-        Me.tsmiExportTemplate.Size = New System.Drawing.Size(191, 22)
-        Me.tsmiExportTemplate.Text = "Export as Template"
-        '
-        'mnuCancelDocument
-        '
-        Me.mnuCancelDocument.Enabled = false
-        Me.mnuCancelDocument.Image = CType(resources.GetObject("mnuCancelDocument.Image"),System.Drawing.Image)
-        Me.mnuCancelDocument.Name = "mnuCancelDocument"
-        Me.mnuCancelDocument.Size = New System.Drawing.Size(191, 22)
-        Me.mnuCancelDocument.Text = "Cancel Document"
-        Me.mnuCancelDocument.Visible = false
-        '
-        'resetSaveMySettings
-        '
-        Me.resetSaveMySettings.Image = CType(resources.GetObject("resetSaveMySettings.Image"),System.Drawing.Image)
-        Me.resetSaveMySettings.Name = "resetSaveMySettings"
-        Me.resetSaveMySettings.Size = New System.Drawing.Size(191, 22)
-        Me.resetSaveMySettings.Text = "Reset Save MySettings"
-        Me.resetSaveMySettings.Visible = false
-        '
-        'mnuClose
-        '
-        Me.mnuClose.Image = CType(resources.GetObject("mnuClose.Image"),System.Drawing.Image)
-        Me.mnuClose.Name = "mnuClose"
-        Me.mnuClose.Size = New System.Drawing.Size(191, 22)
-        Me.mnuClose.Text = "Exite"
-        '
-        'mnuConvertToSO
-        '
-        Me.mnuConvertToSO.Image = CType(resources.GetObject("mnuConvertToSO.Image"),System.Drawing.Image)
-        Me.mnuConvertToSO.Name = "mnuConvertToSO"
-        Me.mnuConvertToSO.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D1),System.Windows.Forms.Keys)
-        Me.mnuConvertToSO.Size = New System.Drawing.Size(232, 22)
-        Me.mnuConvertToSO.Text = "Convert to Sales Order"
-        Me.mnuConvertToSO.Visible = false
-        '
-        'mnuNCR
-        '
-        Me.mnuNCR.Image = CType(resources.GetObject("mnuNCR.Image"),System.Drawing.Image)
-        Me.mnuNCR.Name = "mnuNCR"
-        Me.mnuNCR.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D2),System.Windows.Forms.Keys)
-        Me.mnuNCR.Size = New System.Drawing.Size(232, 22)
-        Me.mnuNCR.Text = "Create NCR"
-        Me.mnuNCR.Visible = false
-        '
-        'mnuCreditNote
-        '
-        Me.mnuCreditNote.Image = CType(resources.GetObject("mnuCreditNote.Image"),System.Drawing.Image)
-        Me.mnuCreditNote.Name = "mnuCreditNote"
-        Me.mnuCreditNote.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D3),System.Windows.Forms.Keys)
-        Me.mnuCreditNote.Size = New System.Drawing.Size(232, 22)
-        Me.mnuCreditNote.Text = "Create Credit Note"
-        Me.mnuCreditNote.Visible = false
-        '
-        'mnuPayment
-        '
-        Me.mnuPayment.Image = CType(resources.GetObject("mnuPayment.Image"),System.Drawing.Image)
-        Me.mnuPayment.Name = "mnuPayment"
-        Me.mnuPayment.Size = New System.Drawing.Size(232, 22)
-        Me.mnuPayment.Text = "Payment"
-        '
-        'mnuProcessInvoice
-        '
-        Me.mnuProcessInvoice.Image = CType(resources.GetObject("mnuProcessInvoice.Image"),System.Drawing.Image)
-        Me.mnuProcessInvoice.Name = "mnuProcessInvoice"
-        Me.mnuProcessInvoice.Size = New System.Drawing.Size(232, 22)
-        Me.mnuProcessInvoice.Text = "Invoice"
-        Me.mnuProcessInvoice.Visible = false
-        '
-        'mnuProcessDespatch
-        '
-        Me.mnuProcessDespatch.Image = CType(resources.GetObject("mnuProcessDespatch.Image"),System.Drawing.Image)
-        Me.mnuProcessDespatch.Name = "mnuProcessDespatch"
-        Me.mnuProcessDespatch.Size = New System.Drawing.Size(232, 22)
-        Me.mnuProcessDespatch.Text = "Despatch"
-        Me.mnuProcessDespatch.Visible = false
-        '
-        'mnuOnHoldLine
-        '
-        Me.mnuOnHoldLine.Image = CType(resources.GetObject("mnuOnHoldLine.Image"),System.Drawing.Image)
-        Me.mnuOnHoldLine.Name = "mnuOnHoldLine"
-        Me.mnuOnHoldLine.Size = New System.Drawing.Size(232, 22)
-        Me.mnuOnHoldLine.Text = "On Hold Line"
-        '
-        'mnuReleaseLine
-        '
-        Me.mnuReleaseLine.Image = CType(resources.GetObject("mnuReleaseLine.Image"),System.Drawing.Image)
-        Me.mnuReleaseLine.Name = "mnuReleaseLine"
-        Me.mnuReleaseLine.Size = New System.Drawing.Size(232, 22)
-        Me.mnuReleaseLine.Text = "Release Line"
-        '
-        'ConvertToQuoteToolStripMenuItem
-        '
-        Me.ConvertToQuoteToolStripMenuItem.Image = CType(resources.GetObject("ConvertToQuoteToolStripMenuItem.Image"),System.Drawing.Image)
-        Me.ConvertToQuoteToolStripMenuItem.Name = "ConvertToQuoteToolStripMenuItem"
-        Me.ConvertToQuoteToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
-        Me.ConvertToQuoteToolStripMenuItem.Text = "Convert to Quote"
-        Me.ConvertToQuoteToolStripMenuItem.Visible = false
-        '
-        'ApprovedQuoteToolStripMenuItem
-        '
-        Me.ApprovedQuoteToolStripMenuItem.Image = CType(resources.GetObject("ApprovedQuoteToolStripMenuItem.Image"),System.Drawing.Image)
-        Me.ApprovedQuoteToolStripMenuItem.Name = "ApprovedQuoteToolStripMenuItem"
-        Me.ApprovedQuoteToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
-        Me.ApprovedQuoteToolStripMenuItem.Text = "Approved Quote"
-        Me.ApprovedQuoteToolStripMenuItem.Visible = false
-        '
-        'CancelApprovedQuoteToolStripMenuItem
-        '
-        Me.CancelApprovedQuoteToolStripMenuItem.Image = CType(resources.GetObject("CancelApprovedQuoteToolStripMenuItem.Image"),System.Drawing.Image)
-        Me.CancelApprovedQuoteToolStripMenuItem.Name = "CancelApprovedQuoteToolStripMenuItem"
-        Me.CancelApprovedQuoteToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
-        Me.CancelApprovedQuoteToolStripMenuItem.Text = "Cancel Approved Quote"
-        Me.CancelApprovedQuoteToolStripMenuItem.Visible = false
-        '
-        'mnuCustomerEdit
-        '
-        Me.mnuCustomerEdit.Image = CType(resources.GetObject("mnuCustomerEdit.Image"),System.Drawing.Image)
-        Me.mnuCustomerEdit.Name = "mnuCustomerEdit"
-        Me.mnuCustomerEdit.Size = New System.Drawing.Size(191, 22)
-        Me.mnuCustomerEdit.Text = "Customer"
-        '
-        'mnuChangeDeliveryMethod
-        '
-        Me.mnuChangeDeliveryMethod.Image = CType(resources.GetObject("mnuChangeDeliveryMethod.Image"),System.Drawing.Image)
-        Me.mnuChangeDeliveryMethod.Name = "mnuChangeDeliveryMethod"
-        Me.mnuChangeDeliveryMethod.Size = New System.Drawing.Size(191, 22)
-        Me.mnuChangeDeliveryMethod.Text = "Delivery Method"
-        '
-        'mnuEnterFiscalNo
-        '
-        Me.mnuEnterFiscalNo.Image = CType(resources.GetObject("mnuEnterFiscalNo.Image"),System.Drawing.Image)
-        Me.mnuEnterFiscalNo.Name = "mnuEnterFiscalNo"
-        Me.mnuEnterFiscalNo.Size = New System.Drawing.Size(191, 22)
-        Me.mnuEnterFiscalNo.Text = "Update Fiscal Number"
-        Me.mnuEnterFiscalNo.Visible = false
-        '
-        'tsmSalesOrderDefault
-        '
-        Me.tsmSalesOrderDefault.Image = CType(resources.GetObject("tsmSalesOrderDefault.Image"),System.Drawing.Image)
-        Me.tsmSalesOrderDefault.Name = "tsmSalesOrderDefault"
-        Me.tsmSalesOrderDefault.Size = New System.Drawing.Size(177, 22)
-        Me.tsmSalesOrderDefault.Text = "Sales Order Default"
-        Me.tsmSalesOrderDefault.Visible = false
-        '
-        'mnuNoteBoard
-        '
-        Me.mnuNoteBoard.Image = CType(resources.GetObject("mnuNoteBoard.Image"),System.Drawing.Image)
-        Me.mnuNoteBoard.Name = "mnuNoteBoard"
-        Me.mnuNoteBoard.ShortcutKeys = System.Windows.Forms.Keys.F4
-        Me.mnuNoteBoard.Size = New System.Drawing.Size(177, 22)
-        Me.mnuNoteBoard.Text = "Cockpit"
-        '
-        'tsbViewSubtotals
-        '
-        Me.tsbViewSubtotals.Image = CType(resources.GetObject("tsbViewSubtotals.Image"),System.Drawing.Image)
-        Me.tsbViewSubtotals.Name = "tsbViewSubtotals"
-        Me.tsbViewSubtotals.Size = New System.Drawing.Size(177, 22)
-        Me.tsbViewSubtotals.Text = "View with Subtotals"
-        Me.tsbViewSubtotals.Visible = false
-        '
-        'mnuPurchHistory
-        '
-        Me.mnuPurchHistory.Image = CType(resources.GetObject("mnuPurchHistory.Image"),System.Drawing.Image)
-        Me.mnuPurchHistory.Name = "mnuPurchHistory"
-        Me.mnuPurchHistory.Size = New System.Drawing.Size(177, 22)
-        Me.mnuPurchHistory.Text = "Purchase History"
-        '
-        'OptimisedPreviewToolStripMenuItem
-        '
-        Me.OptimisedPreviewToolStripMenuItem.Image = CType(resources.GetObject("OptimisedPreviewToolStripMenuItem.Image"),System.Drawing.Image)
-        Me.OptimisedPreviewToolStripMenuItem.Name = "OptimisedPreviewToolStripMenuItem"
-        Me.OptimisedPreviewToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
-        Me.OptimisedPreviewToolStripMenuItem.Text = "Optimised Preview "
-        Me.OptimisedPreviewToolStripMenuItem.Visible = false
-        '
-        'tsmiOptions
-        '
-        Me.tsmiOptions.Image = CType(resources.GetObject("tsmiOptions.Image"),System.Drawing.Image)
-        Me.tsmiOptions.Name = "tsmiOptions"
-        Me.tsmiOptions.Size = New System.Drawing.Size(116, 22)
-        Me.tsmiOptions.Text = "Options"
-        '
         'frmGlazingQuote
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
@@ -11330,6 +11330,7 @@ Partial Class frmGlazingQuote
         Me.ToolStrip1.PerformLayout
         Me.GroupBox1.ResumeLayout(false)
         Me.GroupBox1.PerformLayout
+        CType(Me.pbUG2ItemPic,System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox3.ResumeLayout(false)
         Me.GroupBox3.PerformLayout
         CType(Me.txtDueDate,System.ComponentModel.ISupportInitialize).EndInit
@@ -11372,7 +11373,6 @@ Partial Class frmGlazingQuote
         CType(Me.UltraTabControl4,System.ComponentModel.ISupportInitialize).EndInit
         Me.Panel1.ResumeLayout(false)
         Me.Panel1.PerformLayout
-        CType(Me.pbUG2ItemPic,System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(false)
 
 End Sub
