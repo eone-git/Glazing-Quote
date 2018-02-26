@@ -12,6 +12,7 @@ Imports GMap.NET.WindowsForms
 Imports GMap.NET.MapProviders
 Imports GMap.NET
 Imports GMap.NET.WindowsForms.Markers
+Imports System.Text.RegularExpressions
 
 Public Class frmGlazingQuote
     Dim oPriceUnits As New clsSOPricingAndUnits
@@ -88,6 +89,8 @@ Public Class frmGlazingQuote
     Dim lineTypeCell As UltraGridCell
     Dim gridActiveRow As UltraGridRow
     Dim gridActiveCell As UltraGridCell
+    Dim downKeyPressed As Boolean = False
+
 
     Private Sub GET_CUSTOMERS(ByVal value As String)
 
@@ -2725,9 +2728,16 @@ Public Class frmGlazingQuote
             If isStockItemActive = False Then
                 If Me.UG2.ActiveCell.Column.Key = "LineComments" Then
                     Me.UG2.ActiveCell.Column.Header.Caption = "Doc Description"
-                Else
-                End If
 
+                ElseIf Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
+                    'Keyboard usage speedup
+                    If downKeyPressed = True Then
+                        QuoteGridNavigator()
+                        QuoteGridFunctions()
+                        downKeyPressed = False
+
+                    End If
+                End If
             End If
 
         Catch ex As Exception
@@ -2781,6 +2791,10 @@ Public Class frmGlazingQuote
             '    e.Cell.Row.Cells("IsAExistingItem").Value = False
             'End If
             'End If
+            If QuoteGridValueValidayion() = 0 Then
+                Exit Sub
+
+            End If
 
             If isStockItemActive = False Then
 
@@ -2801,11 +2815,11 @@ Public Class frmGlazingQuote
                     CalculateItemVolume(e)
 
                 ElseIf e.Cell.Column.Key = "Qty" Or e.Cell.Column.Key = "Volume" Or e.Cell.Column.Key = "Price" Or e.Cell.Column.Key = "TaxRate" Or e.Cell.Column.Key = "DiscAmt" Then
-                    If e.Cell.Row.Cells("Price").Text > 0 And isOpeningQuote = False And IsCellClearing = False Then
+                    If isOpeningQuote = False And IsCellClearing = False Then
                         CalculateItemAmount(e)
-                        'QuoteGridSetSubTotal()
+                        QuoteGridSetSubTotal()
                     End If
-                    QuoteGridSetSubTotal()
+
                 ElseIf e.Cell.Column.Key = "Amount" Then
                     'QuoteGridSetSubTotal()
                     If e.Cell.Row.Cells("QuoteFiedType").Text = "Subtotal" Then
@@ -2863,9 +2877,25 @@ Public Class frmGlazingQuote
                         selectedDocDes = ""
                     End If
                 End If
+
             ElseIf e.KeyCode = Keys.Tab Then
                 AddNewRowsValidator("after")
 
+            ElseIf e.KeyCode = Keys.Down Then
+                If IsNothing(UG2.ActiveCell) = False Then
+                    If UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
+                        downKeyPressed = True
+                    End If
+                End If
+
+            ElseIf e.KeyCode = Keys.Enter Then
+                If IsNothing(UG2.ActiveCell) = False Then
+                    If UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
+                        downKeyPressed = False
+                        QuoteGridNavigator()
+                        QuoteGridFunctions()
+                    End If
+                End If
             End If
 
         Catch ex As Exception
@@ -2900,7 +2930,6 @@ Public Class frmGlazingQuote
 
     Private Sub CalculateItemAmount(e As CellEventArgs)
         Try
-            ' Dim a3 = isTaxedPrice
             Dim itemVolume As Decimal = 0
             Dim itemPrice As Decimal = 0
             Dim ItemQty As Decimal = 0
@@ -2921,11 +2950,13 @@ Public Class frmGlazingQuote
 
             If IsNumeric(e.Cell.Row.Cells("Volume").Text) Then
                 itemVolume = e.Cell.Row.Cells("Volume").Text
+
+            Else
+
             End If
             If IsNumeric(e.Cell.Row.Cells("Price").Text) Then
                 itemPrice = e.Cell.Row.Cells("Price").Text
-                'itemDiscountedPrice = itemPrice
-                'itemIncAmount = itemPrice
+
             End If
 
             'If IsNothing(e.Cell.Row.Cells("TaxRate").Value) = False Then
@@ -3171,7 +3202,12 @@ Public Class frmGlazingQuote
             '    'If UG2.ActiveRow.Cells("Price").Text > 0 Then
             '    '    CalculateItemAmount()
             '    'End If
+            If QuoteGridValueValidayion() = 0 Then
+                e.Cancel = True
+                Exit Sub
+            Else
 
+            End If
             If Me.UG2.ActiveCell.Column.Key = "Amount" Then
                 If IsDBNull(Me.UG2.ActiveRow.Cells("QuoteFiedType").Value) = False Then
                     If Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item Then
@@ -4194,7 +4230,7 @@ Public Class frmGlazingQuote
             'lblTotIncAmo.Text = TotalInc
 
         Catch ex As Exception
-            ShowMessage(ex.message, Me.Text, MsgBoxStyle.Critical)
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -4240,15 +4276,19 @@ Public Class frmGlazingQuote
         '    Me.UG2.ActiveRow.Appearance.BackColor = Nothing
 
         'End If
-        QuoteGirdRowStyling()
-        QuoteGridNavigator()
-        QuoteGridFunctions()
-        'If isStockItemActive = False Then
-        '    If Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
-        '        QuoteGirdRowFormat(ex)
 
-        '    End If
-        'End If
+
+
+            QuoteGirdRowStyling()
+        If downKeyPressed = False Then
+            QuoteGridNavigator()
+            QuoteGridFunctions()
+            'If isStockItemActive = False Then
+            '    If Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
+            '        QuoteGirdRowFormat(ex)
+
+            '    End If
+        End If
 
     End Sub
 
@@ -4258,6 +4298,7 @@ Public Class frmGlazingQuote
             gridActiveRow.Appearance.FontData.Reset()
             gridActiveRow.Cells("Amount").Appearance.Reset()
             Me.UG2.ActiveRow.Cells("LineComments").Hidden = False
+            Me.UG2.ActiveRow.Cells("LineComments").Appearance.FontData.Reset()
 
             If lineTypeCell.Text = "Header-Main" Then
                 gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
@@ -4308,7 +4349,7 @@ Public Class frmGlazingQuote
             Me.UG2.ActiveRow.Cells("ItemImage").Hidden = isHdden
             Me.UG2.ActiveRow.Cells("TaxRate").Hidden = isHdden
             Me.UG2.ActiveRow.Cells("Shape").Hidden = isHdden
-           
+
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
@@ -4383,7 +4424,7 @@ Public Class frmGlazingQuote
                 End If
 
             ElseIf lineTypeCell.Text = "Subtotal" Then
-                
+
             Else
                 gridActiveRow.Cells("ItmGroupID").Value = Me.UG2.Rows(gridActiveRow.Index - 1).Cells("ItmGroupID").Value
             End If
@@ -4489,5 +4530,49 @@ Public Class frmGlazingQuote
         End Try
 
     End Sub
+    Function QuoteGridValueValidayion() As Integer
+        Dim isWrongType As Boolean = False
+        Try
+            If UG2.ActiveCell.Column.DataType = GetType(Int32) Then
+                If Regex.IsMatch(Me.UG2.ActiveCell.Text, "^[0-9 ]+$") = False Then
+                    isWrongType = True
 
+                End If
+
+            ElseIf Me.UG2.ActiveCell.Column.DataType = GetType(Decimal) Then
+                If Regex.IsMatch(Me.UG2.ActiveCell.Text, "^[0-9 ]?[.]?^[0-9 ]") = False Then
+                    isWrongType = True
+
+                End If
+            End If
+
+            If isWrongType = True Then
+                ShowMessage(UG2.ActiveCell.Column.Key & " required a numeric value", "Error in entered value", MsgBoxStyle.Critical)
+                Me.UG2.ActiveCell.Appearance.BackColor = Color.FromArgb(198, 101, 101)
+                Me.UG2.ActiveCell.SelectAll()
+                Return 0
+            Else
+                Me.UG2.ActiveCell.Appearance.Reset()
+
+            End If
+
+            Return 1
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            Return 0
+        End Try
+    End Function
+
+    Private Sub UG2_MouseClick(sender As Object, e As MouseEventArgs) Handles UG2.MouseClick
+        If IsNothing(Me.UG2.ActiveCell) = False Then
+            If Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
+                'downKeyPressed = False
+
+            End If
+        End If
+    End Sub
+
+    Private Sub ucmbQuoteLineType_AfterDropDown(sender As Object, e As EventArgs) Handles ucmbQuoteLineType.AfterDropDown
+        downKeyPressed = False
+    End Sub
 End Class
