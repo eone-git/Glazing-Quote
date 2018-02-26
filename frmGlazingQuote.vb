@@ -2659,8 +2659,9 @@ Public Class frmGlazingQuote
 #Region "ultraGrid behaviour"
 
     Private Sub UG2_AfterRowsDeleted(sender As Object, e As EventArgs) Handles UG2.AfterRowsDeleted
-        SetSubTotalByGroup()
-        SetTotalAmounts(True)
+        'SetSubTotalByGroup()
+        'SetTotalAmounts(True)
+        QuoteGridSetSubTotal()
     End Sub
     '------------------------start ultraGrid behaviour------------------------
     Private Sub UG2_InitializeLayout(sender As Object, e As InitializeLayoutEventArgs) Handles UG2.InitializeLayout, UltraGrid1.InitializeLayout
@@ -2802,13 +2803,14 @@ Public Class frmGlazingQuote
                 ElseIf e.Cell.Column.Key = "Qty" Or e.Cell.Column.Key = "Volume" Or e.Cell.Column.Key = "Price" Or e.Cell.Column.Key = "TaxRate" Or e.Cell.Column.Key = "DiscAmt" Then
                     If e.Cell.Row.Cells("Price").Text > 0 And isOpeningQuote = False And IsCellClearing = False Then
                         CalculateItemAmount(e)
+                        'QuoteGridSetSubTotal()
                     End If
-
+                    QuoteGridSetSubTotal()
                 ElseIf e.Cell.Column.Key = "Amount" Then
                     'QuoteGridSetSubTotal()
                     If e.Cell.Row.Cells("QuoteFiedType").Text = "Subtotal" Then
                         'UG2.Rows(headderSubRow).Cells("OrgPrice").Value = e.Cell.Row.Cells("Amount").Value
-                        SetTotalAmounts(True)
+                        'SetTotalAmounts(True)
 
                     Else
                         'If isPasting = False Or calculateWhilePasting = True Then
@@ -4252,11 +4254,11 @@ Public Class frmGlazingQuote
 
     Sub QuoteGirdRowStyling()
         Try
-            lineTypeCell.Appearance.Reset()
-            lineTypeCell.Appearance.FontData.Reset()
-            gridActiveRow.Cells("LineComments").Appearance.FontData.Reset()
+            gridActiveRow.Appearance.Reset()
+            gridActiveRow.Appearance.FontData.Reset()
+            gridActiveRow.Cells("Amount").Appearance.Reset()
+            Me.UG2.ActiveRow.Cells("LineComments").Hidden = False
 
-            gridActiveRow.Cells("LineComments").Appearance.FontData.Reset()
             If lineTypeCell.Text = "Header-Main" Then
                 gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
                 gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 14
@@ -4272,22 +4274,15 @@ Public Class frmGlazingQuote
                 gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
                 Me.UG2.ActiveRow.Cells("Amount").Appearance.BackColor = Color.LightGreen
                 Me.UG2.ActiveRow.Cells("Amount").Appearance.BorderColor = Color.Green
-                'gridActiveRow.Cells("LineComments").Appearance.FontData.Reset()
                 GrideColumsVisibility(gridActiveRow, True)
                 Me.UG2.ActiveRow.Cells("Amount").Hidden = False
                 Me.UG2.ActiveRow.Cells("LineComments").Hidden = True
 
             ElseIf lineTypeCell.Text = "Stock Item" Then
-                'gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.False
-                'gridActiveRow.Appearance.FontData.Underline = DefaultableBoolean.False
-                'gridActiveRow.Cells("LineComments").Appearance.FontData.Reset()
                 GrideColumsVisibility(gridActiveRow, False)
 
 
             ElseIf lineTypeCell.Text = "Text" Then
-                'gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.False
-                'gridActiveRow.Appearance.FontData.Underline = DefaultableBoolean.False
-                ' gridActiveRow.Cells("LineComments").Appearance.FontData.Reset()
                 GrideColumsVisibility(gridActiveRow, False)
 
             End If
@@ -4296,7 +4291,7 @@ Public Class frmGlazingQuote
             Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            ShowMessage(ex.Message, "Error in Line type drop down", MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -4313,7 +4308,7 @@ Public Class frmGlazingQuote
             Me.UG2.ActiveRow.Cells("ItemImage").Hidden = isHdden
             Me.UG2.ActiveRow.Cells("TaxRate").Hidden = isHdden
             Me.UG2.ActiveRow.Cells("Shape").Hidden = isHdden
-
+           
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
@@ -4376,16 +4371,24 @@ Public Class frmGlazingQuote
 
             ElseIf lineTypeCell.Text = "Text" Then
 
-            ElseIf lineTypeCell.Text = "StockItem" Then
+            ElseIf lineTypeCell.Text = "Stock Item" Then
+                If IsNothing(UG2.ActiveRow) = False Then
+                    If isPasting = False And isOpeningQuote = False Then
+                        Dim glazingDocStockItem As New frmGlazingDocStockItem(Me)
+                        glazingDocStockItem.ShowDialog()
+
+                    End If
+                    Me.UG2.ActiveRow.Cells("Amount").Tag = Me.UG2.ActiveRow.Cells("ItmGroupID").Value
+
+                End If
 
             ElseIf lineTypeCell.Text = "Subtotal" Then
-                SetSubTotal(e)
-                'QuoteGridSetSubTotal()
+                
             Else
                 gridActiveRow.Cells("ItmGroupID").Value = Me.UG2.Rows(gridActiveRow.Index - 1).Cells("ItmGroupID").Value
             End If
 
-
+            QuoteGridSetSubTotal()
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
@@ -4396,7 +4399,7 @@ Public Class frmGlazingQuote
         Try
             Dim row As UltraGridRow
             Dim subTotal As Decimal = 0.0
-            Dim groupID As Integer = Me.UG2.ActiveRow.Cells("ItmGroupID").Value
+            'Dim groupID As Integer = Me.UG2.ActiveRow.Cells("ItmGroupID").Value
             Dim exGroupAmount As Decimal = 0.0
             Dim isGroupstarted = False
             Dim TotalExc As Decimal = 0.0   'ItmExcAmount
