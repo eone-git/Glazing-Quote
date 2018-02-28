@@ -23,9 +23,7 @@ Partial Class frmGlazingNote
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim Appearance1 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraToolbar1 As Infragistics.Win.UltraWinToolbars.UltraToolbar = New Infragistics.Win.UltraWinToolbars.UltraToolbar("uttNoteText")
-        Me.utxtNoteText = New Infragistics.Win.FormattedLinkLabel.UltraFormattedTextEditor()
         Me.uscGlassQuote = New Infragistics.Win.UltraWinSpellChecker.UltraSpellChecker(Me.components)
         Me.brnAdd = New System.Windows.Forms.Button()
         Me.UltraFormattedTextWordWriter1 = New Infragistics.Win.UltraWinFormattedText.WordWriter.UltraFormattedTextWordWriter(Me.components)
@@ -38,49 +36,13 @@ Partial Class frmGlazingNote
         Me._frmGlazingNote_Toolbars_Dock_Area_Top = New Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea()
         Me._frmGlazingNote_Toolbars_Dock_Area_Bottom = New Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.utxtNoteText = New Infragistics.Win.UltraWinEditors.UltraTextEditor()
         CType(Me.uscGlassQuote, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.frmGlazingNote_Fill_Panel.ClientArea.SuspendLayout()
         Me.frmGlazingNote_Fill_Panel.SuspendLayout()
         CType(Me.UltraToolbarsManager1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.utxtNoteText, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'utxtNoteText
-        '
-        Me.utxtNoteText.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Appearance1.FontData.BoldAsString = "False"
-        Appearance1.FontData.ItalicAsString = "False"
-        Appearance1.FontData.Name = "Microsoft Sans Serif"
-        Appearance1.FontData.SizeInPoints = 8.25!
-        Appearance1.FontData.StrikeoutAsString = "False"
-        Appearance1.FontData.UnderlineAsString = "False"
-        Appearance1.TextHAlignAsString = "Left"
-        Me.utxtNoteText.Appearance = Appearance1
-        Me.utxtNoteText.BorderStyle = Infragistics.Win.UIElementBorderStyle.None
-        Me.utxtNoteText.ContextMenuItems = CType((((((((((((((((((Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Cut Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Copy) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Paste) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Delete) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Undo) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Redo) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.SelectAll) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Font) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Image) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Link) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.LineAlignment) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Paragraph) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Bold) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Italics) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Underline) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.SpellingSuggestions) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Strikeout) _
-            Or Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems.Reserved), Infragistics.Win.FormattedLinkLabel.FormattedTextMenuItems)
-        Me.utxtNoteText.Location = New System.Drawing.Point(0, 0)
-        Me.utxtNoteText.Name = "utxtNoteText"
-        Me.utxtNoteText.Size = New System.Drawing.Size(984, 399)
-        Me.utxtNoteText.TabIndex = 1
-        Me.utxtNoteText.UseOsThemes = Infragistics.Win.DefaultableBoolean.[True]
-        Me.utxtNoteText.Value = ""
         '
         'uscGlassQuote
         '
@@ -95,7 +57,7 @@ Partial Class frmGlazingNote
         Me.brnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.brnAdd.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.brnAdd.ForeColor = System.Drawing.Color.White
-        Me.brnAdd.Location = New System.Drawing.Point(910, 405)
+        Me.brnAdd.Location = New System.Drawing.Point(906, 388)
         Me.brnAdd.Name = "brnAdd"
         Me.brnAdd.Size = New System.Drawing.Size(75, 24)
         Me.brnAdd.TabIndex = 2
@@ -110,7 +72,7 @@ Partial Class frmGlazingNote
         Me.btnSpellCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnSpellCheck.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSpellCheck.ForeColor = System.Drawing.Color.White
-        Me.btnSpellCheck.Location = New System.Drawing.Point(829, 405)
+        Me.btnSpellCheck.Location = New System.Drawing.Point(825, 388)
         Me.btnSpellCheck.Name = "btnSpellCheck"
         Me.btnSpellCheck.Size = New System.Drawing.Size(75, 24)
         Me.btnSpellCheck.TabIndex = 2
@@ -123,14 +85,14 @@ Partial Class frmGlazingNote
         '
         'frmGlazingNote_Fill_Panel.ClientArea
         '
+        Me.frmGlazingNote_Fill_Panel.ClientArea.Controls.Add(Me.utxtNoteText)
         Me.frmGlazingNote_Fill_Panel.ClientArea.Controls.Add(Me.btnSpellCheck)
         Me.frmGlazingNote_Fill_Panel.ClientArea.Controls.Add(Me.brnAdd)
-        Me.frmGlazingNote_Fill_Panel.ClientArea.Controls.Add(Me.utxtNoteText)
         Me.frmGlazingNote_Fill_Panel.Cursor = System.Windows.Forms.Cursors.Default
         Me.frmGlazingNote_Fill_Panel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.frmGlazingNote_Fill_Panel.Location = New System.Drawing.Point(0, 17)
         Me.frmGlazingNote_Fill_Panel.Name = "frmGlazingNote_Fill_Panel"
-        Me.frmGlazingNote_Fill_Panel.Size = New System.Drawing.Size(984, 428)
+        Me.frmGlazingNote_Fill_Panel.Size = New System.Drawing.Size(984, 415)
         Me.frmGlazingNote_Fill_Panel.TabIndex = 0
         '
         '_frmGlazingNote_Toolbars_Dock_Area_Left
@@ -141,7 +103,7 @@ Partial Class frmGlazingNote
         Me._frmGlazingNote_Toolbars_Dock_Area_Left.ForeColor = System.Drawing.SystemColors.ControlText
         Me._frmGlazingNote_Toolbars_Dock_Area_Left.Location = New System.Drawing.Point(0, 17)
         Me._frmGlazingNote_Toolbars_Dock_Area_Left.Name = "_frmGlazingNote_Toolbars_Dock_Area_Left"
-        Me._frmGlazingNote_Toolbars_Dock_Area_Left.Size = New System.Drawing.Size(0, 428)
+        Me._frmGlazingNote_Toolbars_Dock_Area_Left.Size = New System.Drawing.Size(0, 415)
         Me._frmGlazingNote_Toolbars_Dock_Area_Left.ToolbarsManager = Me.UltraToolbarsManager1
         '
         'UltraToolbarsManager1
@@ -163,7 +125,7 @@ Partial Class frmGlazingNote
         Me._frmGlazingNote_Toolbars_Dock_Area_Right.ForeColor = System.Drawing.SystemColors.ControlText
         Me._frmGlazingNote_Toolbars_Dock_Area_Right.Location = New System.Drawing.Point(984, 17)
         Me._frmGlazingNote_Toolbars_Dock_Area_Right.Name = "_frmGlazingNote_Toolbars_Dock_Area_Right"
-        Me._frmGlazingNote_Toolbars_Dock_Area_Right.Size = New System.Drawing.Size(0, 428)
+        Me._frmGlazingNote_Toolbars_Dock_Area_Right.Size = New System.Drawing.Size(0, 415)
         Me._frmGlazingNote_Toolbars_Dock_Area_Right.ToolbarsManager = Me.UltraToolbarsManager1
         '
         '_frmGlazingNote_Toolbars_Dock_Area_Top
@@ -183,7 +145,7 @@ Partial Class frmGlazingNote
         Me._frmGlazingNote_Toolbars_Dock_Area_Bottom.BackColor = System.Drawing.SystemColors.Control
         Me._frmGlazingNote_Toolbars_Dock_Area_Bottom.DockedPosition = Infragistics.Win.UltraWinToolbars.DockedPosition.Bottom
         Me._frmGlazingNote_Toolbars_Dock_Area_Bottom.ForeColor = System.Drawing.SystemColors.ControlText
-        Me._frmGlazingNote_Toolbars_Dock_Area_Bottom.Location = New System.Drawing.Point(0, 445)
+        Me._frmGlazingNote_Toolbars_Dock_Area_Bottom.Location = New System.Drawing.Point(0, 432)
         Me._frmGlazingNote_Toolbars_Dock_Area_Bottom.Name = "_frmGlazingNote_Toolbars_Dock_Area_Bottom"
         Me._frmGlazingNote_Toolbars_Dock_Area_Bottom.Size = New System.Drawing.Size(984, 0)
         Me._frmGlazingNote_Toolbars_Dock_Area_Bottom.ToolbarsManager = Me.UltraToolbarsManager1
@@ -193,6 +155,14 @@ Partial Class frmGlazingNote
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
+        'utxtNoteText
+        '
+        Me.utxtNoteText.Location = New System.Drawing.Point(3, 6)
+        Me.utxtNoteText.Multiline = True
+        Me.utxtNoteText.Name = "utxtNoteText"
+        Me.utxtNoteText.Size = New System.Drawing.Size(978, 380)
+        Me.utxtNoteText.TabIndex = 3
+        '
         'frmGlazingNote
         '
         Me.AcceptButton = Me.brnAdd
@@ -200,7 +170,7 @@ Partial Class frmGlazingNote
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.CancelButton = Me.brnAdd
-        Me.ClientSize = New System.Drawing.Size(984, 445)
+        Me.ClientSize = New System.Drawing.Size(984, 432)
         Me.Controls.Add(Me.frmGlazingNote_Fill_Panel)
         Me.Controls.Add(Me._frmGlazingNote_Toolbars_Dock_Area_Left)
         Me.Controls.Add(Me._frmGlazingNote_Toolbars_Dock_Area_Right)
@@ -212,12 +182,13 @@ Partial Class frmGlazingNote
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         CType(Me.uscGlassQuote, System.ComponentModel.ISupportInitialize).EndInit()
         Me.frmGlazingNote_Fill_Panel.ClientArea.ResumeLayout(False)
+        Me.frmGlazingNote_Fill_Panel.ClientArea.PerformLayout()
         Me.frmGlazingNote_Fill_Panel.ResumeLayout(False)
         CType(Me.UltraToolbarsManager1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.utxtNoteText, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents utxtNoteText As Infragistics.Win.FormattedLinkLabel.UltraFormattedTextEditor
     Friend WithEvents brnAdd As System.Windows.Forms.Button
     Friend WithEvents UltraFormattedTextWordWriter1 As Infragistics.Win.UltraWinFormattedText.WordWriter.UltraFormattedTextWordWriter
     Friend WithEvents uscGlassQuote As Infragistics.Win.UltraWinSpellChecker.UltraSpellChecker
@@ -230,4 +201,5 @@ Partial Class frmGlazingNote
     Friend WithEvents _frmGlazingNote_Toolbars_Dock_Area_Top As Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea
     Friend WithEvents UltraFormattedTextWordWriter2 As Infragistics.Win.UltraWinFormattedText.WordWriter.UltraFormattedTextWordWriter
     Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents utxtNoteText As Infragistics.Win.UltraWinEditors.UltraTextEditor
 End Class
