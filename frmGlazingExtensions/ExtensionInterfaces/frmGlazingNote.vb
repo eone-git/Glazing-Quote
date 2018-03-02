@@ -92,7 +92,11 @@
 
 
     Private Sub btnSpellCheck_Click(sender As Object, e As EventArgs) Handles btnSpellCheck.Click
-        ' Me.uscGlassQuote.ShowSpellCheckDialog(utxtNoteText.Text)
+        Me.uscGlassQuote.ShowSpellCheckDialog(utxtNoteText)
+        'uscGlassQuote.ShowDialogsMo()
     End Sub
 
+    Private Sub uscGlassQuote_SpellCheckDialogOpening(sender As Object, e As Infragistics.Win.UltraWinSpellChecker.SpellCheckDialogOpeningEventArgs) Handles uscGlassQuote.SpellCheckDialogOpening
+
+    End Sub
 End Class

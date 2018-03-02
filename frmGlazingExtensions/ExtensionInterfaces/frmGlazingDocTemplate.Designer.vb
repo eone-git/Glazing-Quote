@@ -222,6 +222,7 @@ Partial Class frmGlazingDocTemplate
         '
         Me.btgnClear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btgnClear.BackColor = System.Drawing.Color.DodgerBlue
+        Me.btgnClear.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btgnClear.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue
         Me.btgnClear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.btgnClear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
@@ -238,6 +239,7 @@ Partial Class frmGlazingDocTemplate
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.BackColor = System.Drawing.Color.DodgerBlue
+        Me.btnDelete.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnDelete.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue
         Me.btnDelete.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red
         Me.btnDelete.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Maroon

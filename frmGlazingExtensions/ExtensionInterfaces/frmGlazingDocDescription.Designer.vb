@@ -26,7 +26,7 @@ Partial Class frmGlazingDocDescription
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGlazingDocDescription))
         Dim Appearance13 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand1 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn1 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Text", -1, Nothing, 0, Infragistics.Win.UltraWinGrid.SortIndicator.Ascending, False)
+        Dim UltraGridColumn2 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Text", -1, Nothing, 0, Infragistics.Win.UltraWinGrid.SortIndicator.Ascending, False)
         Dim Appearance14 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance15 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance16 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -99,12 +99,12 @@ Partial Class frmGlazingDocDescription
         Appearance13.BorderColor = System.Drawing.SystemColors.InactiveCaption
         Me.ugDocDes.DisplayLayout.Appearance = Appearance13
         Me.ugDocDes.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
-        UltraGridColumn1.AutoSizeEdit = Infragistics.Win.DefaultableBoolean.[True]
-        UltraGridColumn1.AutoSizeMode = Infragistics.Win.UltraWinGrid.ColumnAutoSizeMode.AllRowsInBand
-        UltraGridColumn1.CellMultiLine = Infragistics.Win.DefaultableBoolean.[True]
-        UltraGridColumn1.Header.VisiblePosition = 0
-        UltraGridColumn1.Width = 758
-        UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn1})
+        UltraGridColumn2.AutoSizeEdit = Infragistics.Win.DefaultableBoolean.[True]
+        UltraGridColumn2.AutoSizeMode = Infragistics.Win.UltraWinGrid.ColumnAutoSizeMode.AllRowsInBand
+        UltraGridColumn2.CellMultiLine = Infragistics.Win.DefaultableBoolean.[True]
+        UltraGridColumn2.Header.VisiblePosition = 0
+        UltraGridColumn2.Width = 758
+        UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn2})
         Me.ugDocDes.DisplayLayout.BandsSerializer.Add(UltraGridBand1)
         Me.ugDocDes.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.ugDocDes.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]

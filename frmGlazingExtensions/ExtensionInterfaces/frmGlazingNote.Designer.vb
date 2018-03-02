@@ -23,7 +23,7 @@ Partial Class frmGlazingNote
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim UltraToolbar2 As Infragistics.Win.UltraWinToolbars.UltraToolbar = New Infragistics.Win.UltraWinToolbars.UltraToolbar("uttNoteText")
+        Dim UltraToolbar1 As Infragistics.Win.UltraWinToolbars.UltraToolbar = New Infragistics.Win.UltraWinToolbars.UltraToolbar("uttNoteText")
         Me.uscGlassQuote = New Infragistics.Win.UltraWinSpellChecker.UltraSpellChecker(Me.components)
         Me.brnAdd = New System.Windows.Forms.Button()
         Me.UltraFormattedTextWordWriter1 = New Infragistics.Win.UltraWinFormattedText.WordWriter.UltraFormattedTextWordWriter(Me.components)
@@ -47,6 +47,16 @@ Partial Class frmGlazingNote
         'uscGlassQuote
         '
         Me.uscGlassQuote.ContainingControl = Me
+        Me.uscGlassQuote.Mode = Infragistics.Win.UltraWinSpellChecker.SpellCheckingMode.AsYouType
+        Me.uscGlassQuote.ShowDialogsModal = False
+        Me.uscGlassQuote.SpellOptions.AllowCapitalizedWords = True
+        Me.uscGlassQuote.SpellOptions.AllowMixedCase = True
+        Me.uscGlassQuote.SpellOptions.AllowWordsWithDigits = True
+        Me.uscGlassQuote.SpellOptions.CheckCompoundWords = True
+        Me.uscGlassQuote.SpellOptions.CheckHyphenatedText = False
+        Me.uscGlassQuote.SpellOptions.SeparateHyphenWords = True
+        Me.uscGlassQuote.UnderlineSpellingErrorColor = System.Drawing.Color.DarkRed
+        Me.uscGlassQuote.UnderlineSpellingErrorStyle = Infragistics.Win.UltraWinSpellChecker.UnderlineErrorsStyle.SingleLine
         '
         'brnAdd
         '
@@ -78,7 +88,6 @@ Partial Class frmGlazingNote
         Me.btnSpellCheck.TabIndex = 2
         Me.btnSpellCheck.Text = "Spell Check"
         Me.btnSpellCheck.UseVisualStyleBackColor = False
-        Me.btnSpellCheck.Visible = False
         '
         'frmGlazingNote_Fill_Panel
         '
@@ -97,10 +106,12 @@ Partial Class frmGlazingNote
         '
         'utxtNoteText
         '
+        Me.utxtNoteText.AcceptsTab = True
         Me.utxtNoteText.Location = New System.Drawing.Point(3, 6)
         Me.utxtNoteText.Multiline = True
         Me.utxtNoteText.Name = "utxtNoteText"
-        Me.utxtNoteText.Size = New System.Drawing.Size(978, 380)
+        Me.utxtNoteText.Size = New System.Drawing.Size(978, 383)
+        Me.utxtNoteText.SpellChecker = Me.uscGlassQuote
         Me.utxtNoteText.TabIndex = 3
         '
         '_frmGlazingNote_Toolbars_Dock_Area_Left
@@ -119,11 +130,11 @@ Partial Class frmGlazingNote
         Me.UltraToolbarsManager1.DesignerFlags = 1
         Me.UltraToolbarsManager1.DockWithinContainer = Me
         Me.UltraToolbarsManager1.DockWithinContainerBaseType = GetType(System.Windows.Forms.Form)
-        UltraToolbar2.DockedColumn = 0
-        UltraToolbar2.DockedRow = 0
-        UltraToolbar2.IsMainMenuBar = True
-        UltraToolbar2.Text = "uttNoteText"
-        Me.UltraToolbarsManager1.Toolbars.AddRange(New Infragistics.Win.UltraWinToolbars.UltraToolbar() {UltraToolbar2})
+        UltraToolbar1.DockedColumn = 0
+        UltraToolbar1.DockedRow = 0
+        UltraToolbar1.IsMainMenuBar = True
+        UltraToolbar1.Text = "uttNoteText"
+        Me.UltraToolbarsManager1.Toolbars.AddRange(New Infragistics.Win.UltraWinToolbars.UltraToolbar() {UltraToolbar1})
         '
         '_frmGlazingNote_Toolbars_Dock_Area_Right
         '
@@ -165,11 +176,9 @@ Partial Class frmGlazingNote
         '
         'frmGlazingNote
         '
-        Me.AcceptButton = Me.brnAdd
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.CancelButton = Me.brnAdd
         Me.ClientSize = New System.Drawing.Size(984, 432)
         Me.Controls.Add(Me.frmGlazingNote_Fill_Panel)
         Me.Controls.Add(Me._frmGlazingNote_Toolbars_Dock_Area_Left)

@@ -4128,16 +4128,17 @@ Public Class frmGlazingQuote
                             Case "route"
                                 txtPhy2.Text = addressItem.long_name
 
-
                             Case "sublocality_level_1"
                                 txtPhy2.Text = txtPhy2.Text & ", " & addressItem.long_name
+
+                            Case "locality"
+                                txtPhy3.Text = addressItem.long_name
 
                             Case "administrative_area_level_2"
                                 txtPhy4.Text = addressItem.long_name
 
-
                             Case "administrative_area_level_1"
-                                txtPhy5.Text = addressItem.long_name
+                                txtPhy5.Text = addressItem.short_name
 
                             Case "country"
 
@@ -4149,19 +4150,20 @@ Public Class frmGlazingQuote
                     Next
                 Next
 
-                Dim overlay As GMapOverlay = New GMapOverlay("Address Overlay")
-                Dim point As PointLatLng? = FindLatLngByAddress(placeMark.Item(1).formatted_address)
+                'Dim overlay As GMapOverlay = New GMapOverlay("Address Overlay")
 
-                If point IsNot Nothing Then
-                    Dim marker As GMapMarker = New GMarkerGoogle(New PointLatLng(point.Value.Lat, point.Value.Lng), GMarkerGoogleType.blue)
-                    marker.ToolTipMode = MarkerTooltipMode.OnMouseOver
-                    addressMap.Position = New PointLatLng(point.Value.Lat, point.Value.Lng)
-                    overlay.Markers.Add(marker)
-                    Me.latitude = point.Value.Lat
-                    Me.longitude = point.Value.Lng
-                End If
-                addressMap.Overlays.Clear()
-                addressMap.Overlays.Add(overlay)
+                'Dim point As PointLatLng? = FindLatLngByAddress(placeMark.Item(placeMark.Count - 1).formatted_address)
+
+                'If point IsNot Nothing Then
+                '    Dim marker As GMapMarker = New GMarkerGoogle(New PointLatLng(point.Value.Lat, point.Value.Lng), GMarkerGoogleType.blue)
+                '    marker.ToolTipMode = MarkerTooltipMode.OnMouseOver
+                '    addressMap.Position = New PointLatLng(point.Value.Lat, point.Value.Lng)
+                '    overlay.Markers.Add(marker)
+                '    Me.latitude = point.Value.Lat
+                '    Me.longitude = point.Value.Lng
+                'End If
+                'addressMap.Overlays.Clear()
+                'addressMap.Overlays.Add(overlay)
             End If
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
@@ -4666,5 +4668,18 @@ Public Class frmGlazingQuote
             PastRow()
 
         End If
+    End Sub
+
+    Private Sub tsmAddTotalAmount_Click(sender As Object, e As EventArgs) Handles tsmAddTotalAmount.Click
+        Try
+
+            If IsNothing(Me.UG2.ActiveCell) = False Then
+                Me.UG2.ActiveCell.Value = Me.UG2.ActiveCell.Text + " <Total> "
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class

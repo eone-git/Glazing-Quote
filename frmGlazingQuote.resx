@@ -313,7 +313,7 @@
     <value>483, 18</value>
   </metadata>
   <metadata name="quoteData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>387, 16</value>
+    <value>383, 16</value>
   </metadata>
   <metadata name="UltraDataSource2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1019, 32</value>
@@ -1359,7 +1359,7 @@
 </value>
   </data>
   <metadata name="CachedrptCheque1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>239, 17</value>
+    <value>244, 17</value>
   </metadata>
   <metadata name="UltraFormattedTextWordWriter1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>653, 23</value>

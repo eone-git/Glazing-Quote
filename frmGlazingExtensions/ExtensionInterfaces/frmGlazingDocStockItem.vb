@@ -391,7 +391,7 @@ Public Class frmGlazingDocStockItem
     End Sub
 
     Private Sub ucmbPriceType_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles ucmbPriceType.RowSelected
-        If IsNothing(ucmbPriceType.SelectedRow) = False and ISLOADING =False Then
+        If IsNothing(ucmbPriceType.SelectedRow) = False And ISLOADING = False Then
             frmGlazingQuote.UG2.ActiveRow.Cells("PriceType").Value = ucmbPriceType.Value
             SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
 
