@@ -85,11 +85,15 @@ Public Class frmGlazingDocDescription
         Dim rowsCollection As SelectedRowsCollection = ugDocDes.Selected.Rows
         If IsNothing(rowsCollection) Then
         Else
+            frmGlazingQuote.selectedDocDes = ""
             For Each row As UltraGridRow In rowsCollection
+
                 If frmGlazingQuote.selectedDocDes <> "" Then
                     frmGlazingQuote.selectedDocDes = frmGlazingQuote.selectedDocDes + vbCrLf + row.Cells("Text").Value
                 ElseIf frmGlazingQuote.selectedDocDes = "" Then
-                    frmGlazingQuote.selectedDocDes = row.Cells("Text").Value
+                    If IsDBNull(row.Cells("Text").Value) = False Then
+                        frmGlazingQuote.selectedDocDes = row.Cells("Text").Value
+                    End If
                 End If
             Next
         End If
