@@ -86,9 +86,11 @@ Public Class frmGlazingDocTemplate
                 If dsQuoteTemp.Tables(0).Rows.Count > 0 Then
                     ClearGride()
                     Dim dr As UltraGridRow
+                    frmGlazingQuote.isOpeningQuote = True
                     For Each objQutDetailline In dsQuoteTemp.Tables(0).Rows
                         dr = frmGlazingQuote.UG2.DisplayLayout.Bands(0).AddNew
                         dr.Cells("QuoteFiedType").Value = objQutDetailline("TempQuoteFiedType")
+                        frmGlazingQuote.ucmbQuoteLineType.Value = objQutDetailline("TempQuoteFiedType")
                         dr.Cells("LineComments").Value = objQutDetailline("DocDescription")
                         dr.Cells("ItmGroupID").Value = objQutDetailline("RowGroupID")
                         If objQutDetailline("RowGroupID") > itmGroupID Then
@@ -103,6 +105,10 @@ Public Class frmGlazingDocTemplate
 
             Catch ex As Exception
                 frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Exclamation)
+
+            Finally
+                frmGlazingQuote.isOpeningQuote = False
+
             End Try
 
         End If

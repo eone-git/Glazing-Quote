@@ -67,7 +67,7 @@ Public Class frmGlazingQuote
     Dim rowCopied As New List(Of UltraGridRow)
 
 
-    Dim isOpeningQuote As Boolean = False
+    Public isOpeningQuote As Boolean = False
     Dim calculateWhilePasting As Boolean = False
     Dim IsCellClearing As Boolean = False
     Public isStockItemActive As Boolean = False
@@ -2847,7 +2847,7 @@ Public Class frmGlazingQuote
             '    e.Cell.Row.Cells("IsAExistingItem").Value = False
             'End If
             'End If
-            If isPasting = False Then
+            If isPasting = False And isOpeningQuote = False Then
                 If QuoteGridValueValidationBeforeUpdate() = 0 Then
                     Exit Sub
                 End If
@@ -2855,7 +2855,7 @@ Public Class frmGlazingQuote
                 Exit Sub
             End If
 
-            If isStockItemActive = False Then
+            If isStockItemActive = False And isOpeningQuote = False Then
 
                 If isPasting = True Then
                     If e.Cell.Column.Key = "QuoteFiedType" Or calculateWhilePasting = True Then
@@ -3593,8 +3593,8 @@ Public Class frmGlazingQuote
                         End If
                         'end of.. For Template Items like IGU and Custom Lam
 
-                        oPriceUnits.SetUnitsAndVolumeOnThisRow(e.Cell.Row)
-                        oPriceUnits.CalculateLineAmountsOnthisRow(e.Cell.Row)
+                        'oPriceUnits.SetUnitsAndVolumeOnThisRow(e.Cell.Row)
+                        'oPriceUnits.CalculateLineAmountsOnthisRow(e.Cell.Row)
 
                         ''Call SetUnitsAndPriceOnExistingServices(e.Cell.Row)
 
@@ -3738,8 +3738,8 @@ Public Class frmGlazingQuote
                         End If
                         'end of.. For Template Items like IGU and Custom Lam
 
-                        oPriceUnits.SetUnitsAndVolumeOnThisRow(e.Cell.Row)
-                        oPriceUnits.CalculateLineAmountsOnthisRow(e.Cell.Row)
+                        'oPriceUnits.SetUnitsAndVolumeOnThisRow(e.Cell.Row)
+                        'oPriceUnits.CalculateLineAmountsOnthisRow(e.Cell.Row)
 
                         'Call SetUnitsAndPriceOnExistingServices(e.Cell.Row)
 
@@ -4325,7 +4325,7 @@ Public Class frmGlazingQuote
 
 
             QuoteGirdRowStyling()
-            If downKeyPressed = False Then
+            If downKeyPressed = False And isOpeningQuote = False Then
                 QuoteGridNavigator()
                 QuoteGridFunctions()
                 'If isStockItemActive = False Then

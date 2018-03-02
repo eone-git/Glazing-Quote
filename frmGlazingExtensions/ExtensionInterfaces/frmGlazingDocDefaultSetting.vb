@@ -24,7 +24,7 @@ Public Class frmGlazingDocDefaultSetting
 
     End Sub
     Public Sub SaveData()
-        Dim SQLNew As New clsSqlConn
+        Dim SQLNew = New clsSqlConn
         Dim sqlQuary As String = ""
         Dim taxCheckState As Integer
 
