@@ -23,25 +23,25 @@ Partial Class frmGlazingNote
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim UltraToolbar1 As Infragistics.Win.UltraWinToolbars.UltraToolbar = New Infragistics.Win.UltraWinToolbars.UltraToolbar("uttNoteText")
+        Dim UltraToolbar2 As Infragistics.Win.UltraWinToolbars.UltraToolbar = New Infragistics.Win.UltraWinToolbars.UltraToolbar("uttNoteText")
         Me.uscGlassQuote = New Infragistics.Win.UltraWinSpellChecker.UltraSpellChecker(Me.components)
         Me.brnAdd = New System.Windows.Forms.Button()
         Me.UltraFormattedTextWordWriter1 = New Infragistics.Win.UltraWinFormattedText.WordWriter.UltraFormattedTextWordWriter(Me.components)
         Me.btnSpellCheck = New System.Windows.Forms.Button()
         Me.UltraFormattedTextWordWriter2 = New Infragistics.Win.UltraWinFormattedText.WordWriter.UltraFormattedTextWordWriter(Me.components)
         Me.frmGlazingNote_Fill_Panel = New Infragistics.Win.Misc.UltraPanel()
+        Me.utxtNoteText = New Infragistics.Win.UltraWinEditors.UltraTextEditor()
         Me._frmGlazingNote_Toolbars_Dock_Area_Left = New Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea()
         Me.UltraToolbarsManager1 = New Infragistics.Win.UltraWinToolbars.UltraToolbarsManager(Me.components)
         Me._frmGlazingNote_Toolbars_Dock_Area_Right = New Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea()
         Me._frmGlazingNote_Toolbars_Dock_Area_Top = New Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea()
         Me._frmGlazingNote_Toolbars_Dock_Area_Bottom = New Infragistics.Win.UltraWinToolbars.UltraToolbarsDockArea()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.utxtNoteText = New Infragistics.Win.UltraWinEditors.UltraTextEditor()
         CType(Me.uscGlassQuote, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.frmGlazingNote_Fill_Panel.ClientArea.SuspendLayout()
         Me.frmGlazingNote_Fill_Panel.SuspendLayout()
-        CType(Me.UltraToolbarsManager1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.utxtNoteText, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.UltraToolbarsManager1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'uscGlassQuote
@@ -95,6 +95,14 @@ Partial Class frmGlazingNote
         Me.frmGlazingNote_Fill_Panel.Size = New System.Drawing.Size(984, 415)
         Me.frmGlazingNote_Fill_Panel.TabIndex = 0
         '
+        'utxtNoteText
+        '
+        Me.utxtNoteText.Location = New System.Drawing.Point(3, 6)
+        Me.utxtNoteText.Multiline = True
+        Me.utxtNoteText.Name = "utxtNoteText"
+        Me.utxtNoteText.Size = New System.Drawing.Size(978, 380)
+        Me.utxtNoteText.TabIndex = 3
+        '
         '_frmGlazingNote_Toolbars_Dock_Area_Left
         '
         Me._frmGlazingNote_Toolbars_Dock_Area_Left.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -111,11 +119,11 @@ Partial Class frmGlazingNote
         Me.UltraToolbarsManager1.DesignerFlags = 1
         Me.UltraToolbarsManager1.DockWithinContainer = Me
         Me.UltraToolbarsManager1.DockWithinContainerBaseType = GetType(System.Windows.Forms.Form)
-        UltraToolbar1.DockedColumn = 0
-        UltraToolbar1.DockedRow = 0
-        UltraToolbar1.IsMainMenuBar = True
-        UltraToolbar1.Text = "uttNoteText"
-        Me.UltraToolbarsManager1.Toolbars.AddRange(New Infragistics.Win.UltraWinToolbars.UltraToolbar() {UltraToolbar1})
+        UltraToolbar2.DockedColumn = 0
+        UltraToolbar2.DockedRow = 0
+        UltraToolbar2.IsMainMenuBar = True
+        UltraToolbar2.Text = "uttNoteText"
+        Me.UltraToolbarsManager1.Toolbars.AddRange(New Infragistics.Win.UltraWinToolbars.UltraToolbar() {UltraToolbar2})
         '
         '_frmGlazingNote_Toolbars_Dock_Area_Right
         '
@@ -155,14 +163,6 @@ Partial Class frmGlazingNote
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
-        'utxtNoteText
-        '
-        Me.utxtNoteText.Location = New System.Drawing.Point(3, 6)
-        Me.utxtNoteText.Multiline = True
-        Me.utxtNoteText.Name = "utxtNoteText"
-        Me.utxtNoteText.Size = New System.Drawing.Size(978, 380)
-        Me.utxtNoteText.TabIndex = 3
-        '
         'frmGlazingNote
         '
         Me.AcceptButton = Me.brnAdd
@@ -184,8 +184,8 @@ Partial Class frmGlazingNote
         Me.frmGlazingNote_Fill_Panel.ClientArea.ResumeLayout(False)
         Me.frmGlazingNote_Fill_Panel.ClientArea.PerformLayout()
         Me.frmGlazingNote_Fill_Panel.ResumeLayout(False)
-        CType(Me.UltraToolbarsManager1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.utxtNoteText, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.UltraToolbarsManager1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

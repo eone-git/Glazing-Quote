@@ -262,6 +262,7 @@ Public Class frmGlazingDocStockItem
 
 
         If IsNothing(frmGlazingQuote.UG2.ActiveRow) = False Then
+
             If selectedRow.Cells("ItemType").Value > 0 Then
                 utxtDocDes.Value = selectedRow.Cells("LineComments").Value
                 cmbDDItemType.Value = selectedRow.Cells("ItemType").Value
@@ -270,7 +271,7 @@ Public Class frmGlazingDocStockItem
                 ctxtWidth.Value = selectedRow.Cells("Width").Value
                 txtVolume.Value = selectedRow.Cells("Volume").Value
                 txtQty.Value = selectedRow.Cells("Qty").Value
-                txtPrice.Value = selectedRow.Cells("Price").Value
+                txtPrice.Value = frmGlazingQuote.UG2.ActiveRow.Cells("Price").Value
 
                 If IsNothing(selectedRow.Cells("Price_Type").Value) = False Then
                     ucmbPriceType.Value = priceTypeValue
@@ -287,6 +288,7 @@ Public Class frmGlazingDocStockItem
                 cmbDDItemType.Value = 1
 
             End If
+            isLoading = False
         End If
     End Sub
 
@@ -316,9 +318,10 @@ Public Class frmGlazingDocStockItem
         End If
 
         If IsNothing(uPicBox.Image) = False Then
+            frmGlazingQuote.UG2.ActiveRow.Cells("ItemImage").Activate()
             If IsDBNull(ucmbItemCode.SelectedRow.Cells("ItemImage").Value) = False Then
                 frmGlazingQuote.UG2.ActiveRow.Cells("ItemImage").Value = frmGlazingQuote.ByteToImage(ucmbItemCode.SelectedRow.Cells("ItemImage").Value)
-                frmGlazingQuote.UG2.ActiveRow.Cells("isImageAttached").Value = False
+                frmGlazingQuote.UG2.ActiveRow.Cells("isImageAttached").Value = True
             Else
 
             End If
@@ -335,59 +338,72 @@ Public Class frmGlazingDocStockItem
 
         'Dim array As Byte() = New Byte(63) {}
         'array.Clear(array, 0, array.Length)
-        If frmGlazingQuote.UG2.ActiveRow.Cells("Price").Value = 0 Then
 
-            frmGlazingQuote.UG2.ActiveRow.Cells("ItmExcAmount").Value = 0
-            frmGlazingQuote.UG2.ActiveRow.Cells("Tax").Value = 0
-            frmGlazingQuote.UG2.ActiveRow.Cells("Amount").Value = 0
-            frmGlazingQuote.UG2.ActiveRow.Cells("OrgPrice").Value = 0
-            frmGlazingQuote.UG2.ActiveRow.Cells("Net").Value = 0
+        'Can be 0
+        'If frmGlazingQuote.UG2.ActiveRow.Cells("Price").Value = 0 Then
 
-        End If
+        '    frmGlazingQuote.UG2.ActiveRow.Cells("ItmExcAmount").Value = 0
+        '    frmGlazingQuote.UG2.ActiveRow.Cells("Tax").Value = 0
+        '    frmGlazingQuote.UG2.ActiveRow.Cells("Amount").Value = 0
+        '    frmGlazingQuote.UG2.ActiveRow.Cells("OrgPrice").Value = 0
+        '    frmGlazingQuote.UG2.ActiveRow.Cells("Net").Value = 0
+
+        'End If
 
         If IsNothing(ucmbItemCode.SelectedRow) = False Then
             frmGlazingQuote.UG2.ActiveRow.Cells("StockLink").Value = ucmbItemCode.Value
+
         End If
         frmGlazingQuote.isStockItemClosing = True
+        frmGlazingQuote.UG2.ActiveRow.PerformAutoSize()
+
     End Sub
 
     Private Sub ucmbItemCode_Enter(sender As Object, e As EventArgs) Handles ucmbItemCode.Enter
         Dim band As UltraGridBand = ucmbItemCode.DisplayLayout.Bands(0)
         band.ColumnFilters.ClearAllFilters()
         band.ColumnFilters("uiIIItemType").FilterConditions.Add(FilterComparisionOperator.Equals, cmbDDItemType.Value)
+
     End Sub
 
     Private Sub ucmbItemCode_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles ucmbItemCode.RowSelected
 
         If IsNothing(ucmbItemCode.SelectedRow) = False Then
+
             If comboVlaueChanged = False Then
-                ResetFormElementsValues(ucmbItemCode.Name)
+                If isLoading = False Then
+                    ResetFormElementsValues(ucmbItemCode.Name)
+                End If
+
                 FillComboData(e)
                 comboVlaueChanged = False
             End If
+
+            If isLoading = False Then
+                FillActiveRowFromSelectedProductParameters(ucmbItemCode, frmGlazingQuote.UG2.ActiveRow)
+                SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
+            End If
+
             EnableFormElements()
-            FillActiveRowFromSelectedProductParameters(ucmbItemCode, frmGlazingQuote.UG2.ActiveRow)
-            SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
             LoadItemImage(e.Row)
-            'uPicBox.Visible = True
-            Dim atest = frmGlazingQuote.UG2.ActiveRow.Cells("Price").Value
+
         End If
     End Sub
 
     Private Sub ucmbPriceType_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles ucmbPriceType.RowSelected
-        If IsNothing(ucmbPriceType.SelectedRow) = False Then
+        If IsNothing(ucmbPriceType.SelectedRow) = False and ISLOADING =False Then
             frmGlazingQuote.UG2.ActiveRow.Cells("PriceType").Value = ucmbPriceType.Value
             SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
-        End If
 
+        End If
     End Sub
 
     Private Sub ucmbItemDes_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles ucmbItemDes.RowSelected
         If IsNothing(ucmbItemDes.SelectedRow) = False Then
-            ' IsNothing(ucmbPriceType.SelectedRow) = False And
             If comboVlaueChanged = False And IsNothing(ucmbItemDes.Value) = False Then
                 FillComboData(e)
                 comboVlaueChanged = False
+
             End If
         End If
         'FillActiveRowFromSelectedProductParameters(ucmbItemCode, frmGlazingQuote.UG2.ActiveRow)
@@ -610,11 +626,8 @@ Public Class frmGlazingDocStockItem
         End With
     End Sub
 
-
     Private Sub FillActiveRowFromSelectedProductParameters(ByRef uddSource As UltraCombo, ugRow As UltraGridRow)
-
         Try
-
             If uddSource.ActiveRow IsNot Nothing Then
 
                 If uddSource.Name = "ucmbItemDes" Then
@@ -705,8 +718,8 @@ Public Class frmGlazingDocStockItem
                     'Added as NZ requirement 15-05-2015
 
                 End If
-                'Set Item Price Type
 
+                'Set Item Price Type
                 ugRow.Cells("Measure").Value = IIf(uddSource.ActiveRow.Cells("uiIISRVPRICEID").Value = 0, 1, uddSource.ActiveRow.Cells("uiIISRVPRICEID").Value)
                 If ugRow.Cells("Measure").Value <> GlassServiceUnits.Lineal Then '3 Then
                     ugRow.Cells("Method").Activation = Activation.Disabled
@@ -759,13 +772,15 @@ Public Class frmGlazingDocStockItem
     Private Sub cmbDDPriceListsTrade_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles cmbDDPriceListsTrade.RowSelected
         '' SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
         '' FillActiveRowFromSelectedProductParameters(ucmbItemCode, frmGlazingQuote.UG2.ActiveRow)
-        If IsNothing(cmbDDPriceListsTrade.Value) = False Then
-            If Not IsNothing(cmbDDPriceListsTrade.Value) Then
-                frmGlazingQuote.UG2.ActiveRow.Cells("PriceList").Value = cmbDDPriceListsTrade.Value
-                SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
-            ElseIf Not IsNothing(cmbDDPriceListsSpecial.Value) Then
-                frmGlazingQuote.UG2.ActiveRow.Cells("PriceList").Value = cmbDDPriceListsSpecial.Value
-                SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
+        If isLoading = False Then
+            If IsNothing(cmbDDPriceListsTrade.Value) = False Then
+                If Not IsNothing(cmbDDPriceListsTrade.Value) Then
+                    frmGlazingQuote.UG2.ActiveRow.Cells("PriceList").Value = cmbDDPriceListsTrade.Value
+                    SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
+                ElseIf Not IsNothing(cmbDDPriceListsSpecial.Value) Then
+                    frmGlazingQuote.UG2.ActiveRow.Cells("PriceList").Value = cmbDDPriceListsSpecial.Value
+                    SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
+                End If
             End If
         End If
 

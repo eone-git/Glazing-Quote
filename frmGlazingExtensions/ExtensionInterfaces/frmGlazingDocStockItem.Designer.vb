@@ -63,9 +63,9 @@ Partial Class frmGlazingDocStockItem
         Dim Appearance38 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance128 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand1 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn3 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("TypeID")
-        Dim UltraGridColumn4 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Type")
-        Dim Appearance56 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim UltraGridColumn1 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("TypeID")
+        Dim UltraGridColumn2 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Type")
+        Dim Appearance14 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance129 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance131 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance130 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -525,15 +525,15 @@ Partial Class frmGlazingDocStockItem
         Me.cmbDDItemType.DisplayLayout.Appearance = Appearance128
         Me.cmbDDItemType.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
         UltraGridBand1.ColHeadersVisible = False
-        UltraGridColumn3.Header.VisiblePosition = 0
-        UltraGridColumn3.Hidden = True
-        UltraGridColumn3.Width = 51
-        UltraGridColumn4.Header.VisiblePosition = 1
-        UltraGridColumn4.Width = 93
-        UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn3, UltraGridColumn4})
-        Appearance56.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Appearance56.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        UltraGridBand1.Header.Appearance = Appearance56
+        UltraGridColumn1.Header.VisiblePosition = 0
+        UltraGridColumn1.Hidden = True
+        UltraGridColumn1.Width = 51
+        UltraGridColumn2.Header.VisiblePosition = 1
+        UltraGridColumn2.Width = 93
+        UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn1, UltraGridColumn2})
+        Appearance14.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Appearance14.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        UltraGridBand1.Header.Appearance = Appearance14
         Me.cmbDDItemType.DisplayLayout.BandsSerializer.Add(UltraGridBand1)
         Me.cmbDDItemType.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.cmbDDItemType.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]
@@ -893,6 +893,7 @@ Partial Class frmGlazingDocStockItem
         resources.ApplyResources(Me.txtVolume, "txtVolume")
         Me.txtVolume.Name = "txtVolume"
         Me.txtVolume.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
+        Me.txtVolume.ReadOnly = True
         '
         'txtHeight
         '

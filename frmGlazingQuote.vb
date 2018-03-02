@@ -790,20 +790,21 @@ Public Class frmGlazingQuote
 
     Sub LoadQuoteState()
         Dim DS_ As DataSet
-        SQL = "SELECT JQSID, JQSName, JQSState FROM GlzQuote_State Where JQSState = 1"
-        Dim objSQL As New clsSqlConn
-        With objSQL
-            DS_BATCHES = .GET_INSERT_UPDATE(SQL)
-            utxtQuoteState.DataSource = DS_BATCHES.Tables(0)
-            utxtQuoteState.DisplayMember = "JQSName"
-            utxtQuoteState.ValueMember = "JQSID"
-            utxtQuoteState.DisplayLayout.Bands(0).Columns("JQSID").Hidden = True
-            utxtQuoteState.DisplayLayout.Bands(0).Columns("JQSState").Hidden = True
-            utxtQuoteState.DisplayLayout.Bands(0).ColHeadersVisible = False
-
-            utxtQuoteState.Value = 1
-        End With
         Try
+            SQL = "SELECT JQSID, JQSName, JQSState FROM GlzQuote_State Where JQSState = 1"
+            Dim objSQL As New clsSqlConn
+            With objSQL
+                DS_BATCHES = .GET_INSERT_UPDATE(SQL)
+                utxtQuoteState.DataSource = DS_BATCHES.Tables(0)
+                utxtQuoteState.DisplayMember = "JQSName"
+                utxtQuoteState.ValueMember = "JQSID"
+                utxtQuoteState.DisplayLayout.Bands(0).Columns("JQSID").Hidden = True
+                utxtQuoteState.DisplayLayout.Bands(0).Columns("JQSState").Hidden = True
+                utxtQuoteState.DisplayLayout.Bands(0).ColHeadersVisible = False
+
+                utxtQuoteState.Value = 1
+            End With
+
 
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
@@ -1150,6 +1151,9 @@ Public Class frmGlazingQuote
     Sub SaveDocument()
 
         Try
+            If ShowMessage("Do you wont to save", "", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+                Exit Sub
+            End If
             If IsNothing(objClsInvHeader) = True Then
                 objClsInvHeader = New clsInvHeader
 
@@ -1985,6 +1989,7 @@ Public Class frmGlazingQuote
 
             Me.UG2.Rows(activeRowIndex).Cells("QuoteFiedType").DroppedDown = True
             Me.UG2.ActiveRow.Cells("QuoteFiedType").Appearance.BackColor = Nothing
+            Me.UG2.ActiveRow.Cells("Shape").ToolTipText = "Click to insert a shape"
 
             Return row
 
@@ -2148,6 +2153,7 @@ Public Class frmGlazingQuote
 
     Sub SetTotalAmounts(ByVal isAmountChanging As Boolean)
         Try
+            Exit Sub
             Dim rowTypes As GridRowType = GridRowType.DataRow
             Dim band As UltraGridBand = Me.UG2.DisplayLayout.Bands(0)
             Dim enumerator As IEnumerable = band.GetRowEnumerator(rowTypes)
@@ -2185,28 +2191,37 @@ Public Class frmGlazingQuote
             Me.UG2.ActiveRow.Cells("Width").Value = 0
             Me.UG2.ActiveRow.Cells("Volume").Value = 0
             Me.UG2.ActiveRow.Cells("Price").Value = 0
-            'Me.UG2.ActiveRow.Cells("DiscAmt").Value = 0
+            Me.UG2.ActiveRow.Cells("DiscAmt").Value = 0
             'Me.UG2.ActiveRow.Cells("Net").Value = 0
-            'Me.UG2.ActiveRow.Cells("TaxRate").Value = 0
-            'Me.UG2.ActiveRow.Cells("TaxRateValue").Value = 0
-            'Me.UG2.ActiveRow.Cells("Tax").Value = 0
+            Me.UG2.ActiveRow.Cells("TaxRate").Value = 0
+            Me.UG2.ActiveRow.Cells("TaxRateValue").Value = 0
+            Me.UG2.ActiveRow.Cells("Tax").Value = 0
             'Me.UG2.ActiveRow.Cells("ItmExcAmount").Value = 0
 
-            If isTaxedPrice = False And isAmountChanging = True Then
-                'exc
-                Me.UG2.ActiveRow.Cells("Net").Value = Me.UG2.ActiveRow.Cells("Amount").Value
+            'If isTaxedPrice = False Then
+            'exc
+            Me.UG2.ActiveRow.Cells("ItmExcAmount").Value = Me.UG2.ActiveRow.Cells("Amount").Value
 
-            ElseIf isTaxedPrice = True And isAmountChanging = True Then
-                'inc
-                Me.UG2.ActiveRow.Cells("ItmExcAmount").Value = Me.UG2.ActiveRow.Cells("Amount").Value
+            'ElseIf isTaxedPrice = True Then
+            '    'inc
+            Me.UG2.ActiveRow.Cells("Net").Value = Me.UG2.ActiveRow.Cells("Amount").Value
+            '    QuoteGridBackTaxCal()
 
-            End If
+
+            'End If
 
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
+
+    Sub QuoteGridBackTaxCal()
+        'Me.UG2.ActiveRow.Cells("Tax").Value = Me.UG2.ActiveRow.Cells("Amount").Value / Me.UG2.ActiveRow.Cells("TaxRate").Value
+        'Me.UG2.ActiveRow.Cells("ItmExcAmount").Value = Me.UG2.ActiveRow.Cells("Tax").Value * Me.UG2.ActiveRow.Cells("Amount").Value
+
+    End Sub
+
     Public Enum RowColumKey As Integer
         Qty = 1
         Height = 2
@@ -2688,13 +2703,13 @@ Public Class frmGlazingQuote
             ' button is displayed over the row selectors in the column headers area.
             Me.UG2.DisplayLayout.Override.RowSelectors = DefaultableBoolean.True
 
-            e.Layout.Bands(1).ExcludeFromColumnChooser = ExcludeFromColumnChooser.True
-            For Each ugCol As UltraGridColumn In e.Layout.Bands(0).Columns
-                e.Layout.Bands(0).Columns(ugCol.Key).ExcludeFromColumnChooser = ExcludeFromColumnChooser.True
-            Next
-            e.Layout.Bands(0).Columns("Volume").ExcludeFromColumnChooser = ExcludeFromColumnChooser.False
-            e.Layout.Bands(0).Columns("StockLink").ExcludeFromColumnChooser = ExcludeFromColumnChooser.False
-            e.Layout.Bands(0).Columns("ItmGroupID").ExcludeFromColumnChooser = ExcludeFromColumnChooser.False
+            'e.Layout.Bands(1).ExcludeFromColumnChooser = ExcludeFromColumnChooser.True
+            'For Each ugCol As UltraGridColumn In e.Layout.Bands(0).Columns
+            '    e.Layout.Bands(0).Columns(ugCol.Key).ExcludeFromColumnChooser = ExcludeFromColumnChooser.True
+            'Next
+            'e.Layout.Bands(0).Columns("Volume").ExcludeFromColumnChooser = ExcludeFromColumnChooser.False
+            'e.Layout.Bands(0).Columns("StockLink").ExcludeFromColumnChooser = ExcludeFromColumnChooser.False
+            'e.Layout.Bands(0).Columns("ItmGroupID").ExcludeFromColumnChooser = ExcludeFromColumnChooser.False
             'e.Layout.Bands(0).Columns("ItemImage").Style = ColumnStyle.Edit
 
             'e.Layout.Bands(0).Columns(1).ColumnChooserCaption = "Column Chooser Caption"
@@ -2737,11 +2752,13 @@ Public Class frmGlazingQuote
                 If IsDBNull(Me.UG2.ActiveRow.Cells("QuoteFiedType").Value) = False Then
                     If Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item Then
                         If IsNumeric(Me.UG2.ActiveRow.Cells("Amount").Text) = True Then
-                            If Me.UG2.ActiveRow.Cells("Amount").Value <> Me.UG2.ActiveRow.Cells("Amount").Text Then
+                            If Me.UG2.ActiveRow.Cells("Amount").Value <> Convert.ToDecimal(Me.UG2.ActiveRow.Cells("Net").Text) Then
                                 IsCellClearing = True
                                 ClearRowCellsAfterAmountChange()
                                 IsCellClearing = False
-                                SetTotalAmounts(True)
+                                'SetTotalAmounts(True)
+                                QuoteGridSetSubTotal()
+
                             End If
                         End If
                     End If
@@ -2823,7 +2840,6 @@ Public Class frmGlazingQuote
 
     Private Sub UG2_AfterCellUpdate(sender As Object, e As CellEventArgs) Handles ugQuote.AfterCellUpdate, UG2.AfterCellUpdate, UltraGrid2.AfterCellUpdate, UltraGrid1.AfterCellUpdate
         Try
-
             'If (e.Cell.Row.Cells("IsAExistingItem").Value = True And isOpeningQuote = False) And (e.Cell.Column.Key <> "TaxRate" Or e.Cell.Column.Key <> "TaxRateValue" Or e.Cell.Column.Key <> "IsAExistingItem") Then
             'e.Cell.Row.Cells("TaxRate").Value = defaultTaxtRate
             'e.Cell.Row.Cells("TaxRateValue").Value = defaultTaxtRateValue
@@ -2835,6 +2851,8 @@ Public Class frmGlazingQuote
                 If QuoteGridValueValidationBeforeUpdate() = 0 Then
                     Exit Sub
                 End If
+            Else
+                Exit Sub
             End If
 
             If isStockItemActive = False Then
@@ -2882,7 +2900,7 @@ Public Class frmGlazingQuote
                 End If
 
                 If (isExistingOrder = True Or openedModeulename = "Temp") And e.Cell.Text <> "Stock Item" Then
-                    QuoteGirdRowFormat(e)
+                    'QuoteGirdRowFormat(e)
                 End If
 
             End If
@@ -2916,7 +2934,9 @@ Public Class frmGlazingQuote
                             UG2.Rows(UG2ActiveRow.Index).Cells("LineComments").Value = selectedDocDes
                         Else
                         End If
+                        Me.UG2.ActiveCell.SelectAll()
                         selectedDocDes = ""
+
                     End If
                 End If
 
@@ -3052,8 +3072,13 @@ Public Class frmGlazingQuote
 
             End If
 
-            'Inclusive amount
-            If itemTaxRate > 0 And itemExcAmount > 0 Then
+            'for manual amount
+            If itemVolume = 0 And ItemQty = 0 Then
+                itemExcAmount = e.Cell.Row.Cells("ItmExcAmount").Text
+
+            End If
+
+            If itemTaxRate > -1 And itemExcAmount > -1 Then
                 'adding tax
                 TaxAmount = ((itemExcAmount / 100) * itemTaxRate)
                 itemIncAmount = TaxAmount + itemExcAmount
@@ -3429,9 +3454,13 @@ Public Class frmGlazingQuote
                                 End If
 
                             End If
+
                         Else
                             Me.UG2.ActiveRow.Cells(cell.Column.Key).Value = row.Cells(cell.Column.Key).Value
+                            If cell.Column.Key = "QuoteFiedType" Then
+                                ucmbQuoteLineType.Value = row.Cells(cell.Column.Key).Value
 
+                            End If
                         End If
 
                     Next
@@ -3466,6 +3495,8 @@ Public Class frmGlazingQuote
     Private Sub frmGlazingQuote_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         quoteOrdeIndex = 0
         Me.Dispose()
+        System.GC.Collect()
+
     End Sub
 
     Sub UnhideColums()
@@ -3874,8 +3905,7 @@ Public Class frmGlazingQuote
 
 
     Private Sub UG2_InitializeRow(sender As Object, e As InitializeRowEventArgs) Handles UG2.InitializeRow
-        Dim testcell As UltraGridCell = e.Row.Cells("Shape")
-        testcell.ToolTipText = "Click to insert a shape"
+
     End Sub
 
     Private Sub UG2_DoubleClickCell(sender As Object, e As DoubleClickCellEventArgs) Handles UG2.DoubleClickCell
@@ -3886,8 +3916,9 @@ Public Class frmGlazingQuote
             OpenFileDialogBox()
             e.Cell.Row.PerformAutoSize()
             Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
-            e.Cell.Row.Cells("ItemImageByteArray").Value = New GlassInventoryModule.frmInventoryItem().ImageToByteArray(CType(pbUG2ItemPic.Image, Bitmap))
-
+            If IsNothing(pbUG2ItemPic.Image) = False Then
+                e.Cell.Row.Cells("ItemImageByteArray").Value = New GlassInventoryModule.frmInventoryItem().ImageToByteArray(CType(pbUG2ItemPic.Image, Bitmap))
+            End If
         End If
     End Sub
 
@@ -4277,32 +4308,33 @@ Public Class frmGlazingQuote
     End Sub
 
     Private Sub ucmbQuoteLineType_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles ucmbQuoteLineType.RowSelected
-        lineTypeCell = ucmbQuoteLineType.ActiveRow.Cells("LineTypeName")
-        gridActiveRow = Me.UG2.ActiveRow
-        gridActiveCell = Me.UG2.ActiveCell
+        If IsNothing(ucmbQuoteLineType.ActiveRow) = False Then
+            lineTypeCell = ucmbQuoteLineType.ActiveRow.Cells("LineTypeName")
+            gridActiveRow = Me.UG2.ActiveRow
+            gridActiveCell = Me.UG2.ActiveCell
+            'Dim YESY = UG2.ActiveCell.Value
+            'If ucmbQuoteLineType.ActiveRow.Cells("LineTypeName").Value = "Text" Then
+            '    Me.UG2.ActiveCell = Me.UG2.ActiveRow.Cells("LineComments")
+            '    Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
 
-        'If ucmbQuoteLineType.ActiveRow.Cells("LineTypeName").Value = "Text" Then
-        '    Me.UG2.ActiveCell = Me.UG2.ActiveRow.Cells("LineComments")
-        '    Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
+            'Else
+            '    Me.UG2.ActiveRow.Appearance.BackColor = Nothing
 
-        'Else
-        '    Me.UG2.ActiveRow.Appearance.BackColor = Nothing
-
-        'End If
+            'End If
 
 
 
-        QuoteGirdRowStyling()
-        If downKeyPressed = False Then
-            QuoteGridNavigator()
-            QuoteGridFunctions()
-            'If isStockItemActive = False Then
-            '    If Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
-            '        QuoteGirdRowFormat(ex)
+            QuoteGirdRowStyling()
+            If downKeyPressed = False Then
+                QuoteGridNavigator()
+                QuoteGridFunctions()
+                'If isStockItemActive = False Then
+                '    If Me.UG2.ActiveCell.Column.Key = "QuoteFiedType" Then
+                '        QuoteGirdRowFormat(ex)
 
-            '    End If
+                '    End If
+            End If
         End If
-
     End Sub
 
     Sub QuoteGirdRowStyling()
@@ -4462,7 +4494,6 @@ Public Class frmGlazingQuote
             Dim lineTax As Decimal = 0.0   'Tax
             Dim lineInc As Decimal = 0.0   'Net
 
-
             For Each row In Me.UG2.Rows
                 'IF this is an item
                 If IsNothing(row.Cells("QuoteFiedType").Text) = False Then
@@ -4533,9 +4564,10 @@ Public Class frmGlazingQuote
                 TotalTax = TotalTax + lineTax
                 TotalInc = TotalInc + lineInc
             Next
-            Label5.Text = TotalExc
-            Label6.Text = TotalTax
-            Label7.Text = TotalInc
+            lblTotExcAmo.Text = TotalExc
+            lblTotVatAmo.Text = TotalTax
+            lblTotIncAmo.Text = TotalInc
+
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
@@ -4545,30 +4577,34 @@ Public Class frmGlazingQuote
     Function QuoteGridValueValidationBeforeUpdate() As Integer
         Dim isWrongType As Boolean = False
         Try
-            If UG2.ActiveCell.Column.DataType = GetType(Int32) Then
-                If Regex.IsMatch(Me.UG2.ActiveCell.Text, "^[0-9 ]+$") = False Then
-                    isWrongType = True
+            If IsNothing(Me.UG2.ActiveCell) = False Then
 
+                If UG2.ActiveCell.Column.DataType = GetType(Int32) Then
+                    If Regex.IsMatch(Me.UG2.ActiveCell.Text, "^[0-9 ]+$") = False Then
+                        isWrongType = True
+
+                    End If
+
+                ElseIf Me.UG2.ActiveCell.Column.DataType = GetType(Decimal) Then
+                    If Regex.IsMatch(Me.UG2.ActiveCell.Text, "^[0-9 ]?[.]?^[0-9 ]") = False Then
+                        isWrongType = True
+
+                    End If
                 End If
 
-            ElseIf Me.UG2.ActiveCell.Column.DataType = GetType(Decimal) Then
-                If Regex.IsMatch(Me.UG2.ActiveCell.Text, "^[0-9 ]?[.]?^[0-9 ]") = False Then
-                    isWrongType = True
+                If isWrongType = True Then
+                    ShowMessage(UG2.ActiveCell.Column.Header.Caption & " required a numeric value", "Error in entered value", MsgBoxStyle.Critical)
+                    Me.UG2.ActiveCell.Appearance.BackColor = Color.FromArgb(198, 101, 101)
+                    Me.UG2.ActiveCell.SelectAll()
+                    Return 0
+                Else
+                    Me.UG2.ActiveCell.Appearance.BackColor = Nothing
 
                 End If
-            End If
-
-            If isWrongType = True Then
-                ShowMessage(UG2.ActiveCell.Column.Header.Caption & " required a numeric value", "Error in entered value", MsgBoxStyle.Critical)
-                Me.UG2.ActiveCell.Appearance.BackColor = Color.FromArgb(198, 101, 101)
-                Me.UG2.ActiveCell.SelectAll()
-                Return 0
+                Return 1
             Else
-                Me.UG2.ActiveCell.Appearance.BackColor = Nothing
-
+                Return 0
             End If
-
-            Return 1
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
             Return 0
@@ -4579,20 +4615,20 @@ Public Class frmGlazingQuote
         Try
             Me.UG2.ActiveRow.Cells("QuoteFiedType").Appearance.BackColor = Nothing
             If Me.UG2.ActiveRow.Cells("QuoteFiedType").Text = "" Then
-                Me.UG2.ActiveRow.Cells("QuoteFiedType").Appearance.BackColor = Color.FromArgb(198, 101, 101)
+                'Me.UG2.ActiveRow.Cells("QuoteFiedType").Appearance.BackColor = Color.FromArgb(198, 101, 101)
                 Return 0
                 Exit Function
 
             Else
                 If IsNothing(UG2.ActiveRow.Cells("QuoteFiedType").Value) = False Then
                     If IsNumeric(UG2.ActiveRow.Cells("QuoteFiedType").Value) = False Then
-                        Me.UG2.ActiveRow.Cells("QuoteFiedType").Appearance.BackColor = Color.FromArgb(198, 101, 101)
+                        'Me.UG2.ActiveRow.Cells("QuoteFiedType").Appearance.BackColor = Color.FromArgb(198, 101, 101)
                         Return 0
                         Exit Function
                     End If
                 End If
             End If
-
+            Return 1
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
             Return 0

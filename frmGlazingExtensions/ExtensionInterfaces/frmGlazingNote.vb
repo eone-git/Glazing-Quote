@@ -35,6 +35,9 @@
         Catch ex As Exception
             frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
+        Finally
+            selectedDocDes = ""
+
         End Try
     End Sub
 
