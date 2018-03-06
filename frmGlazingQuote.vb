@@ -90,6 +90,8 @@ Public Class frmGlazingQuote
     Dim gridActiveRow As UltraGridRow
     Dim gridActiveCell As UltraGridCell
     Dim downKeyPressed As Boolean = False
+    Public quoteState As Integer = -1
+    Public isACopy As Boolean = False
 
 
     Private Sub GET_CUSTOMERS(ByVal value As String)
@@ -1202,7 +1204,7 @@ Public Class frmGlazingQuote
             objClsInvHeader.ApprovedReason = ""
             objClsInvHeader.iAgentID = AgentID
 
-            If isExistingOrder = False Then
+            If isExistingOrder = False Or isACopy = True Then
                 objClsInvHeader.OrderNum = objClsInvHeader.GetNextDocumentNumber
                 lblOrderNo.Text = objClsInvHeader.OrderNum
             Else
@@ -1240,7 +1242,9 @@ Public Class frmGlazingQuote
             objClsInvHeader.ContactEmail = txtContEmail.Text
             objClsInvHeader.iAreasID = cboArea.Value
             objClsInvHeader.CreditState = uCmbTerms.Value
+
             objClsInvHeader.OrderIndex = quoteOrdeIndex
+         
             objClsInvHeader.Delivery_Status = subHeaderID
             objClsInvHeader.OrderDate = Today.Date
             objClsInvHeader.DueDate = txtDueDate.Value
@@ -1500,7 +1504,7 @@ Public Class frmGlazingQuote
             End If
 
             objClsInvHeader.Commit_Trans()
-
+            isACopy = False
 
             If MsgBox("Do you want to print the Quotation : " & objClsInvHeader.OrderNum.ToString & " ?", MsgBoxStyle.YesNo + MessageBoxIcon.Question, "Quotation") = MsgBoxResult.Yes Then
                 LoadPrint(objClsInvHeader, orderIndex)
@@ -2310,12 +2314,12 @@ Public Class frmGlazingQuote
 
                 Dim documentData As clsInvHeader = New clsInvHeader(quoteOrdeIndex)
                 oFormCustomer = New clsCustomer(documentData.AccountID)
-
+                Dim test2 = documentData.OrderIndex
                 'Stop updating the gride values
                 canUpdate = False
 
                 Dim sqlQuary As String = "SELECT * FROM  spilInvNum LEFT JOIN GlzQuote_Job_Details ON spilInvNum.OrderIndex = GlzQuote_Job_Details.OrderIndex WHERE spilInvNum.OrderIndex = " & quoteOrdeIndex
-
+          
                 Dim objSQL As New clsSqlConn
                 With objSQL
 
@@ -2345,9 +2349,13 @@ Public Class frmGlazingQuote
                             txtDelDate.Value = objQutDetailline("DeliveryDate")                                ' dr1("DeliveryDate")
                             txtDueDate.Value = objQutDetailline("DueDate")                                       ' dr1("DueDate")
                             txtInvDate.Value = objQutDetailline("InvDate")                                       ' dr1("InvDate")
-                            txtCustOrdNo.Text = objQutDetailline("ExtOrderNum")                               ' dr1("ExtOrderNum")
-                            lblOrderNo.Text = objQutDetailline("OrderNum")
-                            headder = objQutDetailline("OrderNum")
+
+                            If isACopy = False Then
+                                txtCustOrdNo.Text = objQutDetailline("ExtOrderNum")                            ' dr1("ExtOrderNum")
+                                lblOrderNo.Text = objQutDetailline("OrderNum")
+                                headder = objQutDetailline("OrderNum")
+                            End If
+
                             subHeaderID = objQutDetailline("FacilityIDCurrent")
                             cmbFacility.Value = objQutDetailline("FacilityIDCurrent")
 
@@ -2426,6 +2434,10 @@ Public Class frmGlazingQuote
                 '    End If
                 'End With
                 isOpeningQuote = False
+                If isACopy = True Then
+                    quoteOrdeIndex = 0
+                    utxtQuoteState.Value = QuoteStateValue.Copy
+                End If
             Else
                 cmbAccount.Focus()
 
@@ -2437,6 +2449,7 @@ Public Class frmGlazingQuote
 
         Finally
             canUpdate = True
+
         End Try
     End Sub
 
@@ -2453,11 +2466,15 @@ Public Class frmGlazingQuote
 
                         dr = AddNewRow("after")
 
-                        'Set identifer as a exsiting item
-                        dr.Cells("IsAExistingItem").Value = True
+                        If isACopy = False Then
+                            'Set identifer as a exsiting item
+                            dr.Cells("IsAExistingItem").Value = True
 
-                        '----Starting Item Line identifers----
-                        dr.Cells("iInvDetailID").Value = objQutDetailline("iInvDetailID")
+                            '----Starting Item Line identifers----
+                            dr.Cells("iInvDetailID").Value = objQutDetailline("iInvDetailID")
+
+                        End If
+
                         dr.Cells("QuoteFiedType").Value = objQutDetailline("LineType")
                         dr.Cells("ItmGroupID").Value = objQutDetailline("LN")
                         dr.Cells("InvLineID").Value = objQutDetailline("idInvoiceLines")
@@ -4750,4 +4767,15 @@ Public Class frmGlazingQuote
     Private Sub tsmAddRow_Click(sender As Object, e As EventArgs) Handles tsmAddRow.Click
         AddNewRow("end")
     End Sub
+    Public Enum QuoteStateValue As Integer
+        EditMode = 1
+        Copy = 2
+        SentAndConfirmationPending = 3
+        Confirmed = 4
+        Unconfirmed = 5
+        Cancelled = 6
+        Hold = 7
+
+    End Enum
+
 End Class
