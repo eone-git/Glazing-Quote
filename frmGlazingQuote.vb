@@ -179,8 +179,8 @@ Public Class frmGlazingQuote
                 'End of Initialize Customer and Price Objects
 
                 'Fill currency and Exchange Rate
-                'txtCurrency.Text = oFormCustomer.CurrencyCode
-                'txtExRate.Text = oFormCustomer.ExRate
+                txtCurrency.Text = oFormCustomer.CurrencyCode
+                txtExRate.Text = oFormCustomer.ExRate
 
                 'Fill Tax code and Tax Rate
                 dCusTaxCode = oFormCustomer.TaxCode
@@ -190,9 +190,9 @@ Public Class frmGlazingQuote
                 'Q2.Text = "(" & oFormCustomer.CurrencyCode & ")"
                 'Q3.Text = "(" & oFormCustomer.CurrencyCode & ")"
 
-                'T1.Text = "(" & oFormCustomer.CurrencyCode & ")"
-                'T2.Text = "(" & oFormCustomer.CurrencyCode & ")"
-                'T3.Text = "(" & oFormCustomer.CurrencyCode & ")"
+                T1.Text = "(" & oFormCustomer.CurrencyCode & ")"
+                T2.Text = "(" & oFormCustomer.CurrencyCode & ")"
+                T3.Text = "(" & oFormCustomer.CurrencyCode & ")"
 
                 UG2.Enabled = True
 
@@ -669,16 +669,16 @@ Public Class frmGlazingQuote
         With objSQL
             Try
                 DS_BATCHES = .GET_INSERT_UPDATE(SQL)
-                'txtPost4.DataSource = DS_BATCHES.Tables(0)
-                'txtPost4.DisplayMember = "Description"
-                'txtPost4.ValueMember = "Description"
-                'txtPost4.DisplayLayout.Bands(0).Columns(1).Width = cboArea.Width
+                txtPost4.DataSource = DS_BATCHES.Tables(0)
+                txtPost4.DisplayMember = "Description"
+                txtPost4.ValueMember = "Description"
+                txtPost4.DisplayLayout.Bands(0).Columns(1).Width = cboArea.Width
 
-                'txtPhy4.DataSource = DS_BATCHES.Tables(0)
-                'txtPhy4.DisplayMember = "Description"
-                'txtPhy4.ValueMember = "Description"
+                txtPhy4.DataSource = DS_BATCHES.Tables(0)
+                txtPhy4.DisplayMember = "Description"
+                txtPhy4.ValueMember = "Description"
 
-                'txtPhy4.DisplayLayout.Bands(0).Columns(1).Width = cboArea.Width
+                txtPhy4.DisplayLayout.Bands(0).Columns(1).Width = cboArea.Width
 
             Catch ex As Exception
                 MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
@@ -812,25 +812,53 @@ Public Class frmGlazingQuote
         End Try
 
     End Sub
+    'Fill Currency and Exchange rate
+    Private Sub GetCurrencyData()
+        Try
+            SQL = "SELECT currencyCode, ExchangeRate FROM  spil_InvCurrency WHERE IsLocalCurrency = 'TRUE'"
+            dsCurrency = New clsSqlConn().GET_DataSet(SQL)
+
+            If dsCurrency.Tables(0).Rows.Count > 0 Then
+                txtCurrency.Text = dsCurrency.Tables(0).Rows(0)("currencyCode")
+                txtExRate.Text = dsCurrency.Tables(0).Rows(0)("ExchangeRate")
+
+                'Q1.Text = "(" & dsCurrency.Tables(0).Rows(0)("currencyCode") & ")"
+                'Q2.Text = "(" & dsCurrency.Tables(0).Rows(0)("currencyCode") & ")"
+                'Q3.Text = "(" & dsCurrency.Tables(0).Rows(0)("currencyCode") & ")"
+
+                T1.Text = "(" & dsCurrency.Tables(0).Rows(0)("currencyCode") & ")"
+                T2.Text = "(" & dsCurrency.Tables(0).Rows(0)("currencyCode") & ")"
+                T3.Text = "(" & dsCurrency.Tables(0).Rows(0)("currencyCode") & ")"
+            End If
+        Catch
+
+        End Try
+    End Sub
+
     '-----------------------------
 
     Private Sub cmbAccount_ValueChanged(sender As Object, e As EventArgs) Handles cmbAccount.ValueChanged
-        ucmbQuoteLineType.Visible = True
-        LoadQuoteLineType()
-        InitializesCustomerDetails()
-        UG2.Enabled = True
-        Dim row As UltraGridRow
-        If quoteOrdeIndex = 0 Then
-            If Me.UG2.Rows.Count = 0 Then
-                row = AddNewRow("after")
-                row.ParentCollection.Move(row, UG2.ActiveRow.Index)
-                Me.UG2.ActiveRowScrollRegion.ScrollRowIntoView(row)
+        Try
+            LoadQuoteLineType()
+            InitializesCustomerDetails()
+            UG2.Enabled = True
+            Dim row As UltraGridRow
+            If quoteOrdeIndex = 0 And cmbAccount.Text <> "" Then
+                If Me.UG2.Rows.Count = 0 Then
+                    row = AddNewRow("after")
+                    row.ParentCollection.Move(row, UG2.ActiveRow.Index)
+                    Me.UG2.ActiveRowScrollRegion.ScrollRowIntoView(row)
 
-            ElseIf Me.UG2.Rows.Count > 0 Then
-                Me.UG2.Rows((UG2.Rows.Count) - 1).Cells("QuoteFiedType").DroppedDown = True
+                ElseIf Me.UG2.Rows.Count > 0 Then
+                    Me.UG2.Rows((UG2.Rows.Count) - 1).Cells("QuoteFiedType").DroppedDown = True
+
+                End If
 
             End If
-        End If
+        Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
     End Sub
 
     Private Sub cmbCusType_ValueChanged(sender As Object, e As EventArgs) Handles cmbCusType.ValueChanged, UltraComboEditor3.ValueChanged
@@ -838,6 +866,7 @@ Public Class frmGlazingQuote
     End Sub
 
     Private Sub frmGlazingQuote_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        GetCurrencyData()
         GetQuoteTaxState(-1, Nothing)
         GET_Del_Method()
         GET_Couriers()
@@ -2475,10 +2504,9 @@ Public Class frmGlazingQuote
 
                         End If
 
+                        Me.UG2.ActiveRow.PerformAutoSize()
 
                     Next
-
-                    ' Dim ty1 = Me.UG2.Rows(Me.UG2.ActiveRow.Index - 12).Cells("ItmGroupID").Value
 
                     If oSOModuleDefaults.UseShapes = True And oProdDefaults.OptimizeApp = GlassOptimizeApp.PerfectCut Then
                         SQL = "SELECT spd.ID ,spd.OrderIndex,spd.iInvDetailID,spd.ShapeXML,spd.ShapeSAX,spd.ShapePNG,spd.ShapeDimensions,spd.ShapeSizes,spd.ShapeName FROM spilInvNumLines_ShapeDetails spd INNER JOIN spilInvNumLines  ind ON ind.iInvDetailID=spd.iInvDetailID WHERE spd.OrderIndex = " & quoteOrdeIndex & ""
@@ -2512,11 +2540,8 @@ Public Class frmGlazingQuote
                         End If
                     End If
 
-                    'Dim ty1 = Me.UG2.Rows(Me.UG2.ActiveRow.Index - 12).Cells("ItmGroupID").Value
-
-
-                    SetTotalAmounts(fasle)
-
+                    QuoteGridSetSubTotal()
+                    'SetTotalAmounts(fasle)
                 End If
             End With
         Catch ex As Exception
@@ -3786,34 +3811,40 @@ Public Class frmGlazingQuote
 
     Private Sub cmsQuoteGide_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cmsQuoteGide.Opening
         Try
-            If utcQuoteGrids.ActiveTab.Index <> 0 Then
-                If UG2.Selected.Rows.Count > 0 And IsNothing(UG2.ActiveCell) = True Then
+            If utcQuoteGrids.ActiveTab.Index = 0 Then
+
+                If UG2.Selected.Rows.Count > 0 Then
                     cmsQuoteGide.Items("tsmAdd").Visible = True
                     cmsQuoteGide.Items("tsmiCopy").Visible = True
                     cmsQuoteGide.Items("tsmiPaste").Visible = True
                     cmsQuoteGide.Items("tsmiDel").Visible = True
                     cmsQuoteGide.Items("tsmiSavetext").Visible = False
 
-                ElseIf UG2.Selected.Rows.Count = 0 And IsNothing(UG2.ActiveCell) = False Then
+                ElseIf UG2.Selected.Rows.Count = 0 Then
                     cmsQuoteGide.Items("tsmAdd").Visible = False
                     cmsQuoteGide.Items("tsmiCopy").Visible = False
                     cmsQuoteGide.Items("tsmiPaste").Visible = False
                     cmsQuoteGide.Items("tsmiDel").Visible = False
+                End If
 
+                If IsNothing(UG2.ActiveCell) = False Then
                     If UG2.ActiveCell.IsInEditMode = True And UG2.ActiveCell.Column.Key = "LineComments" Then
                         cmsQuoteGide.Items("tsmiSavetext").Visible = True
+                        cmsQuoteGide.Items("tsmAddTotalAmount").Visible = True
                     Else
                         cmsQuoteGide.Visible = False
+                        cmsQuoteGide.Items("tsmAddTotalAmount").Visible = False
+                    End If
+
+                ElseIf utcQuoteGrids.ActiveTab.Index <> 1 Then
+                    If UG2.Selected.Rows.Count > 0 And IsNothing(UG2.ActiveCell) = True Then
+                        cmsQuoteGide.Items("tsmiDel").Visible = True
+                        cmsQuoteGide.Items("tsmiSavetext").Visible = True
 
                     End If
                 End If
-            ElseIf utcQuoteGrids.ActiveTab.Index <> 1 Then
-                If UG2.Selected.Rows.Count > 0 And IsNothing(UG2.ActiveCell) = True Then
-                    cmsQuoteGide.Items("tsmiDel").Visible = True
-                    cmsQuoteGide.Items("tsmiSavetext").Visible = True
-                End If
-            End If
 
+            End If
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
@@ -4024,9 +4055,11 @@ Public Class frmGlazingQuote
 
         End If
         frmCustomerObj.ShowDialog()
-        Call GET_CUSTOMERS(cmbCusType.Text)
-        cmbAccount.Value = frmCustomerObj.pubCustID
-        frmCustomerObj.Dispose()
+        If frmCustomerObj.pubCustID <> 0 Then
+            Call GET_CUSTOMERS(cmbCusType.Text)
+            cmbAccount.Value = frmCustomerObj.pubCustID
+            frmCustomerObj.Dispose()
+        End If
     End Sub
 
 
@@ -4672,14 +4705,18 @@ Public Class frmGlazingQuote
 
     Private Sub tsmAddTotalAmount_Click(sender As Object, e As EventArgs) Handles tsmAddTotalAmount.Click
         Try
-
             If IsNothing(Me.UG2.ActiveCell) = False Then
-                Me.UG2.ActiveCell.Value = Me.UG2.ActiveCell.Text + " <Total> "
+                Me.UG2.ActiveCell.Value = Me.UG2.ActiveCell.Text.Insert(Me.UG2.ActiveCell.SelStart, " <Total> ")
 
             End If
 
         Catch ex As Exception
+            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
+
+   
+
+
 End Class
