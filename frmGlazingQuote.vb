@@ -2385,8 +2385,11 @@ Public Class frmGlazingQuote
                             cmbSalesRep.Value = objQutDetailline("DocRepID")
 
                             If IsDBNull(objQutDetailline("GlzQuoteJobID")) = False Then
+                                If isACopy = False Then
+                                    utxtQuoteJobID.Text = objQutDetailline("GlzQuoteJobID")
 
-                                utxtQuoteJobID.Text = objQutDetailline("GlzQuoteJobID")
+                                End If
+
                                 utxtQuoteJobName.Text = objQutDetailline("GlzQuoteJobName")
                                 jobDescription = objQutDetailline("GlzQuoteJobDes")
 

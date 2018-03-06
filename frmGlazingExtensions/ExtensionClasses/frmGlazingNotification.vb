@@ -139,7 +139,7 @@
                                 newSQLQuary += " SET dateformat dmy UPDATE _rtblNotify SET dNotifyDate = @dDueBy WHERE iIncidentID IN(SELECT idIncidents from _rtblIncidents where cYourRef= @cYourRef )"
 
                             Else
-                                newSQLQuary += " SET dateformat dmy UPDATE _rtblNotify SET iForAgentID = '-1' where iIncidentID IN(SELECT idIncidents from _rtblIncidents where cYourRef= @cYourRef )"
+                                newSQLQuary += " SET dateformat dmy UPDATE _rtblNotify SET iForAgentID = '-1', dNotifyDate = @dDueBy  where iIncidentID IN(SELECT idIncidents from _rtblIncidents where cYourRef= @cYourRef )"
 
                             End If
                         End If
