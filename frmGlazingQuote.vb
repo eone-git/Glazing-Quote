@@ -1227,6 +1227,14 @@ Public Class frmGlazingQuote
             objClsInvHeader.Address4 = txtPhy4.Text
             objClsInvHeader.Address5 = txtPhy5.Text
             objClsInvHeader.Address6 = txtPhyPostCode.Text
+
+            objClsInvHeader.PostAdd1 = txtPost1.Text
+            objClsInvHeader.PostAdd2 = txtPost2.Text
+            objClsInvHeader.PostAdd3 = txtPost3.Text
+            objClsInvHeader.PostAdd4 = txtPost4.Text
+            objClsInvHeader.PostAdd5 = txtPost5.Text
+            objClsInvHeader.PostPC = txtPostCode.Text
+
             objClsInvHeader.ContactName = txtContact1.Text
             objClsInvHeader.ContactTelephone = txtContPerTel.Text
             objClsInvHeader.ContactEmail = txtContEmail.Text
@@ -1238,6 +1246,8 @@ Public Class frmGlazingQuote
             objClsInvHeader.DueDate = txtDueDate.Value
             objClsInvHeader.InvoiceNotes = utxtNoteText.Text
             'objClsInvHeader.Delivery_Status = ""
+
+
 
             objClsInvHeader.Delivery_Status = DeliveryState.UnDelivered 'for delivery
             objClsInvHeader.ProductionState = GlassProdState.None
@@ -1995,6 +2005,9 @@ Public Class frmGlazingQuote
                 ElseIf rowPostion = "after" Then
                     activeRowIndex = Me.UG2.ActiveRow.Index + 1
 
+                ElseIf rowPostion = "end" Then
+                    activeRowIndex = Me.UG2.Rows.Count
+
                 End If
             End If
 
@@ -2413,6 +2426,9 @@ Public Class frmGlazingQuote
                 '    End If
                 'End With
                 isOpeningQuote = False
+            Else
+                cmbAccount.Focus()
+
             End If
 
         Catch ex As Exception
@@ -3811,38 +3827,40 @@ Public Class frmGlazingQuote
 
     Private Sub cmsQuoteGide_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cmsQuoteGide.Opening
         Try
+            QuoteGrideDropDownReset()
             If utcQuoteGrids.ActiveTab.Index = 0 Then
-
                 If UG2.Selected.Rows.Count > 0 Then
                     cmsQuoteGide.Items("tsmAdd").Visible = True
                     cmsQuoteGide.Items("tsmiCopy").Visible = True
                     cmsQuoteGide.Items("tsmiPaste").Visible = True
                     cmsQuoteGide.Items("tsmiDel").Visible = True
-                    cmsQuoteGide.Items("tsmiSavetext").Visible = False
 
-                ElseIf UG2.Selected.Rows.Count = 0 Then
-                    cmsQuoteGide.Items("tsmAdd").Visible = False
-                    cmsQuoteGide.Items("tsmiCopy").Visible = False
-                    cmsQuoteGide.Items("tsmiPaste").Visible = False
-                    cmsQuoteGide.Items("tsmiDel").Visible = False
+                Else
+                    cmsQuoteGide.Items("tsmAddRow").Visible = True
+
                 End If
 
                 If IsNothing(UG2.ActiveCell) = False Then
-                    If UG2.ActiveCell.IsInEditMode = True And UG2.ActiveCell.Column.Key = "LineComments" Then
-                        cmsQuoteGide.Items("tsmiSavetext").Visible = True
-                        cmsQuoteGide.Items("tsmAddTotalAmount").Visible = True
-                    Else
-                        cmsQuoteGide.Visible = False
-                        cmsQuoteGide.Items("tsmAddTotalAmount").Visible = False
-                    End If
 
-                ElseIf utcQuoteGrids.ActiveTab.Index <> 1 Then
-                    If UG2.Selected.Rows.Count > 0 And IsNothing(UG2.ActiveCell) = True Then
-                        cmsQuoteGide.Items("tsmiDel").Visible = True
-                        cmsQuoteGide.Items("tsmiSavetext").Visible = True
+                    If UG2.ActiveCell.Column.Key = "LineComments" Then
+                        If UG2.ActiveCell.IsInEditMode = True Then
+                            If UG2.ActiveCell.SelText.Length > 0 Then
+                                cmsQuoteGide.Items("tsmiSavetext").Visible = True
+                                cmsQuoteGide.Items("tsmAddRow").Visible = False
+
+                            ElseIf UG2.ActiveCell.SelText.Length = 0 Then
+                                cmsQuoteGide.Items("tsmAddTotalAmount").Visible = True
+
+                            End If
+
+
+                      
+                        End If
+                    ElseIf UG2.ActiveCell.Column.Key = "ItemImage" And UG2.ActiveRow.Cells("isImageAttached").Value = True Then
+                        cmsQuoteGide.Items("tsmRemovePicture").Visible = True
 
                     End If
-                End If
+            End If
 
             End If
         Catch ex As Exception
@@ -4716,7 +4734,20 @@ Public Class frmGlazingQuote
         End Try
     End Sub
 
-   
+    Sub QuoteGrideDropDownReset()
+        cmsQuoteGide.Items("tsmAdd").Visible = False
+        cmsQuoteGide.Items("tsmiCopy").Visible = False
+        cmsQuoteGide.Items("tsmiPaste").Visible = False
+        cmsQuoteGide.Items("tsmiDel").Visible = False
+        cmsQuoteGide.Items("tsmiSavetext").Visible = False
+        cmsQuoteGide.Items("tsmAddTotalAmount").Visible = False
+        cmsQuoteGide.Items("tsmRemovePicture").Visible = False
+        cmsQuoteGide.Items("tsmAddRow").Visible = False
+    End Sub
 
 
+
+    Private Sub tsmAddRow_Click(sender As Object, e As EventArgs) Handles tsmAddRow.Click
+        AddNewRow("end")
+    End Sub
 End Class
