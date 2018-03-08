@@ -64,7 +64,7 @@ Partial Class frmGlazingAddessLocatorGmap
         '
         Me.btnOK.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnOK.BackColor = System.Drawing.Color.DodgerBlue
-        Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnOK.ForeColor = System.Drawing.Color.White
         Me.btnOK.Location = New System.Drawing.Point(698, 28)
@@ -84,6 +84,9 @@ Partial Class frmGlazingAddessLocatorGmap
         '
         'utxtAddress
         '
+        Me.utxtAddress.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.utxtAddress.Location = New System.Drawing.Point(1, 2)
         Me.utxtAddress.Name = "utxtAddress"
         Me.utxtAddress.Size = New System.Drawing.Size(693, 21)
@@ -91,7 +94,9 @@ Partial Class frmGlazingAddessLocatorGmap
         '
         'btnSearch
         '
-        Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSearch.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSearch.BackColor = System.Drawing.Color.DodgerBlue
         Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnSearch.ForeColor = System.Drawing.Color.White

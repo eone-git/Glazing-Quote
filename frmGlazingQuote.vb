@@ -92,7 +92,7 @@ Public Class frmGlazingQuote
     Dim downKeyPressed As Boolean = False
     Public quoteState As Integer = -1
     Public isACopy As Boolean = False
-
+    Public isCancelled As Boolean = False
 
     Private Sub GET_CUSTOMERS(ByVal value As String)
 
@@ -1182,9 +1182,14 @@ Public Class frmGlazingQuote
     Sub SaveDocument()
 
         Try
-            If ShowMessage("Do you wont to save", "", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+            If isCancelled = True Then
                 Exit Sub
             End If
+
+            If ShowMessage("Do you wont to save this Quotation?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+                Exit Sub
+            End If
+
             If IsNothing(objClsInvHeader) = True Then
                 objClsInvHeader = New clsInvHeader
 
@@ -1244,7 +1249,7 @@ Public Class frmGlazingQuote
             objClsInvHeader.CreditState = uCmbTerms.Value
 
             objClsInvHeader.OrderIndex = quoteOrdeIndex
-         
+
             objClsInvHeader.Delivery_Status = subHeaderID
             objClsInvHeader.OrderDate = Today.Date
             objClsInvHeader.DueDate = txtDueDate.Value
@@ -2297,8 +2302,6 @@ Public Class frmGlazingQuote
         Try
             If quoteOrdeIndex > 0 Then
                 isOpeningQuote = True
-                tsbPrint.Enabled = True
-
                 Dim index As Integer = Me.UG2.Rows.Count
                 Dim isRowExist As Boolean = False
 
@@ -2393,6 +2396,20 @@ Public Class frmGlazingQuote
                                 utxtQuoteJobName.Text = objQutDetailline("GlzQuoteJobName")
                                 jobDescription = objQutDetailline("GlzQuoteJobDes")
 
+                            End If
+
+                            If objQutDetailline("QuoteStateID") = QuoteStateValue.Cancelled Then
+                                isCancelled = True
+                            End If
+
+                            If isCancelled = True Then
+                                tsbPrint.Enabled = False
+                                tsbSave.Enabled = False
+                                mnuSave.Enabled = False
+                            Else
+                                tsbPrint.Enabled = True
+                                tsbSave.Enabled = True
+                                mnuSave.Enabled = True
                             End If
                         Next
                     End If
@@ -4172,17 +4189,23 @@ Public Class frmGlazingQuote
     Private Sub btnExpandMap_Click()
         Try
             Dim GlazingAddessLocatorGmap As frmGlazingAddessLocatorGmap = New frmGlazingAddessLocatorGmap(Me.latitude, Me.longitude)
-            GlazingAddessLocatorGmap.ShowDialog()
+            Dim addressInSingleLine = CreateOnelineAddress()
+            If addressInSingleLine <> "" Then
+                GlazingAddessLocatorGmap.utxtAddress.Value = addressInSingleLine
+                GlazingAddessLocatorGmap.GetAddress(addressInSingleLine)
+            End If
+
+            If GlazingAddessLocatorGmap.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
+                Exit Sub
+            End If
+
             Dim placeMark As List(Of Result) = GlazingAddessLocatorGmap.ReturnNewAddress()
             If placeMark IsNot Nothing Then
-
-
                 'txtPhy2.Text = placeMark.Item(0).address_components.Item(1).long_name
                 'txtPhy3.Text = placeMark.Item(0).address_components.Item(2).long_name
                 'txtPhy4.Text = placeMark.Item(0).address_components.Item(3).long_name
                 'txtPhy5.Text = placeMark.Item(0).address_components.Item(5).long_name
                 'txtPhyPostCode.Text = placeMark.Item(0).address_components.Item(7).long_name
-
 
                 For Each addressItem As AddressComponent In placeMark.Item(0).address_components
 
@@ -4194,7 +4217,11 @@ Public Class frmGlazingQuote
                                 txtPhy1.Text = addressItem.long_name
 
                             Case "street_number"
-                                txtPhy1.Text = addressItem.long_name
+                                If placeMark.Item(0).address_components.Item(0).types(0) = "premise" Then
+                                    txtPhy1.Text = placeMark.Item(0).address_components.Item(0).long_name + addressItem.long_name
+                                Else
+                                    txtPhy1.Text = addressItem.long_name
+                                End If
 
                             Case "route"
                                 txtPhy2.Text = addressItem.long_name
@@ -4637,9 +4664,9 @@ Public Class frmGlazingQuote
                 TotalTax = TotalTax + lineTax
                 TotalInc = TotalInc + lineInc
             Next
-            lblTotExcAmo.Text = TotalExc
-            lblTotVatAmo.Text = TotalTax
-            lblTotIncAmo.Text = TotalInc
+            lblTotExcAmo.Text = Format(TotalExc, "0.00")
+            lblTotVatAmo.Text = Format(TotalTax, "0.00")
+            lblTotIncAmo.Text = Format(TotalInc, "0.00")
 
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
@@ -4765,11 +4792,10 @@ Public Class frmGlazingQuote
         cmsQuoteGide.Items("tsmAddRow").Visible = False
     End Sub
 
-
-
     Private Sub tsmAddRow_Click(sender As Object, e As EventArgs) Handles tsmAddRow.Click
         AddNewRow("end")
     End Sub
+
     Public Enum QuoteStateValue As Integer
         EditMode = 1
         Copy = 2
@@ -4780,5 +4806,20 @@ Public Class frmGlazingQuote
         Hold = 7
 
     End Enum
+    Function CreateOnelineAddress() As String
+        Dim addressInSingleLine As String
+        If txtPhy1.Text <> "" Then
+            addressInSingleLine = txtPhy1.Text
+        End If
+
+        If txtPhy2.Text <> "" Then
+            addressInSingleLine = addressInSingleLine + ", " + txtPhy2.Text
+        End If
+
+        If txtPhy3.Text <> "" Then
+            addressInSingleLine = addressInSingleLine + ", " + txtPhy3.Text
+        End If
+        Return addressInSingleLine
+    End Function
 
 End Class

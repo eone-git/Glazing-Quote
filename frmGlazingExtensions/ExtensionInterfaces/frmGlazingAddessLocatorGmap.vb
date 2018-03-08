@@ -35,6 +35,7 @@ Partial Public Class frmGlazingAddessLocatorGmap
         addressMap.DragButton = System.Windows.Forms.MouseButtons.Left
         Me.latitude = Lat
         Me.longitude = Lng
+        
     End Sub
 
     Private Sub BookingLocation_Load(ByVal sender As Object, ByVal e As EventArgs)
@@ -78,7 +79,7 @@ Partial Public Class frmGlazingAddessLocatorGmap
         Return address
     End Function
 
-    Private Sub GetAddress(ByVal addtessText As String)
+    Public Sub GetAddress(ByVal addtessText As String)
         Try
             Dim addressString = GetAddressString(addtessText)
             Dim client As WebClient = New WebClient()
@@ -104,7 +105,7 @@ Partial Public Class frmGlazingAddessLocatorGmap
         latitude = newAddress.Item(0).geometry.location.lat
         longitude = newAddress.Item(0).geometry.location.lng
         addressMap.Position = New PointLatLng(latitude, longitude)
-        addressMap.Zoom = 16
+        addressMap.Zoom = 18
         setLocation = False
         Me.InitializeMapPonint(latitude, longitude)
     End Sub
@@ -152,6 +153,6 @@ Partial Public Class frmGlazingAddessLocatorGmap
     Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
         Me.GetAddress(utxtAddress.Text)
         'SetMapLocation()
-
     End Sub
+
 End Class

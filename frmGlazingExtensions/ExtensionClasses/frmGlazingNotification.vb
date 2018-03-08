@@ -1,6 +1,15 @@
-﻿Public Class frmGlazingNotification
+﻿Imports Infragistics.Win.UltraWinGrid
+
+Public Class frmGlazingNotification
     Dim collspPara As New Collection
     Dim colPara As New spParameters
+    Dim ob As frmAgentNotifications
+    Public Sub New()
+    End Sub
+
+    Public Sub New(ByRef ob As frmAgentNotifications)
+        Me.ob = ob
+    End Sub
 
     Function SaveNotificationDetails(ByRef objClsInvHeader As clsInvHeader, ByRef quoteJobID As String) As Integer
 
@@ -49,13 +58,13 @@
                     Exit Function
                 End If
 
-
+                collspPara.Clear()
                 colPara.ParaName = "@dNotifyDate"
                 colPara.ParaValue = expDate.Date
                 collspPara.Add(colPara)
 
                 colPara.ParaName = "@iForAgentID"
-                If objClsInvHeader.DueDate = Today.AddDays(2).Date Then
+                If objClsInvHeader.DueDate < Today.AddDays(3).Date Then
                     colPara.ParaValue = AgentID
 
                 ElseIf objClsInvHeader.DueDate > Today.AddDays(2).Date Then
@@ -130,7 +139,7 @@
 
                         If IsNothing(.DueDate) = False Then
                             newSQLQuary = ""
-                            If .DueDate = Today.AddDays(2).Date Then
+                            If .DueDate < Today.AddDays(3).Date Then
                                 newSQLQuary = " SET dateformat dmy UPDATE _rtblIncidents SET dLastModified = @todayDate, dDueBy = @dDueBy WHERE cYourRef = @cYourRef ; "
 
                                 newSQLQuary += " SET dateformat dmy UPDATE  _rtblIncidentLog SET dActionDate = @dDueBy WHERE iIncidentID IN(SELECT idIncidents " & _
@@ -180,7 +189,7 @@
             If NewDataSet.Tables(0).Rows.Count > 0 Then
                 For Each NewDataRow In NewDataSet.Tables(0).Rows
 
-                    If NewDataRow("dNotifyDate") = Today.AddDays(2).Date Then
+                    If NewDataRow("dNotifyDate") < Today.AddDays(3).Date And NewDataRow("dNotifyDate") > Today.AddDays(-1).Date Then
 
                         colPara.ParaName = "@iForAgentID"
                         colPara.ParaValue = NewDataRow("iCurrentAgentID")
@@ -212,4 +221,12 @@
         End Try
     End Sub
 
+
+    Public Sub FormatNotification(row As UltraGridRow)
+        If row.Cells("NotifyDate").Value < Today.Date Then
+            row.CellAppearance.ForeColor = Color.Red
+
+        End If
+
+    End Sub
 End Class
