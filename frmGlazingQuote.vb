@@ -36,8 +36,8 @@ Public Class frmGlazingQuote
     Dim UG2ActiveRow As UltraGridRow
     'Public  UG2ActiveRow As UltraGridRow
     Public Shared selectedDocDes As String
-    Dim footteIsActive As Boolean = False
-    Dim isJobDescriptionActive As Boolean = False
+    Public fotterIsActive As Boolean = False
+    Public isJobDescriptionActive As Boolean = False
 
     Public subHeaderID As Integer = 0
     Dim groupStarted As Boolean = False
@@ -90,6 +90,7 @@ Public Class frmGlazingQuote
     Dim gridActiveRow As UltraGridRow
     Dim gridActiveCell As UltraGridCell
     Dim downKeyPressed As Boolean = False
+
     Public quoteState As Integer = -1
     Public isACopy As Boolean = False
     Public isCancelled As Boolean = False
@@ -2083,8 +2084,8 @@ Public Class frmGlazingQuote
 
     Private Sub btnFooter_Click(sender As Object, e As EventArgs) Handles btnFooter.Click
         Try
-            If footteIsActive = False Then
-                footteIsActive = True
+            If fotterIsActive = False Then
+                fotterIsActive = True
                 btnFooter.FlatAppearance.BorderColor = Color.Yellow
                 btnFooter.BackColor = Color.Yellow
                 btnFooter.ForeColor = Color.Black
@@ -2097,8 +2098,8 @@ Public Class frmGlazingQuote
             newGlazingNote.utxtNoteText.Value = utxtNoteText.Text
             newGlazingNote.ShowDialog()
 
-            If footteIsActive = True Then
-                footteIsActive = False
+            If fotterIsActive = True Then
+                fotterIsActive = False
                 If utxtNoteText.Text <> "" And utxtNoteText.Text <> Nothing Then
                     btnFooter.Text = "Footer Area - Enabled"
                     btnFooter.FlatAppearance.BorderColor = Color.Green
@@ -2112,7 +2113,7 @@ Public Class frmGlazingQuote
             End If
 
         Catch ex As Exception
-            footteIsActive = False
+            fotterIsActive = False
             utxtNoteText.Text = ""
             btnFooter.Text = " Footer Area - Disabled"
             btnFooter.FlatAppearance.BorderColor = Color.FromArgb(71, 164, 248)
@@ -2395,6 +2396,7 @@ Public Class frmGlazingQuote
 
                                 utxtQuoteJobName.Text = objQutDetailline("GlzQuoteJobName")
                                 jobDescription = objQutDetailline("GlzQuoteJobDes")
+                                SetJobDescriptionState()
 
                             End If
 
@@ -4167,15 +4169,8 @@ Public Class frmGlazingQuote
             newGlazingJobDescription.isJobDescriptionActive = True
             newGlazingJobDescription.utxtNoteText.Value = jobDescription
             newGlazingJobDescription.ShowDialog()
-
-            If isJobDescriptionActive = True Then
-                btnJobDescription.Text = "Job description*"
-
-            Else
-                btnJobDescription.Text = "Job description"
-
-            End If
-
+            SetJobDescriptionState()
+            
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
         Finally
@@ -4183,8 +4178,22 @@ Public Class frmGlazingQuote
 
         End Try
     End Sub
+    Public Sub SetJobDescriptionState()
+        If IsNothing(jobDescription) = False Then
+            If jobDescriptio = "" Then
+                btnJobDescription.Text = "Job description is active*"
+                isJobDescriptionActive = True
+                btnJobDescription.BackColor = Color.Green
+                btnJobDescription.FlatAppearance.BorderColor = Color.Green
 
+            Else
+                btnJobDescription.Text = "Job description"
+                btnJobDescription.BackColor = Color.DodgerBlue
+                btnJobDescription.FlatAppearance.BorderColor = Color.DodgerBlue
 
+            End If
+        End If
+    End Sub
 
     Private Sub btnExpandMap_Click()
         Try

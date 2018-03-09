@@ -52,8 +52,10 @@
 
         If isJobDescriptionActive = False Then
             frmGlazingQuote.utxtNoteText.Value = utxtNoteTextValue
+
         Else
             frmGlazingQuote.jobDescription = utxtNoteTextValue
+
         End If
 
     End Sub
