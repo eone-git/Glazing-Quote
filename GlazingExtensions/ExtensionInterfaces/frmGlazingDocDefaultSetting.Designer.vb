@@ -25,11 +25,11 @@ Partial Class frmGlazingDocDefaultSetting
         Me.components = New System.ComponentModel.Container()
         Dim Appearance1 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand1 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn1 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateName")
-        Dim UltraGridColumn2 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("foreColor")
-        Dim UltraGridColumn3 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("backColor")
-        Dim UltraGridColumn4 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isActive")
-        Dim UltraGridColumn5 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("JQSID")
+        Dim UltraGridColumn16 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateName")
+        Dim UltraGridColumn17 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("foreColor")
+        Dim UltraGridColumn18 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("backColor")
+        Dim UltraGridColumn19 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isActive")
+        Dim UltraGridColumn20 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("JQSID")
         Dim Appearance2 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance3 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance4 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -190,22 +190,22 @@ Partial Class frmGlazingDocDefaultSetting
         Appearance1.BorderColor = System.Drawing.SystemColors.InactiveCaption
         Me.ugColorOption.DisplayLayout.Appearance = Appearance1
         Me.ugColorOption.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
-        UltraGridColumn1.Header.Caption = "Quote State Name"
-        UltraGridColumn1.Header.VisiblePosition = 0
-        UltraGridColumn1.Width = 188
-        UltraGridColumn2.Header.Caption = "Font Color"
-        UltraGridColumn2.Header.VisiblePosition = 1
-        UltraGridColumn2.Width = 53
-        UltraGridColumn3.Header.Caption = "Backgorund Color"
-        UltraGridColumn3.Header.VisiblePosition = 2
-        UltraGridColumn3.Width = 44
-        UltraGridColumn4.Header.Caption = "Enable"
-        UltraGridColumn4.Header.VisiblePosition = 3
-        UltraGridColumn4.Width = 48
-        UltraGridColumn5.Header.VisiblePosition = 4
-        UltraGridColumn5.Hidden = True
-        UltraGridColumn5.Width = 62
-        UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn1, UltraGridColumn2, UltraGridColumn3, UltraGridColumn4, UltraGridColumn5})
+        UltraGridColumn16.Header.Caption = "Quote State Name"
+        UltraGridColumn16.Header.VisiblePosition = 0
+        UltraGridColumn16.Width = 186
+        UltraGridColumn17.Header.Caption = "Font Color"
+        UltraGridColumn17.Header.VisiblePosition = 1
+        UltraGridColumn17.Width = 55
+        UltraGridColumn18.Header.Caption = "Backgorund Color"
+        UltraGridColumn18.Header.VisiblePosition = 2
+        UltraGridColumn18.Width = 44
+        UltraGridColumn19.Header.Caption = "Enable"
+        UltraGridColumn19.Header.VisiblePosition = 3
+        UltraGridColumn19.Width = 48
+        UltraGridColumn20.Header.VisiblePosition = 4
+        UltraGridColumn20.Hidden = True
+        UltraGridColumn20.Width = 62
+        UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn16, UltraGridColumn17, UltraGridColumn18, UltraGridColumn19, UltraGridColumn20})
         Me.ugColorOption.DisplayLayout.BandsSerializer.Add(UltraGridBand1)
         Me.ugColorOption.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.ugColorOption.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]

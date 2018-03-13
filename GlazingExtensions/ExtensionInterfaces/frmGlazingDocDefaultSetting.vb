@@ -9,6 +9,8 @@ Public Class frmGlazingDocDefaultSetting
     Private ob As frmGlazingQuote
     Dim isDefaultColChanged As Boolean = False
     Dim isLoading As Boolean = False
+    Dim isQuoteStateChanged = False
+
     Public Sub New(ByRef ob As frmGlazingQuote)
 
         ' This call is required by the designer.
@@ -24,7 +26,7 @@ Public Class frmGlazingDocDefaultSetting
 
     End Sub
     Public Sub SaveData()
-        Dim SQLNew = New clsSqlConn
+        Dim SQLNew As clsSqlConn = New clsSqlConn
         Dim sqlQuary As String = ""
         Dim taxCheckState As Integer
 
@@ -113,15 +115,27 @@ Public Class frmGlazingDocDefaultSetting
 
             End If
 
+            'changes tax values in frmGlazingQuote
             If (startingTax <> ucmbDefaultTax.Value) Or (startingTaxState <> chkTaxInc.Checked) Then
-                'changes values in frmGlazingQuote
                 ob.AfterDefaultTaxePriceChaged(ucmbDefaultTax.Value, ucmbDefaultTax.SelectedRow.Cells("TaxRate").Value, chkTaxInc.CheckState)
+
             End If
+            collspPara.Clear()
 
-                collspPara.Clear()
+            SaveColorOptionGrid(SQLNew)
+            SQLNew.Commit_Trans()
 
-                SaveColorOptionGrid(SQLNew)
-                SQLNew.Commit_Trans()
+            'changes values in frmGlazingQuote
+            If isQuoteStateChanged = True Then
+                Dim oldValue = ob.utxtQuoteState.Value
+                ob.LoadQuoteState()
+                ob.utxtQuoteState.Value = oldValue
+                If ob.utxtQuoteState.Text = oldValue.ToString Then
+                    ob.utxtQuoteState.Text = ""
+                    ob.utxtQuoteState.Appearance.ForeColor = Color.Red
+                End If
+
+            End If
 
         Catch ex As Exception
             frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MessageBoxButtons.OK)
@@ -465,6 +479,7 @@ Public Class frmGlazingDocDefaultSetting
 
         Catch ex As Exception
             frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
         End Try
 
     End Sub
@@ -509,8 +524,22 @@ Public Class frmGlazingDocDefaultSetting
             End If
 
         Catch ex As Exception
+            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
 
+    Private Sub ugColorOption_AfterCellUpdate(sender As Object, e As CellEventArgs) Handles ugColorOption.AfterCellUpdate
+        Try
+            If IsNothing(Me.ugColorOption.ActiveCell) = False Then
+                If Me.ugColorOption.ActiveCell.Column.Key = "quoteStateName" Then
+                    isQuoteStateChanged = True
+                End If
+            End If
+        Catch ex As Exception
+            ob.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+
+    End Sub
 End Class

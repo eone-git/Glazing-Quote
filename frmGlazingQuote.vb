@@ -791,7 +791,7 @@ Public Class frmGlazingQuote
         End With
     End Sub
 
-    Sub LoadQuoteState()
+    Public Sub LoadQuoteState()
         Dim DS_ As DataSet
         Try
             SQL = "SELECT JQSID, JQSName, JQSState FROM GlzQuote_State Where JQSState = 1"
@@ -1503,7 +1503,7 @@ Public Class frmGlazingQuote
                 End If
             Next
 
-            Dim newGlazingNotification As New frmGlazingNotification()
+            Dim newGlazingNotification As New clsGlazingNotification()
             If newGlazingNotification.GetNotificationDetails(objClsInvHeader, isExistingOrder, utxtQuoteJobID.Text) = 0 Then
                 objClsInvHeader.Rollback_Trans()
                 Exit Sub
@@ -2323,7 +2323,7 @@ Public Class frmGlazingQuote
                 canUpdate = False
 
                 Dim sqlQuary As String = "SELECT * FROM  spilInvNum LEFT JOIN GlzQuote_Job_Details ON spilInvNum.OrderIndex = GlzQuote_Job_Details.OrderIndex WHERE spilInvNum.OrderIndex = " & quoteOrdeIndex
-          
+
                 Dim objSQL As New clsSqlConn
                 With objSQL
 
@@ -3893,13 +3893,13 @@ Public Class frmGlazingQuote
                             End If
 
 
-                      
+
                         End If
                     ElseIf UG2.ActiveCell.Column.Key = "ItemImage" And UG2.ActiveRow.Cells("isImageAttached").Value = True Then
                         cmsQuoteGide.Items("tsmRemovePicture").Visible = True
 
                     End If
-            End If
+                End If
 
             End If
         Catch ex As Exception
@@ -4164,23 +4164,34 @@ Public Class frmGlazingQuote
 
 
     Private Sub btnJobDescription_Click(sender As Object, e As EventArgs) Handles btnJobDescription.Click
+        OpenDescriptionState(True, jobDescription)
+        SetJobDescriptionState()
+    End Sub
+    Public Sub OpenDescriptionState(ByRef sendObject As Boolean, ByRef jobDescriptionText As String)
+        Dim newGlazingJobDescription As frmGlazingNote
         Try
-            Dim newGlazingJobDescription As New frmGlazingNote(Me)
+            If sendObject = False Then
+                newGlazingJobDescription = New frmGlazingNote(Me)
+
+            Else
+                newGlazingJobDescription = New frmGlazingNote()
+
+            End If
             newGlazingJobDescription.isJobDescriptionActive = True
-            newGlazingJobDescription.utxtNoteText.Value = jobDescription
+            newGlazingJobDescription.utxtNoteText.Value = jobDescriptionText
             newGlazingJobDescription.ShowDialog()
-            SetJobDescriptionState()
-            
+
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
         Finally
             SetJobDescriptionButtonState()
-
+            newGlazingJobDescription = Nothing
         End Try
     End Sub
+
     Public Sub SetJobDescriptionState()
         If IsNothing(jobDescription) = False Then
-            If jobDescriptio = "" Then
+            If jobDescription <> "" Then
                 btnJobDescription.Text = "Job description is active*"
                 isJobDescriptionActive = True
                 btnJobDescription.BackColor = Color.Green

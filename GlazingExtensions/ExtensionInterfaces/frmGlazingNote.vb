@@ -14,6 +14,14 @@
         '    isLoading = True
         'End If
     End Sub
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+
+    End Sub
+
 
     Private Sub utxtNoteText_KeyDown(sender As Object, e As KeyEventArgs) Handles utxtNoteText.KeyDown
         GlazingNote(e)
@@ -46,8 +54,10 @@
 
         If IsNothing(utxtNoteText.Text) = False Then
             utxtNoteTextValue = utxtNoteText.Text
+
         Else
             utxtNoteTextValue = ""
+
         End If
 
         If isJobDescriptionActive = False Then
