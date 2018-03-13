@@ -1503,7 +1503,7 @@ Public Class frmGlazingQuote
                 End If
             Next
 
-            Dim newGlazingNotification As New clsGlazingNotification()
+            Dim newGlazingNotification As New clsGlazingQuoteNotification()
             If newGlazingNotification.GetNotificationDetails(objClsInvHeader, isExistingOrder, utxtQuoteJobID.Text) = 0 Then
                 objClsInvHeader.Rollback_Trans()
                 Exit Sub
@@ -4167,14 +4167,18 @@ Public Class frmGlazingQuote
         OpenDescriptionState(True, jobDescription)
         SetJobDescriptionState()
     End Sub
+
     Public Sub OpenDescriptionState(ByRef sendObject As Boolean, ByRef jobDescriptionText As String)
         Dim newGlazingJobDescription As frmGlazingNote
         Try
-            If sendObject = False Then
+            If sendObject = True Then
                 newGlazingJobDescription = New frmGlazingNote(Me)
 
             Else
                 newGlazingJobDescription = New frmGlazingNote()
+                newGlazingJobDescription.utxtNoteText.Dock = DockStyle.Fill
+                newGlazingJobDescription.utxtNoteText.ReadOnly = True
+                newGlazingJobDescription.utxtNoteText.SpellChecker = Nothing
 
             End If
             newGlazingJobDescription.isJobDescriptionActive = True
@@ -4183,9 +4187,11 @@ Public Class frmGlazingQuote
 
         Catch ex As Exception
             ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
         Finally
             SetJobDescriptionButtonState()
             newGlazingJobDescription = Nothing
+
         End Try
     End Sub
 

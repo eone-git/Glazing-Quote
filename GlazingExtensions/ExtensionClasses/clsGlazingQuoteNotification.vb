@@ -1,6 +1,6 @@
 ﻿Imports Infragistics.Win.UltraWinGrid
 
-Public Class clsGlazingNotification
+Public Class clsGlazingQuoteNotification
     Dim collspPara As New Collection
     Dim colPara As New spParameters
     Dim ob As frmAgentNotifications

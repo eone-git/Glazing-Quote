@@ -53,7 +53,8 @@ Partial Class frmGlazingNote
         '
         'brnAdd
         '
-        Me.brnAdd.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.brnAdd.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.brnAdd.BackColor = System.Drawing.Color.DodgerBlue
         Me.brnAdd.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.brnAdd.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue
@@ -69,7 +70,8 @@ Partial Class frmGlazingNote
         '
         'btnSpellCheck
         '
-        Me.btnSpellCheck.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSpellCheck.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSpellCheck.BackColor = System.Drawing.Color.DodgerBlue
         Me.btnSpellCheck.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue
         Me.btnSpellCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -100,11 +102,13 @@ Partial Class frmGlazingNote
         'utxtNoteText
         '
         Me.utxtNoteText.AcceptsTab = True
-        Me.utxtNoteText.Dock = System.Windows.Forms.DockStyle.Top
+        Me.utxtNoteText.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.utxtNoteText.Location = New System.Drawing.Point(0, 0)
         Me.utxtNoteText.Multiline = True
         Me.utxtNoteText.Name = "utxtNoteText"
-        Me.utxtNoteText.Size = New System.Drawing.Size(984, 402)
+        Me.utxtNoteText.Size = New System.Drawing.Size(984, 405)
         Me.utxtNoteText.SpellChecker = Me.uscGlassQuote
         Me.utxtNoteText.TabIndex = 3
         '
