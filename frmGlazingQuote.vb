@@ -352,7 +352,7 @@ Public Class frmGlazingQuote
             txtContPerTel.Text = oFormCustomer.Telephone
             txtContEmail.Text = oFormCustomer.EMail ' Dr("EMail")
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -598,7 +598,7 @@ Public Class frmGlazingQuote
             End If
             cmbProjectStage.Enabled = isEnabled
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -660,7 +660,7 @@ Public Class frmGlazingQuote
             End If
             cmbCustJob.Enabled = isEnabled
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -859,7 +859,7 @@ Public Class frmGlazingQuote
 
             End If
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -950,7 +950,7 @@ Public Class frmGlazingQuote
 
             End With
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -959,7 +959,7 @@ Public Class frmGlazingQuote
         Try
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -1048,7 +1048,7 @@ Public Class frmGlazingQuote
                 Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
             End If
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -1065,7 +1065,7 @@ Public Class frmGlazingQuote
             Me.UG2.ActiveRow.Cells("TaxRate").Hidden = isHdden
             Me.UG2.ActiveRow.Cells("Shape").Hidden = isHdden
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -1083,7 +1083,7 @@ Public Class frmGlazingQuote
                 Me.UG2.ActiveRow.Cells("LineComments").Value = ""
             End If
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -1114,7 +1114,7 @@ Public Class frmGlazingQuote
             QuoteGirdRowFormatExtended()
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -1158,7 +1158,7 @@ Public Class frmGlazingQuote
             End Select
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
 
@@ -1171,7 +1171,7 @@ Public Class frmGlazingQuote
             row.ParentCollection.Move(row, UG2.ActiveRow.Index)
             Me.UG2.ActiveRowScrollRegion.ScrollRowIntoView(row)
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -1187,7 +1187,7 @@ Public Class frmGlazingQuote
                 Exit Sub
             End If
 
-            If ShowMessage("Do you wont to save this Quotation?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+            If modGlazingQuoteExtension.GQShowMessage("Do you wont to save this Quotation?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
                 Exit Sub
             End If
 
@@ -1392,7 +1392,7 @@ Public Class frmGlazingQuote
                 newSQLQuery = "UPDATE spilInvNum SET QuoteStateID = @QuoteStateID WHERE OrderIndex = '" & quoteOrdeIndex & "'"
 
                 If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
-                    ShowMessage("Erro in item Quote State ID", Me.Text, MsgBoxStyle.Critical)
+                    modGlazingQuoteExtension.GQShowMessage("Erro in item Quote State ID", Me.Text, MsgBoxStyle.Critical)
                     objClsInvHeader.Rollback_Trans()
                     Exit Sub
                 End If
@@ -1428,7 +1428,7 @@ Public Class frmGlazingQuote
                     newSQLQuery = "UPDATE spilInvNumLines SET ItemImage = @ItemImage, isImageAttached = @isImageAttached, isShapeAttached = @isShapeAttached WHERE OrderIndex = '" & quoteOrdeIndex & "' AND idInvoiceLines = '" & row.Index & "'"
 
                     If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
-                        ShowMessage("Erro in item pictures", Me.Text, MsgBoxStyle.Critical)
+                        modGlazingQuoteExtension.GQShowMessage("Erro in item pictures", Me.Text, MsgBoxStyle.Critical)
                         objClsInvHeader.Rollback_Trans()
                         Exit Sub
                     End If
@@ -1527,7 +1527,7 @@ Public Class frmGlazingQuote
             objClsInvHeader = Nothing
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
             lblOrderNo.Text = ""
             quoteOrdeIndex = 0
 
@@ -1554,7 +1554,7 @@ Public Class frmGlazingQuote
             If IsNothing(glzQuoteJobID) Then
 
                 'If SaveNotificationDetails(objSQL) = 0 Then
-                '    Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+                '    Me.modGlazingQuoteExtensionClass.GQShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
                 '    Return 0
                 '    Exit Function
                 'End If
@@ -1594,7 +1594,7 @@ Public Class frmGlazingQuote
 
 
             If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
-                Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+                modGlazingQuoteExtension.GQShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
                 Return 0
                 Exit Function
 
@@ -1605,7 +1605,7 @@ Public Class frmGlazingQuote
 
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
             glzQuoteJobID = Nothing
             utxtQuoteJobID.Text = ""
             lblOrderNo.Text = ""
@@ -1728,7 +1728,7 @@ Public Class frmGlazingQuote
 
 
         '    If idIncidents = 0 Then
-        '        Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+        '        Me.modGlazingQuoteExtensionClass.GQShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
         '        Return 0
         '        Exit Function
 
@@ -1752,7 +1752,7 @@ Public Class frmGlazingQuote
         '        incidentLogID = objClsInvHeader.EXE_SQL_Para_Return_ID(newSQLQuery, collspPara)
 
         '        If incidentLogID = 0 Then
-        '            Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+        '            Me.modGlazingQuoteExtensionClass.GQShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
         '            Return 0
         '            Exit Function
         '        Else
@@ -1779,7 +1779,7 @@ Public Class frmGlazingQuote
         '            incidentLogID = objClsInvHeader.EXE_SQL_Para_Return_ID(newSQLQuery, collspPara)
 
         '            If idIncidents = 0 Then
-        '                Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+        '                Me.modGlazingQuoteExtensionClass.GQShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
         '                Return 0
         '                Exit Function
         '            Else
@@ -1795,7 +1795,7 @@ Public Class frmGlazingQuote
 
 
         'Catch ex As Exception
-        '    ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+        '    modGlazingQuoteExtensionClass.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
         '    glzQuoteJobID = Nothing
         '    utxtQuoteJobID.Text = ""
         '    lblOrderNo.Text = ""
@@ -1840,7 +1840,7 @@ Public Class frmGlazingQuote
             Return strSONo
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
             Return strSONo
 
         End Try
@@ -1893,7 +1893,7 @@ Public Class frmGlazingQuote
 
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
 
@@ -1927,19 +1927,6 @@ Public Class frmGlazingQuote
     '    End Try
     'End Function
 
-    Public Function ShowMessage(msgBoxMessage As String, formName As String, messageButtons As MessageBoxButtons) As DialogResult
-        Try
-            If messageButtons = MessageBoxButtons.YesNo Then
-                Return MessageBox.Show(msgBoxMessage, formName, MessageBoxButtons.YesNo)
-            Else
-                Return MessageBox.Show(msgBoxMessage, formName, MessageBoxButtons.OK)
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message)
-
-        End Try
-    End Function
-
     Private Sub btnSaveDocDes_Click(sender As Object, e As EventArgs) Handles btnSaveDocDes.Click
         Try
             utxtDocDecHEaderMain.Tabs("Documents").Visible = True
@@ -1950,7 +1937,7 @@ Public Class frmGlazingQuote
             utxtDocDec.Text = ""
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -1997,7 +1984,7 @@ Public Class frmGlazingQuote
             End If
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -2046,7 +2033,7 @@ Public Class frmGlazingQuote
             Return row
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Function
@@ -2071,7 +2058,7 @@ Public Class frmGlazingQuote
             End If
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -2119,7 +2106,7 @@ Public Class frmGlazingQuote
             btnFooter.FlatAppearance.BorderColor = Color.FromArgb(71, 164, 248)
             btnFooter.BackColor = Color.FromArgb(71, 164, 248)
             UG2.Visible = True
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -2142,7 +2129,7 @@ Public Class frmGlazingQuote
                 End If
             End If
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -2197,7 +2184,7 @@ Public Class frmGlazingQuote
             groupStarted = False
             'SetTotalAmounts(True)
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
 
@@ -2231,7 +2218,7 @@ Public Class frmGlazingQuote
             lblTotIncAmo.Text = TotalInc
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -2263,7 +2250,7 @@ Public Class frmGlazingQuote
             'End If
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -2400,7 +2387,7 @@ Public Class frmGlazingQuote
 
                             End If
 
-                            If objQutDetailline("QuoteStateID") = QuoteStateValue.Cancelled Then
+                            If objQutDetailline("QuoteStateID") = modGlazingQuoteExtension.QuoteStateValue.Cancelled Then
                                 isCancelled = True
                             End If
 
@@ -2458,7 +2445,7 @@ Public Class frmGlazingQuote
                 isOpeningQuote = False
                 If isACopy = True Then
                     quoteOrdeIndex = 0
-                    utxtQuoteState.Value = QuoteStateValue.Copy
+                    utxtQuoteState.Value = modGlazingQuoteExtension.QuoteStateValue.Copy
                 End If
             Else
                 cmbAccount.Focus()
@@ -2466,7 +2453,7 @@ Public Class frmGlazingQuote
             End If
 
         Catch ex As Exception
-            Me.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
             Exit Sub
 
         Finally
@@ -2600,7 +2587,7 @@ Public Class frmGlazingQuote
                 End If
             End With
         Catch ex As Exception
-            Me.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         Finally
             SQLNew = Nothing
@@ -2647,7 +2634,7 @@ Public Class frmGlazingQuote
                         End If
                     End With
                 Catch ex As Exception
-                    ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+                    modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
                 End Try
             Else
                 'If IsNothing(taxtRate) = False Then
@@ -2690,7 +2677,7 @@ Public Class frmGlazingQuote
             End If
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -2738,7 +2725,7 @@ Public Class frmGlazingQuote
             TotalValuesBeahavior()
             SetTotalAmounts(True)
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
 
@@ -2795,7 +2782,7 @@ Public Class frmGlazingQuote
             'e.Layout.Bands(0).Columns(1).ColumnChooserCaption = "Column Chooser Caption"
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -2812,7 +2799,7 @@ Public Class frmGlazingQuote
             UG2.Refresh()
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
         'UG2.
@@ -2878,7 +2865,7 @@ Public Class frmGlazingQuote
             End If
             SetTotalAmounts(True)
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -2986,7 +2973,7 @@ Public Class frmGlazingQuote
             End If
             SetActiveCell(e)
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3041,7 +3028,7 @@ Public Class frmGlazingQuote
             End If
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3065,7 +3052,7 @@ Public Class frmGlazingQuote
             e.Cell.Row.Cells("Volume").Value = (itemWidth * itemHight) / 1000000
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3189,7 +3176,7 @@ Public Class frmGlazingQuote
             calculateWhilePasting = False
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3221,7 +3208,7 @@ Public Class frmGlazingQuote
             End If
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3245,7 +3232,7 @@ Public Class frmGlazingQuote
             R.Cells(1).Value = OpenFileDialog1.FileName
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3258,7 +3245,7 @@ Public Class frmGlazingQuote
                 Proc.Start()
             End If
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
 
@@ -3273,7 +3260,7 @@ Public Class frmGlazingQuote
             Proc.Start()
             'End If
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3283,7 +3270,7 @@ Public Class frmGlazingQuote
             Dim newGlazingDocTemplate As New frmGlazingDocTemplate(Me)
             newGlazingDocTemplate.ShowDialog()
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3306,7 +3293,7 @@ Public Class frmGlazingQuote
 
                     newSQLQuery = "INSERT INTO GlzQuote_Temp (TempName, TempQuoteFiedType, AgentID, EditedDate, LastEditedBy, DocDescription, RowGroupID) VALUES ('" & tempName & "', " & ugR.Cells("QuoteFiedType").Value & "," & AgentID & "," & Today.Date & "," & AgentID & ",'" & docDescription & "', " & ugR.Cells("ItmGroupID").Value & ")"
                     If oSQL.Exe_Query_Trans(newSQLQuery) = 0 Then
-                        Me.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+                        modGlazingQuoteExtension.GQShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
                         oSQL.Rollback_Trans()
                         Exit Sub
                     End If
@@ -3318,7 +3305,7 @@ Public Class frmGlazingQuote
             oSQL.Commit_Trans()
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3338,7 +3325,7 @@ Public Class frmGlazingQuote
             End If
             e.DisplayPromptMsg = False
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3358,7 +3345,7 @@ Public Class frmGlazingQuote
 
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3383,7 +3370,7 @@ Public Class frmGlazingQuote
             End If
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -3455,7 +3442,7 @@ Public Class frmGlazingQuote
                 'End If
             Next
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3481,7 +3468,7 @@ Public Class frmGlazingQuote
             isCopied = True
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3557,7 +3544,7 @@ Public Class frmGlazingQuote
             isPasting = False
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
 
@@ -3591,7 +3578,7 @@ Public Class frmGlazingQuote
             Me.UG2.ActiveRow.Cells("Volume").Column.Hidden = False
             Me.UG2.ActiveRow.Cells("ItmExcAmount").Column.Hidden = False
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3607,7 +3594,7 @@ Public Class frmGlazingQuote
             Me.UG2.ActiveRow.Cells("Volume").Column.Hidden = True
             Me.UG2.ActiveRow.Cells("ItmExcAmount").Column.Hidden = True
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3623,13 +3610,6 @@ Public Class frmGlazingQuote
             PastRow()
         End If
     End Sub
-    Public Enum QuateFiedTypesList As Integer
-        Text = 1
-        Header_Main = 2
-        Header_Sub = 3
-        Subtotal = 4
-        Stock_Item = 5
-    End Enum
 
     Private Sub mnuSave_Click(sender As Object, e As EventArgs) Handles mnuSave.Click
         SaveDocument()
@@ -3832,7 +3812,7 @@ Public Class frmGlazingQuote
 
             End If
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3859,7 +3839,7 @@ Public Class frmGlazingQuote
             obSQL.GET_INSERT_UPDATE(newSqlQuery)
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3903,7 +3883,7 @@ Public Class frmGlazingQuote
 
             End If
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -3978,7 +3958,7 @@ Public Class frmGlazingQuote
                 Return 1
 
             Else
-                ShowMessage(sErrorMsg, "Form Validation", MsgBoxStyle.Exclamation)
+                modGlazingQuoteExtension.GQShowMessage(sErrorMsg, "Form Validation", MsgBoxStyle.Exclamation)
                 Return 0
 
             End If
@@ -3986,7 +3966,7 @@ Public Class frmGlazingQuote
 
 
         Catch ex As Exception
-            ShowMessage(ex.Message, "Form Validation", MsgBoxStyle.Exclamation)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, "Form Validation", MsgBoxStyle.Exclamation)
             Return 0
         End Try
     End Function
@@ -4186,7 +4166,7 @@ Public Class frmGlazingQuote
             newGlazingJobDescription.ShowDialog()
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         Finally
             SetJobDescriptionButtonState()
@@ -4290,7 +4270,7 @@ Public Class frmGlazingQuote
                 'addressMap.Overlays.Add(overlay)
             End If
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -4388,7 +4368,7 @@ Public Class frmGlazingQuote
                     TotalIncAmount = TotalInc + ug2Row.Cells("Net").Text
 
                     If sumOfsubtotal <> TotalIncAmount Then
-                        'ShowMessage("Error occered while calculating Total Insive Amount", Me.Text, MsgBoxStyle.Critical)
+                        'modGlazingQuoteExtensionClass.GQShowMessage("Error occered while calculating Total Insive Amount", Me.Text, MsgBoxStyle.Critical)
                         'lblTotIncAmo.Text = "0"
                         'Exit Sub
                     End If
@@ -4400,7 +4380,7 @@ Public Class frmGlazingQuote
             'lblTotIncAmo.Text = TotalInc
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -4502,7 +4482,7 @@ Public Class frmGlazingQuote
             Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
 
         Catch ex As Exception
-            ShowMessage(ex.Message, "Error in Line type drop down", MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, "Error in Line type drop down", MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -4521,7 +4501,7 @@ Public Class frmGlazingQuote
             Me.UG2.ActiveRow.Cells("Shape").Hidden = isHdden
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -4537,7 +4517,7 @@ Public Class frmGlazingQuote
             gridActiveRow.PerformAutoSize()
             Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -4601,7 +4581,7 @@ Public Class frmGlazingQuote
 
             QuoteGridSetSubTotal()
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -4695,7 +4675,7 @@ Public Class frmGlazingQuote
             lblTotIncAmo.Text = Format(TotalInc, "0.00")
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
 
@@ -4719,7 +4699,7 @@ Public Class frmGlazingQuote
                 End If
 
                 If isWrongType = True Then
-                    ShowMessage(UG2.ActiveCell.Column.Header.Caption & " required a numeric value", "Error in entered value", MsgBoxStyle.Critical)
+                    modGlazingQuoteExtension.GQShowMessage(UG2.ActiveCell.Column.Header.Caption & " required a numeric value", "Error in entered value", MsgBoxStyle.Critical)
                     Me.UG2.ActiveCell.Appearance.BackColor = Color.FromArgb(198, 101, 101)
                     Me.UG2.ActiveCell.SelectAll()
                     Return 0
@@ -4732,7 +4712,7 @@ Public Class frmGlazingQuote
                 Return 0
             End If
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
             Return 0
         End Try
     End Function
@@ -4756,7 +4736,7 @@ Public Class frmGlazingQuote
             End If
             Return 1
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
             Return 0
 
         End Try
@@ -4802,7 +4782,7 @@ Public Class frmGlazingQuote
             End If
 
         Catch ex As Exception
-            ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -4822,16 +4802,6 @@ Public Class frmGlazingQuote
         AddNewRow("end")
     End Sub
 
-    Public Enum QuoteStateValue As Integer
-        EditMode = 1
-        Copy = 2
-        SentAndConfirmationPending = 3
-        Confirmed = 4
-        Unconfirmed = 5
-        Cancelled = 6
-        Hold = 7
-
-    End Enum
     Function CreateOnelineAddress() As String
         Dim addressInSingleLine As String
         If txtPhy1.Text <> "" Then

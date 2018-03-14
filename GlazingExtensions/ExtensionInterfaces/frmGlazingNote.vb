@@ -41,7 +41,7 @@
                 End If
             End If
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         Finally
             selectedDocDes = ""
@@ -84,10 +84,10 @@
 
             End If
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
-       
+
     End Sub
 
     Private Sub RepopulateAutoCorrectionList()

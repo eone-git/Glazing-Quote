@@ -438,7 +438,7 @@ Public Class frmGlazingDocStockItem
             'emptyRow.Cells("IsPriceItem").Value = True
 
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub

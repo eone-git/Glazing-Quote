@@ -20,7 +20,7 @@ Public Class frmGlazingDocTemplate
             End With
             Return dsQuoteTemp
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Exclamation)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Exclamation)
             Return dsQuoteTemp
         Finally
         End Try
@@ -31,7 +31,7 @@ Public Class frmGlazingDocTemplate
             If Me.btnSave.Text = "Save" Then
                 For Each ugR As UltraGridRow In ugQuoteList.Rows
                     If ugR.Cells("TempName").Value = txttmpName.Text Then
-                        If frmGlazingQuote.ShowMessage("Enterd name already exsit." & vbCrLf & "Do you wont to overwrite the " & txttmpName.Text, Me.Text, MsgBoxStyle.YesNo) = Windows.Forms.DialogResult.Yes Then
+                        If modGlazingQuoteExtension.GQShowMessage("Enterd name already exsit." & vbCrLf & "Do you wont to overwrite the " & txttmpName.Text, Me.Text, MsgBoxStyle.YesNo) = Windows.Forms.DialogResult.Yes Then
 
                         Else
                             Exit Sub
@@ -51,7 +51,7 @@ Public Class frmGlazingDocTemplate
             End If
             LoadGrideData()
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Exclamation)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Exclamation)
         Finally
             Me.btnSave.Text = "Save"
             Me.ugQuoteList.ActiveRow = Me.ugQuoteList.Rows(activeRowIndex)
@@ -68,7 +68,7 @@ Public Class frmGlazingDocTemplate
             ugQuoteList.DataSource = GetQuoteData("SELECT TempName FROM GlzQuote_Temp  WHERE IsRecordActive = 1 GROUP BY TempName")
 
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Exclamation)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Exclamation)
         End Try
     End Sub
 
@@ -104,7 +104,7 @@ Public Class frmGlazingDocTemplate
                 End If
 
             Catch ex As Exception
-                frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Exclamation)
+                modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Exclamation)
 
             Finally
                 frmGlazingQuote.isOpeningQuote = False
@@ -169,7 +169,7 @@ Public Class frmGlazingDocTemplate
 
             'Hanndle the databse transaction
             If shouldRollBack = True Then
-                frmGlazingQuote.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+                modGlazingQuoteExtension.GQShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
                 oSQL.Rollback_Trans()
                 Exit Sub
             Else
@@ -178,12 +178,12 @@ Public Class frmGlazingDocTemplate
             End If
 
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage("Data not saved", Me.Text, MsgBoxStyle.Critical)
         End Try
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-        If frmGlazingQuote.ShowMessage("Do you wont to delete the " & txttmpName.Text & " ?", "Deleting Template", MsgBoxStyle.YesNo) = Windows.Forms.DialogResult.Yes Then
+        If modGlazingQuoteExtension.GQShowMessage("Do you wont to delete the " & txttmpName.Text & " ?", "Deleting Template", MsgBoxStyle.YesNo) = Windows.Forms.DialogResult.Yes Then
             DeleteTemplate(txttmpName.Text)
         End If
     End Sub
@@ -194,7 +194,7 @@ Public Class frmGlazingDocTemplate
 
     Private Sub tsmDelete_Click(sender As Object, e As EventArgs) Handles tsmDelete.Click
         If IsNothing(ugQuoteList.ActiveRow) = False Then
-            If frmGlazingQuote.ShowMessage("Do you wont to delete the " & ugQuoteList.ActiveRow.Cells("TempName").Value & " ?", "Deleteing Template", MsgBoxStyle.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If modGlazingQuoteExtension.GQShowMessage("Do you wont to delete the " & ugQuoteList.ActiveRow.Cells("TempName").Value & " ?", "Deleteing Template", MsgBoxStyle.YesNo) = Windows.Forms.DialogResult.Yes Then
                 DeleteTemplate(ugQuoteList.ActiveRow.Cells("TempName").Value)
             End If
         End If

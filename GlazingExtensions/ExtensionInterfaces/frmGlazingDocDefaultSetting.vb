@@ -36,7 +36,7 @@ Public Class frmGlazingDocDefaultSetting
         '    newDataset = GetGlzQuoteDefaults("SELECT * FROM  GlzQuote_Defaults WHERE getGlobalDataByDefault = 1")
         '    If IsNothing(newDataset) Then
         '        If newDataset.Tables(0).Rows.Count > 0 Then
-        '            If frmGlazingQuote.ShowMessage("Already default tax rate set in globally" & vbCrLf & "Do you want to Overwrite it", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        '            If modGlazingQuoteExtensionClass.GQShowMessage("Already default tax rate set in globally" & vbCrLf & "Do you want to Overwrite it", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
         '                Exit Sub
         '            End If
         '        End If
@@ -92,7 +92,7 @@ Public Class frmGlazingDocDefaultSetting
                 'colPara.ParaValue = getGlobalDataByDefault
                 'collspPara.Add(colPara)
 
-                If frmGlazingQuote.ShowMessage("Do you want to change the default tax settings?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If modGlazingQuoteExtension.GQShowMessage("Do you want to change the default tax settings?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     If isExist = False Then
                         newSQLQuery = "INSERT INTO GlzQuote_Defaults (isTaxInc, createdBy, defaultTaxtRate, publicVisibleState, getGlobalDataByDefault, hasDefaultDocStateColor,  defaultDocStateColor) " & _
                         "VALUES (@isTaxInc, @createdBy, @defaultTaxtRate, @publicVisibleState, @getGlobalDataByDefault, @hasDefaultDocStateColor, @defaultDocStateColor )"
@@ -109,7 +109,7 @@ Public Class frmGlazingDocDefaultSetting
 
             End If
             If SQLNew.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
-                frmGlazingQuote.ShowMessage("Erro in item pictures", Me.Text, MsgBoxStyle.Critical)
+                modGlazingQuoteExtension.GQShowMessage("Erro in item pictures", Me.Text, MsgBoxStyle.Critical)
                 SQLNew.Rollback_Trans()
                 Exit Sub
 
@@ -138,7 +138,7 @@ Public Class frmGlazingDocDefaultSetting
             End If
 
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MessageBoxButtons.OK)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MessageBoxButtons.OK)
 
         Finally
             SQLNew = Nothing
@@ -201,7 +201,7 @@ Public Class frmGlazingDocDefaultSetting
             startingTax = ucmbDefaultTax.Value
             startingTaxState = chkTaxInc.Checked
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
         Finally
             isLoading = False
         End Try
@@ -224,7 +224,7 @@ Public Class frmGlazingDocDefaultSetting
                 End If
             End If
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
         End Try
 
     End Function
@@ -250,7 +250,7 @@ Public Class frmGlazingDocDefaultSetting
     Sub GetDefaultUsreSettings(ByVal row As DataRow)
 
         'no default settings in database
-        'frmGlazingQuote.ShowMessage("No default settings were found." & vbCrLf & "Loading user default settings ", Me.Text, MessageBoxButtons.OK)
+        'modGlazingQuoteExtensionClass.GQShowMessage("No default settings were found." & vbCrLf & "Loading user default settings ", Me.Text, MessageBoxButtons.OK)
 
         If row("isTaxInc") = True Then
             chkTaxInc.CheckState = CheckState.Checked
@@ -284,7 +284,7 @@ Public Class frmGlazingDocDefaultSetting
                 QuoteDefaultsDataset = ds
 
             Catch ex As Exception
-                frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+                modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
             Finally
                 SQLNew = Nothing
@@ -310,7 +310,7 @@ Public Class frmGlazingDocDefaultSetting
                 End If
             End With
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         Finally
             objSQL = Nothing
@@ -344,7 +344,7 @@ Public Class frmGlazingDocDefaultSetting
     '            QuoteDefaultsDataset = ds
 
     '        Catch ex As Exception
-    '            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+    '            modGlazingQuoteExtensionClass.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
     '        Finally
     '            SQLNew = Nothing
@@ -468,7 +468,7 @@ Public Class frmGlazingDocDefaultSetting
                 End If
 
                 If newObjSQL.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
-                    frmGlazingQuote.ShowMessage("Erro in item pictures", Me.Text, MsgBoxStyle.Critical)
+                    modGlazingQuoteExtension.GQShowMessage("Erro in item pictures", Me.Text, MsgBoxStyle.Critical)
                     newObjSQL.Rollback_Trans()
                     Exit Sub
 
@@ -478,7 +478,7 @@ Public Class frmGlazingDocDefaultSetting
 
 
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
 
@@ -489,7 +489,7 @@ Public Class frmGlazingDocDefaultSetting
         isDefaultColChanged = True
     End Sub
 
-    
+
 
     Private Sub ucpBackColor_ColorChanged(sender As Object, e As EventArgs) Handles ucpBackColor.ColorChanged
         If isLoading = False Then
@@ -524,7 +524,7 @@ Public Class frmGlazingDocDefaultSetting
             End If
 
         Catch ex As Exception
-            frmGlazingQuote.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -537,7 +537,7 @@ Public Class frmGlazingDocDefaultSetting
                 End If
             End If
         Catch ex As Exception
-            ob.ShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
 
