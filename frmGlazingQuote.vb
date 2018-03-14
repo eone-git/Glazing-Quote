@@ -1891,9 +1891,8 @@ Public Class frmGlazingQuote
             frmDocumentPrint_Email.WindowState = FormWindowState.Normal
             frmDocumentPrint_Email.ShowDialog()
 
-
         Catch ex As Exception
-            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
 

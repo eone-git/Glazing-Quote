@@ -32,7 +32,10 @@
         Dim colPara As New spParameters
         Dim newSQLQuery As String = ""
         Dim newSQL As New clsSqlConn
+
         Try
+            newSQL.Begin_Trans()
+
             colPara.ParaName = "@QuoteStateID"
             colPara.ParaValue = QuoteStateValue
             collspPara.Add(colPara)
@@ -42,10 +45,12 @@
             collspPara.Add(colPara)
 
             sqlQuary = "update spilInvNum set QuoteStateID = @QuoteStateID where OrderIndex = @OrderIndex"
-            If newSQL.EXE_SQL_Para(sqlQuary, collspPara) = 0 Then
+            If newSQL.EXE_SQL_Trans_Para(sqlQuary, collspPara) = 0 Then
                 MsgBox("Error in Updating state", MsgBoxStyle.Critical, "SPIL Glass")
                 Exit Sub
             End If
+
+            GQDocumentLog("Cancel Quotaion", objSQL)
 
         Catch ex As Exception
             GQShowMessage(ex.Message, moduleName, MsgBoxStyle.Critical)
@@ -75,4 +80,43 @@
 
         End Try
     End Sub
+
+    Public Function GQDocumentLog(ByRef logAction As String, Optional sqlObj As clsSqlConn = Nothing, Optional description1 As String = "")
+
+        Dim objDLItem As New clsDocumentLogEntry
+        Dim isNewConection As Boolean = False
+        Try
+            If IsNothing(sqlObj) = True Then
+                sqlObj = New clsSqlConn
+                sqlObj.Begin_Trans()
+                isNewConection = True
+            End If
+
+            objDLItem.iDocID = InvHeaderID
+            objDLItem.iDocTypeID = pubMeSpilDocTypeID
+            objDLItem.LogAction = logAction
+            objDLItem.DocItemCount = 0
+            objDLItem.DocServiceCount = 0
+            objDLItem.LogDateTime = Now
+            objDLItem.EnteredBy = strUserName
+            objDLItem.Description1 = description1
+            If objDLItem.AddDocLogWithTrans(sqlObj.Con, sqlObj.Trans) < 1 Then
+                sqlObj.Rollback_Trans()
+                Exit Function
+            End If
+
+            If isNewConection = True Then
+                sqlObj.Commit_Trans()
+
+            End If
+
+        Catch ex As Exception
+            GQShowMessage(ex.Message, moduleName, MsgBoxStyle.Critical)
+
+        Finally
+            isNewConection = False
+        End Try
+    End Function
+
+
 End Class

@@ -19,6 +19,7 @@
         Header_Sub = 3
         Subtotal = 4
         Stock_Item = 5
+
     End Enum
 
     Public Enum QuoteStateValue As Integer
