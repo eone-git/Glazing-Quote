@@ -58,7 +58,7 @@ Public Class frmGlazingQuote
 
     Dim isCopied As Boolean = False
     Dim isPasting As Boolean = False
-
+    Dim preQuoteNumber As String = ""
     Public quoteOrdeIndex As Integer = 0
     Dim quoteOrderNum As String = ""
     Dim quoteDocRepID As Integer = 0
@@ -94,6 +94,7 @@ Public Class frmGlazingQuote
     Public quoteState As Integer = -1
     Public isACopy As Boolean = False
     Public isCancelled As Boolean = False
+    Dim preQuoteState As String = -1
 
     Private Sub GET_CUSTOMERS(ByVal value As String)
 
@@ -1385,7 +1386,12 @@ Public Class frmGlazingQuote
                 Dim newSQLQuery As String = ""
 
                 colPara.ParaName = "@QuoteStateID"
-                colPara.ParaValue = utxtQuoteState.Value
+                If isACopy = True Then
+                    colPara.ParaValue = QuoteStateValue.EditMode
+                Else
+                    colPara.ParaValue = utxtQuoteState.Value
+                End If
+
                 collspPara.Add(colPara)
 
 
@@ -1508,7 +1514,25 @@ Public Class frmGlazingQuote
                 objClsInvHeader.Rollback_Trans()
                 Exit Sub
             End If
+            Dim objGlazingQuoteExtension As New clsGlazingQuoteExtension()
+            If IsNothing(utxtQuoteState.Text) = False And IsNothing(utxtQuoteState.Value) = False Then
+                If isExistingOrder = False Then
+                    objGlazingQuoteExtension.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "Quotaion created")
 
+                ElseIf utxtQuoteState.Value <> QuoteStateValue.EditMode Then
+
+                    If utxtQuoteState.Value = QuoteStateValue.Copy Then
+                        If objGlazingQuoteExtension.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "this is a copy of " & preQuoteNumber & " order") = 0 Then
+                            Exit Sub
+                        End If
+
+                    Else
+                        objGlazingQuoteExtension.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader)
+
+                    End If
+
+                End If
+            End If
             objClsInvHeader.Commit_Trans()
             isACopy = False
 
@@ -2344,6 +2368,9 @@ Public Class frmGlazingQuote
                                 txtCustOrdNo.Text = objQutDetailline("ExtOrderNum")                            ' dr1("ExtOrderNum")
                                 lblOrderNo.Text = objQutDetailline("OrderNum")
                                 headder = objQutDetailline("OrderNum")
+                            Else
+                                preQuoteNumber = objQutDetailline("OrderNum")
+
                             End If
 
                             subHeaderID = objQutDetailline("FacilityIDCurrent")
@@ -2386,19 +2413,7 @@ Public Class frmGlazingQuote
 
                             End If
 
-                            If objQutDetailline("QuoteStateID") = modGlazingQuoteExtension.QuoteStateValue.Cancelled Then
-                                isCancelled = True
-                            End If
-
-                            If isCancelled = True Then
-                                tsbPrint.Enabled = False
-                                tsbSave.Enabled = False
-                                mnuSave.Enabled = False
-                            Else
-                                tsbPrint.Enabled = True
-                                tsbSave.Enabled = True
-                                mnuSave.Enabled = True
-                            End If
+                           
                         Next
                     End If
                     loadLineData()
@@ -2441,11 +2456,30 @@ Public Class frmGlazingQuote
                 '        Next
                 '    End If
                 'End With
-                isOpeningQuote = False
+
                 If isACopy = True Then
-                    quoteOrdeIndex = 0
-                    utxtQuoteState.Value = modGlazingQuoteExtension.QuoteStateValue.Copy
+                    If objQutDetailline("QuoteStateID") <> QuoteStateValue.Copy Then
+                        quoteOrdeIndex = 0
+                    End If
+                    utxtQuoteState.Value = QuoteStateValue.Copy
                 End If
+
+                If utxtQuoteState.Value = QuoteStateValue.Cancelled Then
+                    isCancelled = True
+                End If
+
+                If isCancelled = True Then
+                    tsbPrint.Enabled = False
+                    tsbSave.Enabled = False
+                    mnuSave.Enabled = False
+                Else
+                    tsbPrint.Enabled = True
+                    tsbSave.Enabled = True
+                    mnuSave.Enabled = True
+                End If
+
+                isOpeningQuote = False
+
             Else
                 cmbAccount.Focus()
 
