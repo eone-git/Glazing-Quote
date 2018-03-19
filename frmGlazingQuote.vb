@@ -1517,12 +1517,12 @@ Public Class frmGlazingQuote
             Dim objGlazingQuoteExtension As New clsGlazingQuoteExtension()
             If IsNothing(utxtQuoteState.Text) = False And IsNothing(utxtQuoteState.Value) = False Then
                 If isExistingOrder = False Then
-                    objGlazingQuoteExtension.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "Quotaion created")
+                    objGlazingQuoteExtension.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "Quotation created")
 
                 ElseIf utxtQuoteState.Value <> QuoteStateValue.EditMode Then
 
                     If utxtQuoteState.Value = QuoteStateValue.Copy Then
-                        If objGlazingQuoteExtension.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "this is a copy of " & preQuoteNumber & " order") = 0 Then
+                        If objGlazingQuoteExtension.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "this is a copy of " & preQuoteNumber & " quotation") = 0 Then
                             Exit Sub
                         End If
 
@@ -1536,7 +1536,7 @@ Public Class frmGlazingQuote
             objClsInvHeader.Commit_Trans()
             isACopy = False
 
-            If MsgBox("Do you want to print the Quotation : " & objClsInvHeader.OrderNum.ToString & " ?", MsgBoxStyle.YesNo + MessageBoxIcon.Question, "Quotation") = MsgBoxResult.Yes Then
+            If MsgBox("Do you want to print the quotation : " & objClsInvHeader.OrderNum.ToString & " ?", MsgBoxStyle.YesNo + MessageBoxIcon.Question, "Quotation") = MsgBoxResult.Yes Then
                 LoadPrint(objClsInvHeader, orderIndex)
             End If
             If MsgBox("Do you want to exit now ?", MessageBoxButtons.YesNo + MessageBoxIcon.Question, "Confirmation") = MsgBoxResult.Yes Then

@@ -27,6 +27,7 @@ Partial Class frmGlazingMessageBox
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.btnClose = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.lblTitle = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'lblReason
@@ -35,7 +36,7 @@ Partial Class frmGlazingMessageBox
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblReason.AutoSize = True
-        Me.lblReason.Location = New System.Drawing.Point(12, 27)
+        Me.lblReason.Location = New System.Drawing.Point(12, 31)
         Me.lblReason.Name = "lblReason"
         Me.lblReason.Size = New System.Drawing.Size(44, 13)
         Me.lblReason.TabIndex = 0
@@ -105,6 +106,19 @@ Partial Class frmGlazingMessageBox
         Me.Button1.Text = "X"
         Me.Button1.UseVisualStyleBackColor = False
         '
+        'lblTitle
+        '
+        Me.lblTitle.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTitle.AutoSize = True
+        Me.lblTitle.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTitle.Location = New System.Drawing.Point(3, 3)
+        Me.lblTitle.Name = "lblTitle"
+        Me.lblTitle.Size = New System.Drawing.Size(82, 15)
+        Me.lblTitle.TabIndex = 0
+        Me.lblTitle.Text = "Message Box"
+        '
         'frmGlazingMessageBox
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -116,6 +130,7 @@ Partial Class frmGlazingMessageBox
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.btnSubmit)
         Me.Controls.Add(Me.txtInputText)
+        Me.Controls.Add(Me.lblTitle)
         Me.Controls.Add(Me.lblReason)
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -133,4 +148,5 @@ Partial Class frmGlazingMessageBox
     Friend WithEvents btnSubmit As System.Windows.Forms.Button
     Friend WithEvents btnClose As System.Windows.Forms.Button
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents lblTitle As System.Windows.Forms.Label
 End Class

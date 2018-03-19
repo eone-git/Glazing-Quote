@@ -9,10 +9,10 @@
         InitializeComponent()
         Me.newclsGlazingQuoteExtensionObj = clsGlazingQuoteExtensionObj
 
-        If Me.Text = "" Then
-            Me.Text = defaultModulelName
+        If messageBoxTitle = "" Then
+            Me.lblTitle.Text = defaultModulelName
         Else
-            Me.Text = messageBoxTitle
+            Me.lblTitle.Text = messageBoxTitle
         End If
 
         If Me.lblReason.Text = "" Then

@@ -32,18 +32,26 @@
         End Try
     End Sub
 
-    Public Function GQEmailSentStateUpdate(ByVal quoteOrdeIndex As Integer, ByRef reqQuoteStateValue As Integer) As Integer
+    Public Function GQEmailSentStateUpdate(ByVal quoteOrdeIndex As Integer, ByRef reqQuoteStateValue As Integer, Optional ByRef requestReason As Boolean = False) As Integer
         Dim collspPara As New Collection
         Dim colPara As New spParameters
         Dim newSQLQuery As String = ""
         Dim newSQL As New clsSqlConn
         Dim items As Array
         items = System.Enum.GetValues(GetType(QuoteStateValue))
-
+        Dim messageLable As String = System.Enum.GetName(GetType(QuoteStateValue), reqQuoteStateValue)
         Try
-            Dim frmGlazingMessageBoxObj As New frmGlazingMessageBox(Me, moduleName, System.Enum.GetName(GetType(QuoteStateValue), reqQuoteStateValue))
-            frmGlazingMessageBoxObj.ShowDialog()
-
+            If IsNothing(messageLable) = False Then
+                If messageLable.Length > 1 Then
+                    If messageLable.Substring(messageLable.Length - 2) = "ed" Then
+                        messageLable = messageLable.Substring(0, messageLable.Length - 2)
+                    End If
+                End If
+            End If
+            If requestReason = True Then
+                Dim frmGlazingMessageBoxObj As New frmGlazingMessageBox(Me, moduleName, "Reason for " & messageLable.ToLower() & " this quotation")
+                frmGlazingMessageBoxObj.ShowDialog()
+            End If
             newSQL.Begin_Trans()
 
             colPara.ParaName = "@QuoteStateID"
@@ -60,8 +68,10 @@
                 Exit Function
             End If
 
+            If reqQuoteStateValue <> QuoteStateValue.SentAndConfirmationPending Then
+                GQDocumentLog(quoteOrdeIndex, (System.Enum.GetName(GetType(QuoteStateValue), reqQuoteStateValue)), newSQL, reuturnedMessage)
+            End If
 
-            GQDocumentLog(quoteOrdeIndex, (System.Enum.GetName(GetType(QuoteStateValue), reqQuoteStateValue)), newSQL, reuturnedMessage)
             newSQL.Commit_Trans()
             Return 1
 
