@@ -1,6 +1,6 @@
 ﻿Public Class clsGlazingQuoteExtension
-    Dim glazingQuote = Nothing
     Dim moduleName As String = "Glazing Quote"
+    Public reuturnedMessage As String = ""
 
     Public Sub GQCreatefrmGlazingQuoteObject()
         Try
@@ -13,8 +13,9 @@
     End Sub
 
     Public Sub GQOpenGlazingQuote(ByRef quoteOrdeIndex As Integer, ByRef isACopy As Boolean)
+        Dim glazingQuote As New frmGlazingQuote
+
         Try
-            GQCreatefrmGlazingQuoteObject()
             glazingQuote.quoteOrdeIndex = quoteOrdeIndex
             glazingQuote.isACopy = isACopy
             glazingQuote.Show()
@@ -37,8 +38,12 @@
         Dim newSQLQuery As String = ""
         Dim newSQL As New clsSqlConn
         Dim items As Array
+        items = System.Enum.GetValues(GetType(QuoteStateValue))
 
         Try
+            Dim frmGlazingMessageBoxObj As New frmGlazingMessageBox(Me, moduleName, System.Enum.GetName(GetType(QuoteStateValue), reqQuoteStateValue))
+            frmGlazingMessageBoxObj.ShowDialog()
+
             newSQL.Begin_Trans()
 
             colPara.ParaName = "@QuoteStateID"
@@ -55,8 +60,8 @@
                 Exit Function
             End If
 
-            items = System.Enum.GetValues(GetType(QuoteStateValue))
-            GQDocumentLog(quoteOrdeIndex, (System.Enum.GetName(GetType(QuoteStateValue), reqQuoteStateValue)), newSQL)
+
+            GQDocumentLog(quoteOrdeIndex, (System.Enum.GetName(GetType(QuoteStateValue), reqQuoteStateValue)), newSQL, reuturnedMessage)
             newSQL.Commit_Trans()
             Return 1
 
@@ -69,15 +74,34 @@
 
         End Try
     End Function
+
     Public Sub GQShowJobDescription(ByRef orderIndex As Integer)
+        Dim glazingQuote As New frmGlazingQuote
         Dim objSQL As New clsSqlConn
-        GQCreatefrmGlazingQuoteObject()
+        Dim DS_BATCHES As DataSet
         Try
-            newGlazingQuote = New frmGlazingQuote()
+
             SQL = "SELECT * FROM GlzQuote_Job_Details WHERE OrderIndex='" & orderIndex & "'"
             With objSQL
                 DS_BATCHES = .GET_INSERT_UPDATE(SQL)
-                glazingQuote.OpenDescriptionState(orderIndex, False, DS_BATCHES.Tables(0).Rows(0).Item("GlzQuoteJobDes"))
+                If DS_BATCHES.Tables(0).Rows.Count <> 0 Then
+                    If IsNothing(DS_BATCHES.Tables(0).Rows(0).Item("GlzQuoteJobDes")) = False Then
+                        If DS_BATCHES.Tables(0).Rows(0).Item("GlzQuoteJobDes") = "" Then
+                            GQShowMessage("There is no desctioption for selected quotation", moduleName, MsgBoxStyle.Information)
+                            Exit Sub
+
+                        End If
+                    Else
+                        GQShowMessage("There is no mathing quotation", moduleName, MsgBoxStyle.Information)
+                        Exit Sub
+
+                    End If
+                Else
+                    GQShowMessage("There is no mathing quotation", moduleName, MsgBoxStyle.Information)
+                    Exit Sub
+
+                End If
+                glazingQuote.OpenDescriptionState(False, DS_BATCHES.Tables(0).Rows(0).Item("GlzQuoteJobDes"))
 
             End With
 
