@@ -9,7 +9,6 @@
             GQShowMessage(ex.Message, moduleName, MsgBoxStyle.Critical)
         End Try
 
-
     End Sub
 
     Public Sub GQOpenGlazingQuote(ByRef quoteOrdeIndex As Integer, ByRef isACopy As Boolean)
