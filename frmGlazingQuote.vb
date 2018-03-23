@@ -870,13 +870,23 @@ Public Class frmGlazingQuote
     End Sub
 
     Private Sub frmGlazingQuote_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Try
+            For Each row As UltraGridRow In UG2.Rows
+                gridActiveRow = row
+                UG2.ActiveRow = row
+                lineTypeCell = row.Cells("QuoteFiedType")
+                QuoteGirdRowStyling(True)
+            Next
+            SetTaxedPriceLable(isTaxedPrice)
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Public Sub InitializeQuotation()
         GetCurrencyData()
         GetQuoteTaxState(-1, Nothing)
-        GET_Del_Method()
-        GET_Couriers()
-        GET_CUST_GROUPS()
         GET_SalesRep()
-        GET_ItemsCategories()
         GET_AREAS1()
         GET_AREAS()
         GET_StkItems()
@@ -887,6 +897,10 @@ Public Class frmGlazingQuote
         LoadQuoteState()
         LoadExstingQuote()
         TotalValuesBeahavior()
+        ' GET_Del_Method()
+        'GET_Couriers()
+        'GET_CUST_GROUPS()
+        'GET_ItemsCategories()
 
     End Sub
 
@@ -2413,7 +2427,7 @@ Public Class frmGlazingQuote
 
                             End If
 
-                           
+
                         Next
                     End If
                     loadLineData()
@@ -2638,7 +2652,7 @@ Public Class frmGlazingQuote
     Public Sub GetQuoteTaxState(ByRef taxCheckState As Integer, ByRef taxtRate As Integer)
 
         If IsNothing(taxCheckState) = False Then
-            'Button16.Visible = True
+
             'User default tax rate
             If taxCheckState = -1 Then
                 Dim glzQuoteTax As DataSet
@@ -2687,10 +2701,8 @@ Public Class frmGlazingQuote
         Else
             taxCheckState = -1
         End If
-        SetTaxedPriceLable(isTaxedPrice)
+
     End Sub
-
-
 
     Sub SetTaxedPriceLable(taxedPrice As Boolean)
         Try
@@ -4476,43 +4488,46 @@ Public Class frmGlazingQuote
         End If
     End Sub
 
-    Sub QuoteGirdRowStyling()
+    Sub QuoteGirdRowStyling(Optional ByRef isOpenning As Boolean = False)
         Try
             gridActiveRow.Appearance.Reset()
             gridActiveRow.Appearance.FontData.Reset()
             gridActiveRow.Cells("Amount").Appearance.Reset()
-            Me.UG2.ActiveRow.Cells("LineComments").Hidden = False
-            Me.UG2.ActiveRow.Cells("LineComments").Appearance.FontData.Reset()
-
-            If lineTypeCell.Text = "Header-Main" Then
-                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
-                gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 14
-                GrideColumsVisibility(gridActiveRowe, True)
-
-            ElseIf lineTypeCell.Text = "Header-Sub" Then
-                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
-                gridActiveRow.Appearance.FontData.Underline = DefaultableBoolean.True
-                gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 12
-                GrideColumsVisibility(gridActiveRow, True)
-
-            ElseIf lineTypeCell.Text = "Subtotal" Then
-                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
-                Me.UG2.ActiveRow.Cells("Amount").Appearance.BackColor = Color.LightGreen
-                Me.UG2.ActiveRow.Cells("Amount").Appearance.BorderColor = Color.Green
-                GrideColumsVisibility(gridActiveRow, True)
-                Me.UG2.ActiveRow.Cells("Amount").Hidden = False
-                Me.UG2.ActiveRow.Cells("LineComments").Hidden = True
-
-            ElseIf lineTypeCell.Text = "Stock Item" Then
-                GrideColumsVisibility(gridActiveRow, False)
-
-            ElseIf lineTypeCell.Text = "Text" Then
-                GrideColumsVisibility(gridActiveRow, False)
+            If isOpenning = False Then
+                Me.UG2.ActiveRow.Cells("LineComments").Hidden = False
+                Me.UG2.ActiveRow.Cells("LineComments").Appearance.FontData.Reset()
 
             End If
 
-            gridActiveRow.PerformAutoSize()
-            Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
+                If lineTypeCell.Text = "Header-Main" Then
+                    gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                    gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 14
+                    GrideColumsVisibility(gridActiveRowe, True)
+
+                ElseIf lineTypeCell.Text = "Header-Sub" Then
+                    gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                    gridActiveRow.Appearance.FontData.Underline = DefaultableBoolean.True
+                    gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 12
+                    GrideColumsVisibility(gridActiveRow, True)
+
+                ElseIf lineTypeCell.Text = "Subtotal" Then
+                    gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                    Me.UG2.ActiveRow.Cells("Amount").Appearance.BackColor = Color.LightGreen
+                    Me.UG2.ActiveRow.Cells("Amount").Appearance.BorderColor = Color.Green
+                    GrideColumsVisibility(gridActiveRow, True)
+                    Me.UG2.ActiveRow.Cells("Amount").Hidden = False
+                    Me.UG2.ActiveRow.Cells("LineComments").Hidden = True
+
+                ElseIf lineTypeCell.Text = "Stock Item" Then
+                    GrideColumsVisibility(gridActiveRow, False)
+
+                ElseIf lineTypeCell.Text = "Text" Then
+                    GrideColumsVisibility(gridActiveRow, False)
+
+                End If
+
+                gridActiveRow.PerformAutoSize()
+                Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
 
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, "Error in Line type drop down", MsgBoxStyle.Critical)

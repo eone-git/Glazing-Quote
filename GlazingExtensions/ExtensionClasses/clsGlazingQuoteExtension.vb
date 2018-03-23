@@ -17,10 +17,11 @@
         Try
             glazingQuote.quoteOrdeIndex = quoteOrdeIndex
             glazingQuote.isACopy = isACopy
+            glazingQuote.InitializeQuotation()
             glazingQuote.Show()
             glazingQuote.WindowState = FormWindowState.Maximized
             glazingQuote.BringToFront()
-
+            glazingQuote.Refresh()
             'If isACopy = True Then
             '    GQDocumentLog(quoteOrdeIndex, QuoteStateValueCOPY)
 

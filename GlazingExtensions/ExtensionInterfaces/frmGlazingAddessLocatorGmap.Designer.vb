@@ -22,12 +22,15 @@ Partial Class frmGlazingAddessLocatorGmap
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGlazingAddessLocatorGmap))
         Me.addressMap = New GMap.NET.WindowsForms.GMapControl()
         Me.btnOK = New System.Windows.Forms.Button()
         Me.lblAddress = New System.Windows.Forms.Label()
         Me.utxtAddress = New Infragistics.Win.UltraWinEditors.UltraTextEditor()
         Me.btnSearch = New System.Windows.Forms.Button()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         CType(Me.utxtAddress, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'addressMap
@@ -107,11 +110,24 @@ Partial Class frmGlazingAddessLocatorGmap
         Me.btnSearch.Text = "Search"
         Me.btnSearch.UseVisualStyleBackColor = False
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(613, 449)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(149, 22)
+        Me.PictureBox1.TabIndex = 31
+        Me.PictureBox1.TabStop = False
+        '
         'frmGlazingAddessLocatorGmap
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(774, 483)
+        Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.utxtAddress)
         Me.Controls.Add(Me.lblAddress)
         Me.Controls.Add(Me.btnSearch)
@@ -123,6 +139,7 @@ Partial Class frmGlazingAddessLocatorGmap
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         CType(Me.utxtAddress, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -132,4 +149,5 @@ Partial Class frmGlazingAddessLocatorGmap
     Friend WithEvents lblAddress As System.Windows.Forms.Label
     Friend WithEvents utxtAddress As Infragistics.Win.UltraWinEditors.UltraTextEditor
     Friend WithEvents btnSearch As System.Windows.Forms.Button
+    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
 End Class
