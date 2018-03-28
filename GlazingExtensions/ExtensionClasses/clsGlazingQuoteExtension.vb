@@ -5,8 +5,10 @@
     Public Sub GQCreatefrmGlazingQuoteObject()
         Try
             glazingQuote = New frmGlazingQuote
+
         Catch ex As Exception
             GQShowMessage(ex.Message, moduleName, MsgBoxStyle.Critical)
+
         End Try
 
     End Sub

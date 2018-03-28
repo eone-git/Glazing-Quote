@@ -425,17 +425,17 @@ Public Class frmGlazingQuote
         With objSQL
             Try
                 DS_Project = .GET_INSERT_UPDATE(SQL)
-                cmbProject.DataSource = Nothing
-                cmbProject.DataSource = DS_Project.Tables(0)
-                cmbProject.DisplayMember = "ProjectName"
-                cmbProject.ValueMember = "ProjID"
-                cmbProject.DisplayLayout.Bands(0).Columns(1).Width = cmbProject.Width - 100
-                cmbProject.DisplayLayout.Bands(0).Columns(2).Width = 100
-                cmbProject.DisplayLayout.Bands(0).Columns(0).Hidden = True
+                cmbCustProject.DataSource = Nothing
+                cmbCustProject.DataSource = DS_Project.Tables(0)
+                cmbCustProject.DisplayMember = "ProjectName"
+                cmbCustProject.ValueMember = "ProjID"
+                cmbCustProject.DisplayLayout.Bands(0).Columns(1).Width = cmbCustProject.Width - 100
+                cmbCustProject.DisplayLayout.Bands(0).Columns(2).Width = 100
+                cmbCustProject.DisplayLayout.Bands(0).Columns(0).Hidden = True
                 If DS_Project.Tables(0).Rows.Count > 0 Then
-                    cmbProject.Enabled = True
+                    cmbCustProject.Enabled = True
                 Else
-                    cmbProject.Enabled = False
+                    cmbCustProject.Enabled = False
                 End If
 
             Catch ex As Exception
@@ -536,18 +536,18 @@ Public Class frmGlazingQuote
         SQL = "SELECT   Id,Name FROM  SpilGlazing_Project WHERE CustomerID=" & custId
         dsProjects = New clsSqlConn().GET_DataSet(SQL)
         If dsProjects.Tables(0).Rows.Count > 0 Then
-            cmbCustProject.Enabled = True
+            UltraCombo16.Enabled = True
         End If
 
-        cmbCustProject.DataSource = dsProjects.Tables(0)
-        cmbCustProject.ValueMember = "Id"
-        cmbCustProject.DisplayMember = "Name"
-        cmbCustProject.DisplayLayout.Bands(0).Columns(1).Width = 200
-        cmbCustProject.DisplayLayout.Bands(0).Columns(0).Hidden = True
+        UltraCombo16.DataSource = dsProjects.Tables(0)
+        UltraCombo16.ValueMember = "Id"
+        UltraCombo16.DisplayMember = "Name"
+        UltraCombo16.DisplayLayout.Bands(0).Columns(1).Width = 200
+        UltraCombo16.DisplayLayout.Bands(0).Columns(0).Hidden = True
         If _ProjectId > 0 Then
-            cmbCustProject.Value = _ProjectId
+            UltraCombo16.Value = _ProjectId
         End If
-        cmbCustProject.Enabled = isEnabled
+        UltraCombo16.Enabled = isEnabled
     End Sub
 
     Private Sub GET_SalesRep()
@@ -2492,6 +2492,7 @@ Public Class frmGlazingQuote
                     mnuSave.Enabled = True
                 End If
 
+
                 isOpeningQuote = False
 
             Else
@@ -3417,6 +3418,40 @@ Public Class frmGlazingQuote
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
         End Try
+    End Sub
+
+
+
+    Private Sub SetJobProjectDetails(ByRef clsCon As clsInvHeader, ByVal orderIdex As Integer)
+        '' find doc type
+        Dim doctyp As Integer = 0
+        If (pubMeSpilDocTypeID = 4 And clsCon.DocState = 4) Then
+            doctyp = 0
+        Else
+            doctyp = pubMeSpilDocTypeID
+        End If
+
+        Dim projDs As New DataSet()
+        SQL = "SELECT * FROM SpilGlazing_ProjectDocument WHERE DocumentId = " & orderIdex & " AND DocumentType = " & doctyp
+        projDs = clsCon.GET_DATA_SQL(SQL)
+        If Not projDs Is Nothing And projDs.Tables(0).Rows.Count > 0 Then
+            GetProjects(clsCon.AccountID)
+            GetStages(projDs.Tables(0).Rows(0)("ProjectId"))
+            cmbCustProject.Value = projDs.Tables(0).Rows(0)("ProjectId")
+            If projDs.Tables(0).Rows(0)("StageId") > 0 Then
+                cmbProjectStage.Value = projDs.Tables(0).Rows(0)("StageId")
+            End If
+
+        End If
+        projDs = Nothing
+        SQL = "SELECT * FROM SpilGlazing_JobDocument WHERE DocumentId = " & orderIdex & " AND DocumentType = " & doctyp
+        projDs = clsCon.GET_DATA_SQL(SQL)
+        If Not projDs Is Nothing And projDs.Tables(0).Rows.Count > 0 Then
+            GetJobs(projDs.Tables(0).Rows(0)("ProjectId"))
+            If projDs.Tables(0).Rows(0)("JobId") > 0 Then
+                cmbCustJob.Value = projDs.Tables(0).Rows(0)("JobId")
+            End If
+        End If
     End Sub
 
     Sub getTotalAmount()
@@ -4499,35 +4534,35 @@ Public Class frmGlazingQuote
 
             End If
 
-                If lineTypeCell.Text = "Header-Main" Then
-                    gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
-                    gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 14
-                    GrideColumsVisibility(gridActiveRowe, True)
+            If lineTypeCell.Text = "Header-Main" Then
+                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 14
+                GrideColumsVisibility(gridActiveRowe, True)
 
-                ElseIf lineTypeCell.Text = "Header-Sub" Then
-                    gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
-                    gridActiveRow.Appearance.FontData.Underline = DefaultableBoolean.True
-                    gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 12
-                    GrideColumsVisibility(gridActiveRow, True)
+            ElseIf lineTypeCell.Text = "Header-Sub" Then
+                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                gridActiveRow.Appearance.FontData.Underline = DefaultableBoolean.True
+                gridActiveRow.Cells("LineComments").Appearance.FontData.SizeInPoints = 12
+                GrideColumsVisibility(gridActiveRow, True)
 
-                ElseIf lineTypeCell.Text = "Subtotal" Then
-                    gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
-                    Me.UG2.ActiveRow.Cells("Amount").Appearance.BackColor = Color.LightGreen
-                    Me.UG2.ActiveRow.Cells("Amount").Appearance.BorderColor = Color.Green
-                    GrideColumsVisibility(gridActiveRow, True)
-                    Me.UG2.ActiveRow.Cells("Amount").Hidden = False
-                    Me.UG2.ActiveRow.Cells("LineComments").Hidden = True
+            ElseIf lineTypeCell.Text = "Subtotal" Then
+                gridActiveRow.Appearance.FontData.Bold = DefaultableBoolean.True
+                Me.UG2.ActiveRow.Cells("Amount").Appearance.BackColor = Color.LightGreen
+                Me.UG2.ActiveRow.Cells("Amount").Appearance.BorderColor = Color.Green
+                GrideColumsVisibility(gridActiveRow, True)
+                Me.UG2.ActiveRow.Cells("Amount").Hidden = False
+                Me.UG2.ActiveRow.Cells("LineComments").Hidden = True
 
-                ElseIf lineTypeCell.Text = "Stock Item" Then
-                    GrideColumsVisibility(gridActiveRow, False)
+            ElseIf lineTypeCell.Text = "Stock Item" Then
+                GrideColumsVisibility(gridActiveRow, False)
 
-                ElseIf lineTypeCell.Text = "Text" Then
-                    GrideColumsVisibility(gridActiveRow, False)
+            ElseIf lineTypeCell.Text = "Text" Then
+                GrideColumsVisibility(gridActiveRow, False)
 
-                End If
+            End If
 
-                gridActiveRow.PerformAutoSize()
-                Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
+            gridActiveRow.PerformAutoSize()
+            Me.UG2.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.EnterEditMode, False, False)
 
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, "Error in Line type drop down", MsgBoxStyle.Critical)
@@ -4866,4 +4901,7 @@ Public Class frmGlazingQuote
         Return addressInSingleLine
     End Function
 
+    Private Sub UltraCombo17_InitializeLayout(sender As Object, e As InitializeLayoutEventArgs) Handles cmbCustJob.InitializeLayout
+
+    End Sub
 End Class

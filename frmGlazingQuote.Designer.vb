@@ -26,8 +26,8 @@ Partial Class frmGlazingQuote
         Dim Appearance244 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance245 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand1 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn495 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineTypeID")
-        Dim UltraGridColumn497 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineTypeName")
+        Dim UltraGridColumn308 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineTypeID")
+        Dim UltraGridColumn309 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineTypeName")
         Dim UltraDataColumn1 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("LineTypeID")
         Dim UltraDataColumn2 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("LineTypeName")
         Dim Appearance171 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -156,8 +156,8 @@ Partial Class frmGlazingQuote
         Dim Appearance10 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance("addRow")
         Dim UltraGridBand6 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
         Dim UltraGridColumn310 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("QuoteFiedType")
-        Dim Appearance216 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance226 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance161 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance162 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridColumn311 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("iInvDetailID")
         Dim UltraGridColumn312 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("InvLineID")
         Dim UltraGridColumn313 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItmGroupID")
@@ -185,7 +185,7 @@ Partial Class frmGlazingQuote
         Dim UltraGridColumn339 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineNotes")
         Dim UltraGridColumn340 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("MarkAs")
         Dim UltraGridColumn341 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("ItemImage")
-        Dim Appearance229 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance163 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridColumn342 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("OrgPrice")
         Dim UltraGridColumn343 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("IsAExistingItem")
         Dim UltraGridColumn344 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isPastedRow")
@@ -236,7 +236,7 @@ Partial Class frmGlazingQuote
         Dim UltraGridColumn404 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isImageAttached", 0)
         Dim UltraGridColumn405 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isShapeAttached", 1)
         Dim UltraGridColumn406 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("QuoteStateID", 2)
-        Dim Appearance230 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance196 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand7 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 1", 0)
         Dim UltraGridColumn407 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("StockLink")
         Dim UltraGridColumn408 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Description1")
@@ -548,12 +548,12 @@ Partial Class frmGlazingQuote
         Dim UltraGridColumn477 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineComments")
         Dim UltraGridColumn478 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Height", -1, Nothing, 0, Infragistics.Win.UltraWinGrid.SortIndicator.Descending, false)
         Dim UltraGridColumn479 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Width")
-        Dim UltraGridColumn483 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Qty")
-        Dim UltraGridColumn484 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price")
-        Dim UltraGridColumn485 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Amount")
-        Dim UltraGridColumn486 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("lineNotes")
-        Dim UltraGridColumn487 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("markAs")
-        Dim UltraGridColumn488 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("picture")
+        Dim UltraGridColumn480 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Qty")
+        Dim UltraGridColumn481 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Price")
+        Dim UltraGridColumn482 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Amount")
+        Dim UltraGridColumn483 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("lineNotes")
+        Dim UltraGridColumn484 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("markAs")
+        Dim UltraGridColumn485 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("picture")
         Dim Appearance537 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance538 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance539 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -578,9 +578,9 @@ Partial Class frmGlazingQuote
         Dim UltraDataColumn153 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("picture")
         Dim Appearance486 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand15 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn489 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineNo")
-        Dim UltraGridColumn490 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Path")
-        Dim UltraGridColumn491 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Open")
+        Dim UltraGridColumn486 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("LineNo")
+        Dim UltraGridColumn487 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Path")
+        Dim UltraGridColumn488 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Open")
         Dim UltraDataColumn154 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("LineNo")
         Dim UltraDataColumn155 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("Path")
         Dim UltraDataColumn156 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("Open")
@@ -1087,19 +1087,19 @@ Partial Class frmGlazingQuote
         Dim Appearance249 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance250 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance251 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance246 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance210 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance247 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance248 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand22 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn480 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("aaaaa")
-        Dim UltraGridColumn481 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("bbbbb")
-        Dim UltraGridColumn482 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("cccccc")
-        Dim Appearance254 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance261 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance161 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance210 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance203 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance287 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim UltraGridColumn506 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("aaaaa")
+        Dim UltraGridColumn507 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("bbbbb")
+        Dim UltraGridColumn508 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("cccccc")
+        Dim Appearance292 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance294 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance301 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance302 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance303 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance304 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance673 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance674 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraTab2 As Infragistics.Win.UltraWinTabControl.UltraTab = New Infragistics.Win.UltraWinTabControl.UltraTab()
@@ -1109,25 +1109,46 @@ Partial Class frmGlazingQuote
         Dim Appearance202 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance4 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance602 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance262 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance196 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance198 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance305 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance306 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance307 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand23 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn496 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateID")
-        Dim UltraGridColumn499 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateName")
-        Dim Appearance162 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance163 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim UltraGridColumn509 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateID")
+        Dim UltraGridColumn510 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateName")
+        Dim Appearance309 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance310 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand24 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn492 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateID")
-        Dim UltraGridColumn494 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateName")
+        Dim UltraGridColumn489 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateID")
+        Dim UltraGridColumn490 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateName")
         Dim UltraDataColumn157 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("quoteStateID")
         Dim UltraDataColumn158 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("quoteStateName")
-        Dim Appearance213 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance235 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance282 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance263 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance128 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance311 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance321 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand25 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
+        Dim UltraGridColumn513 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("aaaaa")
+        Dim UltraGridColumn514 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("bbbbb")
+        Dim UltraGridColumn515 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("cccccc")
+        Dim Appearance324 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance325 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim UltraGridBand26 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
+        Dim UltraGridColumn516 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("aaaaa")
+        Dim UltraGridColumn517 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("bbbbb")
+        Dim UltraGridColumn518 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("cccccc")
+        Dim Appearance328 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance333 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim UltraGridBand27 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
+        Dim UltraGridColumn519 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("aaaaa")
+        Dim UltraGridColumn520 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("bbbbb")
+        Dim UltraGridColumn521 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("cccccc")
+        Dim Appearance334 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance336 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance337 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance338 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance198 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance339 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance342 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance128 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim UltraGridBand28 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
         Dim UltraGridColumn1 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("TypeID")
         Dim UltraGridColumn2 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("Type")
         Dim Appearance1 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -1191,7 +1212,7 @@ Partial Class frmGlazingQuote
         Dim Appearance732 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance215 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance733 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim UltraGridBand26 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
+        Dim UltraGridBand29 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
         Dim UltraGridColumn362 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("")
         Dim UltraGridColumn363 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("")
         Dim UltraGridColumn364 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("")
@@ -1351,7 +1372,7 @@ Partial Class frmGlazingQuote
         Me.UltraLabel15 = New Infragistics.Win.Misc.UltraLabel()
         Me.UltraLabel13 = New Infragistics.Win.Misc.UltraLabel()
         Me.tbOther = New Infragistics.Win.UltraWinTabControl.UltraTabPageControl()
-        Me.cmbProject = New Infragistics.Win.UltraWinGrid.UltraCombo()
+        Me.cmbCustProject = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.UltraLabel57 = New Infragistics.Win.Misc.UltraLabel()
         Me.UltraLabel17 = New Infragistics.Win.Misc.UltraLabel()
         Me.cboPriority = New Infragistics.Win.UltraWinEditors.UltraComboEditor()
@@ -1575,9 +1596,15 @@ Partial Class frmGlazingQuote
         Me.cmbSalesRep = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.utxtQuoteState = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.UltraDataSource3 = New Infragistics.Win.UltraWinDataSource.UltraDataSource(Me.components)
+        Me.cmbCustJob = New Infragistics.Win.UltraWinGrid.UltraCombo()
+        Me.cmbProjectStage = New Infragistics.Win.UltraWinGrid.UltraCombo()
+        Me.UltraCombo16 = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.utxtQuoteJobID = New Infragistics.Win.Misc.UltraLabel()
         Me.ulblQuoteState = New Infragistics.Win.Misc.UltraLabel()
         Me.ulblQuoteJobName = New Infragistics.Win.Misc.UltraLabel()
+        Me.UltraLabel104 = New Infragistics.Win.Misc.UltraLabel()
+        Me.UltraLabel105 = New Infragistics.Win.Misc.UltraLabel()
+        Me.UltraLabel103 = New Infragistics.Win.Misc.UltraLabel()
         Me.UltraLabel102 = New Infragistics.Win.Misc.UltraLabel()
         Me.ucmbMainStkCmb = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.Button16 = New System.Windows.Forms.Button()
@@ -1723,7 +1750,7 @@ Partial Class frmGlazingQuote
         CType(Me.txtCompDate,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.uCmbTerms,System.ComponentModel.ISupportInitialize).BeginInit
         Me.tbOther.SuspendLayout
-        CType(Me.cmbProject,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.cmbCustProject,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.cboPriority,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtEnterDateTime,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtUser,System.ComponentModel.ISupportInitialize).BeginInit
@@ -1796,6 +1823,9 @@ Partial Class frmGlazingQuote
         CType(Me.cmbSalesRep,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.utxtQuoteState,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.UltraDataSource3,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.cmbCustJob,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.cmbProjectStage,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.UltraCombo16,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.ucmbMainStkCmb,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.utcQuoteGrids,System.ComponentModel.ISupportInitialize).BeginInit
         Me.utcQuoteGrids.SuspendLayout
@@ -1843,10 +1873,10 @@ Partial Class frmGlazingQuote
         Appearance245.BorderColor = System.Drawing.Color.Silver
         Me.ucmbQuoteLineType.DisplayLayout.Appearance = Appearance245
         Me.ucmbQuoteLineType.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
-        UltraGridColumn495.Header.VisiblePosition = 0
-        UltraGridColumn495.Hidden = true
-        UltraGridColumn497.Header.VisiblePosition = 1
-        UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn495, UltraGridColumn497})
+        UltraGridColumn308.Header.VisiblePosition = 0
+        UltraGridColumn308.Hidden = true
+        UltraGridColumn309.Header.VisiblePosition = 1
+        UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn308, UltraGridColumn309})
         Me.ucmbQuoteLineType.DisplayLayout.BandsSerializer.Add(UltraGridBand1)
         Me.ucmbQuoteLineType.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.ucmbQuoteLineType.DisplayMember = "LineTypeName"
@@ -2973,10 +3003,10 @@ Partial Class frmGlazingQuote
         Appearance10.BorderColor = System.Drawing.Color.Silver
         Me.UG2.DisplayLayout.Appearance = Appearance10
         Me.UG2.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
-        Appearance216.TextVAlignAsString = "Middle"
-        UltraGridColumn310.CellAppearance = Appearance216
-        Appearance226.TextVAlignAsString = "Middle"
-        UltraGridColumn310.CellButtonAppearance = Appearance226
+        Appearance161.TextVAlignAsString = "Middle"
+        UltraGridColumn310.CellAppearance = Appearance161
+        Appearance162.TextVAlignAsString = "Middle"
+        UltraGridColumn310.CellButtonAppearance = Appearance162
         UltraGridColumn310.DefaultCellValue = ""
         UltraGridColumn310.EditorComponent = Me.ucmbQuoteLineType
         UltraGridColumn310.Header.Caption = "Line Type"
@@ -3151,8 +3181,8 @@ Partial Class frmGlazingQuote
         UltraGridColumn340.RowLayoutColumnInfo.SpanX = 2
         UltraGridColumn340.RowLayoutColumnInfo.SpanY = 2
         UltraGridColumn340.Width = 702
-        Appearance229.TextVAlignAsString = "Middle"
-        UltraGridColumn341.CellAppearance = Appearance229
+        Appearance163.TextVAlignAsString = "Middle"
+        UltraGridColumn341.CellAppearance = Appearance163
         UltraGridColumn341.Header.Caption = "Picture"
         UltraGridColumn341.Header.VisiblePosition = 65
         UltraGridColumn341.RowLayoutColumnInfo.OriginX = 22
@@ -3329,8 +3359,8 @@ Partial Class frmGlazingQuote
         UltraGridColumn406.Header.VisiblePosition = 76
         UltraGridColumn406.Hidden = true
         UltraGridBand6.Columns.AddRange(New Object() {UltraGridColumn310, UltraGridColumn311, UltraGridColumn312, UltraGridColumn313, UltraGridColumn314, UltraGridColumn315, UltraGridColumn316, UltraGridColumn317, UltraGridColumn318, UltraGridColumn319, UltraGridColumn320, UltraGridColumn321, UltraGridColumn322, UltraGridColumn323, UltraGridColumn324, UltraGridColumn325, UltraGridColumn326, UltraGridColumn327, UltraGridColumn328, UltraGridColumn333, UltraGridColumn334, UltraGridColumn335, UltraGridColumn336, UltraGridColumn337, UltraGridColumn338, UltraGridColumn339, UltraGridColumn340, UltraGridColumn341, UltraGridColumn342, UltraGridColumn343, UltraGridColumn344, UltraGridColumn345, UltraGridColumn346, UltraGridColumn359, UltraGridColumn360, UltraGridColumn361, UltraGridColumn365, UltraGridColumn366, UltraGridColumn367, UltraGridColumn368, UltraGridColumn369, UltraGridColumn370, UltraGridColumn371, UltraGridColumn372, UltraGridColumn373, UltraGridColumn374, UltraGridColumn375, UltraGridColumn376, UltraGridColumn377, UltraGridColumn378, UltraGridColumn379, UltraGridColumn380, UltraGridColumn381, UltraGridColumn382, UltraGridColumn383, UltraGridColumn384, UltraGridColumn385, UltraGridColumn386, UltraGridColumn387, UltraGridColumn388, UltraGridColumn389, UltraGridColumn390, UltraGridColumn391, UltraGridColumn392, UltraGridColumn393, UltraGridColumn394, UltraGridColumn395, UltraGridColumn396, UltraGridColumn397, UltraGridColumn398, UltraGridColumn399, UltraGridColumn400, UltraGridColumn401, UltraGridColumn402, UltraGridColumn403, UltraGridColumn404, UltraGridColumn405, UltraGridColumn406})
-        Appearance230.BackColor = System.Drawing.Color.DodgerBlue
-        UltraGridBand6.Header.Appearance = Appearance230
+        Appearance196.BackColor = System.Drawing.Color.DodgerBlue
+        UltraGridBand6.Header.Appearance = Appearance196
         UltraGridBand6.RowLayoutStyle = Infragistics.Win.UltraWinGrid.RowLayoutStyle.ColumnLayout
         UltraGridColumn407.Header.VisiblePosition = 0
         UltraGridColumn407.Width = 8
@@ -3349,9 +3379,9 @@ Partial Class frmGlazingQuote
         UltraGridColumn414.Header.VisiblePosition = 7
         UltraGridColumn414.Width = 8
         UltraGridColumn415.Header.VisiblePosition = 8
-        UltraGridColumn415.Width = 88
+        UltraGridColumn415.Width = 73
         UltraGridColumn416.Header.VisiblePosition = 9
-        UltraGridColumn416.Width = 11
+        UltraGridColumn416.Width = 26
         UltraGridColumn417.Header.VisiblePosition = 10
         UltraGridColumn417.Width = 11
         UltraGridColumn418.Header.VisiblePosition = 11
@@ -4337,23 +4367,23 @@ Partial Class frmGlazingQuote
         UltraGridColumn478.Width = 57
         UltraGridColumn479.Header.VisiblePosition = 4
         UltraGridColumn479.Width = 54
-        UltraGridColumn483.Header.VisiblePosition = 5
-        UltraGridColumn483.Width = 50
-        UltraGridColumn484.Header.VisiblePosition = 6
-        UltraGridColumn484.Width = 54
-        UltraGridColumn485.Header.Caption = "Excl Price"
-        UltraGridColumn485.Header.VisiblePosition = 7
-        UltraGridColumn485.Width = 56
-        UltraGridColumn486.Header.Caption = "Line Notes"
-        UltraGridColumn486.Header.VisiblePosition = 8
-        UltraGridColumn486.Width = 134
-        UltraGridColumn487.Header.Caption = "Mark As"
-        UltraGridColumn487.Header.VisiblePosition = 9
-        UltraGridColumn487.Width = 48
-        UltraGridColumn488.Header.Caption = "Photo"
-        UltraGridColumn488.Header.VisiblePosition = 10
-        UltraGridColumn488.Width = 175
-        UltraGridBand14.Columns.AddRange(New Object() {UltraGridColumn475, UltraGridColumn476, UltraGridColumn477, UltraGridColumn478, UltraGridColumn479, UltraGridColumn483, UltraGridColumn484, UltraGridColumn485, UltraGridColumn486, UltraGridColumn487, UltraGridColumn488})
+        UltraGridColumn480.Header.VisiblePosition = 5
+        UltraGridColumn480.Width = 50
+        UltraGridColumn481.Header.VisiblePosition = 6
+        UltraGridColumn481.Width = 54
+        UltraGridColumn482.Header.Caption = "Excl Price"
+        UltraGridColumn482.Header.VisiblePosition = 7
+        UltraGridColumn482.Width = 56
+        UltraGridColumn483.Header.Caption = "Line Notes"
+        UltraGridColumn483.Header.VisiblePosition = 8
+        UltraGridColumn483.Width = 134
+        UltraGridColumn484.Header.Caption = "Mark As"
+        UltraGridColumn484.Header.VisiblePosition = 9
+        UltraGridColumn484.Width = 48
+        UltraGridColumn485.Header.Caption = "Photo"
+        UltraGridColumn485.Header.VisiblePosition = 10
+        UltraGridColumn485.Width = 175
+        UltraGridBand14.Columns.AddRange(New Object() {UltraGridColumn475, UltraGridColumn476, UltraGridColumn477, UltraGridColumn478, UltraGridColumn479, UltraGridColumn480, UltraGridColumn481, UltraGridColumn482, UltraGridColumn483, UltraGridColumn484, UltraGridColumn485})
         Me.ugQuote.DisplayLayout.BandsSerializer.Add(UltraGridBand14)
         Me.ugQuote.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.ugQuote.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]
@@ -4472,14 +4502,14 @@ Partial Class frmGlazingQuote
         Appearance486.BorderColor = System.Drawing.Color.Gray
         Me.UGDocs.DisplayLayout.Appearance = Appearance486
         Me.UGDocs.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
-        UltraGridColumn489.Header.VisiblePosition = 0
-        UltraGridColumn489.Width = 94
-        UltraGridColumn490.Header.VisiblePosition = 1
-        UltraGridColumn490.Width = 667
-        UltraGridColumn491.Header.VisiblePosition = 2
-        UltraGridColumn491.Style = Infragistics.Win.UltraWinGrid.ColumnStyle.Button
-        UltraGridColumn491.Width = 244
-        UltraGridBand15.Columns.AddRange(New Object() {UltraGridColumn489, UltraGridColumn490, UltraGridColumn491})
+        UltraGridColumn486.Header.VisiblePosition = 0
+        UltraGridColumn486.Width = 94
+        UltraGridColumn487.Header.VisiblePosition = 1
+        UltraGridColumn487.Width = 667
+        UltraGridColumn488.Header.VisiblePosition = 2
+        UltraGridColumn488.Style = Infragistics.Win.UltraWinGrid.ColumnStyle.Button
+        UltraGridColumn488.Width = 244
+        UltraGridBand15.Columns.AddRange(New Object() {UltraGridColumn486, UltraGridColumn487, UltraGridColumn488})
         Me.UGDocs.DisplayLayout.BandsSerializer.Add(UltraGridBand15)
         Me.UGDocs.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.UGDocs.Dock = System.Windows.Forms.DockStyle.Top
@@ -4506,7 +4536,7 @@ Partial Class frmGlazingQuote
         Me.UltraTabPageControl13.Controls.Add(Me.UltraLabel13)
         Me.UltraTabPageControl13.Location = New System.Drawing.Point(1, 1)
         Me.UltraTabPageControl13.Name = "UltraTabPageControl13"
-        Me.UltraTabPageControl13.Size = New System.Drawing.Size(36, 170)
+        Me.UltraTabPageControl13.Size = New System.Drawing.Size(8, 170)
         '
         'UltraLabel60
         '
@@ -4693,7 +4723,7 @@ Partial Class frmGlazingQuote
         '
         'tbOther
         '
-        Me.tbOther.Controls.Add(Me.cmbProject)
+        Me.tbOther.Controls.Add(Me.cmbCustProject)
         Me.tbOther.Controls.Add(Me.UltraLabel57)
         Me.tbOther.Controls.Add(Me.UltraLabel17)
         Me.tbOther.Controls.Add(Me.cboPriority)
@@ -4707,14 +4737,14 @@ Partial Class frmGlazingQuote
         Me.tbOther.Controls.Add(Me.txtDelDate)
         Me.tbOther.Location = New System.Drawing.Point(-10000, -10000)
         Me.tbOther.Name = "tbOther"
-        Me.tbOther.Size = New System.Drawing.Size(36, 170)
+        Me.tbOther.Size = New System.Drawing.Size(8, 170)
         '
-        'cmbProject
+        'cmbCustProject
         '
-        Me.cmbProject.AutoSize = false
+        Me.cmbCustProject.AutoSize = false
         Appearance605.BackColor = System.Drawing.SystemColors.Window
         Appearance605.BorderColor = System.Drawing.SystemColors.InactiveCaption
-        Me.cmbProject.DisplayLayout.Appearance = Appearance605
+        Me.cmbCustProject.DisplayLayout.Appearance = Appearance605
         UltraGridColumn350.Header.VisiblePosition = 0
         UltraGridColumn350.Width = 100
         UltraGridColumn351.Header.VisiblePosition = 1
@@ -4722,63 +4752,63 @@ Partial Class frmGlazingQuote
         UltraGridColumn352.Header.VisiblePosition = 2
         UltraGridColumn352.Width = 200
         UltraGridBand17.Columns.AddRange(New Object() {UltraGridColumn350, UltraGridColumn351, UltraGridColumn352})
-        Me.cmbProject.DisplayLayout.BandsSerializer.Add(UltraGridBand17)
-        Me.cmbProject.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
-        Me.cmbProject.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]
+        Me.cmbCustProject.DisplayLayout.BandsSerializer.Add(UltraGridBand17)
+        Me.cmbCustProject.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
+        Me.cmbCustProject.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]
         Appearance291.BackColor = System.Drawing.SystemColors.ActiveBorder
         Appearance291.BackColor2 = System.Drawing.SystemColors.ControlDark
         Appearance291.BackGradientStyle = Infragistics.Win.GradientStyle.Vertical
         Appearance291.BorderColor = System.Drawing.SystemColors.Window
-        Me.cmbProject.DisplayLayout.GroupByBox.Appearance = Appearance291
+        Me.cmbCustProject.DisplayLayout.GroupByBox.Appearance = Appearance291
         Appearance612.ForeColor = System.Drawing.SystemColors.GrayText
-        Me.cmbProject.DisplayLayout.GroupByBox.BandLabelAppearance = Appearance612
-        Me.cmbProject.DisplayLayout.GroupByBox.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
+        Me.cmbCustProject.DisplayLayout.GroupByBox.BandLabelAppearance = Appearance612
+        Me.cmbCustProject.DisplayLayout.GroupByBox.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Appearance613.BackColor = System.Drawing.SystemColors.ControlLightLight
         Appearance613.BackColor2 = System.Drawing.SystemColors.Control
         Appearance613.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal
         Appearance613.ForeColor = System.Drawing.SystemColors.GrayText
-        Me.cmbProject.DisplayLayout.GroupByBox.PromptAppearance = Appearance613
-        Me.cmbProject.DisplayLayout.MaxColScrollRegions = 1
-        Me.cmbProject.DisplayLayout.MaxRowScrollRegions = 1
+        Me.cmbCustProject.DisplayLayout.GroupByBox.PromptAppearance = Appearance613
+        Me.cmbCustProject.DisplayLayout.MaxColScrollRegions = 1
+        Me.cmbCustProject.DisplayLayout.MaxRowScrollRegions = 1
         Appearance614.BackColor = System.Drawing.SystemColors.Window
         Appearance614.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmbProject.DisplayLayout.Override.ActiveCellAppearance = Appearance614
+        Me.cmbCustProject.DisplayLayout.Override.ActiveCellAppearance = Appearance614
         Appearance615.BackColor = System.Drawing.SystemColors.Highlight
         Appearance615.ForeColor = System.Drawing.SystemColors.HighlightText
-        Me.cmbProject.DisplayLayout.Override.ActiveRowAppearance = Appearance615
-        Me.cmbProject.DisplayLayout.Override.BorderStyleCell = Infragistics.Win.UIElementBorderStyle.Dotted
-        Me.cmbProject.DisplayLayout.Override.BorderStyleRow = Infragistics.Win.UIElementBorderStyle.Dotted
+        Me.cmbCustProject.DisplayLayout.Override.ActiveRowAppearance = Appearance615
+        Me.cmbCustProject.DisplayLayout.Override.BorderStyleCell = Infragistics.Win.UIElementBorderStyle.Dotted
+        Me.cmbCustProject.DisplayLayout.Override.BorderStyleRow = Infragistics.Win.UIElementBorderStyle.Dotted
         Appearance616.BackColor = System.Drawing.SystemColors.Window
-        Me.cmbProject.DisplayLayout.Override.CardAreaAppearance = Appearance616
+        Me.cmbCustProject.DisplayLayout.Override.CardAreaAppearance = Appearance616
         Appearance617.BorderColor = System.Drawing.Color.Silver
         Appearance617.TextTrimming = Infragistics.Win.TextTrimming.EllipsisCharacter
-        Me.cmbProject.DisplayLayout.Override.CellAppearance = Appearance617
-        Me.cmbProject.DisplayLayout.Override.CellClickAction = Infragistics.Win.UltraWinGrid.CellClickAction.EditAndSelectText
-        Me.cmbProject.DisplayLayout.Override.CellPadding = 0
+        Me.cmbCustProject.DisplayLayout.Override.CellAppearance = Appearance617
+        Me.cmbCustProject.DisplayLayout.Override.CellClickAction = Infragistics.Win.UltraWinGrid.CellClickAction.EditAndSelectText
+        Me.cmbCustProject.DisplayLayout.Override.CellPadding = 0
         Appearance618.BackColor = System.Drawing.SystemColors.Control
         Appearance618.BackColor2 = System.Drawing.SystemColors.ControlDark
         Appearance618.BackGradientAlignment = Infragistics.Win.GradientAlignment.Element
         Appearance618.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal
         Appearance618.BorderColor = System.Drawing.SystemColors.Window
-        Me.cmbProject.DisplayLayout.Override.GroupByRowAppearance = Appearance618
-        Me.cmbProject.DisplayLayout.Override.HeaderClickAction = Infragistics.Win.UltraWinGrid.HeaderClickAction.SortMulti
-        Me.cmbProject.DisplayLayout.Override.HeaderStyle = Infragistics.Win.HeaderStyle.WindowsXPCommand
+        Me.cmbCustProject.DisplayLayout.Override.GroupByRowAppearance = Appearance618
+        Me.cmbCustProject.DisplayLayout.Override.HeaderClickAction = Infragistics.Win.UltraWinGrid.HeaderClickAction.SortMulti
+        Me.cmbCustProject.DisplayLayout.Override.HeaderStyle = Infragistics.Win.HeaderStyle.WindowsXPCommand
         Appearance619.BackColor = System.Drawing.SystemColors.Window
         Appearance619.BorderColor = System.Drawing.Color.Silver
-        Me.cmbProject.DisplayLayout.Override.RowAppearance = Appearance619
-        Me.cmbProject.DisplayLayout.Override.RowSelectors = Infragistics.Win.DefaultableBoolean.[False]
+        Me.cmbCustProject.DisplayLayout.Override.RowAppearance = Appearance619
+        Me.cmbCustProject.DisplayLayout.Override.RowSelectors = Infragistics.Win.DefaultableBoolean.[False]
         Appearance620.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.cmbProject.DisplayLayout.Override.TemplateAddRowAppearance = Appearance620
-        Me.cmbProject.DisplayLayout.ScrollBounds = Infragistics.Win.UltraWinGrid.ScrollBounds.ScrollToFill
-        Me.cmbProject.DisplayLayout.ScrollStyle = Infragistics.Win.UltraWinGrid.ScrollStyle.Immediate
-        Me.cmbProject.DisplayLayout.ViewStyleBand = Infragistics.Win.UltraWinGrid.ViewStyleBand.OutlookGroupBy
-        Me.cmbProject.Location = New System.Drawing.Point(113, 100)
-        Me.cmbProject.Name = "cmbProject"
-        Me.cmbProject.Size = New System.Drawing.Size(275, 20)
-        Me.cmbProject.TabIndex = 45
-        Me.cmbProject.TabStop = false
-        Me.cmbProject.UseFlatMode = Infragistics.Win.DefaultableBoolean.[True]
-        Me.cmbProject.UseOsThemes = Infragistics.Win.DefaultableBoolean.[False]
+        Me.cmbCustProject.DisplayLayout.Override.TemplateAddRowAppearance = Appearance620
+        Me.cmbCustProject.DisplayLayout.ScrollBounds = Infragistics.Win.UltraWinGrid.ScrollBounds.ScrollToFill
+        Me.cmbCustProject.DisplayLayout.ScrollStyle = Infragistics.Win.UltraWinGrid.ScrollStyle.Immediate
+        Me.cmbCustProject.DisplayLayout.ViewStyleBand = Infragistics.Win.UltraWinGrid.ViewStyleBand.OutlookGroupBy
+        Me.cmbCustProject.Location = New System.Drawing.Point(113, 100)
+        Me.cmbCustProject.Name = "cmbCustProject"
+        Me.cmbCustProject.Size = New System.Drawing.Size(275, 20)
+        Me.cmbCustProject.TabIndex = 45
+        Me.cmbCustProject.TabStop = false
+        Me.cmbCustProject.UseFlatMode = Infragistics.Win.DefaultableBoolean.[True]
+        Me.cmbCustProject.UseOsThemes = Infragistics.Win.DefaultableBoolean.[False]
         '
         'UltraLabel57
         '
@@ -4940,7 +4970,7 @@ Partial Class frmGlazingQuote
         Me.UltraTabPageControl18.Controls.Add(Me.UltraLabel20)
         Me.UltraTabPageControl18.Location = New System.Drawing.Point(-10000, -10000)
         Me.UltraTabPageControl18.Name = "UltraTabPageControl18"
-        Me.UltraTabPageControl18.Size = New System.Drawing.Size(36, 170)
+        Me.UltraTabPageControl18.Size = New System.Drawing.Size(8, 170)
         '
         'txtRecDetails
         '
@@ -5096,7 +5126,7 @@ Partial Class frmGlazingQuote
         Me.UltraTabPageControl21.Controls.Add(Me.UltraLabel19)
         Me.UltraTabPageControl21.Location = New System.Drawing.Point(-10000, -10000)
         Me.UltraTabPageControl21.Name = "UltraTabPageControl21"
-        Me.UltraTabPageControl21.Size = New System.Drawing.Size(36, 170)
+        Me.UltraTabPageControl21.Size = New System.Drawing.Size(8, 170)
         '
         'lblInNo
         '
@@ -5162,7 +5192,7 @@ Partial Class frmGlazingQuote
         Me.UltraTabPageControl22.Controls.Add(Me.UltraLabel18)
         Me.UltraTabPageControl22.Location = New System.Drawing.Point(-10000, -10000)
         Me.UltraTabPageControl22.Name = "UltraTabPageControl22"
-        Me.UltraTabPageControl22.Size = New System.Drawing.Size(36, 170)
+        Me.UltraTabPageControl22.Size = New System.Drawing.Size(8, 170)
         '
         'cmbDelivery
         '
@@ -5370,7 +5400,7 @@ Partial Class frmGlazingQuote
         Me.UltraTabPageControl2.Controls.Add(Me.TextBox1)
         Me.UltraTabPageControl2.Location = New System.Drawing.Point(-10000, -10000)
         Me.UltraTabPageControl2.Name = "UltraTabPageControl2"
-        Me.UltraTabPageControl2.Size = New System.Drawing.Size(36, 170)
+        Me.UltraTabPageControl2.Size = New System.Drawing.Size(8, 170)
         '
         'btnCloseDocDes
         '
@@ -5381,7 +5411,7 @@ Partial Class frmGlazingQuote
         Me.btnCloseDocDes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red
         Me.btnCloseDocDes.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnCloseDocDes.ForeColor = System.Drawing.Color.White
-        Me.btnCloseDocDes.Location = New System.Drawing.Point(489, 146)
+        Me.btnCloseDocDes.Location = New System.Drawing.Point(909, 146)
         Me.btnCloseDocDes.Name = "btnCloseDocDes"
         Me.btnCloseDocDes.Size = New System.Drawing.Size(22, 24)
         Me.btnCloseDocDes.TabIndex = 0
@@ -5398,7 +5428,7 @@ Partial Class frmGlazingQuote
         Me.btnSaveDocDes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(192,Byte),Integer), CType(CType(0,Byte),Integer))
         Me.btnSaveDocDes.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnSaveDocDes.ForeColor = System.Drawing.Color.White
-        Me.btnSaveDocDes.Location = New System.Drawing.Point(467, 146)
+        Me.btnSaveDocDes.Location = New System.Drawing.Point(887, 146)
         Me.btnSaveDocDes.Name = "btnSaveDocDes"
         Me.btnSaveDocDes.Size = New System.Drawing.Size(22, 24)
         Me.btnSaveDocDes.TabIndex = 0
@@ -5445,7 +5475,7 @@ Partial Class frmGlazingQuote
         Me.UltraTabPageControl3.Controls.Add(Me.UltraFormattedTextEditor1)
         Me.UltraTabPageControl3.Location = New System.Drawing.Point(-10000, -10000)
         Me.UltraTabPageControl3.Name = "UltraTabPageControl3"
-        Me.UltraTabPageControl3.Size = New System.Drawing.Size(36, 170)
+        Me.UltraTabPageControl3.Size = New System.Drawing.Size(8, 170)
         '
         'lblDocDes
         '
@@ -5466,7 +5496,7 @@ Partial Class frmGlazingQuote
         Me.Button5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red
         Me.Button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button5.ForeColor = System.Drawing.Color.White
-        Me.Button5.Location = New System.Drawing.Point(489, 146)
+        Me.Button5.Location = New System.Drawing.Point(909, 146)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(22, 24)
         Me.Button5.TabIndex = 117
@@ -5483,7 +5513,7 @@ Partial Class frmGlazingQuote
         Me.Button6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(192,Byte),Integer), CType(CType(0,Byte),Integer))
         Me.Button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button6.ForeColor = System.Drawing.Color.White
-        Me.Button6.Location = New System.Drawing.Point(467, 146)
+        Me.Button6.Location = New System.Drawing.Point(887, 146)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(22, 24)
         Me.Button6.TabIndex = 118
@@ -5500,7 +5530,7 @@ Partial Class frmGlazingQuote
         Me.Button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red
         Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button1.ForeColor = System.Drawing.Color.White
-        Me.Button1.Location = New System.Drawing.Point(-39, -253)
+        Me.Button1.Location = New System.Drawing.Point(381, -253)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(22, 24)
         Me.Button1.TabIndex = 115
@@ -5517,7 +5547,7 @@ Partial Class frmGlazingQuote
         Me.Button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(192,Byte),Integer), CType(CType(0,Byte),Integer))
         Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(-61, -253)
+        Me.Button2.Location = New System.Drawing.Point(359, -253)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(22, 24)
         Me.Button2.TabIndex = 116
@@ -5530,7 +5560,7 @@ Partial Class frmGlazingQuote
         Me.UltraFormattedTextEditor1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UltraFormattedTextEditor1.Location = New System.Drawing.Point(0, 0)
         Me.UltraFormattedTextEditor1.Name = "UltraFormattedTextEditor1"
-        Me.UltraFormattedTextEditor1.Size = New System.Drawing.Size(36, 170)
+        Me.UltraFormattedTextEditor1.Size = New System.Drawing.Size(8, 170)
         Me.UltraFormattedTextEditor1.TabIndex = 1
         Me.UltraFormattedTextEditor1.UseOsThemes = Infragistics.Win.DefaultableBoolean.[True]
         Me.UltraFormattedTextEditor1.Value = ""
@@ -5542,7 +5572,7 @@ Partial Class frmGlazingQuote
         Me.UltraTabPageControl4.Controls.Add(Me.UltraFormattedTextEditor2)
         Me.UltraTabPageControl4.Location = New System.Drawing.Point(-10000, -10000)
         Me.UltraTabPageControl4.Name = "UltraTabPageControl4"
-        Me.UltraTabPageControl4.Size = New System.Drawing.Size(36, 170)
+        Me.UltraTabPageControl4.Size = New System.Drawing.Size(8, 170)
         '
         'Button3
         '
@@ -5553,7 +5583,7 @@ Partial Class frmGlazingQuote
         Me.Button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red
         Me.Button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button3.ForeColor = System.Drawing.Color.White
-        Me.Button3.Location = New System.Drawing.Point(489, 146)
+        Me.Button3.Location = New System.Drawing.Point(909, 146)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(22, 24)
         Me.Button3.TabIndex = 2
@@ -5570,7 +5600,7 @@ Partial Class frmGlazingQuote
         Me.Button4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(192,Byte),Integer), CType(CType(0,Byte),Integer))
         Me.Button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button4.ForeColor = System.Drawing.Color.White
-        Me.Button4.Location = New System.Drawing.Point(467, 146)
+        Me.Button4.Location = New System.Drawing.Point(887, 146)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(22, 24)
         Me.Button4.TabIndex = 3
@@ -5583,7 +5613,7 @@ Partial Class frmGlazingQuote
         Me.UltraFormattedTextEditor2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UltraFormattedTextEditor2.Location = New System.Drawing.Point(0, 0)
         Me.UltraFormattedTextEditor2.Name = "UltraFormattedTextEditor2"
-        Me.UltraFormattedTextEditor2.Size = New System.Drawing.Size(36, 170)
+        Me.UltraFormattedTextEditor2.Size = New System.Drawing.Size(8, 170)
         Me.UltraFormattedTextEditor2.TabIndex = 1
         Me.UltraFormattedTextEditor2.UseOsThemes = Infragistics.Win.DefaultableBoolean.[True]
         Me.UltraFormattedTextEditor2.Value = ""
@@ -8660,14 +8690,14 @@ Partial Class frmGlazingQuote
         '
         'UltraLabel5
         '
-        Appearance246.BackColor = System.Drawing.SystemColors.Control
-        Appearance246.BackColor2 = System.Drawing.Color.Silver
-        Appearance246.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
-        Appearance246.TextVAlignAsString = "Middle"
-        Me.UltraLabel5.Appearance = Appearance246
+        Appearance210.BackColor = System.Drawing.SystemColors.Control
+        Appearance210.BackColor2 = System.Drawing.Color.Silver
+        Appearance210.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance210.TextVAlignAsString = "Middle"
+        Me.UltraLabel5.Appearance = Appearance210
         Me.UltraLabel5.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.UltraLabel5.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.UltraLabel5.Location = New System.Drawing.Point(251, 19)
+        Me.UltraLabel5.Location = New System.Drawing.Point(249, 9)
         Me.UltraLabel5.Name = "UltraLabel5"
         Me.UltraLabel5.Size = New System.Drawing.Size(56, 21)
         Me.UltraLabel5.TabIndex = 1
@@ -8683,17 +8713,17 @@ Partial Class frmGlazingQuote
         Appearance248.BorderColor = System.Drawing.Color.Silver
         Me.cmbFacility.DisplayLayout.Appearance = Appearance248
         Me.cmbFacility.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
-        UltraGridColumn480.Header.VisiblePosition = 0
-        UltraGridColumn480.Width = 100
-        UltraGridColumn481.Header.VisiblePosition = 1
-        UltraGridColumn481.Width = 200
-        UltraGridColumn482.Header.VisiblePosition = 2
-        UltraGridColumn482.Width = 200
-        UltraGridBand22.Columns.AddRange(New Object() {UltraGridColumn480, UltraGridColumn481, UltraGridColumn482})
+        UltraGridColumn506.Header.VisiblePosition = 0
+        UltraGridColumn506.Width = 100
+        UltraGridColumn507.Header.VisiblePosition = 1
+        UltraGridColumn507.Width = 200
+        UltraGridColumn508.Header.VisiblePosition = 2
+        UltraGridColumn508.Width = 200
+        UltraGridBand22.Columns.AddRange(New Object() {UltraGridColumn506, UltraGridColumn507, UltraGridColumn508})
         Me.cmbFacility.DisplayLayout.BandsSerializer.Add(UltraGridBand22)
         Me.cmbFacility.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.cmbFacility.Font = New System.Drawing.Font("Tahoma", 9!)
-        Me.cmbFacility.Location = New System.Drawing.Point(333, 19)
+        Me.cmbFacility.Location = New System.Drawing.Point(333, 11)
         Me.cmbFacility.Name = "cmbFacility"
         Me.cmbFacility.Size = New System.Drawing.Size(159, 21)
         Me.cmbFacility.TabIndex = 19
@@ -8701,15 +8731,15 @@ Partial Class frmGlazingQuote
         '
         'txtOrdDate
         '
-        Appearance254.BackColor = System.Drawing.Color.White
-        Appearance254.BorderColor = System.Drawing.Color.DodgerBlue
-        Appearance254.BorderColor2 = System.Drawing.Color.DodgerBlue
-        Appearance254.BorderColor3DBase = System.Drawing.Color.DodgerBlue
-        Me.txtOrdDate.Appearance = Appearance254
+        Appearance292.BackColor = System.Drawing.Color.White
+        Appearance292.BorderColor = System.Drawing.Color.DodgerBlue
+        Appearance292.BorderColor2 = System.Drawing.Color.DodgerBlue
+        Appearance292.BorderColor3DBase = System.Drawing.Color.DodgerBlue
+        Me.txtOrdDate.Appearance = Appearance292
         Me.txtOrdDate.AutoSize = false
         Me.txtOrdDate.BackColor = System.Drawing.Color.White
         Me.txtOrdDate.DateTime = New Date(2009, 10, 10, 0, 0, 0, 0)
-        Me.txtOrdDate.Location = New System.Drawing.Point(80, 47)
+        Me.txtOrdDate.Location = New System.Drawing.Point(80, 35)
         Me.txtOrdDate.MaskInput = "{date}"
         Me.txtOrdDate.Name = "txtOrdDate"
         Me.txtOrdDate.Size = New System.Drawing.Size(159, 21)
@@ -8719,14 +8749,14 @@ Partial Class frmGlazingQuote
         '
         'lblDate
         '
-        Appearance261.BackColor = System.Drawing.SystemColors.Control
-        Appearance261.BackColor2 = System.Drawing.Color.Silver
-        Appearance261.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
-        Appearance261.TextVAlignAsString = "Middle"
-        Me.lblDate.Appearance = Appearance261
+        Appearance294.BackColor = System.Drawing.SystemColors.Control
+        Appearance294.BackColor2 = System.Drawing.Color.Silver
+        Appearance294.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance294.TextVAlignAsString = "Middle"
+        Me.lblDate.Appearance = Appearance294
         Me.lblDate.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.lblDate.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.lblDate.Location = New System.Drawing.Point(6, 48)
+        Me.lblDate.Location = New System.Drawing.Point(3, 36)
         Me.lblDate.Name = "lblDate"
         Me.lblDate.Size = New System.Drawing.Size(68, 21)
         Me.lblDate.TabIndex = 2
@@ -8734,14 +8764,14 @@ Partial Class frmGlazingQuote
         '
         'lblDueDate
         '
-        Appearance161.BackColor = System.Drawing.SystemColors.Control
-        Appearance161.BackColor2 = System.Drawing.Color.Silver
-        Appearance161.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
-        Appearance161.TextVAlignAsString = "Middle"
-        Me.lblDueDate.Appearance = Appearance161
+        Appearance301.BackColor = System.Drawing.SystemColors.Control
+        Appearance301.BackColor2 = System.Drawing.Color.Silver
+        Appearance301.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance301.TextVAlignAsString = "Middle"
+        Me.lblDueDate.Appearance = Appearance301
         Me.lblDueDate.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.lblDueDate.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.lblDueDate.Location = New System.Drawing.Point(251, 49)
+        Me.lblDueDate.Location = New System.Drawing.Point(249, 35)
         Me.lblDueDate.Name = "lblDueDate"
         Me.lblDueDate.Size = New System.Drawing.Size(72, 18)
         Me.lblDueDate.TabIndex = 17
@@ -8749,11 +8779,11 @@ Partial Class frmGlazingQuote
         '
         'ulblQuoteJobID
         '
-        Appearance210.BackColor = System.Drawing.SystemColors.Control
-        Appearance210.BackColor2 = System.Drawing.Color.Silver
-        Appearance210.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
-        Appearance210.TextVAlignAsString = "Middle"
-        Me.ulblQuoteJobID.Appearance = Appearance210
+        Appearance302.BackColor = System.Drawing.SystemColors.Control
+        Appearance302.BackColor2 = System.Drawing.Color.Silver
+        Appearance302.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance302.TextVAlignAsString = "Middle"
+        Me.ulblQuoteJobID.Appearance = Appearance302
         Me.ulblQuoteJobID.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.ulblQuoteJobID.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.ulblQuoteJobID.Location = New System.Drawing.Point(6, 95)
@@ -8764,30 +8794,30 @@ Partial Class frmGlazingQuote
         '
         'lblOrderNo
         '
-        Appearance203.BackColor = System.Drawing.Color.FromArgb(CType(CType(197,Byte),Integer), CType(CType(224,Byte),Integer), CType(CType(254,Byte),Integer))
-        Appearance203.BorderColor = System.Drawing.Color.DodgerBlue
-        Appearance203.ForeColor = System.Drawing.Color.White
-        Me.lblOrderNo.Appearance = Appearance203
+        Appearance303.BackColor = System.Drawing.Color.FromArgb(CType(CType(197,Byte),Integer), CType(CType(224,Byte),Integer), CType(CType(254,Byte),Integer))
+        Appearance303.BorderColor = System.Drawing.Color.DodgerBlue
+        Appearance303.ForeColor = System.Drawing.Color.White
+        Me.lblOrderNo.Appearance = Appearance303
         Me.lblOrderNo.BorderStyleInner = Infragistics.Win.UIElementBorderStyle.Solid
         Me.lblOrderNo.Font = New System.Drawing.Font("Tahoma", 9!, System.Drawing.FontStyle.Bold)
         Me.lblOrderNo.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.lblOrderNo.Location = New System.Drawing.Point(80, 20)
+        Me.lblOrderNo.Location = New System.Drawing.Point(80, 12)
         Me.lblOrderNo.Name = "lblOrderNo"
         Me.lblOrderNo.Size = New System.Drawing.Size(159, 21)
         Me.lblOrderNo.TabIndex = 25
         '
         'lblDocType
         '
-        Appearance287.BackColor = System.Drawing.SystemColors.Control
-        Appearance287.BackColor2 = System.Drawing.Color.Silver
-        Appearance287.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
-        Appearance287.TextVAlignAsString = "Middle"
-        Me.lblDocType.Appearance = Appearance287
+        Appearance304.BackColor = System.Drawing.SystemColors.Control
+        Appearance304.BackColor2 = System.Drawing.Color.Silver
+        Appearance304.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance304.TextVAlignAsString = "Middle"
+        Me.lblDocType.Appearance = Appearance304
         Me.lblDocType.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.lblDocType.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.lblDocType.Location = New System.Drawing.Point(6, 22)
+        Me.lblDocType.Location = New System.Drawing.Point(3, 11)
         Me.lblDocType.Name = "lblDocType"
-        Me.lblDocType.Size = New System.Drawing.Size(90, 19)
+        Me.lblDocType.Size = New System.Drawing.Size(72, 19)
         Me.lblDocType.TabIndex = 0
         Me.lblDocType.Text = "Quote No"
         '
@@ -9446,6 +9476,9 @@ Partial Class frmGlazingQuote
         Me.GroupBox3.Controls.Add(Me.txtDueDate)
         Me.GroupBox3.Controls.Add(Me.cmbSalesRep)
         Me.GroupBox3.Controls.Add(Me.utxtQuoteState)
+        Me.GroupBox3.Controls.Add(Me.cmbCustJob)
+        Me.GroupBox3.Controls.Add(Me.cmbProjectStage)
+        Me.GroupBox3.Controls.Add(Me.UltraCombo16)
         Me.GroupBox3.Controls.Add(Me.cmbFacility)
         Me.GroupBox3.Controls.Add(Me.utxtQuoteJobID)
         Me.GroupBox3.Controls.Add(Me.ulblQuoteState)
@@ -9453,22 +9486,26 @@ Partial Class frmGlazingQuote
         Me.GroupBox3.Controls.Add(Me.UltraLabel5)
         Me.GroupBox3.Controls.Add(Me.lblDocType)
         Me.GroupBox3.Controls.Add(Me.ulblQuoteJobName)
+        Me.GroupBox3.Controls.Add(Me.UltraLabel104)
+        Me.GroupBox3.Controls.Add(Me.UltraLabel105)
+        Me.GroupBox3.Controls.Add(Me.UltraLabel103)
         Me.GroupBox3.Controls.Add(Me.ulblQuoteJobID)
         Me.GroupBox3.Controls.Add(Me.UltraLabel102)
         Me.GroupBox3.Controls.Add(Me.lblDueDate)
         Me.GroupBox3.Controls.Add(Me.lblDate)
         Me.GroupBox3.Location = New System.Drawing.Point(540, 35)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(506, 188)
+        Me.GroupBox3.Size = New System.Drawing.Size(506, 189)
         Me.GroupBox3.TabIndex = 150
         Me.GroupBox3.TabStop = false
         '
         'utxtQuoteJobName
         '
         Me.utxtQuoteJobName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.utxtQuoteJobName.Location = New System.Drawing.Point(80, 125)
+        Me.utxtQuoteJobName.Location = New System.Drawing.Point(80, 113)
+        Me.utxtQuoteJobName.Multiline = true
         Me.utxtQuoteJobName.Name = "utxtQuoteJobName"
-        Me.utxtQuoteJobName.Size = New System.Drawing.Size(412, 20)
+        Me.utxtQuoteJobName.Size = New System.Drawing.Size(159, 44)
         Me.utxtQuoteJobName.TabIndex = 27
         '
         'btnJobDescription
@@ -9481,24 +9518,24 @@ Partial Class frmGlazingQuote
         Me.btnJobDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnJobDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
         Me.btnJobDescription.ForeColor = System.Drawing.Color.White
-        Me.btnJobDescription.Location = New System.Drawing.Point(80, 151)
+        Me.btnJobDescription.Location = New System.Drawing.Point(80, 159)
         Me.btnJobDescription.Name = "btnJobDescription"
-        Me.btnJobDescription.Size = New System.Drawing.Size(412, 31)
+        Me.btnJobDescription.Size = New System.Drawing.Size(159, 24)
         Me.btnJobDescription.TabIndex = 26
         Me.btnJobDescription.Text = "Job description"
         Me.btnJobDescription.UseVisualStyleBackColor = false
         '
         'txtDueDate
         '
-        Appearance262.BackColorDisabled = System.Drawing.Color.FromArgb(CType(CType(224,Byte),Integer), CType(CType(224,Byte),Integer), CType(CType(224,Byte),Integer))
-        Appearance262.BorderColor = System.Drawing.Color.DodgerBlue
-        Appearance262.BorderColor2 = System.Drawing.Color.DodgerBlue
-        Appearance262.BorderColor3DBase = System.Drawing.Color.DodgerBlue
-        Appearance262.FontData.BoldAsString = "True"
-        Me.txtDueDate.Appearance = Appearance262
+        Appearance305.BackColorDisabled = System.Drawing.Color.FromArgb(CType(CType(224,Byte),Integer), CType(CType(224,Byte),Integer), CType(CType(224,Byte),Integer))
+        Appearance305.BorderColor = System.Drawing.Color.DodgerBlue
+        Appearance305.BorderColor2 = System.Drawing.Color.DodgerBlue
+        Appearance305.BorderColor3DBase = System.Drawing.Color.DodgerBlue
+        Appearance305.FontData.BoldAsString = "True"
+        Me.txtDueDate.Appearance = Appearance305
         Me.txtDueDate.AutoSize = false
         Me.txtDueDate.DateTime = New Date(2009, 10, 10, 0, 0, 0, 0)
-        Me.txtDueDate.Location = New System.Drawing.Point(333, 47)
+        Me.txtDueDate.Location = New System.Drawing.Point(333, 34)
         Me.txtDueDate.Name = "txtDueDate"
         Me.txtDueDate.Size = New System.Drawing.Size(159, 21)
         Me.txtDueDate.TabIndex = 9
@@ -9506,23 +9543,23 @@ Partial Class frmGlazingQuote
         '
         'cmbSalesRep
         '
-        Appearance196.BorderColor = System.Drawing.Color.DodgerBlue
-        Appearance196.BorderColor2 = System.Drawing.Color.DodgerBlue
-        Appearance196.BorderColor3DBase = System.Drawing.Color.DodgerBlue
-        Me.cmbSalesRep.Appearance = Appearance196
+        Appearance306.BorderColor = System.Drawing.Color.DodgerBlue
+        Appearance306.BorderColor2 = System.Drawing.Color.DodgerBlue
+        Appearance306.BorderColor3DBase = System.Drawing.Color.DodgerBlue
+        Me.cmbSalesRep.Appearance = Appearance306
         Me.cmbSalesRep.AutoSize = false
-        Appearance198.BorderColor = System.Drawing.Color.Silver
-        Me.cmbSalesRep.DisplayLayout.Appearance = Appearance198
+        Appearance307.BorderColor = System.Drawing.Color.Silver
+        Me.cmbSalesRep.DisplayLayout.Appearance = Appearance307
         Me.cmbSalesRep.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
-        UltraGridColumn496.Header.Caption = "Copy"
-        UltraGridColumn496.Header.VisiblePosition = 1
-        UltraGridColumn499.Header.Caption = "Edit mode"
-        UltraGridColumn499.Header.VisiblePosition = 0
-        UltraGridBand23.Columns.AddRange(New Object() {UltraGridColumn496, UltraGridColumn499})
+        UltraGridColumn509.Header.Caption = "Copy"
+        UltraGridColumn509.Header.VisiblePosition = 1
+        UltraGridColumn510.Header.Caption = "Edit mode"
+        UltraGridColumn510.Header.VisiblePosition = 0
+        UltraGridBand23.Columns.AddRange(New Object() {UltraGridColumn509, UltraGridColumn510})
         Me.cmbSalesRep.DisplayLayout.BandsSerializer.Add(UltraGridBand23)
         Me.cmbSalesRep.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.cmbSalesRep.Font = New System.Drawing.Font("Tahoma", 9!)
-        Me.cmbSalesRep.Location = New System.Drawing.Point(333, 73)
+        Me.cmbSalesRep.Location = New System.Drawing.Point(333, 57)
         Me.cmbSalesRep.Name = "cmbSalesRep"
         Me.cmbSalesRep.Size = New System.Drawing.Size(159, 21)
         Me.cmbSalesRep.TabIndex = 19
@@ -9530,24 +9567,24 @@ Partial Class frmGlazingQuote
         '
         'utxtQuoteState
         '
-        Appearance162.BorderColor = System.Drawing.Color.DodgerBlue
-        Appearance162.BorderColor2 = System.Drawing.Color.DodgerBlue
-        Appearance162.BorderColor3DBase = System.Drawing.Color.DodgerBlue
-        Me.utxtQuoteState.Appearance = Appearance162
+        Appearance309.BorderColor = System.Drawing.Color.DodgerBlue
+        Appearance309.BorderColor2 = System.Drawing.Color.DodgerBlue
+        Appearance309.BorderColor3DBase = System.Drawing.Color.DodgerBlue
+        Me.utxtQuoteState.Appearance = Appearance309
         Me.utxtQuoteState.AutoSize = false
         Me.utxtQuoteState.DataSource = Me.UltraDataSource3
-        Appearance163.BorderColor = System.Drawing.Color.Silver
-        Me.utxtQuoteState.DisplayLayout.Appearance = Appearance163
+        Appearance310.BorderColor = System.Drawing.Color.Silver
+        Me.utxtQuoteState.DisplayLayout.Appearance = Appearance310
         Me.utxtQuoteState.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
-        UltraGridColumn492.Header.Caption = "Copy"
-        UltraGridColumn492.Header.VisiblePosition = 1
-        UltraGridColumn494.Header.Caption = "Edit mode"
-        UltraGridColumn494.Header.VisiblePosition = 0
-        UltraGridBand24.Columns.AddRange(New Object() {UltraGridColumn492, UltraGridColumn494})
+        UltraGridColumn489.Header.Caption = "Copy"
+        UltraGridColumn489.Header.VisiblePosition = 1
+        UltraGridColumn490.Header.Caption = "Edit mode"
+        UltraGridColumn490.Header.VisiblePosition = 0
+        UltraGridBand24.Columns.AddRange(New Object() {UltraGridColumn489, UltraGridColumn490})
         Me.utxtQuoteState.DisplayLayout.BandsSerializer.Add(UltraGridBand24)
         Me.utxtQuoteState.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.utxtQuoteState.Font = New System.Drawing.Font("Tahoma", 9!)
-        Me.utxtQuoteState.Location = New System.Drawing.Point(80, 73)
+        Me.utxtQuoteState.Location = New System.Drawing.Point(80, 59)
         Me.utxtQuoteState.Name = "utxtQuoteState"
         Me.utxtQuoteState.Size = New System.Drawing.Size(159, 21)
         Me.utxtQuoteState.TabIndex = 19
@@ -9558,30 +9595,108 @@ Partial Class frmGlazingQuote
         Me.UltraDataSource3.Band.Columns.AddRange(New Object() {UltraDataColumn157, UltraDataColumn158})
         Me.UltraDataSource3.Rows.AddRange(New Object() {New Infragistics.Win.UltraWinDataSource.UltraDataRow(New Object() {CType("quoteStateID",Object), CType("0",Object), CType("quoteStateName",Object), CType("Edit mode",Object)}), New Infragistics.Win.UltraWinDataSource.UltraDataRow(New Object() {CType("quoteStateID",Object), CType("1",Object), CType("quoteStateName",Object), CType("Copy",Object)}), New Infragistics.Win.UltraWinDataSource.UltraDataRow(New Object() {CType("quoteStateID",Object), CType("2",Object), CType("quoteStateName",Object), CType("Sent & confirmation pending",Object)}), New Infragistics.Win.UltraWinDataSource.UltraDataRow(New Object() {CType("quoteStateID",Object), CType("3",Object), CType("quoteStateName",Object), CType("Confirmed ",Object)}), New Infragistics.Win.UltraWinDataSource.UltraDataRow(New Object() {CType("quoteStateID",Object), CType("4",Object), CType("quoteStateName",Object), CType("Unconfirmed",Object)}), New Infragistics.Win.UltraWinDataSource.UltraDataRow(New Object() {CType("quoteStateID",Object), CType("5",Object), CType("quoteStateName",Object), CType("Cancelled",Object)}), New Infragistics.Win.UltraWinDataSource.UltraDataRow(New Object() {CType("quoteStateID",Object), CType("6",Object), CType("quoteStateName",Object), CType("Hold",Object)})})
         '
+        'cmbCustJob
+        '
+        Appearance311.BorderColor = System.Drawing.Color.DodgerBlue
+        Appearance311.BorderColor2 = System.Drawing.Color.DodgerBlue
+        Appearance311.BorderColor3DBase = System.Drawing.Color.DodgerBlue
+        Me.cmbCustJob.Appearance = Appearance311
+        Me.cmbCustJob.AutoSize = False
+        Appearance321.BorderColor = System.Drawing.Color.Silver
+        Me.cmbCustJob.DisplayLayout.Appearance = Appearance321
+        Me.cmbCustJob.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
+        UltraGridColumn513.Header.VisiblePosition = 0
+        UltraGridColumn513.Width = 100
+        UltraGridColumn514.Header.VisiblePosition = 1
+        UltraGridColumn514.Width = 200
+        UltraGridColumn515.Header.VisiblePosition = 2
+        UltraGridColumn515.Width = 200
+        UltraGridBand25.Columns.AddRange(New Object() {UltraGridColumn513, UltraGridColumn514, UltraGridColumn515})
+        Me.cmbCustJob.DisplayLayout.BandsSerializer.Add(UltraGridBand25)
+        Me.cmbCustJob.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
+        Me.cmbCustJob.Font = New System.Drawing.Font("Tahoma", 9.0!)
+        Me.cmbCustJob.Location = New System.Drawing.Point(333, 151)
+        Me.cmbCustJob.Name = "cmbCustJob"
+        Me.cmbCustJob.Size = New System.Drawing.Size(159, 21)
+        Me.cmbCustJob.TabIndex = 19
+        Me.cmbCustJob.TabStop = false
+        '
+        'cmbProjectStage
+        '
+        Appearance324.BorderColor = System.Drawing.Color.DodgerBlue
+        Appearance324.BorderColor2 = System.Drawing.Color.DodgerBlue
+        Appearance324.BorderColor3DBase = System.Drawing.Color.DodgerBlue
+        Me.cmbProjectStage.Appearance = Appearance324
+        Me.cmbProjectStage.AutoSize = false
+        Appearance325.BorderColor = System.Drawing.Color.Silver
+        Me.cmbProjectStage.DisplayLayout.Appearance = Appearance325
+        Me.cmbProjectStage.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
+        UltraGridColumn516.Header.VisiblePosition = 0
+        UltraGridColumn516.Width = 100
+        UltraGridColumn517.Header.VisiblePosition = 1
+        UltraGridColumn517.Width = 200
+        UltraGridColumn518.Header.VisiblePosition = 2
+        UltraGridColumn518.Width = 200
+        UltraGridBand26.Columns.AddRange(New Object() {UltraGridColumn516, UltraGridColumn517, UltraGridColumn518})
+        Me.cmbProjectStage.DisplayLayout.BandsSerializer.Add(UltraGridBand26)
+        Me.cmbProjectStage.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
+        Me.cmbProjectStage.Font = New System.Drawing.Font("Tahoma", 9!)
+        Me.cmbProjectStage.Location = New System.Drawing.Point(333, 124)
+        Me.cmbProjectStage.Name = "cmbProjectStage"
+        Me.cmbProjectStage.Size = New System.Drawing.Size(159, 21)
+        Me.cmbProjectStage.TabIndex = 19
+        Me.cmbProjectStage.TabStop = false
+        '
+        'UltraCombo16
+        '
+        Appearance328.BorderColor = System.Drawing.Color.DodgerBlue
+        Appearance328.BorderColor2 = System.Drawing.Color.DodgerBlue
+        Appearance328.BorderColor3DBase = System.Drawing.Color.DodgerBlue
+        Me.UltraCombo16.Appearance = Appearance328
+        Me.UltraCombo16.AutoSize = false
+        Appearance333.BorderColor = System.Drawing.Color.Silver
+        Me.UltraCombo16.DisplayLayout.Appearance = Appearance333
+        Me.UltraCombo16.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
+        UltraGridColumn519.Header.VisiblePosition = 0
+        UltraGridColumn519.Width = 100
+        UltraGridColumn520.Header.VisiblePosition = 1
+        UltraGridColumn520.Width = 200
+        UltraGridColumn521.Header.VisiblePosition = 2
+        UltraGridColumn521.Width = 200
+        UltraGridBand27.Columns.AddRange(New Object() {UltraGridColumn519, UltraGridColumn520, UltraGridColumn521})
+        Me.UltraCombo16.DisplayLayout.BandsSerializer.Add(UltraGridBand27)
+        Me.UltraCombo16.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
+        Me.UltraCombo16.Font = New System.Drawing.Font("Tahoma", 9!)
+        Me.UltraCombo16.Location = New System.Drawing.Point(333, 97)
+        Me.UltraCombo16.Name = "UltraCombo16"
+        Me.UltraCombo16.Size = New System.Drawing.Size(159, 21)
+        Me.UltraCombo16.TabIndex = 19
+        Me.UltraCombo16.TabStop = false
+        '
         'utxtQuoteJobID
         '
-        Appearance213.BackColor = System.Drawing.Color.FromArgb(CType(CType(197,Byte),Integer), CType(CType(224,Byte),Integer), CType(CType(254,Byte),Integer))
-        Appearance213.BorderColor = System.Drawing.Color.DodgerBlue
-        Appearance213.ForeColor = System.Drawing.Color.White
-        Me.utxtQuoteJobID.Appearance = Appearance213
+        Appearance334.BackColor = System.Drawing.Color.FromArgb(CType(CType(197,Byte),Integer), CType(CType(224,Byte),Integer), CType(CType(254,Byte),Integer))
+        Appearance334.BorderColor = System.Drawing.Color.DodgerBlue
+        Appearance334.ForeColor = System.Drawing.Color.White
+        Me.utxtQuoteJobID.Appearance = Appearance334
         Me.utxtQuoteJobID.BorderStyleInner = Infragistics.Win.UIElementBorderStyle.Solid
         Me.utxtQuoteJobID.Font = New System.Drawing.Font("Tahoma", 9!, System.Drawing.FontStyle.Bold)
         Me.utxtQuoteJobID.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.utxtQuoteJobID.Location = New System.Drawing.Point(80, 101)
+        Me.utxtQuoteJobID.Location = New System.Drawing.Point(80, 90)
         Me.utxtQuoteJobID.Name = "utxtQuoteJobID"
         Me.utxtQuoteJobID.Size = New System.Drawing.Size(159, 21)
         Me.utxtQuoteJobID.TabIndex = 25
         '
         'ulblQuoteState
         '
-        Appearance235.BackColor = System.Drawing.SystemColors.Control
-        Appearance235.BackColor2 = System.Drawing.Color.Silver
-        Appearance235.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
-        Appearance235.TextVAlignAsString = "Middle"
-        Me.ulblQuoteState.Appearance = Appearance235
+        Appearance336.BackColor = System.Drawing.SystemColors.Control
+        Appearance336.BackColor2 = System.Drawing.Color.Silver
+        Appearance336.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance336.TextVAlignAsString = "Middle"
+        Me.ulblQuoteState.Appearance = Appearance336
         Me.ulblQuoteState.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.ulblQuoteState.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.ulblQuoteState.Location = New System.Drawing.Point(6, 71)
+        Me.ulblQuoteState.Location = New System.Drawing.Point(3, 59)
         Me.ulblQuoteState.Name = "ulblQuoteState"
         Me.ulblQuoteState.Size = New System.Drawing.Size(71, 21)
         Me.ulblQuoteState.TabIndex = 1
@@ -9589,11 +9704,11 @@ Partial Class frmGlazingQuote
         '
         'ulblQuoteJobName
         '
-        Appearance282.BackColor = System.Drawing.SystemColors.Control
-        Appearance282.BackColor2 = System.Drawing.Color.Silver
-        Appearance282.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
-        Appearance282.TextVAlignAsString = "Middle"
-        Me.ulblQuoteJobName.Appearance = Appearance282
+        Appearance337.BackColor = System.Drawing.SystemColors.Control
+        Appearance337.BackColor2 = System.Drawing.Color.Silver
+        Appearance337.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance337.TextVAlignAsString = "Middle"
+        Me.ulblQuoteJobName.Appearance = Appearance337
         Me.ulblQuoteJobName.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.ulblQuoteJobName.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.ulblQuoteJobName.Location = New System.Drawing.Point(6, 124)
@@ -9602,16 +9717,61 @@ Partial Class frmGlazingQuote
         Me.ulblQuoteJobName.TabIndex = 3
         Me.ulblQuoteJobName.Text = "JobName"
         '
+        'UltraLabel104
+        '
+        Appearance338.BackColor = System.Drawing.SystemColors.Control
+        Appearance338.BackColor2 = System.Drawing.Color.Silver
+        Appearance338.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance338.TextVAlignAsString = "Middle"
+        Me.UltraLabel104.Appearance = Appearance338
+        Me.UltraLabel104.Font = New System.Drawing.Font("Tahoma", 8.25!)
+        Me.UltraLabel104.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.UltraLabel104.Location = New System.Drawing.Point(249, 124)
+        Me.UltraLabel104.Name = "UltraLabel104"
+        Me.UltraLabel104.Size = New System.Drawing.Size(83, 21)
+        Me.UltraLabel104.TabIndex = 3
+        Me.UltraLabel104.Text = "Stage"
+        '
+        'UltraLabel105
+        '
+        Appearance198.BackColor = System.Drawing.SystemColors.Control
+        Appearance198.BackColor2 = System.Drawing.Color.Silver
+        Appearance198.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance198.TextVAlignAsString = "Middle"
+        Me.UltraLabel105.Appearance = Appearance198
+        Me.UltraLabel105.Font = New System.Drawing.Font("Tahoma", 8.25!)
+        Me.UltraLabel105.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.UltraLabel105.Location = New System.Drawing.Point(250, 151)
+        Me.UltraLabel105.Name = "UltraLabel105"
+        Me.UltraLabel105.Size = New System.Drawing.Size(83, 21)
+        Me.UltraLabel105.TabIndex = 3
+        Me.UltraLabel105.Text = "Job "
+        '
+        'UltraLabel103
+        '
+        Appearance339.BackColor = System.Drawing.SystemColors.Control
+        Appearance339.BackColor2 = System.Drawing.Color.Silver
+        Appearance339.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance339.TextVAlignAsString = "Middle"
+        Me.UltraLabel103.Appearance = Appearance339
+        Me.UltraLabel103.Font = New System.Drawing.Font("Tahoma", 8.25!)
+        Me.UltraLabel103.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.UltraLabel103.Location = New System.Drawing.Point(249, 97)
+        Me.UltraLabel103.Name = "UltraLabel103"
+        Me.UltraLabel103.Size = New System.Drawing.Size(83, 21)
+        Me.UltraLabel103.TabIndex = 3
+        Me.UltraLabel103.Text = "Project"
+        '
         'UltraLabel102
         '
-        Appearance263.BackColor = System.Drawing.SystemColors.Control
-        Appearance263.BackColor2 = System.Drawing.Color.Silver
-        Appearance263.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
-        Appearance263.TextVAlignAsString = "Middle"
-        Me.UltraLabel102.Appearance = Appearance263
+        Appearance342.BackColor = System.Drawing.SystemColors.Control
+        Appearance342.BackColor2 = System.Drawing.Color.Silver
+        Appearance342.ForeColor = System.Drawing.Color.FromArgb(CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer), CType(CType(24,Byte),Integer))
+        Appearance342.TextVAlignAsString = "Middle"
+        Me.UltraLabel102.Appearance = Appearance342
         Me.UltraLabel102.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.UltraLabel102.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.UltraLabel102.Location = New System.Drawing.Point(251, 73)
+        Me.UltraLabel102.Location = New System.Drawing.Point(249, 57)
         Me.UltraLabel102.Name = "UltraLabel102"
         Me.UltraLabel102.Size = New System.Drawing.Size(86, 18)
         Me.UltraLabel102.TabIndex = 17
@@ -9625,17 +9785,17 @@ Partial Class frmGlazingQuote
         Appearance128.BorderColor = System.Drawing.SystemColors.InactiveCaption
         Me.ucmbMainStkCmb.DisplayLayout.Appearance = Appearance128
         Me.ucmbMainStkCmb.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
-        UltraGridBand25.ColHeadersVisible = false
+        UltraGridBand28.ColHeadersVisible = false
         UltraGridColumn1.Header.VisiblePosition = 0
         UltraGridColumn1.Hidden = true
         UltraGridColumn1.Width = 51
         UltraGridColumn2.Header.VisiblePosition = 1
         UltraGridColumn2.Width = 93
-        UltraGridBand25.Columns.AddRange(New Object() {UltraGridColumn1, UltraGridColumn2})
+        UltraGridBand28.Columns.AddRange(New Object() {UltraGridColumn1, UltraGridColumn2})
         Appearance1.BackColor = System.Drawing.Color.FromArgb(CType(CType(255,Byte),Integer), CType(CType(192,Byte),Integer), CType(CType(192,Byte),Integer))
         Appearance1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(255,Byte),Integer), CType(CType(192,Byte),Integer), CType(CType(192,Byte),Integer))
-        UltraGridBand25.Header.Appearance = Appearance1
-        Me.ucmbMainStkCmb.DisplayLayout.BandsSerializer.Add(UltraGridBand25)
+        UltraGridBand28.Header.Appearance = Appearance1
+        Me.ucmbMainStkCmb.DisplayLayout.BandsSerializer.Add(UltraGridBand28)
         Me.ucmbMainStkCmb.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.ucmbMainStkCmb.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]
         Appearance129.BackColor = System.Drawing.SystemColors.ActiveBorder
@@ -10121,10 +10281,10 @@ Partial Class frmGlazingQuote
         Me.utxtDocDecHEaderMain.Controls.Add(Me.UltraTabPageControl3)
         Me.utxtDocDecHEaderMain.Controls.Add(Me.UltraTabPageControl4)
         Me.utxtDocDecHEaderMain.Font = New System.Drawing.Font("Tahoma", 8.25!)
-        Me.utxtDocDecHEaderMain.Location = New System.Drawing.Point(1007, 37)
+        Me.utxtDocDecHEaderMain.Location = New System.Drawing.Point(1035, 37)
         Me.utxtDocDecHEaderMain.Name = "utxtDocDecHEaderMain"
         Me.utxtDocDecHEaderMain.SharedControlsPage = Me.UltraTabSharedControlsPage3
-        Me.utxtDocDecHEaderMain.Size = New System.Drawing.Size(38, 191)
+        Me.utxtDocDecHEaderMain.Size = New System.Drawing.Size(10, 191)
         Me.utxtDocDecHEaderMain.Style = Infragistics.Win.UltraWinTabControl.UltraTabControlStyle.Excel
         Me.utxtDocDecHEaderMain.TabIndex = 33
         Me.utxtDocDecHEaderMain.TabOrientation = Infragistics.Win.UltraWinTabs.TabOrientation.BottomLeft
@@ -10163,7 +10323,7 @@ Partial Class frmGlazingQuote
         '
         Me.UltraTabSharedControlsPage3.Location = New System.Drawing.Point(-10000, -10000)
         Me.UltraTabSharedControlsPage3.Name = "UltraTabSharedControlsPage3"
-        Me.UltraTabSharedControlsPage3.Size = New System.Drawing.Size(36, 170)
+        Me.UltraTabSharedControlsPage3.Size = New System.Drawing.Size(8, 170)
         '
         'ugDelAddress
         '
@@ -10283,8 +10443,8 @@ Partial Class frmGlazingQuote
         UltraGridColumn363.Width = 200
         UltraGridColumn364.Header.VisiblePosition = 2
         UltraGridColumn364.Width = 200
-        UltraGridBand26.Columns.AddRange(New Object() {UltraGridColumn362, UltraGridColumn363, UltraGridColumn364})
-        Me.cmbAccount.DisplayLayout.BandsSerializer.Add(UltraGridBand26)
+        UltraGridBand29.Columns.AddRange(New Object() {UltraGridColumn362, UltraGridColumn363, UltraGridColumn364})
+        Me.cmbAccount.DisplayLayout.BandsSerializer.Add(UltraGridBand29)
         Me.cmbAccount.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.cmbAccount.Location = New System.Drawing.Point(89, 39)
         Me.cmbAccount.Name = "cmbAccount"
@@ -11363,7 +11523,7 @@ Partial Class frmGlazingQuote
         CType(Me.txtCompDate,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.uCmbTerms,System.ComponentModel.ISupportInitialize).EndInit
         Me.tbOther.ResumeLayout(false)
-        CType(Me.cmbProject,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.cmbCustProject,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.cboPriority,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtEnterDateTime,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtUser,System.ComponentModel.ISupportInitialize).EndInit
@@ -11447,6 +11607,9 @@ Partial Class frmGlazingQuote
         CType(Me.cmbSalesRep,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.utxtQuoteState,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.UltraDataSource3,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.cmbCustJob,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.cmbProjectStage,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.UltraCombo16,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.ucmbMainStkCmb,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.utcQuoteGrids,System.ComponentModel.ISupportInitialize).EndInit
         Me.utcQuoteGrids.ResumeLayout(false)
@@ -11598,11 +11761,11 @@ End Sub
     Friend WithEvents cmbAccount As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents ugDelAddress As Infragistics.Win.UltraWinGrid.UltraGrid
     Friend WithEvents UG2 As Infragistics.Win.UltraWinGrid.UltraGrid
-    Friend WithEvents cmbCustJob As Infragistics.Win.UltraWinGrid.UltraCombo
+    'Friend WithEvents cmbCustJob As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents lblCustJob As Infragistics.Win.Misc.UltraLabel
-    Friend WithEvents cmbProjectStage As Infragistics.Win.UltraWinGrid.UltraCombo
+    'Friend WithEvents cmbProjectStage As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents lblCustStage As Infragistics.Win.Misc.UltraLabel
-    Friend WithEvents cmbCustProject As Infragistics.Win.UltraWinGrid.UltraCombo
+    'Friend WithEvents cmbCustProject As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents lblCustProject As Infragistics.Win.Misc.UltraLabel
     Friend WithEvents cmbItemCat As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents UltraLabel61 As Infragistics.Win.Misc.UltraLabel
@@ -11675,7 +11838,7 @@ End Sub
     Friend WithEvents UltraLabel13 As Infragistics.Win.Misc.UltraLabel
     Friend WithEvents lblDocType As Infragistics.Win.Misc.UltraLabel
     Friend WithEvents tbOther As Infragistics.Win.UltraWinTabControl.UltraTabPageControl
-    Friend WithEvents cmbProject As Infragistics.Win.UltraWinGrid.UltraCombo
+    Friend WithEvents cmbCustProject As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents UltraLabel57 As Infragistics.Win.Misc.UltraLabel
     Friend WithEvents UltraLabel17 As Infragistics.Win.Misc.UltraLabel
     Friend WithEvents cboPriority As Infragistics.Win.UltraWinEditors.UltraComboEditor
@@ -11921,4 +12084,10 @@ End Sub
     Friend WithEvents UltraLabel107 As Infragistics.Win.Misc.UltraLabel
     Friend WithEvents T1 As Infragistics.Win.Misc.UltraLabel
     Friend WithEvents tsmAddRow As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents UltraLabel104 As Infragistics.Win.Misc.UltraLabel
+    Friend WithEvents UltraLabel103 As Infragistics.Win.Misc.UltraLabel
+    Friend WithEvents cmbCustJob As Infragistics.Win.UltraWinGrid.UltraCombo
+    Friend WithEvents UltraCombo16 As Infragistics.Win.UltraWinGrid.UltraCombo
+    Friend WithEvents cmbProjectStage As Infragistics.Win.UltraWinGrid.UltraCombo
+    Friend WithEvents UltraLabel105 As Infragistics.Win.Misc.UltraLabel
 End Class
