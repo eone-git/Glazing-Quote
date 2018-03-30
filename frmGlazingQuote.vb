@@ -4901,7 +4901,4 @@ Public Class frmGlazingQuote
         Return addressInSingleLine
     End Function
 
-    Private Sub UltraCombo17_InitializeLayout(sender As Object, e As InitializeLayoutEventArgs) Handles cmbCustJob.InitializeLayout
-
-    End Sub
 End Class
