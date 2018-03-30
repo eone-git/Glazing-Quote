@@ -3796,7 +3796,7 @@ Public Class frmGlazingQuote
                     End If
 
                     oShape.StartPosition = FormStartPosition.CenterScreen
-
+                    Dim IsEdit As Boolean = False
                     Dim Result As DialogResult
                     If IsNothing(e.Cell.Row.Cells("ShapeDetails").Value) Or IsDBNull(e.Cell.Row.Cells("ShapeDetails").Value) Then
                         Result = oShape.ShowDialog()
@@ -3823,6 +3823,7 @@ Public Class frmGlazingQuote
                     Else
                         If e.Cell.Row.Cells("ShapeDetails").Value.GetType() Is GetType(PCShapeDetails) Then
                             oShape.ShapeDetails = e.Cell.Row.Cells("ShapeDetails").Value
+                            IsEdit = True
                         End If
                         Result = oShape.ShowDialog()
                     End If
@@ -3835,7 +3836,14 @@ Public Class frmGlazingQuote
                         SPIL.Shapes.GlobalVariables.SPILShapeName = ""
                         SPIL.Shapes.GlobalVariables.SPILShapeHeight = ""
                         SPIL.Shapes.GlobalVariables.SPILShapeWidth = ""
+                    ElseIf Result = Windows.Forms.DialogResult.Cancel And IsEdit = False Then
+                        e.Cell.Row.Cells("ShapeDetails").Value = New Object
+                        oShape.ShapeDetails = Nothing
+                        SPIL.Shapes.GlobalVariables.SPILShapeName = ""
+                        SPIL.Shapes.GlobalVariables.SPILShapeHeight = ""
+                        SPIL.Shapes.GlobalVariables.SPILShapeWidth = ""
                     End If
+
 
                     e.Cell.Row.Cells("isShapeAttached").Value = False
                     e.Cell.Row.Cells("Shape").Value = String.Empty
