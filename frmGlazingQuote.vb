@@ -96,6 +96,20 @@ Public Class frmGlazingQuote
     Public isCancelled As Boolean = False
     Dim preQuoteState As String = -1
 
+    Dim clsGQExtensionForJobCostingObj As New clsGQExtensionForJobCosting(Me)
+    Public _ProjectId As Integer = 0
+    Public _StageId As Integer = 0
+    Public _JobId As Integer = 0
+
+    Public IsFromJobProject As Boolean = False
+    Public IsProgressCliam As Boolean = False
+    Public _TotalInvoiced As Decimal = 0
+    Public _isSaved As Boolean = False
+    Public _odrIndex As Integer = 0
+
+    Dim isSaved As Boolean = False
+    Dim isClosing As Boolean = False
+
     Private Sub GET_CUSTOMERS(ByVal value As String)
 
         Dim IsProspect As Boolean = False
@@ -536,18 +550,18 @@ Public Class frmGlazingQuote
         SQL = "SELECT   Id,Name FROM  SpilGlazing_Project WHERE CustomerID=" & custId
         dsProjects = New clsSqlConn().GET_DataSet(SQL)
         If dsProjects.Tables(0).Rows.Count > 0 Then
-            UltraCombo16.Enabled = True
+            cmbCustProject.Enabled = True
         End If
 
-        UltraCombo16.DataSource = dsProjects.Tables(0)
-        UltraCombo16.ValueMember = "Id"
-        UltraCombo16.DisplayMember = "Name"
-        UltraCombo16.DisplayLayout.Bands(0).Columns(1).Width = 200
-        UltraCombo16.DisplayLayout.Bands(0).Columns(0).Hidden = True
+        cmbCustProject.DataSource = dsProjects.Tables(0)
+        cmbCustProject.ValueMember = "Id"
+        cmbCustProject.DisplayMember = "Name"
+        cmbCustProject.DisplayLayout.Bands(0).Columns(1).Width = 200
+        cmbCustProject.DisplayLayout.Bands(0).Columns(0).Hidden = True
         If _ProjectId > 0 Then
-            UltraCombo16.Value = _ProjectId
+            cmbCustProject.Value = _ProjectId
         End If
-        UltraCombo16.Enabled = isEnabled
+        cmbCustProject.Enabled = isEnabled
     End Sub
 
     Private Sub GET_SalesRep()
@@ -637,34 +651,7 @@ Public Class frmGlazingQuote
         End With
     End Sub
 
-    Public Sub GetJobs(ByVal projectId As Integer, Optional ByVal isEnabled As Boolean = False)
-        Try
-            Dim dsProjects As DataSet
-            If (projectId = 0) Then
-                SQL = "SELECT Id,Name FROM  SpilGlazing_Job"
-            Else
-                SQL = "SELECT Id,Name FROM  SpilGlazing_Job WHERE ProjectId=" & projectId
-            End If
-
-            dsProjects = New clsSqlConn().GET_DataSet(SQL)
-            If dsProjects.Tables(0).Rows.Count > 0 Then
-                cmbCustJob.Enabled = True
-            End If
-
-            cmbCustJob.DataSource = dsProjects.Tables(0)
-            cmbCustJob.ValueMember = "Id"
-            cmbCustJob.DisplayMember = "Name"
-            cmbCustJob.DisplayLayout.Bands(0).Columns(1).Width = 200
-            cmbCustJob.DisplayLayout.Bands(0).Columns(0).Hidden = True
-            If _JobId > 0 Then
-                cmbCustJob.Value = _JobId
-            End If
-            cmbCustJob.Enabled = isEnabled
-        Catch ex As Exception
-            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
-
-        End Try
-    End Sub
+  
 
     Private Sub GET_AREAS1() '
         Dim DS_BATCHES As DataSet
@@ -897,6 +884,7 @@ Public Class frmGlazingQuote
         LoadQuoteState()
         LoadExstingQuote()
         TotalValuesBeahavior()
+        clsGQExtensionForJobCostingObj.HideProfitCostFields(IsFromJobProject)
         ' GET_Del_Method()
         'GET_Couriers()
         'GET_CUST_GROUPS()
@@ -1201,11 +1189,12 @@ Public Class frmGlazingQuote
             If isCancelled = True Then
                 Exit Sub
             End If
+            If isClosing = False Then
 
-            If modGlazingQuoteExtension.GQShowMessage("Do you wont to save this Quotation?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
-                Exit Sub
+                If modGlazingQuoteExtension.GQShowMessage("Do you wont to save this Quotation?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+                    Exit Sub
+                End If
             End If
-
             If IsNothing(objClsInvHeader) = True Then
                 objClsInvHeader = New clsInvHeader
 
@@ -1547,27 +1536,32 @@ Public Class frmGlazingQuote
 
                 End If
             End If
+
+            clsGQExtensionForJobCostingObj.SaveJobProjectInfo(objClsInvHeader)
             objClsInvHeader.Commit_Trans()
             isACopy = False
+            isSaved = True
 
             If MsgBox("Do you want to print the quotation : " & objClsInvHeader.OrderNum.ToString & " ?", MsgBoxStyle.YesNo + MessageBoxIcon.Question, "Quotation") = MsgBoxResult.Yes Then
                 LoadPrint(objClsInvHeader, orderIndex)
             End If
-            If MsgBox("Do you want to exit now ?", MessageBoxButtons.YesNo + MessageBoxIcon.Question, "Confirmation") = MsgBoxResult.Yes Then
+            If isClosing = fasle Then
+                If MsgBox("Do you want to exit now ?", MessageBoxButtons.YesNo + MessageBoxIcon.Question, "Confirmation") = MsgBoxResult.Yes Then
 
-                Me.Dispose()
-                Exit Sub
-            Else
-                LoadExstingQuote()
+                    Me.Dispose()
+                    Exit Sub
+                Else
+                    LoadExstingQuote()
 
+                End If
             End If
-
             objClsInvHeader = Nothing
 
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
             lblOrderNo.Text = ""
             quoteOrdeIndex = 0
+            isSaved = False
 
         Finally
 
@@ -2492,7 +2486,8 @@ Public Class frmGlazingQuote
                     mnuSave.Enabled = True
                 End If
 
-
+                Dim pubMeSODocument As New clsInvHeader(quoteOrdeIndex)
+                clsGQExtensionForJobCostingObj.SetJobProjectDetails(pubMeSODocument, quoteOrdeIndex)
                 isOpeningQuote = False
 
             Else
@@ -2506,7 +2501,8 @@ Public Class frmGlazingQuote
 
         Finally
             canUpdate = True
-
+            isClosing = False
+            isSaved = False
         End Try
     End Sub
 
@@ -3402,6 +3398,10 @@ Public Class frmGlazingQuote
                 lblTotVatAmo.Visible = True
                 lblTotIncAmo.Visible = True
 
+                T1.Visible = True
+                T2.Visible = True
+                T3.Visible = True
+
                 lblTotalExc.Visible = True
                 lblTotalVat.Visible = True
                 lblTotalInc.Visible = True
@@ -3409,6 +3409,10 @@ Public Class frmGlazingQuote
                 lblTotExcAmo.Visible = True
                 lblTotVatAmo.Visible = False
                 lblTotIncAmo.Visible = False
+
+                T1.Visible = True
+                T2.Visible = False
+                T3.Visible = False
 
                 lblTotalExc.Visible = True
                 lblTotalVat.Visible = False
@@ -3418,40 +3422,6 @@ Public Class frmGlazingQuote
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
         End Try
-    End Sub
-
-
-
-    Private Sub SetJobProjectDetails(ByRef clsCon As clsInvHeader, ByVal orderIdex As Integer)
-        '' find doc type
-        Dim doctyp As Integer = 0
-        If (pubMeSpilDocTypeID = 4 And clsCon.DocState = 4) Then
-            doctyp = 0
-        Else
-            doctyp = pubMeSpilDocTypeID
-        End If
-
-        Dim projDs As New DataSet()
-        SQL = "SELECT * FROM SpilGlazing_ProjectDocument WHERE DocumentId = " & orderIdex & " AND DocumentType = " & doctyp
-        projDs = clsCon.GET_DATA_SQL(SQL)
-        If Not projDs Is Nothing And projDs.Tables(0).Rows.Count > 0 Then
-            GetProjects(clsCon.AccountID)
-            GetStages(projDs.Tables(0).Rows(0)("ProjectId"))
-            cmbCustProject.Value = projDs.Tables(0).Rows(0)("ProjectId")
-            If projDs.Tables(0).Rows(0)("StageId") > 0 Then
-                cmbProjectStage.Value = projDs.Tables(0).Rows(0)("StageId")
-            End If
-
-        End If
-        projDs = Nothing
-        SQL = "SELECT * FROM SpilGlazing_JobDocument WHERE DocumentId = " & orderIdex & " AND DocumentType = " & doctyp
-        projDs = clsCon.GET_DATA_SQL(SQL)
-        If Not projDs Is Nothing And projDs.Tables(0).Rows.Count > 0 Then
-            GetJobs(projDs.Tables(0).Rows(0)("ProjectId"))
-            If projDs.Tables(0).Rows(0)("JobId") > 0 Then
-                cmbCustJob.Value = projDs.Tables(0).Rows(0)("JobId")
-            End If
-        End If
     End Sub
 
     Sub getTotalAmount()
@@ -3640,6 +3610,15 @@ Public Class frmGlazingQuote
     End Sub
 
     Private Sub frmGlazingQuote_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        isClosing = True
+        If isSaved = False Then
+            If modGlazingQuoteExtension.GQShowMessage("Do you want to save data before exit?", Me.Text, MsgBoxStyle.YesNo) = Windows.Forms.DialogResult.Yes Then
+                SaveDocument()
+            Else
+                Dim x = e.Cancel
+                Exit Sub
+            End If
+        End If
         quoteOrdeIndex = 0
         Me.Dispose()
         System.GC.Collect()
@@ -4258,7 +4237,7 @@ Public Class frmGlazingQuote
     Public Sub SetJobDescriptionState()
         If IsNothing(jobDescription) = False Then
             If jobDescription <> "" Then
-                btnJobDescription.Text = "Job description is active*"
+                btnJobDescription.Text = "Job description - Active"
                 isJobDescriptionActive = True
                 btnJobDescription.BackColor = Color.Green
                 btnJobDescription.FlatAppearance.BorderColor = Color.Green
@@ -4900,5 +4879,6 @@ Public Class frmGlazingQuote
         End If
         Return addressInSingleLine
     End Function
+
 
 End Class
