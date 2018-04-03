@@ -2,6 +2,16 @@
     Dim moduleName As String = "Glazing Quote"
     Public reuturnedMessage As String = ""
 
+    Public _ProjectId As Integer = 0
+    Public _StageId As Integer = 0
+    Public _JobId As Integer = 0
+
+    Public IsFromJobProject As Boolean = False
+    Public IsProgressCliam As Boolean = False
+    Public _TotalInvoiced As Decimal = 0
+    Public _isSaved As Boolean = False
+    Public _odrIndex As Integer = 0
+
     Public Sub GQCreatefrmGlazingQuoteObject()
         Try
             glazingQuote = New frmGlazingQuote
@@ -19,6 +29,17 @@
         Try
             glazingQuote.quoteOrdeIndex = quoteOrdeIndex
             glazingQuote.isACopy = isACopy
+            'for Job costing
+            glazingQuote._ProjectId = _ProjectId
+            glazingQuote._StageId = _StageId
+            glazingQuote._JobId = _JobId
+
+            glazingQuote.IsFromJobProject = IsFromJobProject
+            glazingQuote.IsProgressCliam = IsProgressCliam
+            glazingQuote._TotalInvoiced = _TotalInvoiced
+            glazingQuote._isSaved = _isSaved
+            glazingQuote._odrIndex = _odrIndex
+
             glazingQuote.InitializeQuotation()
             glazingQuote.Show()
             glazingQuote.WindowState = FormWindowState.Maximized
