@@ -58,11 +58,30 @@
     Public Sub GetJobs(ByVal projectId As Integer, Optional ByVal isEnabled As Boolean = False)
         Dim dsProjects As DataSet
         If (projectId = 0) Then
-            SQL = "SELECT Id,Name FROM  SpilGlazing_Job"
+            SQL = "SELECT Id,Name FROM  SpilGlazing_Job WHERE CustomerID=" & projectId
         Else
             SQL = "SELECT Id,Name FROM  SpilGlazing_Job WHERE ProjectId=" & projectId
         End If
 
+        dsProjects = New clsSqlConn().GET_DataSet(SQL)
+        If dsProjects.Tables(0).Rows.Count > 0 Then
+            glazingQuoteObj.cmbCustJob.Enabled = True
+        End If
+
+        glazingQuoteObj.cmbCustJob.DataSource = dsProjects.Tables(0)
+        glazingQuoteObj.cmbCustJob.ValueMember = "Id"
+        glazingQuoteObj.cmbCustJob.DisplayMember = "Name"
+        glazingQuoteObj.cmbCustJob.DisplayLayout.Bands(0).Columns(1).Width = 200
+        glazingQuoteObj.cmbCustJob.DisplayLayout.Bands(0).Columns(0).Hidden = True
+        If glazingQuoteObj._JobId > 0 Then
+            glazingQuoteObj.cmbCustJob.Value = _JobId
+        End If
+        glazingQuoteObj.cmbCustJob.Enabled = isEnabled
+    End Sub
+
+    Public Sub GetJobsByCustomer(ByVal customerId As Integer, Optional ByVal isEnabled As Boolean = False)
+        Dim dsProjects As DataSet
+        SQL = "SELECT Id,Name FROM  SpilGlazing_Job WHERE CustomerID=" & customerId
         dsProjects = New clsSqlConn().GET_DataSet(SQL)
         If dsProjects.Tables(0).Rows.Count > 0 Then
             glazingQuoteObj.cmbCustJob.Enabled = True

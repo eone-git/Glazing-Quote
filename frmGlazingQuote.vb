@@ -846,6 +846,10 @@ Public Class frmGlazingQuote
                 End If
 
             End If
+            If IsFromJobProject Then
+                clsGQExtensionForJobCostingObj.GetProjects(cmbAccount.SelectedRow.Cells("DCLink").Value, True)
+                clsGQExtensionForJobCostingObj.GetJobsByCustomer(cmbAccount.SelectedRow.Cells("DCLink").Value, True)
+            End If
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
@@ -4889,4 +4893,14 @@ Public Class frmGlazingQuote
     End Function
 
 
+  
+    Private Sub cmbCustProject_ValueChanged(sender As Object, e As EventArgs) Handles cmbCustProject.ValueChanged
+        a_ProjectId = cmbCustProject.SelectedRow.Cells("Id").Value
+        Dim clsGlazingQuoteExtensionObj As clsGQExtensionForJobCosting = New clsGQExtensionForJobCosting(Me)
+
+        clsGlazingQuoteExtensionObj.GetStages(_ProjectId, True)
+        clsGlazingQuoteExtensionObj.GetJobs(_ProjectId, True)
+    End Sub
+
+    
 End Class
