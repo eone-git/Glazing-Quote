@@ -1,6 +1,7 @@
 ﻿Public Class clsGlazingQuoteExtension
     Dim moduleName As String = "Glazing Quote"
     Public reuturnedMessage As String = ""
+    Dim glazQuoteDefaultDataSet As DataSet
 
     Public _ProjectId As Integer = 0
     Public _StageId As Integer = 0
@@ -23,7 +24,7 @@
 
     End Sub
 
-    Public Sub GQOpenGlazingQuote(ByRef quoteOrdeIndex As Integer, ByRef isACopy As Boolean)
+    Public Sub GQOpenGlazingQuote(Optional ByRef quoteOrdeIndex As Integer = 0, Optional ByRef isACopy As Boolean = False)
         Dim glazingQuote As New frmGlazingQuote
 
         Try
@@ -185,5 +186,94 @@
         End Try
     End Function
 
+    Function GetGlazQuoteDefaultData() As DataSet
+        Dim sqlQuary As String
+        Dim clsSqlConnObj As New clsSqlConn
+        Try
+            sqlQuary = "SELECT * FROM GlzQuote_State"
+            glazQuoteDefaultDataSet = clsSqlConnObj.GET_INSERT_UPDATE(sqlQuary)
+            Return glazQuoteDefaultDataSet
+
+        Catch ex As Exception
+            GQShowMessage(ex.Message, moduleName, MsgBoxStyle.Critical)
+            Return glazQuoteDefaultDataSet
+
+        Finally
+            clsSqlConnObj.Dispose()
+        End Try
+    End Function
+
+    Public Function GetDefaultByType(ByRef quoteStateType As Integer) As DataRow
+        Dim glazQuoteDefaultData As DataSet = Nothing
+        Dim glazQuoteDefaultDataRow As DataRow = Nothing
+        Try
+            glazQuoteDefaultData = GetGlazQuoteDefaultData()
+            If glazQuoteDefaultData.Tables(0).Rows.Count Then
+                For Each row As DataRow In glazQuoteDefaultData.Tables(0).Rows
+                    If row.Item("JQSID") = quoteStateType Then
+                        glazQuoteDefaultDataRow = row
+                        Exit For
+                    End If
+                Next
+            End If
+            Return glazQuoteDefaultDataRow
+        Catch ex As Exception
+            Return glazQuoteDefaultDataRow
+            GQShowMessage(ex.Message, moduleName, MsgBoxStyle.Critical)
+        End Try
+    End Function
+
+    Public Function GetNextJobumentNumber(ByRef objSQL As clsInvHeader, ByRef documentType As String) As String
+
+        Dim DS_ITEMS As DataSet
+        Dim dr1 As DataRow
+        Dim strSONo As String = Nothing
+        Dim myDocType As Integer = mintDocType
+
+        Try
+            strSQL = "SELECT * FROM  spilDocDefault WHERE Line_ID = 1 "
+            DS_ITEMS = objSQL.Get_Data_Trans(strSQL)
+            If DS_ITEMS.Tables.Count = 0 Then
+                MsgBox("Error in Spil DocsDf Table", MsgBoxStyle.Critical, "SPIL Glass")
+                strSONo = Nothing
+            Else
+                For Each dr1 In DS_ITEMS.Tables(0).Rows
+                    If documentType = "JobQuote" Then
+                        strSONo = dr1("JobQuote_Prefix") & Format(dr1("Next_JobQuote_No"), "000")
+
+                    ElseIf documentType = "GlazingQuote" Then
+                        strSONo = dr1("GlazingQuote_Prefix") & Format(dr1("Next_GlazingQuote_No"), "000")
+
+                    End If
+                Next
+            End If
+
+            If strSONo <> Nothing Then
+                If documentType = "JobQuote" Then
+                    strSQL = "Update spilDocDefault SET Next_GlazingQuote_No = Next_GlazingQuote_No + 1 where Line_ID = 1"
+
+                ElseIf documentType = "JobQuote" Then
+                    strSQL = "Update spilDocDefault SET Next_JobQuote_No = Next_JobQuote_No + 1 where Line_ID = 1"
+
+                End If
+
+                If objSQL.Update_DataOnOpenConnection(strSQL) = 0 Then
+                    MsgBox("Error in Updating spilDocDefault", MsgBoxStyle.Critical, "SPIL Glass")
+                    strSONo = Nothing
+
+                End If
+
+            End If
+
+            Return strSONo
+
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, moduleName, MsgBoxStyle.Critical)
+            Return strSONo
+
+        End Try
+
+
+    End Function
 
 End Class

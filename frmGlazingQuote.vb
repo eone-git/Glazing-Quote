@@ -95,6 +95,7 @@ Public Class frmGlazingQuote
     Public isACopy As Boolean = False
     Public isCancelled As Boolean = False
     Dim preQuoteState As String = -1
+    Dim clsGlazingQuoteExtensionObj As New clsGlazingQuoteExtension()
 
     Dim clsGQExtensionForJobCostingObj As New clsGQExtensionForJobCosting(Me)
     Public _ProjectId As Integer = 0
@@ -1219,7 +1220,7 @@ Public Class frmGlazingQuote
             objClsInvHeader.iAgentID = AgentID
 
             If isExistingOrder = False Or isACopy = True Then
-                objClsInvHeader.OrderNum = objClsInvHeader.GetNextDocumentNumber
+                objClsInvHeader.OrderNum = clsGlazingQuoteExtensionObj.GetNextJobumentNumber(objClsInvHeader, "GlazingQuote")
                 lblOrderNo.Text = objClsInvHeader.OrderNum
             Else
                 objClsInvHeader.OrderNum = lblOrderNo.Text
@@ -1521,20 +1522,20 @@ Public Class frmGlazingQuote
                 objClsInvHeader.Rollback_Trans()
                 Exit Sub
             End If
-            Dim objGlazingQuoteExtension As New clsGlazingQuoteExtension()
+
             If IsNothing(utxtQuoteState.Text) = False And IsNothing(utxtQuoteState.Value) = False Then
                 If isExistingOrder = False Then
-                    objGlazingQuoteExtension.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "Quotation created")
+                    clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "Quotation created")
 
                 ElseIf utxtQuoteState.Value <> QuoteStateValue.EditMode Then
 
                     If utxtQuoteState.Value = QuoteStateValue.Copy Then
-                        If objGlazingQuoteExtension.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "this is a copy of " & preQuoteNumber & " quotation") = 0 Then
+                        If clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "this is a copy of " & preQuoteNumber & " quotation") = 0 Then
                             Exit Sub
                         End If
 
                     Else
-                        objGlazingQuoteExtension.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader)
+                        clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader)
 
                     End If
 
@@ -1594,8 +1595,7 @@ Public Class frmGlazingQuote
                 '    Return 0
                 '    Exit Function
                 'End If
-
-                glzQuoteJobID = GetNextJobumentNumber(objSQL)
+                glzQuoteJobID = clsGlazingQuoteExtensionObj.GetNextJobumentNumber(objSQL, "JobQuote")
                 utxtQuoteJobID.Text = glzQuoteJobID
 
                 newSQLQuery = "INSERT INTO GlzQuote_Job_Details (GlzQuoteJobID, GlzQuoteJobName, GlzQuoteJobDes, OrderIndex) " & _
@@ -1842,51 +1842,7 @@ Public Class frmGlazingQuote
 
     End Function
 
-    Public Function GetNextJobumentNumber(objSQL As clsInvHeader) As String
-
-        Dim DS_ITEMS As DataSet
-        Dim dr1 As DataRow
-        Dim strSONo As String = Nothing
-        Dim myDocType As Integer = mintDocType
-
-        Try
-            strSQL = "SELECT * FROM  spilDocDefault WHERE Line_ID = 1 "
-            DS_ITEMS = objSQL.Get_Data_Trans(strSQL)
-            If DS_ITEMS.Tables.Count = 0 Then
-                MsgBox("Error in Spil DocsDf Table", MsgBoxStyle.Critical, "SPIL Glass")
-                strSONo = Nothing
-            Else
-                For Each dr1 In DS_ITEMS.Tables(0).Rows
-                    strSONo = dr1("JobQuote_Prefix") & Format(dr1("Next_JobQuote_No"), "000")
-                Next
-            End If
-
-            If strSONo <> Nothing Then
-                strSQL = "Update spilDocDefault SET Next_JobQuote_No = Next_JobQuote_No + 1 where Line_ID = 1"
-
-
-                If objSQL.Update_DataOnOpenConnection(strSQL) = 0 Then
-                    MsgBox("Error in Updating spilDocDefault", MsgBoxStyle.Critical, "SPIL Glass")
-                    strSONo = Nothing
-
-                End If
-
-            End If
-
-            Return strSONo
-
-        Catch ex As Exception
-            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
-            Return strSONo
-
-        End Try
-
-
-    End Function
-
-
     Sub SaveExtraItemLineData(ByRef quoteOrdeIndex As Integer, ByRef enumerator As IEnumerable)
-
 
     End Sub
 
@@ -3679,9 +3635,7 @@ Public Class frmGlazingQuote
     End Sub
 
     Private Sub mnuNewDocument_Click(sender As Object, e As EventArgs) Handles mnuNewDocument.Click
-        Dim gazingQuote As New frmGlazingQuote()
-        gazingQuote.Show()
-        gazingQuote.Refresh()
+        clsGlazingQuoteExtensionObj.GQOpenGlazingQuote()
     End Sub
 
     Private Sub UG2_ClickCellButton(sender As Object, e As CellEventArgs) Handles UG2.ClickCellButton
@@ -4892,15 +4846,10 @@ Public Class frmGlazingQuote
         Return addressInSingleLine
     End Function
 
-
-  
     Private Sub cmbCustProject_ValueChanged(sender As Object, e As EventArgs) Handles cmbCustProject.ValueChanged
-        a_ProjectId = cmbCustProject.SelectedRow.Cells("Id").Value
-        Dim clsGlazingQuoteExtensionObj As clsGQExtensionForJobCosting = New clsGQExtensionForJobCosting(Me)
-
-        clsGlazingQuoteExtensionObj.GetStages(_ProjectId, True)
-        clsGlazingQuoteExtensionObj.GetJobs(_ProjectId, True)
+        _ProjectId = cmbCustProject.SelectedRow.Cells("Id").Value
+        clsGQExtensionForJobCostingObj.GetStages(_ProjectId, True)
+        clsGQExtensionForJobCostingObj.GetJobs(_ProjectId, True)
     End Sub
 
-    
 End Class
