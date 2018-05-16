@@ -107,6 +107,7 @@ Public Class frmGlazingQuote
     Public _TotalInvoiced As Decimal = 0
     Public _isSaved As Boolean = False
     Public _odrIndex As Integer = 0
+    Public IsEstimate As Boolean = False
 
     Dim isSaved As Boolean = False
     Dim isClosing As Boolean = False
@@ -652,7 +653,7 @@ Public Class frmGlazingQuote
         End With
     End Sub
 
-  
+
 
     Private Sub GET_AREAS1() '
         Dim DS_BATCHES As DataSet
@@ -1209,12 +1210,68 @@ Public Class frmGlazingQuote
             Dim recState As Integer = 0
             If OrderValidation() = 0 Then Exit Sub
 
+
+
+
+            If IsFromJobProject Then
+                If IsEstimate = True Then
+                    objClsInvHeader.DocState = GlassDocState.JobEstimate
+
+                    Dim objSQL As New clsSqlConn
+
+                    If _ProjectId = 0 Then
+
+                        duplicatesql = "select COUNT(OrderIndex) as OrderIndex FROM spilInvNum WHERE DocType=5 AND DocState=15 AND QuoteStateID <> 4 AND JobID = " & _JobId.ToString()
+
+                    Else
+                        duplicatesql = "Select Sum(u.OrderIndex) FROM" &
+                                            "(select COUNT(OrderIndex) as OrderIndex FROM spilInvNum WHERE DocType=5 AND DocState=15 AND QuoteStateID <> 4 AND JobID = " & _JobId.ToString() &
+                                            " UNION select COUNT(OrderIndex) as OrderIndex FROM spilInvNum WHERE DocType=5 AND DocState=15 AND QuoteStateID <> 4 AND ProjectID = " & _ProjectId.ToString() & " AND (JobID is null or JobID=0)) AS u"
+
+                    End If
+
+
+                    With objSQL
+                        Dim dupds As DataSet = .GET_DATA_SQL(duplicatesql)
+                        If (dupds.Tables(0).Rows(0)(0) <> 0) Then
+                            modGlazingQuoteExtension.GQShowMessage("This Job/Project already has a Estimate", Me.Text, MsgBoxStyle.Critical)
+                            Exit Sub
+                        End If
+
+                    End With
+
+                Else
+                    objClsInvHeader.DocState = GlassDocState.GlazingQuote
+                    Dim objSQL As New clsSqlConn
+
+                    If _ProjectId = 0 Then
+
+                        duplicatesql = "select COUNT(OrderIndex) as OrderIndex FROM spilInvNum WHERE DocType=5 AND DocState=15 AND QuoteStateID <> 4 AND JobID = " & _JobId.ToString()
+
+                    Else
+                        duplicatesql = "Select Sum(u.OrderIndex) FROM" &
+                                       "(select COUNT(OrderIndex) as OrderIndex FROM spilInvNum WHERE DocType=5 AND DocState=15 AND QuoteStateID <> 4 AND JobID = " & _JobId.ToString() &
+                                       " UNION select COUNT(OrderIndex) as OrderIndex FROM spilInvNum WHERE DocType=5 AND DocState=15 AND QuoteStateID <> 4 AND ProjectID = " & _ProjectId.ToString() & " AND (JobID is null or JobID=0)) AS u"
+
+                    End If
+
+                    With objSQL
+                        Dim dupds As DataSet = .GET_DATA_SQL(duplicatesql)
+                        If (dupds.Tables(0).Rows(0)(0) <> 0) Then
+                            modGlazingQuoteExtension.GQShowMessage("This Job/Project already has a Quote", Me.Text, MsgBoxStyle.Critical)
+                            Exit Sub
+                        End If
+
+                    End With
+                End If
+            End If
+
+
             objClsInvHeader.Begin_Trans()
 
             'Start quote Header
             objClsInvHeader.AccountID = cmbAccount.ActiveRow.Cells("DCLink").Value
             objClsInvHeader.DocType = GlassDocTypes.Quotation
-            objClsInvHeader.DocState = GlassDocState.GlazingQuote
             objClsInvHeader.InvoiceNotes = utxtNoteText.Text
             objClsInvHeader.ApprovedReason = ""
             objClsInvHeader.iAgentID = AgentID
@@ -1266,6 +1323,9 @@ Public Class frmGlazingQuote
             objClsInvHeader.InvoiceNotes = utxtNoteText.Text
             'objClsInvHeader.Delivery_Status = ""
 
+            'Link the Project, Stage & Job
+            objClsInvHeader.ProjectID = _ProjectId
+            objClsInvHeader.ProjID = _ProjectId
 
 
             objClsInvHeader.Delivery_Status = DeliveryState.UnDelivered 'for delivery
@@ -1413,6 +1473,63 @@ Public Class frmGlazingQuote
 
                 collspPara.Clear()
 
+                'Job ID Update
+                Dim collspParaJ As New Collection
+                Dim colParaJ As New spParameters
+
+                colParaJ.ParaName = "@JobID"
+                colParaJ.ParaValue = _JobId
+
+                collspParaJ.Add(colParaJ)
+
+                newSQLQuery = "UPDATE spilInvNum SET JobID = @JobID WHERE OrderIndex = '" & quoteOrdeIndex & "'"
+
+                If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspParaJ) = 0 Then
+                    modGlazingQuoteExtension.GQShowMessage("Error in item Quote StageID & JobID", Me.Text, MsgBoxStyle.Critical)
+                    objClsInvHeader.Rollback_Trans()
+                    Exit Sub
+                End If
+
+                collspParaJ.Clear()
+
+                'Stage ID Update
+                Dim collspParaS As New Collection
+                Dim colParaS As New spParameters
+
+                colParaS.ParaName = "@StageID"
+                colParaS.ParaValue = _StageId
+
+                collspParaS.Add(colParaS)
+
+                newSQLQuery = "UPDATE spilInvNum SET StageID = @StageID WHERE OrderIndex = '" & quoteOrdeIndex & "'"
+
+                If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspParaS) = 0 Then
+                    modGlazingQuoteExtension.GQShowMessage("Error in item Quote StageID & JobID", Me.Text, MsgBoxStyle.Critical)
+                    objClsInvHeader.Rollback_Trans()
+                    Exit Sub
+                End If
+
+                collspParaS.Clear()
+
+                'Total Amount Update
+                Dim collspParaI As New Collection
+                Dim colParaI As New spParameters
+
+                colParaI.ParaName = "@InvTotIncl"
+                colParaI.ParaValue = Convert.ToDecimal(lblTotExcAmo.Text)
+
+                collspParaI.Add(colParaI)
+
+                newSQLQuery = "UPDATE spilInvNum SET InvTotIncl = @InvTotIncl WHERE OrderIndex = '" & quoteOrdeIndex & "'"
+
+                If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspParaI) = 0 Then
+                    modGlazingQuoteExtension.GQShowMessage("Error in Total Amount", Me.Text, MsgBoxStyle.Critical)
+                    objClsInvHeader.Rollback_Trans()
+                    Exit Sub
+                End If
+
+                collspParaI.Clear()
+
                 'Picture
                 Dim imageArray = row.Cells("ItemImageByteArray").Value
 
@@ -1538,7 +1655,13 @@ Public Class frmGlazingQuote
                         clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader)
 
                     End If
+                ElseIf isExistingOrder = False Then
+                    If clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "") = 0 Then
+                        Exit Sub
+                    End If
+                    If utxtQuoteState.Value = QuoteStateValue.Cancelled Then
 
+                    End If
                 End If
             End If
 
@@ -4847,9 +4970,34 @@ Public Class frmGlazingQuote
     End Function
 
     Private Sub cmbCustProject_ValueChanged(sender As Object, e As EventArgs) Handles cmbCustProject.ValueChanged
-        _ProjectId = cmbCustProject.SelectedRow.Cells("Id").Value
+        Try
+            _ProjectId = cmbCustProject.SelectedRow.Cells("Id").Value
+
+        Catch ex As Exception
+            _ProjectId = 0
+        End Try
         clsGQExtensionForJobCostingObj.GetStages(_ProjectId, True)
-        clsGQExtensionForJobCostingObj.GetJobs(_ProjectId, True)
+        clsGQExtensionForJobCostingObj.GetJobs(_ProjectId, cmbAccount.SelectedRow.Cells("DCLink").Value, True)
+
     End Sub
 
+    Private Sub cmbCustJob_ValueChanged(sender As Object, e As EventArgs) Handles cmbCustJob.ValueChanged
+
+
+        Try
+            _JobId = cmbCustJob.SelectedRow.Cells("Id").Value
+        Catch ex As Exception
+            _JobId = 0
+        End Try
+    End Sub
+
+    Private Sub cmbProjectStage_ValueChanged(sender As Object, e As EventArgs) Handles cmbProjectStage.ValueChanged
+
+
+        Try
+            _StageId = cmbProjectStage.SelectedRow.Cells("Id").Value
+        Catch ex As Exception
+            _StageId = 0
+        End Try
+    End Sub
 End Class

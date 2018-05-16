@@ -56,6 +56,40 @@
         End Try
     End Sub
 
+    Public Sub GQOpenGlazingEstimate(Optional ByRef quoteOrdeIndex As Integer = 0, Optional ByRef isACopy As Boolean = False)
+        Dim glazingQuote As New frmGlazingQuote
+
+        Try
+            glazingQuote.Text = "Glazing Estimate"
+            glazingQuote.IsEstimate = True
+            glazingQuote.quoteOrdeIndex = quoteOrdeIndex
+            glazingQuote.isACopy = isACopy
+            'for Job costing
+            glazingQuote._ProjectId = _ProjectId
+            glazingQuote._StageId = _StageId
+            glazingQuote._JobId = _JobId
+
+            glazingQuote.IsFromJobProject = IsFromJobProject
+            glazingQuote.IsProgressCliam = IsProgressCliam
+            glazingQuote._TotalInvoiced = _TotalInvoiced
+            glazingQuote._isSaved = _isSaved
+            glazingQuote._odrIndex = _odrIndex
+
+            glazingQuote.InitializeQuotation()
+            glazingQuote.Show()
+            glazingQuote.WindowState = FormWindowState.Maximized
+            glazingQuote.BringToFront()
+            glazingQuote.Refresh()
+            'If isACopy = True Then
+            '    GQDocumentLog(quoteOrdeIndex, QuoteStateValueCOPY)
+
+            'End If
+        Catch ex As Exception
+            GQShowMessage(ex.Message, moduleName, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
     Public Function GQEmailSentStateUpdate(ByVal quoteOrdeIndex As Integer, ByRef reqQuoteStateValue As Integer, Optional ByRef requestReason As Boolean = False) As Integer
         Dim collspPara As New Collection
         Dim colPara As New spParameters

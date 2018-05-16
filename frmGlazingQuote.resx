@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="UltraDataSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>798, 61</value>
+    <value>812, 52</value>
   </metadata>
   <metadata name="cmsQuoteGide.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>481, 42</value>
@@ -288,7 +288,7 @@
         RudN65tdA8sHzg46DF645Xrr8m2v29fvrLwzMBQydHc4cnjkLvvu5L2key/vZ9yff7DpIfph4SOpR+WP
         lR7X/aj3Y+uI5ciZUdfRvidBTx6Mscae/5T+04fx/Kfkp+UTqhONk2aTp6fcp24+W/1s/Hnq8/npgp+l
         f65+ofviu18cf+mbWTUz/pL/cuHX4lfyr468Xva6e9Z/9vGb5Dfzc4Vv5d8efcd41/s+7P3EfOYH7IeK
-        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAALEwAACxMBAJqcGAAADQZJREFUaEPlmAdUVde2
+        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAALEQAACxEBf2RfkQAADQZJREFUaEPlmAdUVde2
         hhMCCYJI5yCCokZf1ERNsYGK4LFgFwMCCgIRRFARQkdAUY70LkqRJkUEEUREylNQioXYCxpN7A1UpImU
         89+5NpqRm3DHOI6bvBHGm46Ptffae53z/2vOvdY+fgSgX9NnZ3+iz87+RJ+d/Yk+O/sTfXb2J/rs7E/0
         2dmf6LOzP/FvJ6mpyU0E/uHI/l7znwy8ffuWDv+ZkZWVIZqBnp6efxws/v8Y6O7u5pigvwLfLDbBFANz
@@ -409,7 +409,7 @@
     <value>383, 16</value>
   </metadata>
   <metadata name="UltraDataSource2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1019, 32</value>
+    <value>1018, 27</value>
   </metadata>
   <data name="UltraGridColumn161.DefaultCellValue" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1074,7 +1074,7 @@
         XTesb3QPLh88M+QwdP6m681Lt7xuXbu94vbgcOjwnZHokdE77DtTd1PuvriXeW/h/sYH6AdFD6UeVjxS
         fNTws+7PbaOWo6fHXMf6Hwc/vj/OGn/2S8Yv7ycKnpCfVEyqTDZPmU2dmnafvvF05dOJZ+nPFmYKf5X+
         tfa5zvMffnP8rX82YnbiBf/Fp99LXsq/PPRq2aueuYC5R69TXy/MF72Rf3P4LeNt37vwd5MLWe+x7ys/
-        6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALEwAACxMBAJqcGAAAAy1JREFUOE+VkFtMEwYU
+        6H7o/ujz8cGn1E+f/gUDmPP8usTo0wAAAAlwSFlzAAALEQAACxEBf2RfkQAAAy1JREFUOE+VkFtMEwYU
         hv9lybLsZUv2spddfHFxb+6SbcqE4AUyJqVYFpgkShd7oRQUSqWSSq20FXtTSm1Te8MilErpqKX1VgGp
         4oZULbpNnA7NtrBlOLcs2x62/Gu2F5u9uIcv5+X8X85/8CCXxaeR47C2yBHsbIZOXPW+XiHTu1UtWrVo
         03uHO5Vwa1sxHnThfHQQZ4f7C8Bybg655BjUlRthlO9wpmKJP7KXJngjc4GZaGRZL67R6BpESOeX0yPH
@@ -1302,7 +1302,7 @@
   <data name="btnAddressLocator.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJ
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3VAAAN1QE91ljxAAAAB3RJ
         TUUH4gIMBiMFbQADrQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFrSURBVDhP
         fZCxS8NAFMYPFDcdJHmH4iA41kkcXFwciovgppOTi6DgKHURhA5O0kUn0dXFqa25DNKpk1OH/gEVbXvp
         UIIgqD3fS1/TtBf7wY+7vO/7ktyJNAWe3NIKSkgLaWgfnrRy1tmerLaSeSz1EDPGj/blKcfS1VGQTSkm
@@ -1314,13 +1314,13 @@
 </value>
   </data>
   <metadata name="ttAddressLocator.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>246, 65</value>
+    <value>252, 50</value>
   </metadata>
   <metadata name="UltraDataSource3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>650, 65</value>
+    <value>648, 45</value>
   </metadata>
   <metadata name="cmCustomer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 71</value>
+    <value>17, 52</value>
   </metadata>
   <data name="cmCustAddNew.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1455,13 +1455,13 @@
     <value>244, 17</value>
   </metadata>
   <metadata name="UltraFormattedTextWordWriter1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>653, 23</value>
+    <value>651, 10</value>
   </metadata>
   <metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>869, 15</value>
+    <value>877, 20</value>
   </metadata>
   <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>138, 71</value>
+    <value>138, 50</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

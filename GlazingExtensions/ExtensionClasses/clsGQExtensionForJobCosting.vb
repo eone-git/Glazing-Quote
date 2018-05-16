@@ -55,10 +55,11 @@
         glazingQuoteObj.cmbProjectStage.Enabled = isEnabled
     End Sub
 
-    Public Sub GetJobs(ByVal projectId As Integer, Optional ByVal isEnabled As Boolean = False)
+    Public Sub GetJobs(ByVal projectId As Integer, ByVal customerId As Integer, Optional ByVal isEnabled As Boolean = False)
         Dim dsProjects As DataSet
         If (projectId = 0) Then
-            SQL = "SELECT Id,Name FROM  SpilGlazing_Job WHERE CustomerID=" & projectId
+            SQL = "SELECT Id,Name FROM  SpilGlazing_Job WHERE (ProjectId=0 OR ProjectId is Null) AND CustomerID=" & customerId
+
         Else
             SQL = "SELECT Id,Name FROM  SpilGlazing_Job WHERE ProjectId=" & projectId
         End If
@@ -81,7 +82,7 @@
 
     Public Sub GetJobsByCustomer(ByVal customerId As Integer, Optional ByVal isEnabled As Boolean = False)
         Dim dsProjects As DataSet
-        SQL = "SELECT Id,Name FROM  SpilGlazing_Job WHERE CustomerID=" & customerId
+        SQL = "SELECT Id,Name FROM  SpilGlazing_Job WHERE (ProjectId=0 OR ProjectId is Null) AND  CustomerID=" & customerId
         dsProjects = New clsSqlConn().GET_DataSet(SQL)
         If dsProjects.Tables(0).Rows.Count > 0 Then
             glazingQuoteObj.cmbCustJob.Enabled = True
@@ -123,7 +124,7 @@
         SQL = "SELECT * FROM SpilGlazing_JobDocument WHERE DocumentId = " & orderIdex & " AND DocumentType = " & doctyp
         projDs = clsCon.GET_DATA_SQL(SQL)
         If Not projDs Is Nothing And projDs.Tables(0).Rows.Count > 0 Then
-            GetJobs(projDs.Tables(0).Rows(0)("ProjectId"))
+            GetJobs(projDs.Tables(0).Rows(0)("ProjectId"), glazingQuoteObj.cmbAccount.SelectedRow.Cells("DCLink").Value)
             If projDs.Tables(0).Rows(0)("JobId") > 0 Then
                 glazingQuoteObj.cmbCustJob.Value = projDs.Tables(0).Rows(0)("JobId")
             End If

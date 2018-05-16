@@ -640,7 +640,7 @@ Public Class frmGlazingDocStockItem
                 ugRow.Cells("Description2").Value = uddSource.ActiveRow.Cells("Description_3").Value & " " & IIf(IsDBNull(uddSource.ActiveRow.Cells("AddDetails").Value), "", uddSource.ActiveRow.Cells("AddDetails").Value) 'uddSource.ActiveRow.Cells("Description_1").Value
 
                 If ugRow.Band.Index = 0 Then 'Normal Glass Line (Band 0)
-                    Select Case ugRow.Cells("ItemType").Value
+                    Select Case cmbDDItemType.Value
                         Case GlassItemTypes.Glass
                             ugRow.Cells("ItemTypeCategory").Value = "G"
                         Case GlassItemTypes.Template
