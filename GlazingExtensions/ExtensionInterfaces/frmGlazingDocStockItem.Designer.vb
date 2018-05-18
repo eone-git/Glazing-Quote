@@ -91,6 +91,13 @@ Partial Class frmGlazingDocStockItem
         Dim Appearance71 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance72 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance73 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance170 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance171 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance39 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance55 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance54 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance52 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance53 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance15 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance16 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance28 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -103,13 +110,6 @@ Partial Class frmGlazingDocStockItem
         Dim Appearance35 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance36 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance37 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance170 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance171 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance39 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance55 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance54 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance52 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance53 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Me.ucmbItemCode = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.ucmbItemDes = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.ucmbPriceType = New Infragistics.Win.UltraWinGrid.UltraCombo()
@@ -130,7 +130,6 @@ Partial Class frmGlazingDocStockItem
         Me.lblPriceType = New System.Windows.Forms.Label()
         Me.cmbDDPriceListsTrade = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.lblPriceList = New System.Windows.Forms.Label()
-        Me.cmbDDPriceListsSpecial = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.DDThickness = New Infragistics.Win.UltraWinGrid.UltraDropDown()
         Me.uPicBox = New Infragistics.Win.UltraWinEditors.UltraPictureBox()
         Me.txtQty = New Infragistics.Win.UltraWinEditors.UltraNumericEditor()
@@ -138,6 +137,7 @@ Partial Class frmGlazingDocStockItem
         Me.txtVolume = New Infragistics.Win.UltraWinEditors.UltraNumericEditor()
         Me.txtHeight = New Infragistics.Win.UltraWinEditors.UltraNumericEditor()
         Me.ctxtWidth = New Infragistics.Win.UltraWinEditors.UltraNumericEditor()
+        Me.cmbDDPriceListsSpecial = New Infragistics.Win.UltraWinGrid.UltraCombo()
         CType(Me.ucmbItemCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ucmbItemDes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ucmbPriceType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -145,13 +145,13 @@ Partial Class frmGlazingDocStockItem
         CType(Me.cmbDDItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.udsItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbDDPriceListsTrade, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbDDPriceListsSpecial, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DDThickness, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPrice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtVolume, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtHeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ctxtWidth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbDDPriceListsSpecial, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ucmbItemCode
@@ -533,6 +533,8 @@ Partial Class frmGlazingDocStockItem
         UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn1, UltraGridColumn2})
         Appearance14.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
         Appearance14.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        resources.ApplyResources(Appearance14, "Appearance14")
+        Appearance14.ForceApplyResources = ""
         UltraGridBand1.Header.Appearance = Appearance14
         Me.cmbDDItemType.DisplayLayout.BandsSerializer.Add(UltraGridBand1)
         Me.cmbDDItemType.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
@@ -737,6 +739,92 @@ Partial Class frmGlazingDocStockItem
         resources.ApplyResources(Me.lblPriceList, "lblPriceList")
         Me.lblPriceList.Name = "lblPriceList"
         '
+        'DDThickness
+        '
+        Appearance170.BorderColor = System.Drawing.Color.Silver
+        resources.ApplyResources(Appearance170.FontData, "Appearance170.FontData")
+        resources.ApplyResources(Appearance170, "Appearance170")
+        Appearance170.ForceApplyResources = "FontData|"
+        Me.DDThickness.DisplayLayout.Appearance = Appearance170
+        Me.DDThickness.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
+        Me.DDThickness.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
+        Appearance171.BackColor = System.Drawing.Color.Maroon
+        Appearance171.BackColor2 = System.Drawing.Color.DarkRed
+        Appearance171.BackGradientStyle = Infragistics.Win.GradientStyle.GlassTop50
+        Appearance171.BorderAlpha = Infragistics.Win.Alpha.Transparent
+        Appearance171.ForeColor = System.Drawing.Color.White
+        resources.ApplyResources(Appearance171.FontData, "Appearance171.FontData")
+        resources.ApplyResources(Appearance171, "Appearance171")
+        Appearance171.ForceApplyResources = "FontData|"
+        Me.DDThickness.DisplayLayout.Override.HeaderAppearance = Appearance171
+        Me.DDThickness.DisplayLayout.Override.HeaderStyle = Infragistics.Win.HeaderStyle.Standard
+        resources.ApplyResources(Me.DDThickness, "DDThickness")
+        Me.DDThickness.Name = "DDThickness"
+        '
+        'uPicBox
+        '
+        Me.uPicBox.BorderShadowColor = System.Drawing.Color.Empty
+        Me.uPicBox.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
+        Me.uPicBox.Cursor = System.Windows.Forms.Cursors.Default
+        resources.ApplyResources(Me.uPicBox, "uPicBox")
+        Me.uPicBox.Name = "uPicBox"
+        '
+        'txtQty
+        '
+        Appearance39.BorderColor = System.Drawing.Color.DodgerBlue
+        resources.ApplyResources(Appearance39.FontData, "Appearance39.FontData")
+        resources.ApplyResources(Appearance39, "Appearance39")
+        Appearance39.ForceApplyResources = "FontData|"
+        Me.txtQty.Appearance = Appearance39
+        resources.ApplyResources(Me.txtQty, "txtQty")
+        Me.txtQty.Name = "txtQty"
+        Me.txtQty.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
+        '
+        'txtPrice
+        '
+        Appearance55.BorderColor = System.Drawing.Color.DodgerBlue
+        resources.ApplyResources(Appearance55.FontData, "Appearance55.FontData")
+        resources.ApplyResources(Appearance55, "Appearance55")
+        Appearance55.ForceApplyResources = "FontData|"
+        Me.txtPrice.Appearance = Appearance55
+        resources.ApplyResources(Me.txtPrice, "txtPrice")
+        Me.txtPrice.Name = "txtPrice"
+        Me.txtPrice.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
+        '
+        'txtVolume
+        '
+        Appearance54.BorderColor = System.Drawing.Color.DodgerBlue
+        resources.ApplyResources(Appearance54.FontData, "Appearance54.FontData")
+        resources.ApplyResources(Appearance54, "Appearance54")
+        Appearance54.ForceApplyResources = "FontData|"
+        Me.txtVolume.Appearance = Appearance54
+        resources.ApplyResources(Me.txtVolume, "txtVolume")
+        Me.txtVolume.Name = "txtVolume"
+        Me.txtVolume.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
+        Me.txtVolume.ReadOnly = True
+        '
+        'txtHeight
+        '
+        Appearance52.BorderColor = System.Drawing.Color.DodgerBlue
+        resources.ApplyResources(Appearance52.FontData, "Appearance52.FontData")
+        resources.ApplyResources(Appearance52, "Appearance52")
+        Appearance52.ForceApplyResources = "FontData|"
+        Me.txtHeight.Appearance = Appearance52
+        resources.ApplyResources(Me.txtHeight, "txtHeight")
+        Me.txtHeight.Name = "txtHeight"
+        Me.txtHeight.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
+        '
+        'ctxtWidth
+        '
+        Appearance53.BorderColor = System.Drawing.Color.DodgerBlue
+        resources.ApplyResources(Appearance53.FontData, "Appearance53.FontData")
+        resources.ApplyResources(Appearance53, "Appearance53")
+        Appearance53.ForceApplyResources = "FontData|"
+        Me.ctxtWidth.Appearance = Appearance53
+        resources.ApplyResources(Me.ctxtWidth, "ctxtWidth")
+        Me.ctxtWidth.Name = "ctxtWidth"
+        Me.ctxtWidth.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
+        '
         'cmbDDPriceListsSpecial
         '
         Appearance15.BackColor = System.Drawing.SystemColors.Window
@@ -831,92 +919,6 @@ Partial Class frmGlazingDocStockItem
         resources.ApplyResources(Me.cmbDDPriceListsSpecial, "cmbDDPriceListsSpecial")
         Me.cmbDDPriceListsSpecial.Name = "cmbDDPriceListsSpecial"
         '
-        'DDThickness
-        '
-        Appearance170.BorderColor = System.Drawing.Color.Silver
-        resources.ApplyResources(Appearance170.FontData, "Appearance170.FontData")
-        resources.ApplyResources(Appearance170, "Appearance170")
-        Appearance170.ForceApplyResources = "FontData|"
-        Me.DDThickness.DisplayLayout.Appearance = Appearance170
-        Me.DDThickness.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ExtendLastColumn
-        Me.DDThickness.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
-        Appearance171.BackColor = System.Drawing.Color.Maroon
-        Appearance171.BackColor2 = System.Drawing.Color.DarkRed
-        Appearance171.BackGradientStyle = Infragistics.Win.GradientStyle.GlassTop50
-        Appearance171.BorderAlpha = Infragistics.Win.Alpha.Transparent
-        Appearance171.ForeColor = System.Drawing.Color.White
-        resources.ApplyResources(Appearance171.FontData, "Appearance171.FontData")
-        resources.ApplyResources(Appearance171, "Appearance171")
-        Appearance171.ForceApplyResources = "FontData|"
-        Me.DDThickness.DisplayLayout.Override.HeaderAppearance = Appearance171
-        Me.DDThickness.DisplayLayout.Override.HeaderStyle = Infragistics.Win.HeaderStyle.Standard
-        resources.ApplyResources(Me.DDThickness, "DDThickness")
-        Me.DDThickness.Name = "DDThickness"
-        '
-        'uPicBox
-        '
-        Me.uPicBox.BorderShadowColor = System.Drawing.Color.Empty
-        Me.uPicBox.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
-        Me.uPicBox.Cursor = System.Windows.Forms.Cursors.Default
-        resources.ApplyResources(Me.uPicBox, "uPicBox")
-        Me.uPicBox.Name = "uPicBox"
-        '
-        'txtQty
-        '
-        Appearance39.BorderColor = System.Drawing.Color.DodgerBlue
-        resources.ApplyResources(Appearance39.FontData, "Appearance39.FontData")
-        resources.ApplyResources(Appearance39, "Appearance39")
-        Appearance39.ForceApplyResources = "FontData|"
-        Me.txtQty.Appearance = Appearance39
-        resources.ApplyResources(Me.txtQty, "txtQty")
-        Me.txtQty.Name = "txtQty"
-        Me.txtQty.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
-        '
-        'txtPrice
-        '
-        Appearance55.BorderColor = System.Drawing.Color.DodgerBlue
-        resources.ApplyResources(Appearance55.FontData, "Appearance55.FontData")
-        resources.ApplyResources(Appearance55, "Appearance55")
-        Appearance55.ForceApplyResources = "FontData|"
-        Me.txtPrice.Appearance = Appearance55
-        resources.ApplyResources(Me.txtPrice, "txtPrice")
-        Me.txtPrice.Name = "txtPrice"
-        Me.txtPrice.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
-        '
-        'txtVolume
-        '
-        Appearance54.BorderColor = System.Drawing.Color.DodgerBlue
-        resources.ApplyResources(Appearance54.FontData, "Appearance54.FontData")
-        resources.ApplyResources(Appearance54, "Appearance54")
-        Appearance54.ForceApplyResources = "FontData|"
-        Me.txtVolume.Appearance = Appearance54
-        resources.ApplyResources(Me.txtVolume, "txtVolume")
-        Me.txtVolume.Name = "txtVolume"
-        Me.txtVolume.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
-        Me.txtVolume.ReadOnly = True
-        '
-        'txtHeight
-        '
-        Appearance52.BorderColor = System.Drawing.Color.DodgerBlue
-        resources.ApplyResources(Appearance52.FontData, "Appearance52.FontData")
-        resources.ApplyResources(Appearance52, "Appearance52")
-        Appearance52.ForceApplyResources = "FontData|"
-        Me.txtHeight.Appearance = Appearance52
-        resources.ApplyResources(Me.txtHeight, "txtHeight")
-        Me.txtHeight.Name = "txtHeight"
-        Me.txtHeight.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
-        '
-        'ctxtWidth
-        '
-        Appearance53.BorderColor = System.Drawing.Color.DodgerBlue
-        resources.ApplyResources(Appearance53.FontData, "Appearance53.FontData")
-        resources.ApplyResources(Appearance53, "Appearance53")
-        Appearance53.ForceApplyResources = "FontData|"
-        Me.ctxtWidth.Appearance = Appearance53
-        resources.ApplyResources(Me.ctxtWidth, "ctxtWidth")
-        Me.ctxtWidth.Name = "ctxtWidth"
-        Me.ctxtWidth.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
-        '
         'frmGlazingDocStockItem
         '
         Me.AcceptButton = Me.btnAdd
@@ -962,13 +964,13 @@ Partial Class frmGlazingDocStockItem
         CType(Me.cmbDDItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.udsItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbDDPriceListsTrade, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbDDPriceListsSpecial, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DDThickness, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPrice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtVolume, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtHeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ctxtWidth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbDDPriceListsSpecial, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -993,7 +995,6 @@ Partial Class frmGlazingDocStockItem
     Friend WithEvents lblPriceType As System.Windows.Forms.Label
     Friend WithEvents cmbDDPriceListsTrade As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents lblPriceList As System.Windows.Forms.Label
-    Friend WithEvents cmbDDPriceListsSpecial As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents DDThickness As Infragistics.Win.UltraWinGrid.UltraDropDown
     Private WithEvents uPicBox As Infragistics.Win.UltraWinEditors.UltraPictureBox
     Friend WithEvents txtQty As Infragistics.Win.UltraWinEditors.UltraNumericEditor
@@ -1001,4 +1002,5 @@ Partial Class frmGlazingDocStockItem
     Friend WithEvents txtVolume As Infragistics.Win.UltraWinEditors.UltraNumericEditor
     Friend WithEvents txtHeight As Infragistics.Win.UltraWinEditors.UltraNumericEditor
     Friend WithEvents ctxtWidth As Infragistics.Win.UltraWinEditors.UltraNumericEditor
+    Friend WithEvents cmbDDPriceListsSpecial As Infragistics.Win.UltraWinGrid.UltraCombo
 End Class

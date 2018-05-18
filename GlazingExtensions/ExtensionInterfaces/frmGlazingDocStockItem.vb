@@ -14,9 +14,11 @@ Public Class frmGlazingDocStockItem
     Dim oSOModuleDefaults As New clsSOModuleDefaults
     Dim oPriceUnits As New clsSOPricingAndUnits
     Dim comboVlaueChanged As Boolean = False
-    Dim isLoading As Boolean = False
+    Public isLoading As Boolean = False
     Dim priceTypeValue As Integer =0
     Dim priceListValue As Integer = 0
+    Dim itemIsChanging As Boolean = False
+    Dim clsGlazingDocStockItemHelperObj As New clsGlazingDocStockItemHelper(Me)
 
     Public Sub New(ByRef frmGlazingQuote As frmGlazingQuote)
         ' This call is required by the designer.
@@ -36,35 +38,20 @@ Public Class frmGlazingDocStockItem
     End Sub
 
     Public Sub FillPRICE_TYPES()
-        Dim strSQL1 As String = "SELECT TYPE_ID, TYPE_PRICE,TOUGHENED,IsAllocated, IsApplyOnlyTemplate," & _
-           "IsCuttingNeed,IGU_PROCESS, ItemType FROM stkPRICE_TYPESspil WHERE (SEGMENT_ID = 1) ORDER BY SQUENCE"
-        Dim daTypes As New SqlDataAdapter(strSQL1, con)
-        dsTypes.Clear()
-        daTypes.Fill(dsTypes, "GLTypes")
-
+        Dim newDataset As DataSet = clsGlazingDocStockItemHelperObj.GetPriceTypeData()
+        clsGlazingDocStockItemHelperObj.UIHandler(newDataset, "TYPE_PRICE", "TYPE_ID", "TYPE_PRICE")
         'This is to load form level variable to use at the price type column activation event to validate to show only template related 
         'price types on the second band for template items (to apply grid filters)
-        bFound_IsApplyOnlyTemplate_PriceTypesItems = False
-        For Each drTemp As DataRow In dsTypes.Tables(0).Rows
-            If drTemp("IsApplyOnlyTemplate") = 1 Then
+        Dim bFound_IsApplyOnlyTemplate_PriceTypesItems = False
+        For Each item As DataRow In newDataset.Tables(0).Rows
+            If item("IsApplyOnlyTemplate") = 1 Then
                 bFound_IsApplyOnlyTemplate_PriceTypesItems = True
                 Exit For
             End If
         Next
         'END OF  'price types on the second band for template items (to apply grid filters)
 
-        ucmbPriceType.DataSource = dsTypes.Tables("GLTypes")
-        ucmbPriceType.DisplayMember = "TYPE_PRICE"
-        ucmbPriceType.ValueMember = "TYPE_ID"
-        ucmbPriceType.Refresh()
-        ucmbPriceType.DisplayLayout.Bands(0).ColHeadersVisible = False
-        ucmbPriceType.DisplayLayout.Bands(0).Columns("TYPE_ID").Hidden = True
-        ucmbPriceType.DisplayLayout.Bands(0).Columns("TOUGHENED").Hidden = True
-        ucmbPriceType.DisplayLayout.Bands(0).Columns("IsApplyOnlyTemplate").Hidden = True
-        ucmbPriceType.DisplayLayout.Bands(0).Columns("IsAllocated").Hidden = True
-        ucmbPriceType.DisplayLayout.Bands(0).Columns("IsCuttingNeed").Hidden = True
-        ucmbPriceType.DisplayLayout.Bands(0).Columns("IGU_PROCESS").Hidden = True
-        ucmbPriceType.DisplayLayout.Bands(0).Columns("ItemType").Hidden = True
+       
     End Sub
 
     Sub getDataSource()
@@ -258,6 +245,8 @@ Public Class frmGlazingDocStockItem
         band.ColumnFilters("TypeID").FilterConditions.Add(FilterComparisionOperator.Equals, 1)
         band.ColumnFilters("TypeID").LogicalOperator = FilterLogicalOperator.Or
         band.ColumnFilters("TypeID").FilterConditions.Add(FilterComparisionOperator.Equals, 3)
+        band.ColumnFilters("TypeID").LogicalOperator = FilterLogicalOperator.Or
+        band.ColumnFilters("TypeID").FilterConditions.Add(FilterComparisionOperator.Equals, 2)
         ' band.ColumnFilters("TypeID").FilterConditions.Add(FilterComparisionOperator.Equals, 1)
 
 
@@ -367,7 +356,12 @@ Public Class frmGlazingDocStockItem
     End Sub
 
     Private Sub ucmbItemCode_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles ucmbItemCode.RowSelected
+        CodeHanddler(e)
+        EnableFormElements()
+        LoadItemImage(e.Row)
+    End Sub
 
+    Public Sub CodeHanddler(e As RowSelectedEventArgs)
         If IsNothing(ucmbItemCode.SelectedRow) = False Then
 
             If comboVlaueChanged = False Then
@@ -376,6 +370,21 @@ Public Class frmGlazingDocStockItem
                 End If
 
                 FillComboData(e)
+
+                'If e.Row.Cells("TaxExempt").Value = True Then
+                '    frmGlazingQuote.UG2.ActiveRow.Cells("TaxRate").Value = 0
+                '    frmGlazingQuote.UG2.ActiveRow.Cells("TaxRateValue").Value = 0
+
+                'Else
+                frmGlazingQuote.UG2.ActiveRow.Cells("TaxRate").Value = frmGlazingQuote.defaultTaxtRateValue
+                frmGlazingQuote.UG2.ActiveRow.Cells("TaxRateValue").Value = frmGlazingQuote.defaultTaxtRateValue
+
+                'End If
+                If e.Row.Cells("uiIIItemType").Value = 2 Then
+                    If isLoading = False Then
+                        LoadTemplateItems(e)
+                    End If
+                End If
                 comboVlaueChanged = False
             End If
 
@@ -383,15 +392,11 @@ Public Class frmGlazingDocStockItem
                 FillActiveRowFromSelectedProductParameters(ucmbItemCode, frmGlazingQuote.UG2.ActiveRow)
                 SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
             End If
-
-            EnableFormElements()
-            LoadItemImage(e.Row)
-
         End If
     End Sub
 
     Private Sub ucmbPriceType_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles ucmbPriceType.RowSelected
-        If IsNothing(ucmbPriceType.SelectedRow) = False And ISLOADING = False Then
+        If IsNothing(ucmbPriceType.SelectedRow) = False And isLoading = False Then
             frmGlazingQuote.UG2.ActiveRow.Cells("PriceType").Value = ucmbPriceType.Value
             SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
 
@@ -481,63 +486,27 @@ Public Class frmGlazingDocStockItem
         End If
     End Sub
 
-    Private Sub SetPriceOnThisRow(ByRef ugRow As UltraGridRow)
+    Public Sub SetPriceOnThisRow(ByRef ugRow As UltraGridRow)
         oPriceUnits.oCustomer = New clsCustomer(frmGlazingQuote.cmbAccount.Value)
-
-        Dim PriceString As String = oPriceUnits.GetServicePriceOnActiveRow_ServiceScreen(frmGlazingQuote.UG2.ActiveRow.Cells("Toughened").Value _
-                                                                                      , frmGlazingQuote.UG2.ActiveRow.Cells("StockLink").Value _
-                                                                                      , FindThicknessID(CDbl(frmGlazingQuote.UG2.ActiveRow.Cells("Thickness").Value)) _
-                                                                                      , oSOModuleDefaults.ServicePriceTypeID)
-
-
-
-
-        Dim dblPrice As Double = -1
-        Dim MyArr() As String = PriceString.Split(";")
-
-        dblPrice = CDbl(MyArr(0))
-        Dim PriceCategory As String = CStr(MyArr(1))
-
-        OriginalPrice = dblPrice
-
-
-        ' If ugChildServiceRow.Cells("Price_Excl").Value = 0 Then
-
-        'ugChildServiceRow.Cells("Price_Excl").Value = dblPrice
-        frmGlazingQuote.UG2.ActiveRow.Cells("PriceCat").Value = PriceCategory
-
-        'ugChildServiceRow.Cells("OrgPrice").Value = OriginalPrice
-        'ugChildServiceRow.Cells("Price_Excl").Value = ugChildServiceRow.Cells("OrgPrice").Value - ((ugChildServiceRow.Cells("OrgPrice").Value * ugChildServiceRow.Cells("Disc_Percentage").Value) / 100)
-
-        'End If
-
-
-
-
-
-        'frmGlazingQuote.UG2.ActiveRow.Cells("Price_Excl").Value = dblPrice
-        frmGlazingQuote.UG2.ActiveRow.Cells("PriceCat").Value = PriceCategory
-        'frmGlazingQuote.UG2.ActiveRow.Cells("OrgPrice").Value = OriginalPrice
-        'frmGlazingQuote.UG2.ActiveRow.Cells("Price_Excl").Value = frmGlazingQuote.UG2.ActiveRow.Cells("OrgPrice").Value - ((frmGlazingQuote.UG2.ActiveRow.Cells("OrgPrice").Value * frmGlazingQuote.UG2.ActiveRow.Cells("Disc_Percentage").Value) / 100)
-
-
+        oPriceUnits.iDefaultStockPriceListID = oSOModuleDefaults.DefaultTradePriceListID ' iFormDefaultTradePriceListID
+        iFormDefaultTradePriceListID = oSOModuleDefaults.DefaultTradePriceListID
         If ugRow.Cells("IsPriceItem").Value = False Then
-            oPriceUnits.Set_PriceList_OnActiveRow_NotRelatingToPriceCalc(frmGlazingQuote.UG2.ActiveRow)
+            oPriceUnits.Set_PriceList_OnActiveRow_NotRelatingToPriceCalc(ugRow)
         Else
-            oPriceUnits.GetStockPriceOnActiveRow(frmGlazingQuote.UG2.ActiveRow)
+            oPriceUnits.GetStockPriceOnActiveRow(ugRow)
         End If
 
         If ugRow.Cells("PriceCat").Value = "T" Then
             'ugRow.Cells("PriceList").EditorComponent = cmbDDPriceListsTrade
             cmbDDPriceListsTrade.Visible = True
-            cmbDDPriceListsTrade.Value = frmGlazingQuote.UG2.ActiveRow.Cells("PriceList").Value
+            cmbDDPriceListsTrade.Value = ugRow.Cells("PriceList").Value
         Else
-            'ugRow.Cells("PriceList").EditorComponent = cmbDDPriceListsSpecial
-            cmbDDPriceListsSpecial.Visible = True
-            cmbDDPriceListsSpecial.Value = frmGlazingQuote.UG2.ActiveRow.Cells("PriceList").Value
+            ugRow.Cells("PriceList").EditorComponent = cmbDDPriceListsSpecial
         End If
         txtPrice.Value = frmGlazingQuote.UG2.ActiveRow.Cells("Price").Value
+
     End Sub
+
     Private Function FindThicknessID(ByVal dThickness As Double) As Double
 
         Try
@@ -893,7 +862,10 @@ Public Class frmGlazingDocStockItem
             frmGlazingQuoteCellValuesClear()
         End If
     End Sub
-    Sub frmGlazingQuoteCellValuesClear()
+    Public Function frmGlazingQuoteCellValuesClear(Optional ByRef gridRow As UltraGridRow = Nothing) As UltraGridRow
+        If IsNothing(gridRow) = False Then
+            selectedRow = gridRow
+        End If
         If isLoading = False Then
             selectedRow.Cells("LineComments").Value = ""
             selectedRow.Cells("Qty").Value = 0
@@ -912,7 +884,8 @@ Public Class frmGlazingDocStockItem
             selectedRow.Cells("IsPriceItem").Value = True
 
         End If
-    End Sub
+        Return selectedRow
+    End Function
 
     Sub LoadItemImage(row As UltraGridRow)
         If IsDBNull(row.Cells("ItemImage").Value) = False Then
@@ -926,5 +899,81 @@ Public Class frmGlazingDocStockItem
 
     End Sub
 
+    Sub LoadTemplateItems(Optional e As RowSelectedEventArgs = Nothing)
+        Dim slectedRow As UltraGridRow
+        If IsNothing(e) = True Then
+            slectedRow = ucmbItemCode.ActiveRow
+        Else
+            slectedRow = e.Row
+        End If
+        Try
+            Dim oItem As New SPIL.Glass.InventoryItem()
+            Dim items As String = ""
+            'Item = oItem.GetItem(CInt(UgMR.Cells("StockLink").Value))
+            Dim clsOrder As New clsOrderLineDetails
+            Dim clsInvDetLine As New clsInvDetailLine
+            Dim List2 As New List(Of clsInvDetailLine)
+            If IsNothing(selectedRow.Cells("templateData").Value) = False And itemIsChanging = False Then
+                Dim itemLines() As String = selectedRow.Cells("templateData").Value.Split(";")
+                For Each itemDetails As String In itemLines
+                    clsInvDetLine = New clsInvDetailLine
+                    If itemDetails = "" Then
+                        Exit For
+                    End If
+                    Dim itemDetailsCol() As String = itemDetails.Split(",")
+                    clsInvDetLine.StockLink = itemDetailsCol(0)
+                    clsInvDetLine.M_NO = 0
+                    clsInvDetLine.cSimpleCode = itemDetailsCol(2)
+                    clsInvDetLine.Description_1 = itemDetailsCol(3)
+                    clsInvDetLine.ItemType = itemDetailsCol(1)
 
+                    List2.Add(clsInvDetLine)
+                Next
+                'Dim sSPILEDICodes3() As String = sSPILEDICodes("templateData").Value.Split(";")
+                clsOrder.InvDetailLinesList = List2
+
+                'clsOrder.InvDetailLinesList = selectedRow.Cells("templateData").Value
+            Else
+
+                clsInvDetLine.StockLink = slectedRow.Cells("StockLink").Value
+                clsInvDetLine.ItemType = GlassItemTypes.Template
+                clsInvDetLine.M_NO = 0
+                clsInvDetLine.cSimpleCode = slectedRow.Cells("Code").Value
+                clsInvDetLine.Description_1 = slectedRow.Cells("Description_1").Value
+                ' clsInvDetLine.MainItem = MainItem
+
+                Dim List As New List(Of clsInvDetailLine)
+                List.Add(clsInvDetLine)
+                clsOrder.InvDetailLinesList = List
+            End If
+
+            Dim frmGlazingDocStockItemTemplateObj As New frmGlazingDocStockItemTemplate()
+            frmGlazingDocStockItemTemplateObj.stockLink = slectedRow.Cells("StockLink").Value
+            Dim Resullt As DialogResult = frmGlazingDocStockItemTemplateObj.ShowDialog()
+            lineComments = ""
+            For Each lineItem As clsInvDetailLine In clsOrder.InvDetailLinesList
+                items += lineItem.StockLink & "," & lineItem.ItemType & "," & lineItem.cSimpleCode & "," & lineItem.Description_1 & ";"
+                If lineComments = "" Then
+                    lineComments = ucmbItemDes.Text
+                    lineComments = lineComments + vbCrLf & Chr(9) & "*" & lineItem.Description_1
+
+                Else
+                    lineComments = lineComments + vbCrLf & Chr(9) & "*" & lineItem.Description_1
+                End If
+            Next
+            selectedRow.Cells("templateData").Value = items
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub ucmbItemCode_DoubleClick(sender As Object, e As EventArgs) Handles ucmbItemCode.DoubleClick
+        If IsNothing(cmbDDItemType.ActiveRow) = False Then
+            If cmbDDItemType.ActiveRow.Cells("TypeID").Value = 2 Then
+                If isLoading = False Then
+                    LoadTemplateItems()
+                End If
+            End If
+        End If
+    End Sub
 End Class

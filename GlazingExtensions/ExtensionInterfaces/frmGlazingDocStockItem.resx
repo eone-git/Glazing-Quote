@@ -684,36 +684,6 @@
   <data name="&gt;&gt;lblPriceList.ZOrder" xml:space="preserve">
     <value>17</value>
   </data>
-  <data name="Appearance35.TextHAlignAsString" xml:space="preserve">
-    <value>Left</value>
-  </data>
-  <data name="cmbDDPriceListsSpecial.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="cmbDDPriceListsSpecial.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 179</value>
-  </data>
-  <data name="cmbDDPriceListsSpecial.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
-  </data>
-  <data name="cmbDDPriceListsSpecial.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="cmbDDPriceListsSpecial.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;cmbDDPriceListsSpecial.Name" xml:space="preserve">
-    <value>cmbDDPriceListsSpecial</value>
-  </data>
-  <data name="&gt;&gt;cmbDDPriceListsSpecial.Type" xml:space="preserve">
-    <value>Infragistics.Win.UltraWinGrid.UltraCombo, Infragistics2.Win.UltraWinGrid.v11.1, Version=11.1.20111.1003, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
-  </data>
-  <data name="&gt;&gt;cmbDDPriceListsSpecial.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;cmbDDPriceListsSpecial.ZOrder" xml:space="preserve">
-    <value>22</value>
-  </data>
   <data name="DDThickness.Location" type="System.Drawing.Point, System.Drawing">
     <value>505, 193</value>
   </data>
@@ -866,6 +836,36 @@
   </data>
   <data name="&gt;&gt;ctxtWidth.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="Appearance35.TextHAlignAsString" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="cmbDDPriceListsSpecial.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="cmbDDPriceListsSpecial.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 179</value>
+  </data>
+  <data name="cmbDDPriceListsSpecial.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 22</value>
+  </data>
+  <data name="cmbDDPriceListsSpecial.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="cmbDDPriceListsSpecial.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;cmbDDPriceListsSpecial.Name" xml:space="preserve">
+    <value>cmbDDPriceListsSpecial</value>
+  </data>
+  <data name="&gt;&gt;cmbDDPriceListsSpecial.Type" xml:space="preserve">
+    <value>Infragistics.Win.UltraWinGrid.UltraCombo, Infragistics2.Win.UltraWinGrid.v11.1, Version=11.1.20111.1003, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb</value>
+  </data>
+  <data name="&gt;&gt;cmbDDPriceListsSpecial.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cmbDDPriceListsSpecial.ZOrder" xml:space="preserve">
+    <value>22</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
