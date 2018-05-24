@@ -38,8 +38,7 @@ Public Class frmGlazingDocStockItem
     End Sub
 
     Public Sub FillPRICE_TYPES()
-        Dim newDataset As DataSet = clsGlazingDocStockItemHelperObj.GetPriceTypeData()
-        clsGlazingDocStockItemHelperObj.UIHandler(newDataset, "TYPE_PRICE", "TYPE_ID", "TYPE_PRICE")
+        Dim newDataset As DataSet = clsGlazingDocStockItemHelperObj.SetPriceTypeData("TYPE_PRICE", "TYPE_ID", "TYPE_PRICE")
         'This is to load form level variable to use at the price type column activation event to validate to show only template related 
         'price types on the second band for template items (to apply grid filters)
         Dim bFound_IsApplyOnlyTemplate_PriceTypesItems = False
@@ -51,7 +50,7 @@ Public Class frmGlazingDocStockItem
         Next
         'END OF  'price types on the second band for template items (to apply grid filters)
 
-       
+
     End Sub
 
     Sub getDataSource()
@@ -235,7 +234,9 @@ Public Class frmGlazingDocStockItem
         FillPRICE_TYPES()
         Get_StockItems()
         SetThikness()
-        Get_PriceLists()
+        clsGlazingDocStockItemHelperObj.SetPriceListsData("PriceList", "PriceList")
+        clsGlazingDocStockItemHelperObj.SetItemCodeData("Description_1", "StockLink", "Code")
+
     End Sub
 
     Sub LoadEditMode()
@@ -888,10 +889,11 @@ Public Class frmGlazingDocStockItem
     End Function
 
     Sub LoadItemImage(row As UltraGridRow)
-        If IsDBNull(row.Cells("ItemImage").Value) = False Then
-            ItemImage = row.Cells("ItemImage").Value
-            uPicBox.Image = frmGlazingQuote.ByteToImage(row.Cells("ItemImage").Value)
-
+        If IsNothing(row) = False Then
+            If IsDBNull(row.Cells("ItemImage").Value) = False Then
+                ItemImage = row.Cells("ItemImage").Value
+                uPicBox.Image = frmGlazingQuote.ByteToImage(row.Cells("ItemImage").Value)
+            End If
         End If
     End Sub
 

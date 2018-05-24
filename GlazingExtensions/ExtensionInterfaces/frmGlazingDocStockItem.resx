@@ -568,7 +568,7 @@
     <value>False</value>
   </data>
   <metadata name="udsItemType.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>19, 22</value>
   </metadata>
   <data name="Appearance135.TextVAlignAsString" xml:space="preserve">
     <value>Middle</value>

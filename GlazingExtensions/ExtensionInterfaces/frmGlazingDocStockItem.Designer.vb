@@ -533,8 +533,6 @@ Partial Class frmGlazingDocStockItem
         UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn1, UltraGridColumn2})
         Appearance14.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
         Appearance14.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        resources.ApplyResources(Appearance14, "Appearance14")
-        Appearance14.ForceApplyResources = ""
         UltraGridBand1.Header.Appearance = Appearance14
         Me.cmbDDItemType.DisplayLayout.BandsSerializer.Add(UltraGridBand1)
         Me.cmbDDItemType.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
