@@ -11,20 +11,27 @@ Public Class frmGlazingDocStockItem
     Dim con As New SqlConnection(strCon)
     Dim frmGlazingQuote As frmGlazingQuote
     Public selectedRow As UltraGridRow
-    Dim oSOModuleDefaults As New clsSOModuleDefaults
     Dim oPriceUnits As New clsSOPricingAndUnits
     Dim comboVlaueChanged As Boolean = False
     Public isLoading As Boolean = False
+    Dim isTemplateItemLoading As Boolean = False
     Dim priceTypeValue As Integer =0
     Dim priceListValue As Integer = 0
     Dim itemIsChanging As Boolean = False
     Dim clsGlazingDocStockItemHelperObj As New clsGlazingDocStockItemHelper(Me)
+    Dim moduleDefaultsObj As New clsSOModuleDefaults
+    Dim templateItemSubItemsPrice As Double = 0
+    Dim templateItemSubItemsData As String = ""
 
     Public Sub New(ByRef frmGlazingQuote As frmGlazingQuote)
         ' This call is required by the designer.
         InitializeComponent()
         Me.frmGlazingQuote = frmGlazingQuote
         selectedRow = frmGlazingQuote.UG2.ActiveRow
+
+        oPriceUnits.oCustomer = New clsCustomer(frmGlazingQuote.cmbAccount.Value)
+        oPriceUnits.iDefaultStockPriceListID = moduleDefaultsObj.DefaultTradePriceListID
+
         If selectedRow.Cells("ItemType").Value > 0 Then
             isLoading = True
         End If
@@ -234,7 +241,7 @@ Public Class frmGlazingDocStockItem
         FillPRICE_TYPES()
         Get_StockItems()
         SetThikness()
-        clsGlazingDocStockItemHelperObj.SetPriceListsData("PriceList", "PriceList")
+        clsGlazingDocStockItemHelperObj.SetPriceListsData("PriceList", "CAT_ID")
         clsGlazingDocStockItemHelperObj.SetItemCodeData("Description_1", "StockLink", "Code")
 
     End Sub
@@ -383,6 +390,7 @@ Public Class frmGlazingDocStockItem
                 'End If
                 If e.Row.Cells("uiIIItemType").Value = 2 Then
                     If isLoading = False Then
+                        isTemplateItemLoading = True
                         LoadTemplateItems(e)
                     End If
                 End If
@@ -392,6 +400,13 @@ Public Class frmGlazingDocStockItem
             If isLoading = False Then
                 FillActiveRowFromSelectedProductParameters(ucmbItemCode, frmGlazingQuote.UG2.ActiveRow)
                 SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
+
+                If isTemplateItemLoading = True Then
+                    txtPrice.Value = templateItemSubItemsPrice
+                    isTemplateItemLoading = False
+                    e.Row.Cells("").Value = templateItemSubItemsData
+                End If
+
             End If
         End If
     End Sub
@@ -487,10 +502,17 @@ Public Class frmGlazingDocStockItem
         End If
     End Sub
 
+    Dim oSOModuleDefaults As New clsSOModuleDefaults
+
     Public Sub SetPriceOnThisRow(ByRef ugRow As UltraGridRow)
+
+        If IsNothing(oSOModuleDefaults) = True Then
+            moduleDefaultsObj = oSOModuleDefaults
+        End If
+
         oPriceUnits.oCustomer = New clsCustomer(frmGlazingQuote.cmbAccount.Value)
-        oPriceUnits.iDefaultStockPriceListID = oSOModuleDefaults.DefaultTradePriceListID ' iFormDefaultTradePriceListID
-        iFormDefaultTradePriceListID = oSOModuleDefaults.DefaultTradePriceListID
+        oPriceUnits.iDefaultStockPriceListID = moduleDefaultsObj.DefaultTradePriceListID ' iFormDefaultTradePriceListID
+        iFormDefaultTradePriceListID = moduleDefaultsObj.DefaultTradePriceListID
         If ugRow.Cells("IsPriceItem").Value = False Then
             oPriceUnits.Set_PriceList_OnActiveRow_NotRelatingToPriceCalc(ugRow)
         Else
@@ -949,9 +971,11 @@ Public Class frmGlazingDocStockItem
                 clsOrder.InvDetailLinesList = List
             End If
 
-            Dim frmGlazingDocStockItemTemplateObj As New frmGlazingDocStockItemTemplate()
+            Dim frmGlazingDocStockItemTemplateObj As New frmGlazingDocStockItemTemplate(oPriceUnits)
             frmGlazingDocStockItemTemplateObj.stockLink = slectedRow.Cells("StockLink").Value
             Dim Resullt As DialogResult = frmGlazingDocStockItemTemplateObj.ShowDialog()
+            templateItemSubItemsPrice = frmGlazingDocStockItemTemplateObj.totalAmount
+
             lineComments = ""
             For Each lineItem As clsInvDetailLine In clsOrder.InvDetailLinesList
                 items += lineItem.StockLink & "," & lineItem.ItemType & "," & lineItem.cSimpleCode & "," & lineItem.Description_1 & ";"
@@ -964,6 +988,7 @@ Public Class frmGlazingDocStockItem
                 End If
             Next
             selectedRow.Cells("templateData").Value = items
+            selectedRow.Cells("Price").Value = templateItemSubItemsPrice
         Catch ex As Exception
 
         End Try

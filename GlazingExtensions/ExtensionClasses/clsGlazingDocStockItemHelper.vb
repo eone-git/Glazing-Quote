@@ -10,6 +10,8 @@ Public Class clsGlazingDocStockItemHelper
     Dim clsSqlConnObj As New clsSqlConn
     Dim sqlQuary As String = ""
     Dim newDataSet As DataSet = Nothing
+    Dim oSOModuleDefaults As New clsSOModuleDefaults
+    'Dim oPriceUnits As New clsSOPricingAndUnits
 
     Public Sub New(ByRef frmGlazingDocStockItemObj As frmGlazingDocStockItem)
         Me.StockItemObj = frmGlazingDocStockItemObj
@@ -22,26 +24,26 @@ Public Class clsGlazingDocStockItemHelper
         Me.TemplatesItemObj = frmGlazingDocStockItemTemplateObj
     End Sub
 
-    Public Sub SetPriceOnThisRow(ByRef ugRow As UltraGridRow)
-        clsSOPricingAndUnitsObj.oCustomer = New clsCustomer(frmGlazingQuote.cmbAccount.Value)
-        clsSOPricingAndUnitsObj.iDefaultStockPriceListID = clsSOModuleDefaultsObj.DefaultTradePriceListID ' iFormDefaultTradePriceListID
-        iFormDefaultTradePriceListID = clsSOModuleDefaultsObj.DefaultTradePriceListID
-        If ugRow.Cells("IsPriceItem").Value = False Then
-            clsSOPricingAndUnitsObj.Set_PriceList_OnActiveRow_NotRelatingToPriceCalc(ugRow)
-        Else
-            clsSOPricingAndUnitsObj.GetStockPriceOnActiveRow(ugRow)
-        End If
+    'Public Sub SetPriceOnThisRow(ByRef ugRow As UltraGridRow)
+    '    clsSOPricingAndUnitsObj.oCustomer = New clsCustomer(frmGlazingQuote.cmbAccount.Value)
+    '    clsSOPricingAndUnitsObj.iDefaultStockPriceListID = clsSOModuleDefaultsObj.DefaultTradePriceListID ' iFormDefaultTradePriceListID
+    '    iFormDefaultTradePriceListID = clsSOModuleDefaultsObj.DefaultTradePriceListID
+    '    If ugRow.Cells("IsPriceItem").Value = False Then
+    '        clsSOPricingAndUnitsObj.Set_PriceList_OnActiveRow_NotRelatingToPriceCalc(ugRow)
+    '    Else
+    '        clsSOPricingAndUnitsObj.GetStockPriceOnActiveRow(ugRow)
+    '    End If
 
-        If ugRow.Cells("PriceCat").Value = "T" Then
-            'ugRow.Cells("PriceList").EditorComponent = cmbDDPriceListsTrade
-            StockItemObj.cmbDDPriceListsTrade.Visible = True
-            StockItemObj.cmbDDPriceListsTrade.Value = ugRow.Cells("PriceList").Value
-        Else
-            ugRow.Cells("PriceList").EditorComponent = StockItemObj.cmbDDPriceListsSpecial
-        End If
-        StockItemObj.txtPrice.Value = frmGlazingQuote.UG2.ActiveRow.Cells("Price").Value
+    '    If ugRow.Cells("PriceCat").Value = "T" Then
+    '        'ugRow.Cells("PriceList").EditorComponent = cmbDDPriceListsTrade
+    '        StockItemObj.cmbDDPriceListsTrade.Visible = True
+    '        StockItemObj.cmbDDPriceListsTrade.Value = ugRow.Cells("PriceList").Value
+    '    Else
+    '        ugRow.Cells("PriceList").EditorComponent = StockItemObj.cmbDDPriceListsSpecial
+    '    End If
+    '    StockItemObj.txtPrice.Value = frmGlazingQuote.UG2.ActiveRow.Cells("Price").Value
 
-    End Sub
+    'End Sub
 
     Function GetStkItemDetails(ByRef tempStockLink As Integer) As DataSet
        
@@ -164,7 +166,7 @@ Public Class clsGlazingDocStockItemHelper
             sqlQuaryForController += " SELECT   CAT_ID, CAT_DESCRIPTION As PriceList FROM stkPRICE_SPECIALCATEGORYspil"
             Dim dataSetNew As DataSet = GetPriceTypeData(sqlQuaryForController)
             Dim displayMemberArray() = allowListInput.Split(New Char() {";"c})
-            Dim allowList() As String = UIHandler(allowListInput, "CAT_ID")
+            Dim allowList() As String = UIHandler(allowListInput, displayMemberVal)
             Dim counter As Integer = 0
 
             If IsNothing(StockItemObj) = False Then
@@ -193,24 +195,27 @@ Public Class clsGlazingDocStockItemHelper
                     counter = counter + 1
                 Loop
                 StockItemObj.cmbDDPriceListsTrade.DropDownWidth = StockItemObj.cmbDDPriceListsTrade.Width
+                'StockItemObj.cmbDDPriceListsTrade.
                 StockItemObj.cmbDDPriceListsSpecial.DropDownWidth = StockItemObj.cmbDDPriceListsSpecial.Width
 
             ElseIf IsNothing(TemplatesItemObj) = False Then
                 'For TemplatesItemObj
-                TemplatesItemObj.cmbDDPriceListsTrade.DataSource = DS.Tables(0)
+                TemplatesItemObj.cmbDDPriceListsTrade.DataSource = dataSetNew.Tables(0)
                 TemplatesItemObj.cmbDDPriceListsTrade.DisplayLayout.Bands(0).ColHeadersVisible = False
-                TemplatesItemObj.cmbDDPriceListsTrade.DisplayMember = "PriceList"
-                TemplatesItemObj.cmbDDPriceListsTrade.ValueMember = "CAT_ID"
+                TemplatesItemObj.cmbDDPriceListsTrade.DisplayMember = displayMemberVal
+                TemplatesItemObj.cmbDDPriceListsTrade.ValueMember = valueMemberVal
 
-                TemplatesItemObj.cmbDDPriceListsSpecial.DataSource = DS.Tables(1)
+                TemplatesItemObj.cmbDDPriceListsSpecial.DataSource = dataSetNew.Tables(1)
                 TemplatesItemObj.cmbDDPriceListsSpecial.DisplayLayout.Bands(0).ColHeadersVisible = False
-                TemplatesItemObj.cmbDDPriceListsSpecial.DisplayMember = "PriceList"
-                TemplatesItemObj.cmbDDPriceListsSpecial.ValueMember = "CAT_ID"
+                TemplatesItemObj.cmbDDPriceListsSpecial.DisplayMember = displayMemberVal
+                TemplatesItemObj.cmbDDPriceListsSpecial.ValueMember = valueMemberVal
 
                 'Colums desinger
-                TemplatesItemObj.cmbDDItemType.DisplayLayout.Bands(0).ColHeadersVisible = False
-                Do While counter < TemplatesItemObj.cmbDDItemType.DisplayLayout.Bands(0).Columns.Count And IsNothing(allowList) = False
-                    columName = TemplatesItemObj.cmbDDItemType.DisplayLayout.Bands(0).Columns(counter).Key
+                TemplatesItemObj.cmbDDPriceListsSpecial.DisplayLayout.Bands(0).ColHeadersVisible = False
+                TemplatesItemObj.cmbDDPriceListsTrade.DisplayLayout.Bands(0).ColHeadersVisible = False
+
+                Do While counter < TemplatesItemObj.cmbDDPriceListsTrade.DisplayLayout.Bands(0).Columns.Count And IsNothing(allowList) = False
+                    columName = TemplatesItemObj.cmbDDPriceListsTrade.DisplayLayout.Bands(0).Columns(counter).Key
                     isExist = Array.Exists(allowList, Function(s) s = columName)
                     If isExist = False Then
                         TemplatesItemObj.cmbDDPriceListsSpecial.DisplayLayout.Bands(0).Columns(counter).Hidden = True
@@ -317,4 +322,183 @@ Public Class clsGlazingDocStockItemHelper
             Return Nothing
         End Try
     End Function
+
+    Public Sub SetPriceOnThisRow(ByRef ugRow As UltraGridRow, ByRef oPriceUnits As clsSOPricingAndUnits, Optional ByRef clsModuleDefaultsObj As clsSOModuleDefaults = Nothing)
+
+        Try
+            If IsNothing(clsModuleDefaultsObj) = False Then
+                oSOModuleDefaults = clsModuleDefaultsObj
+            End If
+
+            oPriceUnits.iDefaultStockPriceListID = oSOModuleDefaults.DefaultTradePriceListID ' iFormDefaultTradePriceListID
+            iFormDefaultTradePriceListID = oSOModuleDefaults.DefaultTradePriceListID
+            If ugRow.Cells("IsPriceItem").Value = False Then
+                oPriceUnits.Set_PriceList_OnActiveRow_NotRelatingToPriceCalc(ugRow)
+            Else
+                oPriceUnits.GetStockPriceOnActiveRow(ugRow)
+            End If
+
+            SetPriceList(ugRow)
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, moduleName, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        End Try
+    End Sub
+
+    Sub SetPriceList(ByRef ugRow As UltraGridRow)
+        Try
+            If ugRow.Cells("PriceCat").Value = "T" Then
+                If IsNothing(StockItemObj) = False Then
+                    StockItemObj.cmbDDPriceListsTrade.Visible = True
+                    StockItemObj.cmbDDPriceListsTrade.Value = ugRow.Cells("PriceList").Value
+                ElseIf IsNothing(TemplatesItemObj) = False Then
+                    ugRow.Cells("PriceList").EditorComponent = TemplatesItemObj.cmbDDPriceListsTrade
+                    'ugRow.Cells("PriceList").Value = ugRow.Cells("PriceList").Value
+                    'ugRow.Cells("Price").Value = ugRow.Cells("Price").Value
+
+                End If
+            Else
+                If IsNothing(StockItemObj) = False Then
+                    StockItemObj.cmbDDPriceListsSpecial.Visible = True
+                    StockItemObj.cmbDDPriceListsSpecial.Value = ugRow.Cells("PriceList").Value
+                ElseIf IsNothing(TemplatesItemObj) = False Then
+                    ugRow.Cells("PriceList").EditorComponent = TemplatesItemObj.cmbDDPriceListsSpecial
+                End If
+
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, moduleName, MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        End Try
+    End Sub
+
+    Public Sub FillActiveRowFromSelectedProductParameters(ByRef uddSource As UltraCombo, ugRow As UltraGridRow, ByRef oPriceUnits As clsSOPricingAndUnits)
+        Dim itemTypeValue As String = ""
+        If IsNothing(TemplatesItemObj) = False Then
+            itemTypeValue = TemplatesItemObj.UG2.ActiveRow.Cells("ItemType").Value
+        ElseIf IsNothing(StockItemObj) = False Then
+            itemTypeValue = StockItemObj.cmbDDItemType.Value
+        End If
+        Try
+            If uddSource.ActiveRow IsNot Nothing Then
+
+                If uddSource.Name = "ucmbItemDes" Then
+                    ugRow.Cells("SimpleCode").Value = uddSource.ActiveRow.Cells("Code").Value
+                Else
+                    ugRow.Cells("Description1").Value = uddSource.ActiveRow.Cells("Description_1").Value
+                End If
+
+                ugRow.Cells("StockLink").Value = uddSource.ActiveRow.Cells("StockLink").Value
+                ' ugRow.Cells("Description2").Value = uddSource.ActiveRow.Cells("Description_3").Value & " " & IIf(IsDBNull(uddSource.ActiveRow.Cells("AddDetails").Value), "", uddSource.ActiveRow.Cells("AddDetails").Value) 'uddSource.ActiveRow.Cells("Description_1").Value
+
+                If ugRow.Band.Index = 0 Then 'Normal Glass Line (Band 0)
+                    Select Case itemTypeValue
+                        Case GlassItemTypes.Glass
+                            ugRow.Cells("ItemTypeCategory").Value = "G"
+                        Case GlassItemTypes.Template
+                            ugRow.Cells("ItemTypeCategory").Value = "M"
+                        Case GlassItemTypes.Consumable
+                            ugRow.Cells("ItemTypeCategory").Value = "C"
+                        Case GlassItemTypes.Service
+                            ugRow.Cells("ItemTypeCategory").Value = "S"
+                        Case GlassItemTypes.Aluminium
+                            ugRow.Cells("ItemTypeCategory").Value = "A"
+                    End Select
+                Else 'Band=1 all template components lines goes as "S" (form OLD Code)
+                    ugRow.Cells("ItemTypeCategory").Value = "S"
+                End If
+
+                ugRow.Cells("Thickness").Value = uddSource.ActiveRow.Cells("ufIIThickness").Value
+                ''  ugRow.Cells("TaxCode").Value = uddSource.ActiveRow.Cells("TTI").Value
+                'ugRow.Cells("TaxRate").Value = uddSource.ActiveRow.Cells("TaxRate").Value
+
+
+                ugRow.Cells("Price").Value = 0
+
+                ugRow.Cells("PriceCat").Value = DBNull.Value
+                ugRow.Cells("PriceList").Value = DBNull.Value
+
+                'Set Item Price Type
+                If ugRow.Band.Index = 0 Then 'Normal Glass Line (Band 0)
+                    If uddSource.ActiveRow.Cells("uiIIPRICETYPEID").Value > 0 Then
+                        ugRow.Cells("PriceType").Value = uddSource.ActiveRow.Cells("uiIIPRICETYPEID").Value
+                        Dim oPriceType As SpilCommon.PriceType
+                        oPriceType = New SpilCommon.PriceType(GlassItemTypes.Glass, uddSource.ActiveRow.Cells("uiIIPRICETYPEID").Value)
+                        ugRow.Cells("Toughened").Value = oPriceType.IsToughened
+                        oPriceType = Nothing
+                    Else
+                        For Each uR As UltraGridRow In TemplatesItemObj.ucmbPriceType.Rows
+                            If uR.Hidden = False Then
+                                ugRow.Cells("PriceType").Value = uR.Cells("TYPE_ID").Value
+                                Dim oPriceType As SpilCommon.PriceType
+                                oPriceType = New SpilCommon.PriceType(GlassItemTypes.Glass, uR.Cells("TYPE_ID").Value)
+                                ugRow.Cells("Toughened").Value = oPriceType.IsToughened
+                                oPriceType = Nothing
+                                Exit For
+                            End If
+                        Next
+                    End If
+
+                Else 'Tempalte Item Band(1)
+                    'Template Glass Line (Band 1) So price type has to read from template master setup
+
+                    Dim iPriceTypeID As Integer = oPriceUnits.GetPriceTypeIDforTemplateSubItems(ugRow.ParentRow, ugRow)
+
+                    If iPriceTypeID > 0 Then
+                        ugRow.Cells("PriceType").Value = iPriceTypeID
+                        Dim oPriceType As SpilCommon.PriceType
+                        oPriceType = New SpilCommon.PriceType(GlassItemTypes.Glass, ugRow.Cells("PriceType").Value)
+                        ugRow.Cells("Toughened").Value = oPriceType.IsToughened
+                        oPriceType = Nothing
+                    Else
+                    End If
+
+                End If
+
+                'Set Item Price Type
+                ugRow.Cells("Measure").Value = IIf(uddSource.ActiveRow.Cells("uiIISRVPRICEID").Value = 0, 1, uddSource.ActiveRow.Cells("uiIISRVPRICEID").Value)
+                If ugRow.Cells("Measure").Value <> GlassServiceUnits.Lineal Then '3 Then
+                    ugRow.Cells("Method").Activation = Activation.Disabled
+                Else
+                    ugRow.Cells("Method").Activation = Activation.AllowEdit
+                End If
+
+                'this is for Aluminium item which price calculation by SQM 
+                If ugRow.Cells("Measure").Value = GlassServiceUnits.Area Then
+                    ugRow.Cells("Width").Activation = Activation.AllowEdit
+                    ugRow.Cells("Height").Activation = Activation.AllowEdit
+                    ugRow.Cells("Width").Appearance.BackColor = Color.White
+                    ugRow.Cells("Height").Appearance.BackColor = Color.White
+                Else
+                    ugRow.Cells("Width").Activation = Activation.Disabled
+                    ugRow.Cells("Height").Activation = Activation.Disabled
+                    ugRow.Cells("Width").Appearance.BackColor = Color.LightGray
+                    ugRow.Cells("Height").Appearance.BackColor = Color.LightGray
+                End If
+                'this is for Aluminium item which price calculation by SQM 
+
+            Else
+                ugRow.Cells("StockLink").Value = DBNull.Value
+                ugRow.Cells("Description1").Value = String.Empty
+                ugRow.Cells("Description2").Value = String.Empty
+                ugRow.Cells("SimpleCode").Value = String.Empty
+                ugRow.Cells("Thickness").Value = DBNull.Value
+                ugRow.Cells("TaxCode").Value = String.Empty
+                ugRow.Cells("TaxRate").Value = DBNull.Value
+                ugRow.Cells("Price").Value = 0
+                ugRow.Cells("PriceType").Value = DBNull.Value
+                ugRow.Cells("Measure").Value = DBNull.Value
+                ugRow.Cells("PriceCat").Value = DBNull.Value
+                ugRow.Cells("PriceList").Value = DBNull.Value
+
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+
+    End Sub
+
 End Class

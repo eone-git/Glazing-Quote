@@ -646,6 +646,7 @@ Partial Class frmGlazingDocStockItem
         resources.ApplyResources(Appearance62, "Appearance62")
         Appearance62.ForceApplyResources = "FontData|"
         Me.cmbDDPriceListsTrade.DisplayLayout.Appearance = Appearance62
+        Me.cmbDDPriceListsTrade.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
         Me.cmbDDPriceListsTrade.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.cmbDDPriceListsTrade.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]
         Appearance63.BackColor = System.Drawing.SystemColors.ActiveBorder
@@ -831,6 +832,7 @@ Partial Class frmGlazingDocStockItem
         resources.ApplyResources(Appearance15, "Appearance15")
         Appearance15.ForceApplyResources = "FontData|"
         Me.cmbDDPriceListsSpecial.DisplayLayout.Appearance = Appearance15
+        Me.cmbDDPriceListsSpecial.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
         Me.cmbDDPriceListsSpecial.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.cmbDDPriceListsSpecial.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]
         Appearance16.BackColor = System.Drawing.SystemColors.ActiveBorder
