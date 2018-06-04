@@ -164,8 +164,9 @@ Public Class frmGlazingDocStockItemTemplate
 
     Private Sub frmGlazingDocStockItemTemplate_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         Try
-            Dim Result As DialogResult = MessageBox.Show("Do you want process the selection", Me.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) = True
+            Dim Result As DialogResult = MessageBox.Show("Do you want process the selection", Me.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
             If Result = Windows.Forms.DialogResult.Yes Then
+                SetDataAsString()
                 selectedItems = selectedNewItems
             ElseIf Result = Windows.Forms.DialogResult.No Then
 
@@ -179,12 +180,11 @@ Public Class frmGlazingDocStockItemTemplate
         End Try
     End Sub
 
-    Sub saveData()
+    Sub SetDataAsString()
         For Each rows As UltraGridRow In UG2.Rows
-            selectedNewItems = rows.Cells("StockLink").Value & ";" & rows.Cells("PriceList").Value & rows.Cells("PriceType").Value & rows.Cells("Price").Value
+            selectedNewItems = selectedNewItems + rows.Cells("StockLink").Value & ";" & rows.Cells("PriceList").Value & ";" & rows.Cells("PriceType").Value & ";" & rows.Cells("Price").Value & "||"
 
         Next
-
 
     End Sub
 End Class
