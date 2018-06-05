@@ -9,6 +9,7 @@ Public Class frmGlazingDocStockItemTemplate
     Public isClosing As Boolean = False
     Public selectedItems As String = ""
     Public selectedNewItems As String = ""
+    Public selectedNewItemsDisplay As String = ""
 
     Sub New(ByRef clsPriceUnitsObj As clsSOPricingAndUnits)
 
@@ -181,10 +182,15 @@ Public Class frmGlazingDocStockItemTemplate
     End Sub
 
     Sub SetDataAsString()
-        For Each rows As UltraGridRow In UG2.Rows
-            selectedNewItems = selectedNewItems + rows.Cells("StockLink").Value & ";" & rows.Cells("PriceList").Value & ";" & rows.Cells("PriceType").Value & ";" & rows.Cells("Price").Value & "||"
+        Try
+            For Each rows As UltraGridRow In UG2.Rows
+                selectedNewItems = selectedNewItems & rows.Cells("StockLink").Value & "," & rows.Cells("PriceList").Value & "," & rows.Cells("PriceType").Value & "," & rows.Cells("Price").Value & ";"
 
-        Next
+                selectedNewItemsDisplay = selectedNewItemsDisplay & Chr(9) & "*" & rows.Cells("Description1").Value & vbCrLf
 
+            Next
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class

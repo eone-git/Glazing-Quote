@@ -293,8 +293,10 @@ Public Class frmGlazingDocStockItem
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
         frmGlazingQuote.isStockItemActive = False
         Dim emptyArray As Byte() = New Byte(63) {}
+        If cmbDDItemType.Value <> GlassItemTypes.Template Then
+            frmGlazingQuote.UG2.ActiveRow.Cells("LineComments").Value = utxtDocDes.Text
 
-        frmGlazingQuote.UG2.ActiveRow.Cells("LineComments").Value = utxtDocDes.Text
+        End If
         frmGlazingQuote.UG2.ActiveRow.Cells("Qty").Value = txtQty.Value
         frmGlazingQuote.UG2.ActiveRow.Cells("Width").Value = ctxtWidth.Text
         frmGlazingQuote.UG2.ActiveRow.Cells("Height").Value = txtHeight.Text
@@ -370,45 +372,48 @@ Public Class frmGlazingDocStockItem
     End Sub
 
     Public Sub CodeHanddler(e As RowSelectedEventArgs)
-        If IsNothing(ucmbItemCode.SelectedRow) = False Then
+        Try
+            If IsNothing(ucmbItemCode.SelectedRow) = False Then
 
-            If comboVlaueChanged = False Then
-                If isLoading = False Then
-                    ResetFormElementsValues(ucmbItemCode.Name)
-                End If
-
-                FillComboData(e)
-
-                'If e.Row.Cells("TaxExempt").Value = True Then
-                '    frmGlazingQuote.UG2.ActiveRow.Cells("TaxRate").Value = 0
-                '    frmGlazingQuote.UG2.ActiveRow.Cells("TaxRateValue").Value = 0
-
-                'Else
-                frmGlazingQuote.UG2.ActiveRow.Cells("TaxRate").Value = frmGlazingQuote.defaultTaxtRateValue
-                frmGlazingQuote.UG2.ActiveRow.Cells("TaxRateValue").Value = frmGlazingQuote.defaultTaxtRateValue
-
-                'End If
-                If e.Row.Cells("uiIIItemType").Value = 2 Then
+                If comboVlaueChanged = False Then
                     If isLoading = False Then
-                        isTemplateItemLoading = True
-                        LoadTemplateItems(e)
+                        ResetFormElementsValues(ucmbItemCode.Name)
                     End If
+
+                    FillComboData(e)
+
+                    'If e.Row.Cells("TaxExempt").Value = True Then
+                    '    frmGlazingQuote.UG2.ActiveRow.Cells("TaxRate").Value = 0
+                    '    frmGlazingQuote.UG2.ActiveRow.Cells("TaxRateValue").Value = 0
+
+                    'Else
+                    frmGlazingQuote.UG2.ActiveRow.Cells("TaxRate").Value = frmGlazingQuote.defaultTaxtRateValue
+                    frmGlazingQuote.UG2.ActiveRow.Cells("TaxRateValue").Value = frmGlazingQuote.defaultTaxtRateValue
+
+                    'End If
+                    If e.Row.Cells("uiIIItemType").Value = 2 Then
+                        If isLoading = False Then
+                            isTemplateItemLoading = True
+                            LoadTemplateItems(e)
+                        End If
+                    End If
+                    comboVlaueChanged = False
                 End If
-                comboVlaueChanged = False
-            End If
 
-            If isLoading = False Then
-                FillActiveRowFromSelectedProductParameters(ucmbItemCode, frmGlazingQuote.UG2.ActiveRow)
-                SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
+                If isLoading = False Then
+                    FillActiveRowFromSelectedProductParameters(ucmbItemCode, frmGlazingQuote.UG2.ActiveRow)
+                    SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
 
-                If isTemplateItemLoading = True Then
-                    txtPrice.Value = templateItemSubItemsPrice
-                    isTemplateItemLoading = False
-                    e.Row.Cells("").Value = templateItemSubItemsData
+                    If isTemplateItemLoading = True Then
+                        txtPrice.Value = templateItemSubItemsPrice
+                        isTemplateItemLoading = False
+                    End If
+
                 End If
-
             End If
-        End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub ucmbPriceType_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles ucmbPriceType.RowSelected
@@ -760,7 +765,6 @@ Public Class frmGlazingDocStockItem
 
     End Sub
 
-
     Private Sub cmbDDPriceListsTrade_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles cmbDDPriceListsTrade.RowSelected
         '' SetPriceOnThisRow(frmGlazingQuote.UG2.ActiveRow)
         '' FillActiveRowFromSelectedProductParameters(ucmbItemCode, frmGlazingQuote.UG2.ActiveRow)
@@ -799,7 +803,6 @@ Public Class frmGlazingDocStockItem
 
     End Sub
 
-
     Private Sub frmGlazingDocStockItem_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         frmGlazingQuote.isStockItemActive = False
 
@@ -811,6 +814,7 @@ Public Class frmGlazingDocStockItem
         EnableVolumElements()
         ResetFormElementsValues(cmbDDItemType.Name)
     End Sub
+
     Sub EnableFormElements()
 
         lblItemDescription.Enabled = True
@@ -885,6 +889,7 @@ Public Class frmGlazingDocStockItem
             frmGlazingQuoteCellValuesClear()
         End If
     End Sub
+
     Public Function frmGlazingQuoteCellValuesClear(Optional ByRef gridRow As UltraGridRow = Nothing) As UltraGridRow
         If IsNothing(gridRow) = False Then
             selectedRow = gridRow
@@ -901,7 +906,7 @@ Public Class frmGlazingDocStockItem
 
             selectedRow.Cells("Price_Type").Value = 0
             selectedRow.Cells("StockLink").Value = 0
-
+            selectedRow.Cells("templateData").Value = ""
             selectedRow.Cells("PriceCat").Value = 0
             selectedRow.Cells("PriceList").Value = DBNull.Value
             selectedRow.Cells("IsPriceItem").Value = True
@@ -975,20 +980,16 @@ Public Class frmGlazingDocStockItem
             frmGlazingDocStockItemTemplateObj.stockLink = slectedRow.Cells("StockLink").Value
             Dim Resullt As DialogResult = frmGlazingDocStockItemTemplateObj.ShowDialog()
             templateItemSubItemsPrice = frmGlazingDocStockItemTemplateObj.totalAmount
+            Dim templateItemSubItems = frmGlazingDocStockItemTemplateObj.selectedItems
 
             lineComments = ""
-            For Each lineItem As clsInvDetailLine In clsOrder.InvDetailLinesList
-                items += lineItem.StockLink & "," & lineItem.ItemType & "," & lineItem.cSimpleCode & "," & lineItem.Description_1 & ";"
-                If lineComments = "" Then
-                    lineComments = ucmbItemDes.Text
-                    lineComments = lineComments + vbCrLf & Chr(9) & "*" & lineItem.Description_1
 
-                Else
-                    lineComments = lineComments + vbCrLf & Chr(9) & "*" & lineItem.Description_1
-                End If
-            Next
-            selectedRow.Cells("templateData").Value = items
-            selectedRow.Cells("Price").Value = templateItemSubItemsPrice
+
+            items = utxtDocDes.Text
+            selectedRow.Cells("templateData").Value = templateItemSubItems
+            selectedRow.Cells("LineComments").Value = items & vbCrLf & frmGlazingDocStockItemTemplateObj.selectedNewItemsDisplay
+            txtPrice.Value = templateItemSubItemsPrice
+
         Catch ex As Exception
 
         End Try
@@ -1003,4 +1004,15 @@ Public Class frmGlazingDocStockItem
             End If
         End If
     End Sub
+
+    Private Sub ucmbItemCode_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles ucmbItemCode.MouseDoubleClick
+        If IsNothing(cmbDDItemType.ActiveRow) = False Then
+            If cmbDDItemType.ActiveRow.Cells("TypeID").Value = 2 Then
+                If isLoading = False Then
+                    LoadTemplateItems()
+                End If
+            End If
+        End If
+    End Sub
+
 End Class
