@@ -4,12 +4,18 @@ Public Class frmGlazingDocStockItemTemplate
     Public stockLink As Integer = 0
     Dim clsGlazingDocStockItemHelperObj As New clsGlazingDocStockItemHelper(Me)
     Dim oPriceUnits As clsSOPricingAndUnits
+
     Public isLoading As Boolean = False
-    Public totalAmount As Double = 0
     Public isClosing As Boolean = False
+
+    Public totalAmount As Double = 0.0
+    Private totalNewAmount As Double = 0.0
+
     Public selectedItems As String = ""
-    Public selectedNewItems As String = ""
-    Public selectedNewItemsDisplay As String = ""
+    Private selectedNewItems As String = ""
+
+    Public selectedItemsDisplay As String = ""
+    Private selectedNewItemsDisplay As String = ""
 
     Sub New(ByRef clsPriceUnitsObj As clsSOPricingAndUnits)
 
@@ -24,25 +30,55 @@ Public Class frmGlazingDocStockItemTemplate
         Dim newDataSet As DataSet
         Dim ug2ActivRow As UltraGridRow = UG2.ActiveRow
         Dim row As UltraGridRow
+        Dim hasPreVal As Boolean = False
         Try
-            newDataSet = clsGlazingDocStockItemHelperObj.GetStkItemDetails(stockLink)
-            If newDataSet.Tables(0).Rows.Count > 0 Then
-                For Each item As DataRow In newDataSet.Tables(0).Rows
+            If IsNothing(selectedItems) = False Then
+                If selectedItems <> "" Then
+                    hasPreVal = True
+                End If
+            End If
+
+
+            If hasPreVal = True Then
+                Dim itemLines() As String = selectedItems.Split(";")
+                For Each itemDetails As String In itemLines
+                    clsInvDetLine = New clsInvDetailLine
+                    If itemDetails = "" Then
+                        Exit For
+                    End If
                     row = UG2.DisplayLayout.Bands(0).AddNew
                     UG2.ActiveRow = row
-                    ug2ActivRow = UG2.ActiveRow
-                    ug2ActivRow.Cells("StockLink").Value = item("Stock_Sub_Link")
-                    ug2ActivRow.Cells("SimpleCode").Value = item("Stock_Sub_Link")
-                    ug2ActivRow.Cells("Description1").Value = item("Stock_Sub_Link")
-                    ug2ActivRow.Cells("ItemType").Value = item("iItemType")
-                    ug2ActivRow.Cells("IsPriceItem").Value = item("IsPriceItem")
+                    Dim itemDetailsCol() As String = itemDetails.Split(",")
+                    row.Cells("StockLink").Value = itemDetailsCol(0)
+                    row.Cells("SimpleCode").Value = itemDetailsCol(0)
+                    row.Cells("Description1").Value = itemDetailsCol(0)
 
-                    ucmbItemCode.Value = item("Stock_Sub_Link")
-                    totalAmount = totalAmount + ug2ActivRow.Cells("Price").Value
-                    'clsGlazingDocStockItemHelperObj.FillActiveRowFromSelectedProductParameters(ucmbItemCode, UG2.ActiveRow, oPriceUnits)
-                    '  clsGlazingDocStockItemHelperObj.SetPriceOnThisRow(UG2.ActiveRow, oPriceUnits)
+                    row.Cells("PriceList").Value = itemDetailsCol(1)
+                    row.Cells("PriceType").Value = itemDetailsCol(2)
+                    row.Cells("Price").Value = itemDetailsCol(3)
                 Next
+
+            Else
+                newDataSet = clsGlazingDocStockItemHelperObj.GetStkItemDetails(stockLink)
+                If newDataSet.Tables(0).Rows.Count > 0 Then
+                    For Each item As DataRow In newDataSet.Tables(0).Rows
+                        row = UG2.DisplayLayout.Bands(0).AddNew
+                        UG2.ActiveRow = row
+                        ug2ActivRow = UG2.ActiveRow
+                        ug2ActivRow.Cells("StockLink").Value = item("Stock_Sub_Link")
+                        ug2ActivRow.Cells("SimpleCode").Value = item("Stock_Sub_Link")
+                        ug2ActivRow.Cells("Description1").Value = item("Stock_Sub_Link")
+                        ug2ActivRow.Cells("ItemType").Value = item("iItemType")
+                        ug2ActivRow.Cells("IsPriceItem").Value = item("IsPriceItem")
+
+                        ucmbItemCode.Value = item("Stock_Sub_Link")
+                        totalNewAmount = totalAmount + ug2ActivRow.Cells("Price").Value
+                        'clsGlazingDocStockItemHelperObj.FillActiveRowFromSelectedProductParameters(ucmbItemCode, UG2.ActiveRow, oPriceUnits)
+                        '  clsGlazingDocStockItemHelperObj.SetPriceOnThisRow(UG2.ActiveRow, oPriceUnits)
+                    Next
+                End If
             End If
+
         Catch ex As Exception
 
         End Try
@@ -52,9 +88,10 @@ Public Class frmGlazingDocStockItemTemplate
 
         FillComboData()
         If selectedItems = "" Then
-            SetItemData()
 
         End If
+        SetItemData()
+
         ucmbItemCode.Visible = True
         ucmbItemCode.Enabled = True
         ucmbPriceType.Visible = True
@@ -169,8 +206,14 @@ Public Class frmGlazingDocStockItemTemplate
             If Result = Windows.Forms.DialogResult.Yes Then
                 SetDataAsString()
                 selectedItems = selectedNewItems
+                selectedItemsDisplay = selectedNewItemsDisplay
+                totalAmount = totalNewAmount
             ElseIf Result = Windows.Forms.DialogResult.No Then
-
+                Dim Result2 As DialogResult = MessageBox.Show("Are you sure you want to discard the changes ?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If Result = Windows.Forms.DialogResult.Yes Then
+                Else
+                    e.Cancel = True
+                End If
 
             ElseIf Result = Windows.Forms.DialogResult.Cancel Then
                 e.Cancel = True
@@ -184,7 +227,7 @@ Public Class frmGlazingDocStockItemTemplate
     Sub SetDataAsString()
         Try
             For Each rows As UltraGridRow In UG2.Rows
-                selectedNewItems = selectedNewItems & rows.Cells("StockLink").Value & "," & rows.Cells("PriceList").Value & "," & rows.Cells("PriceType").Value & "," & rows.Cells("Price").Value & ";"
+                selectedNewItems = selectedNewItems & rows.Cells("StockLink").Value & "," & rows.Cells("PriceList").Value & "," & rows.Cells("PriceType").Value & "," & rows.Cells("Price").Value & rows.Cells("ItemType").Value & ";"
 
                 selectedNewItemsDisplay = selectedNewItemsDisplay & Chr(9) & "*" & rows.Cells("Description1").Value & vbCrLf
 

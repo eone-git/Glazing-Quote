@@ -492,20 +492,55 @@ Public Class frmGlazingDocStockItem
     End Sub
 
     Sub calculateVolume()
-        If IsNothing(Me.txtHeight.Text) = False And IsNothing(Me.ctxtWidth.Text) = False Then
-            If txtHeight.Text = "" Then
-                txtHeight.Text = 0
+        Try
+            Dim measurementType As Integer
+
+            If measurementsTypeOrigin <> measurementsTypeTemp Then
+                measurementType = measurementsTypeTemp
+            Else
+                measurementType = measurementsTypeOrigin
             End If
-            If ctxtWidth.Text = "" Then
-                ctxtWidth.Value = 0
+
+            If measurementType = MeasurementsType.Imperial Then
+                'Imperial
+                txtVolume.Value = VolumCalculator(txtHeight.Text, ctxtWidth.Text)
+            Else
+                'Metric
+                'txtVolume.Value = VolumCalculator(txtHeight.Text, txtHeight.Text)
             End If
 
             If IsNothing(Me.txtVolume.Text) = False Then
-                txtVolume.Value = (Me.txtHeight.Text * Me.ctxtWidth.Text) / 1000000
                 frmGlazingQuote.UG2.ActiveRow.Cells("Volume").Value = txtVolume.Value
+            Else
+                GQShowMessage("Please check the item measurement values.", Me.Text, MsgBoxStyle.Exclamation)
             End If
-        End If
+
+        Catch ex As Exception
+            GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+        End Try
     End Sub
+
+    Public Function VolumCalculator(ByRef hight As Double, ByRef width As Double) As Double
+        Try
+            Dim Volume As Double = 0.0
+            If IsNothing(hight) = False And IsNothing(width) = False Then
+                'If hight = "" Then
+                '    hight = 0
+                'End If
+
+                'If width = "" Then
+                '    width = 0
+                'End If
+
+                Volume = (hight * width) / 1000000
+                Return Volume
+            End If
+
+        Catch ex As Exception
+            GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            Return 0
+        End Try
+    End Function
 
     Dim oSOModuleDefaults As New clsSOModuleDefaults
 
@@ -952,8 +987,8 @@ Public Class frmGlazingDocStockItem
                     Dim itemDetailsCol() As String = itemDetails.Split(",")
                     clsInvDetLine.StockLink = itemDetailsCol(0)
                     clsInvDetLine.M_NO = 0
-                    clsInvDetLine.cSimpleCode = itemDetailsCol(2)
-                    clsInvDetLine.Description_1 = itemDetailsCol(3)
+                    'clsInvDetLine.cSimpleCode = itemDetailsCol(2)
+                    'clsInvDetLine.Description_1 = itemDetailsCol(3)
                     clsInvDetLine.ItemType = itemDetailsCol(1)
 
                     List2.Add(clsInvDetLine)
@@ -963,21 +998,24 @@ Public Class frmGlazingDocStockItem
 
                 'clsOrder.InvDetailLinesList = selectedRow.Cells("templateData").Value
             Else
-
-                clsInvDetLine.StockLink = slectedRow.Cells("StockLink").Value
-                clsInvDetLine.ItemType = GlassItemTypes.Template
-                clsInvDetLine.M_NO = 0
-                clsInvDetLine.cSimpleCode = slectedRow.Cells("Code").Value
-                clsInvDetLine.Description_1 = slectedRow.Cells("Description_1").Value
-                ' clsInvDetLine.MainItem = MainItem
-
-                Dim List As New List(Of clsInvDetailLine)
-                List.Add(clsInvDetLine)
-                clsOrder.InvDetailLinesList = List
             End If
+            clsInvDetLine.StockLink = slectedRow.Cells("StockLink").Value
+            clsInvDetLine.ItemType = GlassItemTypes.Template
+            clsInvDetLine.M_NO = 0
+            clsInvDetLine.cSimpleCode = slectedRow.Cells("Code").Value
+            clsInvDetLine.Description_1 = slectedRow.Cells("Description_1").Value
+            ' clsInvDetLine.MainItem = MainItem
 
+            Dim List As New List(Of clsInvDetailLine)
+            List.Add(clsInvDetLine)
+            clsOrder.InvDetailLinesList = List
+
+            If clsOrder.InvDetailLinesList.Count > 0 Then
+            Else
+            End If
             Dim frmGlazingDocStockItemTemplateObj As New frmGlazingDocStockItemTemplate(oPriceUnits)
             frmGlazingDocStockItemTemplateObj.stockLink = slectedRow.Cells("StockLink").Value
+            frmGlazingDocStockItemTemplateObj.selectedItems = frmGlazingQuote.UG2.ActiveRow.Cells("templateData").Value
             Dim Resullt As DialogResult = frmGlazingDocStockItemTemplateObj.ShowDialog()
             templateItemSubItemsPrice = frmGlazingDocStockItemTemplateObj.totalAmount
             Dim templateItemSubItems = frmGlazingDocStockItemTemplateObj.selectedItems
@@ -987,7 +1025,7 @@ Public Class frmGlazingDocStockItem
 
             items = utxtDocDes.Text
             selectedRow.Cells("templateData").Value = templateItemSubItems
-            selectedRow.Cells("LineComments").Value = items & vbCrLf & frmGlazingDocStockItemTemplateObj.selectedNewItemsDisplay
+            selectedRow.Cells("LineComments").Value = items & vbCrLf & frmGlazingDocStockItemTemplateObj.selectedItemsDisplay
             txtPrice.Value = templateItemSubItemsPrice
 
         Catch ex As Exception

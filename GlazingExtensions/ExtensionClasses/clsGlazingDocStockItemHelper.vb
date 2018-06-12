@@ -11,6 +11,8 @@ Public Class clsGlazingDocStockItemHelper
     Dim sqlQuary As String = ""
     Dim newDataSet As DataSet = Nothing
     Dim oSOModuleDefaults As New clsSOModuleDefaults
+
+
     'Dim oPriceUnits As New clsSOPricingAndUnits
 
     Public Sub New(ByRef frmGlazingDocStockItemObj As frmGlazingDocStockItem)

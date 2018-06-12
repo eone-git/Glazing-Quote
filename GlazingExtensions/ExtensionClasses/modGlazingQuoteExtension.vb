@@ -33,4 +33,14 @@
 
     End Enum
 
+
+    Public Enum MeasurementsType As Integer
+        Imperial = 1
+        Metric = 2
+
+    End Enum
+
+    Public measurementsTypeOrigin As Integer = 1
+    Public measurementsTypeTemp As Integer = 1
+
 End Module
