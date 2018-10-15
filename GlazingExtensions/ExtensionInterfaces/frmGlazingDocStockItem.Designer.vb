@@ -94,7 +94,7 @@ Partial Class frmGlazingDocStockItem
         Dim Appearance170 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance171 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance39 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance55 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance56 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance54 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance52 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance53 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -110,6 +110,7 @@ Partial Class frmGlazingDocStockItem
         Dim Appearance35 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance36 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance37 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance55 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Me.ucmbItemCode = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.ucmbItemDes = New Infragistics.Win.UltraWinGrid.UltraCombo()
         Me.ucmbPriceType = New Infragistics.Win.UltraWinGrid.UltraCombo()
@@ -138,6 +139,13 @@ Partial Class frmGlazingDocStockItem
         Me.txtHeight = New Infragistics.Win.UltraWinEditors.UltraNumericEditor()
         Me.ctxtWidth = New Infragistics.Win.UltraWinEditors.UltraNumericEditor()
         Me.cmbDDPriceListsSpecial = New Infragistics.Win.UltraWinGrid.UltraCombo()
+        Me.upbTaxInclude = New Infragistics.Win.UltraWinEditors.UltraPictureBox()
+        Me.btnEditTemplateItems = New System.Windows.Forms.Button()
+        Me.btnGlassServices = New System.Windows.Forms.Button()
+        Me.unelblTotal = New Infragistics.Win.UltraWinEditors.UltraNumericEditor()
+        Me.lblTotal = New System.Windows.Forms.Label()
+        Me.utxiWidthWIthFractions = New Infragistics.Win.UltraWinEditors.UltraTextEditor()
+        Me.utxtHeightWIthFractions = New Infragistics.Win.UltraWinEditors.UltraTextEditor()
         CType(Me.ucmbItemCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ucmbItemDes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ucmbPriceType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -152,6 +160,9 @@ Partial Class frmGlazingDocStockItem
         CType(Me.txtHeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ctxtWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbDDPriceListsSpecial, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.unelblTotal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.utxiWidthWIthFractions, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.utxtHeightWIthFractions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ucmbItemCode
@@ -439,36 +450,43 @@ Partial Class frmGlazingDocStockItem
         'lblStockItem
         '
         resources.ApplyResources(Me.lblStockItem, "lblStockItem")
+        Me.lblStockItem.ForeColor = System.Drawing.Color.DimGray
         Me.lblStockItem.Name = "lblStockItem"
         '
         'lblItemCode
         '
         resources.ApplyResources(Me.lblItemCode, "lblItemCode")
+        Me.lblItemCode.ForeColor = System.Drawing.Color.DimGray
         Me.lblItemCode.Name = "lblItemCode"
         '
         'lblItemDescription
         '
         resources.ApplyResources(Me.lblItemDescription, "lblItemDescription")
+        Me.lblItemDescription.ForeColor = System.Drawing.Color.DimGray
         Me.lblItemDescription.Name = "lblItemDescription"
         '
         'lblDocDescription
         '
         resources.ApplyResources(Me.lblDocDescription, "lblDocDescription")
+        Me.lblDocDescription.ForeColor = System.Drawing.Color.DimGray
         Me.lblDocDescription.Name = "lblDocDescription"
         '
         'lblQty
         '
         resources.ApplyResources(Me.lblQty, "lblQty")
+        Me.lblQty.ForeColor = System.Drawing.Color.DimGray
         Me.lblQty.Name = "lblQty"
         '
         'lblHeight
         '
         resources.ApplyResources(Me.lblHeight, "lblHeight")
+        Me.lblHeight.ForeColor = System.Drawing.Color.DimGray
         Me.lblHeight.Name = "lblHeight"
         '
         'lblWidth
         '
         resources.ApplyResources(Me.lblWidth, "lblWidth")
+        Me.lblWidth.ForeColor = System.Drawing.Color.DimGray
         Me.lblWidth.Name = "lblWidth"
         '
         'utxtDocDes
@@ -480,11 +498,13 @@ Partial Class frmGlazingDocStockItem
         'lblVolume
         '
         resources.ApplyResources(Me.lblVolume, "lblVolume")
+        Me.lblVolume.ForeColor = System.Drawing.Color.DimGray
         Me.lblVolume.Name = "lblVolume"
         '
         'lblPrice
         '
         resources.ApplyResources(Me.lblPrice, "lblPrice")
+        Me.lblPrice.ForeColor = System.Drawing.Color.DimGray
         Me.lblPrice.Name = "lblPrice"
         '
         'btnCancel
@@ -636,6 +656,7 @@ Partial Class frmGlazingDocStockItem
         'lblPriceType
         '
         resources.ApplyResources(Me.lblPriceType, "lblPriceType")
+        Me.lblPriceType.ForeColor = System.Drawing.Color.DimGray
         Me.lblPriceType.Name = "lblPriceType"
         '
         'cmbDDPriceListsTrade
@@ -736,6 +757,7 @@ Partial Class frmGlazingDocStockItem
         'lblPriceList
         '
         resources.ApplyResources(Me.lblPriceList, "lblPriceList")
+        Me.lblPriceList.ForeColor = System.Drawing.Color.DimGray
         Me.lblPriceList.Name = "lblPriceList"
         '
         'DDThickness
@@ -781,13 +803,14 @@ Partial Class frmGlazingDocStockItem
         '
         'txtPrice
         '
-        Appearance55.BorderColor = System.Drawing.Color.DodgerBlue
-        resources.ApplyResources(Appearance55.FontData, "Appearance55.FontData")
-        resources.ApplyResources(Appearance55, "Appearance55")
-        Appearance55.ForceApplyResources = "FontData|"
-        Me.txtPrice.Appearance = Appearance55
+        Appearance56.BorderColor = System.Drawing.Color.DodgerBlue
+        resources.ApplyResources(Appearance56.FontData, "Appearance56.FontData")
+        resources.ApplyResources(Appearance56, "Appearance56")
+        Appearance56.ForceApplyResources = "FontData|"
+        Me.txtPrice.Appearance = Appearance56
         resources.ApplyResources(Me.txtPrice, "txtPrice")
         Me.txtPrice.Name = "txtPrice"
+        Me.txtPrice.NumericType = Infragistics.Win.UltraWinEditors.NumericType.[Double]
         Me.txtPrice.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
         '
         'txtVolume
@@ -919,12 +942,78 @@ Partial Class frmGlazingDocStockItem
         resources.ApplyResources(Me.cmbDDPriceListsSpecial, "cmbDDPriceListsSpecial")
         Me.cmbDDPriceListsSpecial.Name = "cmbDDPriceListsSpecial"
         '
+        'upbTaxInclude
+        '
+        Me.upbTaxInclude.BorderShadowColor = System.Drawing.Color.Empty
+        Me.upbTaxInclude.BorderShadowDepth = CType(0, Byte)
+        Me.upbTaxInclude.BorderStyle = Infragistics.Win.UIElementBorderStyle.None
+        Me.upbTaxInclude.Cursor = System.Windows.Forms.Cursors.Default
+        Me.upbTaxInclude.Image = CType(resources.GetObject("upbTaxInclude.Image"), Object)
+        resources.ApplyResources(Me.upbTaxInclude, "upbTaxInclude")
+        Me.upbTaxInclude.Name = "upbTaxInclude"
+        '
+        'btnEditTemplateItems
+        '
+        resources.ApplyResources(Me.btnEditTemplateItems, "btnEditTemplateItems")
+        Me.btnEditTemplateItems.BackColor = System.Drawing.Color.DodgerBlue
+        Me.btnEditTemplateItems.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue
+        Me.btnEditTemplateItems.ForeColor = System.Drawing.Color.White
+        Me.btnEditTemplateItems.Name = "btnEditTemplateItems"
+        Me.btnEditTemplateItems.UseVisualStyleBackColor = False
+        '
+        'btnGlassServices
+        '
+        resources.ApplyResources(Me.btnGlassServices, "btnGlassServices")
+        Me.btnGlassServices.BackColor = System.Drawing.Color.DodgerBlue
+        Me.btnGlassServices.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue
+        Me.btnGlassServices.ForeColor = System.Drawing.Color.White
+        Me.btnGlassServices.Name = "btnGlassServices"
+        Me.btnGlassServices.UseVisualStyleBackColor = False
+        '
+        'unelblTotal
+        '
+        Appearance55.BorderColor = System.Drawing.Color.DodgerBlue
+        resources.ApplyResources(Appearance55.FontData, "Appearance55.FontData")
+        resources.ApplyResources(Appearance55, "Appearance55")
+        Appearance55.ForceApplyResources = "FontData|"
+        Me.unelblTotal.Appearance = Appearance55
+        resources.ApplyResources(Me.unelblTotal, "unelblTotal")
+        Me.unelblTotal.Name = "unelblTotal"
+        Me.unelblTotal.NullText = "0"
+        Me.unelblTotal.NumericType = Infragistics.Win.UltraWinEditors.NumericType.[Double]
+        Me.unelblTotal.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
+        Me.unelblTotal.UseOsThemes = Infragistics.Win.DefaultableBoolean.[True]
+        '
+        'lblTotal
+        '
+        resources.ApplyResources(Me.lblTotal, "lblTotal")
+        Me.lblTotal.ForeColor = System.Drawing.Color.DimGray
+        Me.lblTotal.Name = "lblTotal"
+        '
+        'utxiWidthWIthFractions
+        '
+        resources.ApplyResources(Me.utxiWidthWIthFractions, "utxiWidthWIthFractions")
+        Me.utxiWidthWIthFractions.Name = "utxiWidthWIthFractions"
+        '
+        'utxtHeightWIthFractions
+        '
+        resources.ApplyResources(Me.utxtHeightWIthFractions, "utxtHeightWIthFractions")
+        Me.utxtHeightWIthFractions.Name = "utxtHeightWIthFractions"
+        '
         'frmGlazingDocStockItem
         '
         Me.AcceptButton = Me.btnAdd
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
+        Me.BackColor = System.Drawing.Color.White
         Me.CancelButton = Me.btnCancel
+        Me.Controls.Add(Me.utxiWidthWIthFractions)
+        Me.Controls.Add(Me.utxtHeightWIthFractions)
+        Me.Controls.Add(Me.unelblTotal)
+        Me.Controls.Add(Me.lblTotal)
+        Me.Controls.Add(Me.btnEditTemplateItems)
+        Me.Controls.Add(Me.btnGlassServices)
+        Me.Controls.Add(Me.upbTaxInclude)
         Me.Controls.Add(Me.ctxtWidth)
         Me.Controls.Add(Me.txtHeight)
         Me.Controls.Add(Me.txtVolume)
@@ -971,6 +1060,9 @@ Partial Class frmGlazingDocStockItem
         CType(Me.txtHeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ctxtWidth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbDDPriceListsSpecial, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.unelblTotal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.utxiWidthWIthFractions, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.utxtHeightWIthFractions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1003,4 +1095,11 @@ Partial Class frmGlazingDocStockItem
     Friend WithEvents txtHeight As Infragistics.Win.UltraWinEditors.UltraNumericEditor
     Friend WithEvents ctxtWidth As Infragistics.Win.UltraWinEditors.UltraNumericEditor
     Friend WithEvents cmbDDPriceListsSpecial As Infragistics.Win.UltraWinGrid.UltraCombo
+    Private WithEvents upbTaxInclude As Infragistics.Win.UltraWinEditors.UltraPictureBox
+    Friend WithEvents btnEditTemplateItems As System.Windows.Forms.Button
+    Friend WithEvents btnGlassServices As System.Windows.Forms.Button
+    Friend WithEvents unelblTotal As Infragistics.Win.UltraWinEditors.UltraNumericEditor
+    Friend WithEvents lblTotal As System.Windows.Forms.Label
+    Friend WithEvents utxiWidthWIthFractions As Infragistics.Win.UltraWinEditors.UltraTextEditor
+    Friend WithEvents utxtHeightWIthFractions As Infragistics.Win.UltraWinEditors.UltraTextEditor
 End Class

@@ -13,6 +13,7 @@ Imports GMap.NET.MapProviders
 Imports GMap.NET
 Imports GMap.NET.WindowsForms.Markers
 Imports System.Text.RegularExpressions
+Imports System.Xml
 
 Public Class frmGlazingQuote
     Dim oPriceUnits As New clsSOPricingAndUnits
@@ -111,6 +112,22 @@ Public Class frmGlazingQuote
 
     Dim isSaved As Boolean = False
     Dim isClosing As Boolean = False
+    Dim getTaxRateFromCustomer As Boolean = False
+    Dim canEditeAmount As Boolean = False
+    Dim expireDateCount As Integer = 2
+    Dim defaultTaxRateForQuote As Integer = 0
+    Dim defaultTaxRateValueForQuote As Double = 0.0
+    Dim saveButtonPreState As Boolean
+    Dim isSaveable As Boolean
+
+    Public isInches As Boolean = True
+    Public needToBeRounded As Boolean = True
+    Public isForUSA As Boolean = True
+    Dim defaultItemForText As Integer
+    Public dCusTaxCode As String = ""
+    Public dCusTaxRate As Double
+
+    Dim oFacDefaults As New clsFacilityDefaults(False, UserBranchID)
 
     Private Sub GET_CUSTOMERS(ByVal value As String)
 
@@ -749,7 +766,7 @@ Public Class frmGlazingQuote
         End With
     End Sub
 
-    Private Sub GET_TaxRates()
+    Private Function GET_TaxRates() As DataSet
         SQL = "SELECT * FROM TaxRate Order by code"
         Dim objSQL As New clsSqlConn
         Dim dsTax As DataSet
@@ -772,14 +789,16 @@ Public Class frmGlazingQuote
                 '    ugRow.Activate()
                 'End If
                 'ucmbTaxRate.Visible = True
+                Return dsTax
             Catch ex As Exception
+                Return Nothing
                 MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SPIL Glass")
             Finally
                 '.Dispose()
                 objSQL = Nothing
             End Try
         End With
-    End Sub
+    End Function
 
     Public Sub LoadQuoteState()
         Dim DS_ As DataSet
@@ -832,26 +851,98 @@ Public Class frmGlazingQuote
 
     Private Sub cmbAccount_ValueChanged(sender As Object, e As EventArgs) Handles cmbAccount.ValueChanged
         Try
+            If IsNumeric(cmbAccount.Value) = False Then
+                If cmbAccount.Value = "" Then
+                    ' modGlazingQuoteExtension.GQShowMessage("Please select a customer", Me.Text, MsgBoxStyle.Question, "warning")
+
+                Else
+                    modGlazingQuoteExtension.GQShowMessage("No matching customer", Me.Text, MsgBoxStyle.Question, "warning")
+                End If
+                UG2.Enabled = False
+                'If IsNothing(saveButtonPreState) = False Then
+                '    If saveButtonPreState = False Then
+                '        saveButtonPreState = mnuSave.Enabled
+
+                '    End If
+                'Else
+                '    saveButtonPreState = mnuSave.Enabled
+
+                'End If
+
+
+                'tsbSave.Enabled = False
+                'mnuSave.Enabled = False
+                Exit Sub
+            Else
+                'mnuSave.Enabled = saveButtonPreState
+                'tsbSave.Enabled = saveButtonPreState
+
+            End If
             LoadQuoteLineType()
             InitializesCustomerDetails()
             UG2.Enabled = True
             Dim row As UltraGridRow
+
             If quoteOrdeIndex = 0 And cmbAccount.Text <> "" Then
+                If getTaxRateFromCustomer = True Then
+                    oFormCustomer.GetCustomerData(cmbAccount.Value)
+                    Dim newTable As DataTable = ucmbTaxRate.DataSource
+                    Dim newDatset As DataSet
+                    Dim newRows() As DataRow
+                    If IsNothing(newTable) = False Then
+                        newRows = newTable.Select("Code = '" & oFormCustomer.TaxCode & "'")
+                    Else
+                        newDatset = GET_TaxRates()
+                        If IsNothing(newDatset) = False Then
+                            newRows = newDatset.Tables(0).Select("Code = '" & oFormCustomer.TaxCode & "'")
+                        End If
+                    End If
+                    For Each newRow As DataRow In newRows
+                        defaultTaxtRateValue = oFormCustomer.TaxRate
+                        defaultTaxtRate = newRow("idTaxRate")
+                    Next
+                    defaultTaxRateValueForQuote = defaultTaxtRateValue
+                    defaultTaxRateForQuote = defaultTaxtRate
+                End If
+
                 If Me.UG2.Rows.Count = 0 Then
                     row = AddNewRow("after")
                     row.ParentCollection.Move(row, UG2.ActiveRow.Index)
                     Me.UG2.ActiveRowScrollRegion.ScrollRowIntoView(row)
-
                 ElseIf Me.UG2.Rows.Count > 0 Then
                     Me.UG2.Rows((UG2.Rows.Count) - 1).Cells("QuoteFiedType").DroppedDown = True
+                    AfterDefaultTaxePriceChaged(defaultTaxtRate, defaultTaxtRateValue, True)
+                End If
+            Else
+                If getTaxRateFromCustomer = True Then
+                    defaultTaxtRateValue = defaultTaxRateValueForQuote
+                    defaultTaxtRate = defaultTaxRateForQuote
 
                 End If
 
             End If
+            If cmbAccount.Text <> "" Then
+                txtPostelAdd.Enabled = True
+            End If
+
             If IsFromJobProject Then
                 clsGQExtensionForJobCostingObj.GetProjects(cmbAccount.SelectedRow.Cells("DCLink").Value, True)
                 clsGQExtensionForJobCostingObj.GetJobsByCustomer(cmbAccount.SelectedRow.Cells("DCLink").Value, True)
             End If
+
+            Dim enable As Boolean
+            If defaultTaxRateValueForQuote > 0 Then
+                enable = True
+            Else
+                enable = False
+            End If
+            lblTotVatAmo.Visible = enable
+            lblTotIncAmo.Visible = enable
+            lblTotalInc.Visible = enable
+            lblTotVatAmo.Visible = enable
+            T2.Visible = enable
+            T3.Visible = enable
+
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
@@ -1189,18 +1280,59 @@ Public Class frmGlazingQuote
         SaveDocument()
     End Sub
 
-    Sub SaveDocument()
+    Function SaveDocument(Optional ByRef isPrintPreview As Boolean = False) As Integer
+        Dim saveWithoutItem As Boolean = False
+        Dim noDescrption As Boolean = False
 
         Try
             If isCancelled = True Then
-                Exit Sub
+                Return 0
+                Exit Function
             End If
-            If isClosing = False Then
+            If IsNumeric(cmbAccount.Value) = False Then
+                modGlazingQuoteExtension.GQShowMessage("Customet not found", Me.Text, MessageBoxButtons.OK, "warning")
+                cmbAccount.Focus()
+                Return 0
+                Exit Function
+            End If
+            If Me.UG2.Rows.Count < 1 Then
 
-                If modGlazingQuoteExtension.GQShowMessage("Do you wont to save this Quotation?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
-                    Exit Sub
+                modGlazingQuoteExtension.GQShowMessage("Quotation don't have any items", Me.Text, MessageBoxButtons.OK, "warning")
+
+                'If modGlazingQuoteExtension.GQShowMessage("Do you wont to save quotation without items?", Me.Text, MessageBoxButtons.YesNo, "question") = Windows.Forms.DialogResult.No Then
+                Return 0
+                Exit Function
+                'Else
+                '    If IsNothing(jobDescription) = False Then
+                '        If jobDescription = "" Then
+                '            noDescrption = True
+                '        Else
+                '            saveWithoutItem = True
+                '        End If
+                '    Else
+                '        noDescrption = True
+                '    End If
+                'End If
+                'If noDescrption = True Then
+                '    modGlazingQuoteExtension.GQShowMessage("You should either add items or job description before saving.", Me.Text, MessageBoxButtons.OK, "warning")
+                '    Return 0
+                '    noDescrption = False
+                '    Exit Function
+                'End If
+            ElseIf isClosing = False And isPrintPreview = False Then
+                If Me.UG2.Rows.Count = 1 Then
+                    If Me.UG2.Rows(0).Cells("QuoteFiedType").Value = "" Then
+                        modGlazingQuoteExtension.GQShowMessage("Quotation don't have any items", Me.Text, MessageBoxButtons.OK, "warning")
+                        Exit Function
+
+                    End If
+                End If
+                If modGlazingQuoteExtension.GQShowMessage("Do you want to save this Quotation?", Me.Text, MessageBoxButtons.YesNo, "question") = Windows.Forms.DialogResult.No Then
+                    Return 0
+                    Exit Function
                 End If
             End If
+
             If IsNothing(objClsInvHeader) = True Then
                 objClsInvHeader = New clsInvHeader
 
@@ -1208,10 +1340,10 @@ Public Class frmGlazingQuote
 
             Dim orderIndex As Integer = 0
             Dim recState As Integer = 0
-            If OrderValidation() = 0 Then Exit Sub
-
-
-
+            If OrderValidation() = 0 Then
+                Return 0
+                Exit Function
+            End If
 
             If IsFromJobProject Then
                 If IsEstimate = True Then
@@ -1235,7 +1367,7 @@ Public Class frmGlazingQuote
                         Dim dupds As DataSet = .GET_DATA_SQL(duplicatesql)
                         If (dupds.Tables(0).Rows(0)(0) <> 0) Then
                             modGlazingQuoteExtension.GQShowMessage("This Job/Project already has a Estimate", Me.Text, MsgBoxStyle.Critical)
-                            Exit Sub
+                            Exit Function
                         End If
 
                     End With
@@ -1259,7 +1391,7 @@ Public Class frmGlazingQuote
                         Dim dupds As DataSet = .GET_DATA_SQL(duplicatesql)
                         If (dupds.Tables(0).Rows(0)(0) <> 0) Then
                             modGlazingQuoteExtension.GQShowMessage("This Job/Project already has a Quote", Me.Text, MsgBoxStyle.Critical)
-                            Exit Sub
+                            Exit Function
                         End If
 
                     End With
@@ -1272,11 +1404,16 @@ Public Class frmGlazingQuote
             'Start quote Header
             objClsInvHeader.AccountID = cmbAccount.ActiveRow.Cells("DCLink").Value
             objClsInvHeader.DocType = GlassDocTypes.Quotation
+            If IsFromJobProject = False Then
+                objClsInvHeader.DocState = GlassDocState.GlazingQuote
+            End If
             objClsInvHeader.InvoiceNotes = utxtNoteText.Text
             objClsInvHeader.ApprovedReason = ""
             objClsInvHeader.iAgentID = AgentID
 
-            If isExistingOrder = False Or isACopy = True Then
+            If isPrintPreview = True Then
+                objClsInvHeader.OrderNum = "QuotePrintPreview"
+            ElseIf isExistingOrder = False Or isACopy = True Then
                 objClsInvHeader.OrderNum = clsGlazingQuoteExtensionObj.GetNextJobumentNumber(objClsInvHeader, "GlazingQuote")
                 lblOrderNo.Text = objClsInvHeader.OrderNum
             Else
@@ -1295,6 +1432,8 @@ Public Class frmGlazingQuote
             objClsInvHeader.LastEditedDateTime = Today.Date
             objClsInvHeader.cAccountName = cmbAccount.ActiveRow.Cells("DCLink").Value
 
+            objClsInvHeader.ContactName = txtContact1.Text
+            objClsInvHeader.ContactTelephone = txtContPerTel.Text
             objClsInvHeader.Address1 = txtPhy1.Text
             objClsInvHeader.Address2 = txtPhy2.Text
             objClsInvHeader.Address3 = txtPhy3.Text
@@ -1309,8 +1448,6 @@ Public Class frmGlazingQuote
             objClsInvHeader.PostAdd5 = txtPost5.Text
             objClsInvHeader.PostPC = txtPostCode.Text
 
-            objClsInvHeader.ContactName = txtContact1.Text
-            objClsInvHeader.ContactTelephone = txtContPerTel.Text
             objClsInvHeader.ContactEmail = txtContEmail.Text
             objClsInvHeader.iAreasID = cboArea.Value
             objClsInvHeader.CreditState = uCmbTerms.Value
@@ -1327,23 +1464,31 @@ Public Class frmGlazingQuote
             objClsInvHeader.ProjectID = _ProjectId
             objClsInvHeader.ProjID = _ProjectId
 
-
             objClsInvHeader.Delivery_Status = DeliveryState.UnDelivered 'for delivery
             objClsInvHeader.ProductionState = GlassProdState.None
             objClsInvHeader.QuotedAmt = lblTotExcAmo.Text
             objClsInvHeader.Quoted_Tax = lblTotVatAmo.Text
             objClsInvHeader.Quoted_Incl = lblTotIncAmo.Text
             objClsInvHeader.DocRepID = cmbSalesRep.Value
+            objClsInvHeader.ItemCatID = 1
+
+            'objClsInvHeader.iClassID = cmbAccount.ActiveRow.Cells("iClassID").Value
+
             'objClsInvHeader.OrderNum = objClsInvHeader.GetNextDocumentNumber
-            orderIndex = objClsInvHeader.AddHeader()
+            If isPrintPreview = True Then
+                'orderIndex = objClsInvHeader.AddHeader2()
+            Else
+                orderIndex = objClsInvHeader.AddHeader()
+                If orderIndex = -1 Or SaveGlzQuoteJobDetails(objClsInvHeader, orderIndex) = 0 Then
+                    objClsInvHeader.Rollback_Trans()
+                    Exit Function
 
-            If orderIndex = -1 Or SaveGlzQuoteJobDetails(objClsInvHeader, orderIndex) = 0 Then
-                objClsInvHeader.Rollback_Trans()
-                Exit Sub
-
+                End If
             End If
 
             quoteOrdeIndex = orderIndex
+            UpdateOrderHeaderWhileSaving(quoteOrdeIndex)
+
             Dim objClsInvHeaderDetailLine As New clsInvDetailLine
             Dim rowTypes As GridRowType = GridRowType.DataRow
             Dim band As UltraGridBand = Me.UG2.DisplayLayout.Bands(0)
@@ -1351,340 +1496,413 @@ Public Class frmGlazingQuote
             Dim subTotal As Integer = 0
             Dim row As UltraGridRow
 
-            If collDeletedItemLines.Count > 0 Then
-                For c = 1 To collDeletedItemLines.Count
-                    If objClsInvHeader.DeleteLinesFromDB(collDeletedItemLines.Item(c), "ItemLines", oProdDefaults) <> 1 Then
-                        objClsInvHeader.Rollback_Trans()
-                        MsgBox("Error occured while deleting Item lines", MsgBoxStyle.Information, "Validation")
-                        Exit Sub
-                    End If
-                Next
+            If isPrintPreview = False Then
+                If collDeletedItemLines.Count > 0 Then
+                    For c = 1 To collDeletedItemLines.Count
+                        If objClsInvHeader.DeleteLinesFromDB(collDeletedItemLines.Item(c), "ItemLines", oProdDefaults) <> 1 Then
+                            objClsInvHeader.Rollback_Trans()
+                            MsgBox("Error occured while deleting Item lines", MsgBoxStyle.Information, "Validation")
+                            Exit Function
+                        End If
+                    Next
 
-                'objClsInvHeader.Commit_Trans()
-                Dim objDLItem As New clsDocumentLogEntry
-                objDLItem.iDocID = InvHeaderID
-                objDLItem.iDocTypeID = pubMeSpilDocTypeID
-                objDLItem.LogAction = "Delete Items"
-                objDLItem.DocItemCount = c - 1
-                objDLItem.DocServiceCount = 0
-                objDLItem.LogDateTime = Now
-                objDLItem.EnteredBy = strUserName
-                objDLItem.Description1 = c - 1 & " Line Item(s) deleted"
-                If objDLItem.AddDocLogWithTrans(objClsInvHeader.Con, objClsInvHeader.Trans) = 0 Then
-                    objClsInvHeader.Rollback_Trans()
-                    Exit Sub
+                    'objClsInvHeader.Commit_Trans()
+                    Dim objDLItem As New clsDocumentLogEntry
+                    objDLItem.iDocID = InvHeaderID
+                    objDLItem.iDocTypeID = pubMeSpilDocTypeID
+                    objDLItem.LogAction = "Delete Items"
+                    objDLItem.DocItemCount = c - 1
+                    objDLItem.DocServiceCount = 0
+                    objDLItem.LogDateTime = Now
+                    objDLItem.EnteredBy = strUserName
+                    objDLItem.Description1 = c - 1 & " Line Item(s) deleted"
+                    If objDLItem.AddDocLogWithTrans(objClsInvHeader.Con, objClsInvHeader.Trans) = 0 Then
+                        objClsInvHeader.Rollback_Trans()
+                        Exit Function
+                    End If
+                    objDLItem = Nothing
                 End If
-                objDLItem = Nothing
             End If
 
-
-
-            ' Dim idInvoiceLines = 0
-            For Each row In enumerator
-
-                'idInvoiceLines = row.Index
-                objClsInvHeaderDetailLine = New clsInvDetailLine
-
-                '----Starting Item Line identifers----
-                objClsInvHeaderDetailLine.iInvDetailID = row.Cells("iInvDetailID").Value
-                objClsInvHeaderDetailLine.LN = row.Cells("ItmGroupID").Value
-                objClsInvHeaderDetailLine.OrderIndex = orderIndex
-                objClsInvHeaderDetailLine.idInvoiceLines = row.Index
-
-                '----Ending Item Line identifers----
-
-                '----Starting Stock Items details----
-                objClsInvHeaderDetailLine.ItemType = row.Cells("ItemType").Text
-                objClsInvHeaderDetailLine.StockLink = row.Cells("StockLink").Text
-                objClsInvHeaderDetailLine.cDescription = row.Cells("Description1").Value
-                '----Starting Stock Items details----
-
-                If row.Cells("Qty").Text = "" Then
-                    objClsInvHeaderDetailLine.fQuantity = 0
-                Else
-                    objClsInvHeaderDetailLine.fQuantity = row.Cells("Qty").Text
-                End If
-                objClsInvHeaderDetailLine.iHeight = row.Cells("Height").Text
-                objClsInvHeaderDetailLine.iWidth = row.Cells("Width").Text
-                objClsInvHeaderDetailLine.fVolume = row.Cells("Volume").Value
-
-                '----Starting finance data----
-                objClsInvHeaderDetailLine.PRICE_TYPES_ID = row.Cells("Price_Type").Value
-                objClsInvHeaderDetailLine.fOriginal_Price = row.Cells("Price").Text
-                objClsInvHeaderDetailLine.fDiscount_Amount = row.Cells("DiscAmt").Value
-                objClsInvHeaderDetailLine.fItem_Gross = row.Cells("ItmExcAmount").Value
-
-                objClsInvHeaderDetailLine.Foreign_InvTotIncl = row.Cells("OrgPrice").Value
-
-                objClsInvHeaderDetailLine.fItem_tax = row.Cells("Tax").Value
-                objClsInvHeaderDetailLine.iTaxTypeID = row.Cells("TaxRate").Value
-                objClsInvHeaderDetailLine.fTaxRate = row.Cells("TaxRateValue").Value
-                objClsInvHeaderDetailLine.fItem_Net = row.Cells("Net").Value
-                objClsInvHeaderDetailLine.fTotal_Amt = row.Cells("Amount").Text
-                '----Ending finance data----
-
-                objClsInvHeaderDetailLine.LineNotes = row.Cells("LineNotes").Text
-                objClsInvHeaderDetailLine.Comment2 = row.Cells("MarkAs").Text
-                objClsInvHeaderDetailLine.LineType = row.Cells("QuoteFiedType").Value
-                objClsInvHeaderDetailLine.LineComments = row.Cells("LineComments").Text
-                objClsInvHeaderDetailLine.IsPriceItem = row.Cells("IsPriceItem").Value
-                objClsInvHeaderDetailLine.ShapeFileName = IIf(IsDBNull(row.Cells("Shape").Value), "", row.Cells("Shape").Value)
-
-                objClsInvHeader.AddInvDetailLines(objClsInvHeaderDetailLine)
-
-            Next
-
-            recState = objClsInvHeader.UpdateInvDetailLines()
-            If recState = -1 Then
-                objClsInvHeader.Rollback_Trans()
-                Exit Sub
-            Else
-
-                If oSOModuleDefaults.UseShapes = True And oProdDefaults.OptimizeApp = GlassOptimizeApp.PerfectCut Then
-                    SQL = "DELETE FROM spilInvNumLines_ShapeDetails WHERE OrderIndex = " & orderIndex & " "
-                    If objClsInvHeader.Execute_Sql_Trans(SQL) = 0 Then
-                        MsgBox("Error in Perfect Cut Shapes", MsgBoxStyle.Critical, "SPIL Glass")
-                        objClsInvHeader.Rollback_Trans()
-                        Exit Sub
-                    End If
-                End If
-
-                Dim collspPara As New Collection
-                Dim colPara As New spParameters
-                Dim newSQLQuery As String = ""
-
-                colPara.ParaName = "@QuoteStateID"
-                If isACopy = True Then
-                    colPara.ParaValue = QuoteStateValue.EditMode
-                Else
-                    colPara.ParaValue = utxtQuoteState.Value
-                End If
-
-                collspPara.Add(colPara)
-
-
-                newSQLQuery = "UPDATE spilInvNum SET QuoteStateID = @QuoteStateID WHERE OrderIndex = '" & quoteOrdeIndex & "'"
-
-                If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
-                    modGlazingQuoteExtension.GQShowMessage("Erro in item Quote State ID", Me.Text, MsgBoxStyle.Critical)
-                    objClsInvHeader.Rollback_Trans()
-                    Exit Sub
-                End If
-
-                collspPara.Clear()
-
-                'Job ID Update
-                Dim collspParaJ As New Collection
-                Dim colParaJ As New spParameters
-
-                colParaJ.ParaName = "@JobID"
-                colParaJ.ParaValue = _JobId
-
-                collspParaJ.Add(colParaJ)
-
-                newSQLQuery = "UPDATE spilInvNum SET JobID = @JobID WHERE OrderIndex = '" & quoteOrdeIndex & "'"
-
-                If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspParaJ) = 0 Then
-                    modGlazingQuoteExtension.GQShowMessage("Error in item Quote StageID & JobID", Me.Text, MsgBoxStyle.Critical)
-                    objClsInvHeader.Rollback_Trans()
-                    Exit Sub
-                End If
-
-                collspParaJ.Clear()
-
-                'Stage ID Update
-                Dim collspParaS As New Collection
-                Dim colParaS As New spParameters
-
-                colParaS.ParaName = "@StageID"
-                colParaS.ParaValue = _StageId
-
-                collspParaS.Add(colParaS)
-
-                newSQLQuery = "UPDATE spilInvNum SET StageID = @StageID WHERE OrderIndex = '" & quoteOrdeIndex & "'"
-
-                If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspParaS) = 0 Then
-                    modGlazingQuoteExtension.GQShowMessage("Error in item Quote StageID & JobID", Me.Text, MsgBoxStyle.Critical)
-                    objClsInvHeader.Rollback_Trans()
-                    Exit Sub
-                End If
-
-                collspParaS.Clear()
-
-                'Total Amount Update
-                Dim collspParaI As New Collection
-                Dim colParaI As New spParameters
-
-                colParaI.ParaName = "@InvTotIncl"
-                colParaI.ParaValue = Convert.ToDecimal(lblTotExcAmo.Text)
-
-                collspParaI.Add(colParaI)
-
-                newSQLQuery = "UPDATE spilInvNum SET InvTotIncl = @InvTotIncl WHERE OrderIndex = '" & quoteOrdeIndex & "'"
-
-                If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspParaI) = 0 Then
-                    modGlazingQuoteExtension.GQShowMessage("Error in Total Amount", Me.Text, MsgBoxStyle.Critical)
-                    objClsInvHeader.Rollback_Trans()
-                    Exit Sub
-                End If
-
-                collspParaI.Clear()
-
-                'Picture
-                Dim imageArray = row.Cells("ItemImageByteArray").Value
-
-
+            If saveWithoutItem = False Then
+                ' Dim idInvoiceLines = 0
                 For Each row In enumerator
-                    If IsDBNull(row.Cells("ItemImage").Value) = False And IsDBNull(row.Cells("ItemImageByteArray").Value) = False Then
-                        imageArray = row.Cells("ItemImageByteArray").Value
+                    'idInvoiceLines = row.Index
+                    objClsInvHeaderDetailLine = New clsInvDetailLine
 
+                    '----Starting Item Line identifers----
+                    objClsInvHeaderDetailLine.iInvDetailID = row.Cells("iInvDetailID").Value
+                    objClsInvHeaderDetailLine.LN = row.Cells("ItmGroupID").Value
+                    objClsInvHeaderDetailLine.OrderIndex = orderIndex
+                    objClsInvHeaderDetailLine.idInvoiceLines = row.Index
+
+                    '----Ending Item Line identifers----
+
+                    '----Starting Stock Items details----
+                    If row.Cells("QuoteFiedType").Value <> QuateFiedTypesList.Stock_Item Then
+                        objClsInvHeaderDetailLine.StockLink = defaultItemForText
+                        objClsInvHeaderDetailLine.ItemType = 4
+                        objClsInvHeaderDetailLine.cDescription = row.Cells("LineComments").Value
                     Else
-                        imageArray = emptyArray
-
+                        objClsInvHeaderDetailLine.StockLink = row.Cells("StockLink").Text
+                        objClsInvHeaderDetailLine.ItemType = row.Cells("ItemType").Text
+                        objClsInvHeaderDetailLine.cDescription = row.Cells("Description1").Value
                     End If
 
-                    colPara.ParaName = "@ItemImage"
-                    colPara.ParaValue = imageArray
-                    collspPara.Add(colPara)
 
-                    colPara.ParaName = "@isImageAttached"
-                    colPara.ParaValue = row.Cells("isImageAttached").Value
-                    collspPara.Add(colPara)
+                    '----Starting Stock Items details----
 
-                    colPara.ParaName = "@isShapeAttached"
-                    colPara.ParaValue = row.Cells("isShapeAttached").Value
-                    collspPara.Add(colPara)
-
-
-                    newSQLQuery = "UPDATE spilInvNumLines SET ItemImage = @ItemImage, isImageAttached = @isImageAttached, isShapeAttached = @isShapeAttached WHERE OrderIndex = '" & quoteOrdeIndex & "' AND idInvoiceLines = '" & row.Index & "'"
-
-                    If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
-                        modGlazingQuoteExtension.GQShowMessage("Erro in item pictures", Me.Text, MsgBoxStyle.Critical)
-                        objClsInvHeader.Rollback_Trans()
-                        Exit Sub
+                    If row.Cells("Qty").Text = "" Then
+                        objClsInvHeaderDetailLine.fQuantity = 0
+                    Else
+                        objClsInvHeaderDetailLine.fQuantity = row.Cells("Qty").Text
                     End If
-                    collspPara.Clear()
+                    objClsInvHeaderDetailLine.iHeight = row.Cells("Height").Text
+                    objClsInvHeaderDetailLine.iWidth = row.Cells("Width").Text
+
+                    'For fractions--
+                    'objClsInvHeaderDetailLine.DisHeight = row.Cells("Dis.Height").Text
+                    'objClsInvHeaderDetailLine.DisWidth = row.Cells("Dis.Width").Text
+                    'objClsInvHeaderDetailLine.SQFeetForPricing = row.Cells("SQFeetForPricing").Value
+
+                    '------
+
+                    objClsInvHeaderDetailLine.fVolume = row.Cells("Volume").Value
+
+                    '----Starting finance data----
+                    If row.Cells("QuoteFiedType").Value <> QuateFiedTypesList.Stock_Item Then
+                        objClsInvHeaderDetailLine.PRICE_TYPES_ID = 15
+                        objClsInvHeaderDetailLine.PriceList = oSOModuleDefaults.DefaultTradePriceListID
+                        objClsInvHeaderDetailLine.Measure = 1
+                        objClsInvHeaderDetailLine.PriceCategory = "T"
+                    Else
+                        objClsInvHeaderDetailLine.PRICE_TYPES_ID = row.Cells("Price_Type").Value
+                        'objClsInvHeaderDetailLine.PriceList = row.Cells("PriceList").Value
+                        objClsInvHeaderDetailLine.PriceList = IIf(IsDBNull(row.Cells("PriceList").Value), 0, row.Cells("PriceList").Value)
+                        objClsInvHeaderDetailLine.Measure = row.Cells("Measure").Value
+                        objClsInvHeaderDetailLine.PriceCategory = If((row.Cells("PriceCat").Value = ""), "T", row.Cells("PriceCat").Value)
+                    End If
+
+                    objClsInvHeaderDetailLine.OrgPrice = CDbl(row.Cells("OrgPrice").Value)
+                    objClsInvHeaderDetailLine.Qty_Suspended = 0
+                    objClsInvHeaderDetailLine.Motif = IIf((row.Cells("Motif").Value) = True, 1, 0)
+                    objClsInvHeaderDetailLine.IsPriceItem = IIf((row.Cells("IsPriceItem").Value) = True, 1, 0)
+
+                    objClsInvHeaderDetailLine.ProcessedID = GlassInvLineProductionState.UnProcessed
+
+                    objClsInvHeaderDetailLine.fUnitCost = row.Cells("Price").Text
+                    objClsInvHeaderDetailLine.fOriginal_Price = row.Cells("Price").Text
+                    objClsInvHeaderDetailLine.fDiscount_Amount = row.Cells("DiscAmt").Value
+                    objClsInvHeaderDetailLine.fItem_Gross = row.Cells("ItmExcAmount").Value
+
+                    objClsInvHeaderDetailLine.fService_Net = row.Cells("ServiceItemTotNet").Value
+                    objClsInvHeaderDetailLine.fService_tax = row.Cells("ServiceItemTax").Value
+                    objClsInvHeaderDetailLine.fService_Gross = row.Cells("ServiceGross").Value
+
+                    '<<<<<<<Just in case comment line after this>>>>>>>>
+                    objClsInvHeaderDetailLine.OrgPrice = row.Cells("Original_Price").Value
 
 
-                    If row.Cells("ShapeDetails").Value.GetType() Is GetType(PCShapeDetails) Then
-                        Dim Shape As PCShapeDetails = CType(row.Cells("ShapeDetails").Value, PCShapeDetails)
-                        If Not IsNothing(Shape) Then
-                            For Each oLine As clsInvDetailLine In objClsInvHeader.collDetailInvLines
-                                If oLine.idInvoiceLines = row.Index Then
-                                    Shape.iInvDetailID = oLine.iInvDetailID
-                                    Exit For
-                                End If
-                            Next
-                            Shape.OrderIndex = orderIndex
-                            colPara.ParaName = "@OrderIndex"
-                            colPara.ParaValue = Shape.OrderIndex
-                            collspPara.Add(colPara)
-                            colPara.ParaName = "@iInvDetailID"
-                            colPara.ParaValue = Shape.iInvDetailID
-                            collspPara.Add(colPara)
-                            colPara.ParaName = "@ShapeXML"
-                            colPara.ParaValue = Shape.ShapeXML
-                            collspPara.Add(colPara)
-                            colPara.ParaName = "@ShapeSAX"
-                            colPara.ParaValue = Shape.ShapeSAX
-                            collspPara.Add(colPara)
-                            colPara.ParaName = "@ShapePNG"
-                            colPara.ParaValue = Shape.ShapePNG
-                            collspPara.Add(colPara)
-                            colPara.ParaName = "@ShapeDimensions"
-                            colPara.ParaValue = Shape.ShapeDimensions
-                            collspPara.Add(colPara)
-                            colPara.ParaName = "@ShapeSizes"
-                            colPara.ParaValue = Shape.ShapeSizes
-                            collspPara.Add(colPara)
-                            colPara.ParaName = "@ShapeName"
-                            colPara.ParaValue = Shape.ShapeName
-                            collspPara.Add(colPara)
-                            SQL = "INSERT INTO spilInvNumLines_ShapeDetails (OrderIndex,iInvDetailID,ShapeXML,ShapeSAX,ShapePNG,ShapeDimensions,ShapeSizes,ShapeName) VALUES(@OrderIndex,@iInvDetailID,@ShapeXML,@ShapeSAX,@ShapePNG,@ShapeDimensions,@ShapeSizes,@ShapeName)"
-                            If objClsInvHeader.EXE_SQL_Trans_Para_Return(SQL, collspPara) = 0 Then
-                                sError = "Error in Perfect Cut Shapes "
-                                objClsInvHeader.Rollback_Trans()
-                                Exit Sub
-                            End If
-                            collspPara.Clear()
+                    objClsInvHeaderDetailLine.Foreign_InvTotIncl = row.Cells("OrgPrice").Value
+
+                    objClsInvHeaderDetailLine.fItem_tax = row.Cells("Tax").Value
+                    objClsInvHeaderDetailLine.iTaxTypeID = row.Cells("TaxRate").Value
+                    objClsInvHeaderDetailLine.fTaxRate = row.Cells("TaxRateValue").Value
+                    objClsInvHeaderDetailLine.fItem_Net = row.Cells("Net").Value
+                    objClsInvHeaderDetailLine.fTotal_Amt = row.Cells("Amount").Text
+                    '----Ending finance data----
+
+                    objClsInvHeaderDetailLine.LineNotes = row.Cells("LineNotes").Text
+                    objClsInvHeaderDetailLine.Comment2 = row.Cells("MarkAs").Text
+                    objClsInvHeaderDetailLine.LineType = row.Cells("QuoteFiedType").Value
+                    objClsInvHeaderDetailLine.LineComments = row.Cells("LineComments").Text
+                    objClsInvHeaderDetailLine.IsPriceItem = row.Cells("IsPriceItem").Value
+                    objClsInvHeaderDetailLine.ShapeFileName = IIf(IsDBNull(row.Cells("Shape").Value), "", row.Cells("Shape").Value)
+
+                    objClsInvHeader.AddInvDetailLines(objClsInvHeaderDetailLine)
+
+                Next
+
+                If isPrintPreview = True Then
+                    recState = objClsInvHeader.UpdateInvDetailLines2()
+                Else
+                    recState = objClsInvHeader.UpdateInvDetailLines()
+                End If
+
+                If recState = -1 Then
+                    objClsInvHeader.Rollback_Trans()
+                    Exit Function
+                Else
+
+                    If oSOModuleDefaults.UseShapes = True And oFacDefaults.OptimizeApp = GlassOptimizeApp.PerfectCut And isPrintPreview = False Then
+                        SQL = "DELETE FROM spilInvNumLines_ShapeDetails WHERE OrderIndex = " & orderIndex & " "
+                        If objClsInvHeader.Execute_Sql_Trans(SQL) = 0 Then
+                            MsgBox("Error in Perfect Cut Shapes", MsgBoxStyle.Critical, "SPIL Glass")
+                            objClsInvHeader.Rollback_Trans()
+                            Exit Function
                         End If
                     End If
-                Next
-                'Update Shape table with Line and Order ID
+
+                    Dim collspPara As New Collection
+                    Dim colPara As New spParameters
+                    Dim newSQLQuery As String = ""
+
+                    If isPrintPreview = False Then
+                        colPara.ParaName = "@QuoteStateID"
+                        If isACopy = True Then
+                            colPara.ParaValue = QuoteStateValue.EditMode
+                        Else
+                            colPara.ParaValue = utxtQuoteState.Value
+                        End If
+
+                        collspPara.Add(colPara)
+
+                        colPara.ParaName = "@DefaultTaxRateForQuote"
+                        colPara.ParaValue = defaultTaxRateForQuote
+                        collspPara.Add(colPara)
 
 
+                        colPara.ParaName = "@DefaultTaxRateValueForQuote"
+                        colPara.ParaValue = defaultTaxRateValueForQuote
+                        collspPara.Add(colPara)
 
+                        newSQLQuery = "UPDATE spilInvNum SET QuoteStateID = @QuoteStateID, DefaultTaxRateForQuote = @DefaultTaxRateForQuote, DefaultTaxRateValueForQuote = @DefaultTaxRateValueForQuote WHERE OrderIndex = '" & quoteOrdeIndex & "'"
+
+                        If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
+                            modGlazingQuoteExtension.GQShowMessage("Erro in item Quote State ID", Me.Text, MsgBoxStyle.Critical)
+                            objClsInvHeader.Rollback_Trans()
+                            Exit Function
+                        End If
+
+                        collspPara.Clear()
+
+                        'Job ID Update
+                        Dim collspParaJ As New Collection
+                        Dim colParaJ As New spParameters
+
+                        colParaJ.ParaName = "@JobID"
+                        colParaJ.ParaValue = _JobId
+
+                        collspParaJ.Add(colParaJ)
+
+                        newSQLQuery = "UPDATE spilInvNum SET JobID = @JobID WHERE OrderIndex = '" & quoteOrdeIndex & "'"
+
+                        If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspParaJ) = 0 Then
+                            modGlazingQuoteExtension.GQShowMessage("Error in item Quote StageID & JobID", Me.Text, MsgBoxStyle.Critical)
+                            objClsInvHeader.Rollback_Trans()
+                            Exit Function
+                        End If
+
+                        collspParaJ.Clear()
+
+                        'Stage ID Update
+                        Dim collspParaS As New Collection
+                        Dim colParaS As New spParameters
+
+                        colParaS.ParaName = "@StageID"
+                        colParaS.ParaValue = _StageId
+
+                        collspParaS.Add(colParaS)
+
+                        newSQLQuery = "UPDATE spilInvNum SET StageID = @StageID WHERE OrderIndex = '" & quoteOrdeIndex & "'"
+
+                        If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspParaS) = 0 Then
+                            modGlazingQuoteExtension.GQShowMessage("Error in item Quote StageID & JobID", Me.Text, MsgBoxStyle.Critical)
+                            objClsInvHeader.Rollback_Trans()
+                            Exit Function
+                        End If
+
+                        collspParaS.Clear()
+
+                        'Total Amount Update
+                        Dim collspParaI As New Collection
+                        Dim colParaI As New spParameters
+
+                        colParaI.ParaName = "@InvTotIncl"
+                        colParaI.ParaValue = Convert.ToDecimal(lblTotExcAmo.Text)
+
+                        collspParaI.Add(colParaI)
+
+                        newSQLQuery = "UPDATE spilInvNum SET InvTotIncl = @InvTotIncl WHERE OrderIndex = '" & quoteOrdeIndex & "'"
+
+                        If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspParaI) = 0 Then
+                            modGlazingQuoteExtension.GQShowMessage("Error in Total Amount", Me.Text, MsgBoxStyle.Critical)
+                            objClsInvHeader.Rollback_Trans()
+                            Exit Function
+                        End If
+
+                        collspParaI.Clear()
+
+                    End If
+
+                    'Picture
+                    Dim imageArray = row.Cells("ItemImageByteArray").Value
+
+                    For Each row In enumerator
+                        If IsDBNull(row.Cells("ItemImage").Value) = False And IsDBNull(row.Cells("ItemImageByteArray").Value) = False Then
+                            imageArray = row.Cells("ItemImageByteArray").Value
+
+                        Else
+                            imageArray = emptyArray
+
+                        End If
+
+                        colPara.ParaName = "@ItemImage"
+                        colPara.ParaValue = imageArray
+                        collspPara.Add(colPara)
+
+                        colPara.ParaName = "@isImageAttached"
+                        colPara.ParaValue = row.Cells("isImageAttached").Value
+                        collspPara.Add(colPara)
+
+                        colPara.ParaName = "@isShapeAttached"
+                        colPara.ParaValue = row.Cells("isShapeAttached").Value
+                        collspPara.Add(colPara)
+
+                        colPara.ParaName = "@templateData"
+                        If IsNothing(row.Cells("templateData").Value) = True Then
+                            colPara.ParaValue = ""
+                        Else
+                            colPara.ParaValue = row.Cells("templateData").Value
+                        End If
+
+                        collspPara.Add(colPara)
+
+                        If isPrintPreview = True Then
+                            newSQLQuery = "UPDATE spilInvNumLines2 SET ItemImage = @ItemImage, isImageAttached = @isImageAttached, isShapeAttached = @isShapeAttached, templateData = @templateData WHERE OrderIndex = '" & quoteOrdeIndex & "' AND idInvoiceLines = '" & row.Index & "'"
+                        Else
+                            newSQLQuery = "UPDATE spilInvNumLines SET ItemImage = @ItemImage, isImageAttached = @isImageAttached, isShapeAttached = @isShapeAttached, templateData = @templateData WHERE OrderIndex = '" & quoteOrdeIndex & "' AND idInvoiceLines = '" & row.Index & "'"
+                        End If
+
+                        If objClsInvHeader.EXE_SQL_Trans_Para_Return(newSQLQuery, collspPara) = 0 Then
+                            modGlazingQuoteExtension.GQShowMessage("Erro in item pictures", Me.Text, MsgBoxStyle.Critical)
+                            objClsInvHeader.Rollback_Trans()
+                            Exit Function
+                        End If
+                        collspPara.Clear()
+
+
+                        If row.Cells("ShapeDetails").Value.GetType() Is GetType(PCShapeDetails) And isPrintPreview = False Then
+                            Dim Shape As PCShapeDetails = CType(row.Cells("ShapeDetails").Value, PCShapeDetails)
+                            If Not IsNothing(Shape) Then
+                                For Each oLine As clsInvDetailLine In objClsInvHeader.collDetailInvLines
+                                    If oLine.idInvoiceLines = row.Index Then
+                                        Shape.iInvDetailID = oLine.iInvDetailID
+                                        Exit For
+                                    End If
+                                Next
+                                Shape.OrderIndex = orderIndex
+                                colPara.ParaName = "@OrderIndex"
+                                colPara.ParaValue = Shape.OrderIndex
+                                collspPara.Add(colPara)
+                                colPara.ParaName = "@iInvDetailID"
+                                colPara.ParaValue = Shape.iInvDetailID
+                                collspPara.Add(colPara)
+                                colPara.ParaName = "@ShapeXML"
+                                colPara.ParaValue = Shape.ShapeXML
+                                collspPara.Add(colPara)
+                                colPara.ParaName = "@ShapeSAX"
+                                colPara.ParaValue = Shape.ShapeSAX
+                                collspPara.Add(colPara)
+                                colPara.ParaName = "@ShapePNG"
+                                colPara.ParaValue = Shape.ShapePNG
+                                collspPara.Add(colPara)
+                                colPara.ParaName = "@ShapeDimensions"
+                                colPara.ParaValue = Shape.ShapeDimensions
+                                collspPara.Add(colPara)
+                                colPara.ParaName = "@ShapeSizes"
+                                colPara.ParaValue = Shape.ShapeSizes
+                                collspPara.Add(colPara)
+                                colPara.ParaName = "@ShapeName"
+                                colPara.ParaValue = Shape.ShapeName
+                                collspPara.Add(colPara)
+                                SQL = "INSERT INTO spilInvNumLines_ShapeDetails (OrderIndex,iInvDetailID,ShapeXML,ShapeSAX,ShapePNG,ShapeDimensions,ShapeSizes,ShapeName) VALUES(@OrderIndex,@iInvDetailID,@ShapeXML,@ShapeSAX,@ShapePNG,@ShapeDimensions,@ShapeSizes,@ShapeName)"
+                                If objClsInvHeader.EXE_SQL_Trans_Para_Return(SQL, collspPara) = 0 Then
+                                    sError = "Error in Perfect Cut Shapes "
+                                    objClsInvHeader.Rollback_Trans()
+                                    Exit Function
+                                End If
+                                collspPara.Clear()
+                            End If
+                        End If
+                    Next
+                    'Update Shape table with Line and Order ID
+                End If
             End If
 
-            SQL = "DELETE FROM spilInvDocs WHERE OrderIndex = " & orderIndex & " "
-            If objClsInvHeader.Execute_Sql_Trans(SQL) = 0 Then
-                MsgBox("Error in Attched Documents", MsgBoxStyle.Critical, "SPIL Glass")
-                objClsInvHeader.Rollback_Trans()
-                Exit Sub
-            End If
-
-            Dim IsDocFound As Boolean = False
-            For Each mdr As UltraGridRow In UGDocs.Rows
-                SQL = " set dateformat dmy INSERT INTO spilInvDocs " & _
-                        "(OrderIndex, Line_No,  Path   ) VALUES (" & orderIndex & "," & mdr.Index + 1 & ", '" & IIf(IsDBNull(mdr.Cells(1).Value) = True, String.Empty, mdr.Cells(1).Value) & "' )"
+            If isPrintPreview = True Then
+                SQL = "DELETE FROM spilInvDocs WHERE OrderIndex = " & orderIndex & " "
                 If objClsInvHeader.Execute_Sql_Trans(SQL) = 0 Then
                     MsgBox("Error in Attched Documents", MsgBoxStyle.Critical, "SPIL Glass")
                     objClsInvHeader.Rollback_Trans()
-                    Exit Sub
+                    Exit Function
                 End If
-            Next
 
-            Dim newGlazingNotification As New clsGlazingQuoteNotification()
-            If newGlazingNotification.GetNotificationDetails(objClsInvHeader, isExistingOrder, utxtQuoteJobID.Text) = 0 Then
-                objClsInvHeader.Rollback_Trans()
-                Exit Sub
-            End If
+                Dim IsDocFound As Boolean = False
+                For Each mdr As UltraGridRow In UGDocs.Rows
+                    SQL = " set dateformat dmy INSERT INTO spilInvDocs " & _
+                            "(OrderIndex, Line_No,  Path   ) VALUES (" & orderIndex & "," & mdr.Index + 1 & ", '" & IIf(IsDBNull(mdr.Cells(1).Value) = True, String.Empty, mdr.Cells(1).Value) & "' )"
+                    If objClsInvHeader.Execute_Sql_Trans(SQL) = 0 Then
+                        MsgBox("Error in Attched Documents", MsgBoxStyle.Critical, "SPIL Glass")
+                        objClsInvHeader.Rollback_Trans()
+                        Exit Function
+                    End If
+                Next
 
-            If IsNothing(utxtQuoteState.Text) = False And IsNothing(utxtQuoteState.Value) = False Then
-                If isExistingOrder = False Then
-                    clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "Quotation created")
+                Dim newGlazingNotification As New clsGlazingQuoteNotification()
+                If newGlazingNotification.GetNotificationDetails(objClsInvHeader, isExistingOrder, utxtQuoteJobID.Text) = 0 Then
+                    objClsInvHeader.Rollback_Trans()
+                    Exit Function
+                End If
 
-                ElseIf utxtQuoteState.Value <> QuoteStateValue.EditMode Then
+                If IsNothing(utxtQuoteState.Text) = False And IsNothing(utxtQuoteState.Value) = False Then
+                    If isExistingOrder = False Then
+                        clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "Quotation created")
 
-                    If utxtQuoteState.Value = QuoteStateValue.Copy Then
-                        If clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "this is a copy of " & preQuoteNumber & " quotation") = 0 Then
-                            Exit Sub
+                    ElseIf utxtQuoteState.Value <> QuoteStateValue.EditMode Then
+
+                        If utxtQuoteState.Value = QuoteStateValue.Copy Then
+                            If clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "this is a copy of " & preQuoteNumber & " quotation") = 0 Then
+                                Exit Function
+                            End If
+
+                        Else
+                            clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader)
+
                         End If
+                    ElseIf isExistingOrder = False Then
+                        If clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "") = 0 Then
+                            Exit Function
+                        End If
+                        If utxtQuoteState.Value = QuoteStateValue.Cancelled Then
 
-                    Else
-                        clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader)
-
-                    End If
-                ElseIf isExistingOrder = False Then
-                    If clsGlazingQuoteExtensionObj.GQDocumentLog(orderIndex, utxtQuoteState.Text, objClsInvHeader, "") = 0 Then
-                        Exit Sub
-                    End If
-                    If utxtQuoteState.Value = QuoteStateValue.Cancelled Then
-
+                        End If
                     End If
                 End If
+                clsGQExtensionForJobCostingObj.SaveJobProjectInfo(objClsInvHeader)
             End If
-
-            clsGQExtensionForJobCostingObj.SaveJobProjectInfo(objClsInvHeader)
             objClsInvHeader.Commit_Trans()
-            isACopy = False
-            isSaved = True
 
-            If MsgBox("Do you want to print the quotation : " & objClsInvHeader.OrderNum.ToString & " ?", MsgBoxStyle.YesNo + MessageBoxIcon.Question, "Quotation") = MsgBoxResult.Yes Then
-                LoadPrint(objClsInvHeader, orderIndex)
-            End If
-            If isClosing = fasle Then
-                If MsgBox("Do you want to exit now ?", MessageBoxButtons.YesNo + MessageBoxIcon.Question, "Confirmation") = MsgBoxResult.Yes Then
+            If isPrintPreview = False Then
+                isACopy = False
+                isSaved = True
 
-                    Me.Dispose()
-                    Exit Sub
-                Else
-                    LoadExstingQuote()
+                If MsgBox("Do you want to print the quotation : " & objClsInvHeader.OrderNum.ToString & " ?", MsgBoxStyle.YesNo + MessageBoxIcon.Question, "Quotation") = MsgBoxResult.Yes Then
+                    LoadPrint(objClsInvHeader, orderIndex)
+                End If
+                If isClosing = fasle Then
+                    If MsgBox("Do you want to exit now ?", MessageBoxButtons.YesNo + MessageBoxIcon.Question, "Confirmation") = MsgBoxResult.Yes Then
 
+                        Me.Dispose()
+                        Exit Function
+                    Else
+                        LoadExstingQuote()
+
+                    End If
                 End If
             End If
             objClsInvHeader = Nothing
-
+            Return 1
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
             lblOrderNo.Text = ""
@@ -1695,7 +1913,8 @@ Public Class frmGlazingQuote
 
         End Try
 
-    End Sub
+    End Function
+
     Function SaveGlzQuoteJobDetails(objSQL As clsInvHeader, ByRef quoteOrdeIndex As Integer) As Integer
 
         Dim collspPara As New Collection
@@ -1999,6 +2218,7 @@ Public Class frmGlazingQuote
                 frmDocumentPrint_Email.cmdEmail.Enabled = False
                 frmDocumentPrint_Email.chkEmail.Enabled = False
             End If
+            ' frmDocumentPrint_Email.quoteAttachmentsDataset = UGDocs.DataSource
             frmDocumentPrint_Email.SetDocumentControlProperties()
             frmDocumentPrint_Email.LoadGridData()
             frmDocumentPrint_Email.FillEmailData()
@@ -2285,7 +2505,7 @@ Public Class frmGlazingQuote
                                 End If
 
                             ElseIf row.Cells("QuoteFiedType").Text = "Subtotal" Then
-                                row.Cells("Amount").Value = subTotal
+                                row.Cells("Amount").Value = Math.Round(subTotal, 2, MidpointRounding.AwayFromZero)
 
                             End If
 
@@ -2401,6 +2621,7 @@ Public Class frmGlazingQuote
         'pubMeSODocument = New clsInvHeader(quoteOrdeIndex)
         txtOrdDate.Value = Today.Date
         txtDueDate.Value = Today.AddDays(2).Date
+        txtPostelAdd.Enabled = False
         Try
             If quoteOrdeIndex > 0 Then
                 isOpeningQuote = True
@@ -2437,6 +2658,8 @@ Public Class frmGlazingQuote
                         For Each objQutDetailline In ds.Tables(0).Rows
                             pubMeSpilDocStatusID = objQutDetailline("DocState")
                             cmbCusType.Value = objQutDetailline("iCusType")
+                            defaultTaxRateForQuote = objQutDetailline("DefaultTaxRateForQuote")
+                            defaultTaxRateValueForQuote = objQutDetailline("DefaultTaxRateValueForQuote")
 
                             If cmbCusType.Value = 0 Then
                                 cmbAccount.Value = objQutDetailline("AccountID")
@@ -2491,6 +2714,9 @@ Public Class frmGlazingQuote
                             quoteDocRepID = objQutDetailline("DocRepID")
                             utxtQuoteState.Value = objQutDetailline("QuoteStateID")
                             cmbSalesRep.Value = objQutDetailline("DocRepID")
+                            If objQutDetailline("Quoted_Incl") > 0 Then
+                                isTaxedPrice = True
+                            End If
 
                             If IsDBNull(objQutDetailline("GlzQuoteJobID")) = False Then
                                 If isACopy = False Then
@@ -2575,6 +2801,7 @@ Public Class frmGlazingQuote
 
             Else
                 cmbAccount.Focus()
+                SetExpireDate()
 
             End If
 
@@ -2621,6 +2848,8 @@ Public Class frmGlazingQuote
                         dr.Cells("StockLink").Value = objQutDetailline("StockLink")
                         dr.Cells("Description1").Value = objQutDetailline("cDescription")
                         dr.Cells("Price_Type").Value = objQutDetailline("PRICE_TYPES_ID")
+                        dr.Cells("PriceList").Value = objQutDetailline("PriceList")
+
                         '----Starting Stock Items details----
 
                         dr.Cells("Qty").Value = objQutDetailline("fQuantity")
@@ -2637,7 +2866,7 @@ Public Class frmGlazingQuote
                         dr.Cells("TaxRateValue").Value = objQutDetailline("fTaxRate")
                         dr.Cells("NET").Value = objQutDetailline("fItem_Net")
                         dr.Cells("amount").Value = objQutDetailline("fTotal_Amt")
-
+                        dr.Cells("Original_Price").Value = objQutDetailline("OrgPrice")
                         dr.Cells("OrgPrice").Value = objQutDetailline("Foreign_InvTotIncl")
                         '----Ending finance data----
 
@@ -2646,6 +2875,7 @@ Public Class frmGlazingQuote
                         dr.Cells("MarkAs").Value = objQutDetailline("Comment2")
                         dr.Cells("IsPriceItem").Value = objQutDetailline("IsPriceItem")
                         dr.Cells("LineComments").Value = objQutDetailline("LineComments")
+                        dr.Cells("templateData").Value = objQutDetailline("templateData")
 
                         If IsDBNull(objQutDetailline("ItemImage")) = False Then
                             Dim image As Byte() = objQutDetailline("ItemImage")
@@ -2673,11 +2903,14 @@ Public Class frmGlazingQuote
 
                         End If
 
-                        Me.UG2.ActiveRow.PerformAutoSize()
+                        dr.Cells("ServiceItemTotNet").Value = objQutDetailline("fService_Net")
+                        dr.Cells("ServiceItemTax").Value = objQutDetailline("fService_tax")
+                        dr.Cells("ServiceGross").Value = objQutDetailline("fService_Gross")
 
+                        Me.UG2.ActiveRow.PerformAutoSize()
                     Next
 
-                    If oSOModuleDefaults.UseShapes = True And oProdDefaults.OptimizeApp = GlassOptimizeApp.PerfectCut Then
+                    If oSOModuleDefaults.UseShapes = True And oFacDefaults.OptimizeApp = GlassOptimizeApp.PerfectCut Then
                         SQL = "SELECT spd.ID ,spd.OrderIndex,spd.iInvDetailID,spd.ShapeXML,spd.ShapeSAX,spd.ShapePNG,spd.ShapeDimensions,spd.ShapeSizes,spd.ShapeName FROM spilInvNumLines_ShapeDetails spd INNER JOIN spilInvNumLines  ind ON ind.iInvDetailID=spd.iInvDetailID WHERE spd.OrderIndex = " & quoteOrdeIndex & ""
                         Dim perfectDS As New DataSet()
                         perfectDS = .GET_DATA_SQL(SQL)
@@ -2729,37 +2962,73 @@ Public Class frmGlazingQuote
 
     End Sub
 
+    Function GetQuoteDefaultData() As DataSet
+        Try
+            Dim sqlQuary As String = ""
+            Dim clsSqlConnObj As New clsSqlConn
+
+            sqlQuary = "SELECT GlzQuote_Defaults.isTaxInc, GlzQuote_Defaults.defaultTaxtRate, GlzQuote_Defaults.AllowBlankCustomerOrderNo, GlzQuote_Defaults.getTaxRateFromCustomer, TaxRate.TaxRate " & _
+                  "FROM  GlzQuote_Defaults " & _
+                  "INNER JOIN TaxRate ON GlzQuote_Defaults.defaultTaxtRate = TaxRate.idTaxRate " & _
+                  "WHERE GlzQuote_Defaults.createdBy= " & AgentID
+
+            sqlQuary += "SELECT * FROM GlzQuote_Defaults WHERE GlzQuote_Defaults.createdBy= " & AgentID
+
+            glzQuoteTax = clsSqlConnObj.GET_INSERT_UPDATE(sqlQuary)
+
+            Return glzQuoteTax
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
     Public Sub GetQuoteTaxState(ByRef taxCheckState As Integer, ByRef taxtRate As Integer)
-
+        Dim glzQuoteTax As DataSet
+        Dim newTable As DataTable
+        Dim hasValues As Boolean = False
         If IsNothing(taxCheckState) = False Then
-
             'User default tax rate
             If taxCheckState = -1 Then
-                Dim glzQuoteTax As DataSet
-                Dim sqlQuary As String = ""
                 Try
-                    sqlQuary = "SELECT GlzQuote_Defaults.isTaxInc, GlzQuote_Defaults.defaultTaxtRate, GlzQuote_Defaults.AllowBlankCustomerOrderNo, TaxRate.TaxRate FROM  GlzQuote_Defaults INNER JOIN TaxRate ON GlzQuote_Defaults.defaultTaxtRate = TaxRate.idTaxRate WHERE GlzQuote_Defaults.createdBy= " & AgentID
-                    Dim objSQL = New clsSqlConn
-                    With objSQL
-                        glzQuoteTax = .GET_INSERT_UPDATE(sqlQuary)
+                    glzQuoteTax = GetQuoteDefaultData()
+                    If IsNothing(GetQuoteDefaultData) = False Then
                         If glzQuoteTax.Tables(0).Rows.Count > 0 Then
-                            For Each row In glzQuoteTax.Tables(0).Rows
-                                If IsDBNull(row("isTaxInc")) = False Then
+                            newTable = glzQuoteTax.Tables(0)
+                            hasValues = True
+                        ElseIf glzQuoteTax.Tables(1).Rows.Count > 0 Then
+                            newTable = glzQuoteTax.Tables(1)
+                            hasValues = True
+                        Else
+                            hasValues = False
+                        End If
+
+                        If hasValues = True Then
+                            For Each row In newTable.Rows
+                                If IsNothing(row("getTaxRateFromCustomer")) = False Then
+                                    getTaxRateFromCustomer = row("getTaxRateFromCustomer")
+                                End If
+                                If IsDBNull(row("isTaxInc")) = False And glzQuoteTax.Tables(0).Rows.Count > 0 Then
                                     isTaxedPrice = row("isTaxInc")
                                     If row("isTaxInc") = True Then
                                         If IsDBNull(row("defaultTaxtRate")) = False Then
-                                            defaultTaxtRate = row("defaultTaxtRate")
-                                            defaultTaxtRateValue = row("TaxRate")
+                                            If row("defaultTaxtRate") = True Then
+                                                defaultTaxtRate = row("defaultTaxtRate")
+                                                defaultTaxtRateValue = row("TaxRate")
+                                            End If
                                         End If
                                     Else
                                         defaultTaxtRate = 0
                                         defaultTaxtRateValue = 0
                                     End If
                                 End If
+
                                 AllowBlankCustomerOrderNo = row("AllowBlankCustomerOrderNo")
                             Next
                         End If
-                    End With
+                    Else
+                        modGlazingQuoteExtension.GQShowMessage("Error When retriving quote default data", Me.Text, MsgBoxStyle.Critical)
+
+                    End If
                 Catch ex As Exception
                     modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
                 End Try
@@ -2780,6 +3049,7 @@ Public Class frmGlazingQuote
             End If
         Else
             taxCheckState = -1
+
         End If
 
     End Sub
@@ -2807,12 +3077,19 @@ Public Class frmGlazingQuote
         End Try
     End Sub
 
-    Sub AfterDefaultTaxePriceChaged(ByVal newTaxtRate As Integer, ByVal newTaxtRateValue As Integer, ByVal newIsTaxedPrice As Boolean)
+    Sub AfterDefaultTaxePriceChaged(ByVal newTaxtRate As Integer, ByVal newTaxtRateValue As Integer, ByVal newIsTaxedPrice As Boolean, Optional ByRef getTaxFromCustomer As Boolean = False, Optional ByRef expDate As Integer = -1)
         Try
+            If expDate > -1 Then
+
+            End If
+
             If isTaxedPrice <> newIsTaxedPrice Then
                 isTaxedPrice = newIsTaxedPrice
                 isDefaultChange = True
+            End If
 
+            If getTaxFromCustomer = True Then
+                newTaxtRate = oFormCustomer.TaxRate
             End If
 
             If newTaxtRate <> defaultTaxtRate And isTaxedPrice = True Then
@@ -2826,10 +3103,15 @@ Public Class frmGlazingQuote
                 Dim band As UltraGridBand = Me.UG2.DisplayLayout.Bands(0)
                 Dim enumerator As IEnumerable = band.GetRowEnumerator(rowTypes)
                 Dim row As UltraGridRow
-
+                Dim quoteFiedType As Integer = -1
                 For Each row In UG2.DisplayLayout.Bands(0).GetRowEnumerator(rowTypes)
                     If IsDBNull(row.Cells("QuoteFiedType").Value) = False Then
-                        If (row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item) And row.Cells("IsAExistingItem").Value = False Then
+                        If row.Cells("QuoteFiedType").Value = "" Then
+                            quoteFiedType = -1
+                        Else
+                            quoteFiedType = row.Cells("QuoteFiedType").Value
+                        End If
+                        If (quoteFiedType = QuateFiedTypesList.Text Or quoteFiedType = QuateFiedTypesList.Stock_Item) And row.Cells("IsAExistingItem").Value = False Then
                             If isTaxedPrice = True Then
                                 defaultTaxtRate = newTaxtRate
                                 defaultTaxtRateValue = newTaxtRateValue
@@ -2944,11 +3226,21 @@ Public Class frmGlazingQuote
                 If IsDBNull(Me.UG2.ActiveRow.Cells("QuoteFiedType").Value) = False Then
                     If Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or Me.UG2.ActiveRow.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item Then
                         If IsNumeric(Me.UG2.ActiveRow.Cells("Amount").Text) = True Then
-                            If Me.UG2.ActiveRow.Cells("Amount").Value <> Convert.ToDecimal(Me.UG2.ActiveRow.Cells("Net").Text) Then
-                                IsCellClearing = True
-                                ClearRowCellsAfterAmountChange()
-                                IsCellClearing = False
+                            If Me.UG2.ActiveRow.Cells("Amount").Value <> Convert.ToDecimal(Me.UG2.ActiveRow.Cells("Net").Value) Then
+                                If canEditeAmount = True Then
+                                    IsCellClearing = True
+                                    ClearRowCellsAfterAmountChange()
+                                    IsCellClearing = False
+                                Else
+                                    Me.UG2.ActiveRow.Cells("Amount").Value = Me.UG2.ActiveRow.Cells("Amount").Value
+                                End If
                                 'SetTotalAmounts(True)
+                                isOpeningQuote = True
+                                calculatePriceUsingAmount(Me.UG2.ActiveRow)
+                                isTaxedPrice = True
+                                TotalValuesBeahavior()
+
+                                isOpeningQuote = False
                                 QuoteGridSetSubTotal()
 
                             End If
@@ -3088,6 +3380,9 @@ Public Class frmGlazingQuote
 
                     End If
                 ElseIf e.Cell.Column.Key = "OrgPrice" Then
+
+                ElseIf e.Cell.Column.Key = "ServiceItemTotNet" Then
+                    GridCellAppearence(e.Cell.Row)
 
                 End If
 
@@ -3282,9 +3577,9 @@ Public Class frmGlazingQuote
 
             'Total amount
             If isTaxedPrice = True Then
-                e.Cell.Row.Cells("Amount").Value = itemIncAmount
+                e.Cell.Row.Cells("Amount").Value = Math.Round(itemIncAmount, 2, MidpointRounding.AwayFromZero)
             Else
-                e.Cell.Row.Cells("Amount").Value = itemExcAmount
+                e.Cell.Row.Cells("Amount").Value = Math.Round(itemExcAmount, 2, MidpointRounding.AwayFromZero)
 
             End If
 
@@ -3664,6 +3959,7 @@ Public Class frmGlazingQuote
                         End If
 
                     Next
+                    QuoteGridSetSubTotal()
                     If copiedRowCount > 0 Then
                         AddNewRow("after")
                     End If
@@ -3695,11 +3991,22 @@ Public Class frmGlazingQuote
     Private Sub frmGlazingQuote_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         isClosing = True
         If isSaved = False Then
-            If modGlazingQuoteExtension.GQShowMessage("Do you want to save data before exit?", Me.Text, MsgBoxStyle.YesNo) = Windows.Forms.DialogResult.Yes Then
-                SaveDocument()
-            Else
-                Dim x = e.Cancel
-                Exit Sub
+            If UG2.Rows.Count = 0 Then
+
+            ElseIf UG2.Rows.Count > 0 Then
+                If UG2.Rows.Count = 1 Then
+                    If UG2.Rows(0).Cells("QuoteFiedType").Value = "" Then
+                        UG2.Rows(0).Delete()
+
+                    End If
+                Else
+                    If modGlazingQuoteExtension.GQShowMessage("Do you want to save data before exit?", Me.Text, MsgBoxStyle.YesNo) = Windows.Forms.DialogResult.Yes Then
+                        If SaveDocument() = 0 Then
+                            e.Cancel = True
+                            Exit Sub
+                        End If
+                    End If
+                End If
             End If
         End If
         quoteOrdeIndex = 0
@@ -3765,7 +4072,7 @@ Public Class frmGlazingQuote
         Try
             If e.Cell.Column.Key = "Shape" Then
 
-                If oProdDefaults.OptimizeApp = GlassOptimizeApp.OptiWay Then
+                If oFacDefaults.OptimizeApp = GlassOptimizeApp.OptiWay Then
 
                     Dim oShape As New SPIL.Shapes.frmShapeEdit
 
@@ -4028,7 +4335,11 @@ Public Class frmGlazingQuote
 
                     End If
                 End If
-
+                If Clipboard.ContainsData("XML Spreadsheet") = True Then
+                    CopyFromExcelToolStripMenuItem.Visible = True
+                Else
+                    CopyFromExcelToolStripMenuItem.Visible = False
+                End If
             End If
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
@@ -4083,11 +4394,14 @@ Public Class frmGlazingQuote
             Dim row As UltraGridRow
             Dim emptyLine As Boolean = False
             Dim count As Integer = 0
+DeleteRow:
             For Each row In Me.UG2.Rows
                 If row.Cells("QuoteFiedType").Value = "" Then
-                    row.Appearance.BackColor = Color.LightCoral
-                    emptyLine = True
-                    count = count + 1
+                    'row.Appearance.BackColor = Color.LightCoral
+                    'emptyLine = True
+                    'count = count + 1
+                    row.Delete()
+                    GoTo DeleteRow
                 End If
             Next
             Dim messageDiff As String = ""
@@ -4099,7 +4413,6 @@ Public Class frmGlazingQuote
 
                 End If
                 sErrorMsg = sErrorMsg & vbCrLf & messageDiff & Me.UG2.DisplayLayout.Bands(0).Columns("QuoteFiedType").Header.Caption
-
             End If
 
             If sErrorMsg = "" Then
@@ -4499,7 +4812,7 @@ Public Class frmGlazingQuote
                 End If
 
                 If ug2Row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Subtotal Then
-                    ug2Row.Cells("Amount").Value = subtotal
+                    ug2Row.Cells("Amount").Value = Math.Round(subtotal, 2, MidpointRounding.AwayFromZero)
 
                 ElseIf ug2Row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Text Or ug2Row.Cells("QuoteFiedType").Value = QuateFiedTypesList.Stock_Item Then
                     If groupID = ug2Row.Cells("ItmGroupID").Value Then
@@ -4547,6 +4860,7 @@ Public Class frmGlazingQuote
             End If
 
         Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
 
         End Try
     End Sub
@@ -4695,7 +5009,7 @@ Public Class frmGlazingQuote
                     ElseIf gridActiveCell.Text = "Header-Sub" Then
                         amountKeeper = gridActiveRow.Cells("Amount").Value
                         CellValuesClear()
-                        gridActiveRow.Cells("Amount").Value = amountKeeper
+                        gridActiveRow.Cells("Amount").Value = Math.Round(amountKeeper, 2, MidpointRounding.AwayFromZero)
 
                     End If
                 End If
@@ -4750,6 +5064,10 @@ Public Class frmGlazingQuote
             Dim lineExc As Decimal = 0.0   'ItmExcAmount
             Dim lineTax As Decimal = 0.0   'Tax
             Dim lineInc As Decimal = 0.0   'Net
+            Dim lineTaxSerivce As Decimal = 0.0   'Tax Serivce
+            Dim TotalTaxSerivce As Decimal = 0.0   'TotalTax Serivce
+            Dim calculateAll As Boolean = False
+            Dim calcualteLineExc As Decimal = 0.0   ' Exc
 
             For Each row In Me.UG2.Rows
                 'IF this is an item
@@ -4762,11 +5080,13 @@ Public Class frmGlazingQuote
                             lineExc = 0.0
                             lineTax = 0.0
                             lineInc = 0.0
+                            lineTaxSerivce = 0.0
+                            calcualteLineExc = 0.0
                         Else
                             TotalExc = TotalExc + lineExc
                             TotalTax = TotalTax + lineTax
                             TotalInc = TotalInc + lineInc
-
+                            TotalTaxSerivce = TotalTaxSerivce + lineTaxSerivce
                         End If
                     End If
 
@@ -4774,9 +5094,10 @@ Public Class frmGlazingQuote
                         If IsNothing(row.Cells("Amount").Text) = False Then
                             subTotal = subTotal + row.Cells("Amount").Text
                             TotalExc = TotalExc + row.Cells("ItmExcAmount").Text
+                            calcualteLineExc = TotalExc + row.Cells("ItmExcAmount").Text
                             TotalTax = TotalTax + row.Cells("Tax").Text
                             TotalInc = TotalInc + row.Cells("Net").Text
-
+                            TotalTaxSerivce = TotalTaxSerivce + row.Cells("ServiceItemTax").Text
                         End If
                     End If
 
@@ -4785,31 +5106,41 @@ Public Class frmGlazingQuote
                         If isGroupstarted = False Then
                             'Calculate all item lines
                             If calculateAll = True Then
-                                row.Cells("Amount").Value = subTotal
+                                row.Cells("Amount").Value = Math.Round(subTotal, 2, MidpointRounding.AwayFromZero)
+                                row.Cells("ItmExcAmount").Value = Math.Round(calcualteLineExc, 2, MidpointRounding.AwayFromZero)
+
                                 TotalExc = TotalExc + lineExc
                                 TotalTax = TotalTax + lineTax
                                 TotalInc = TotalInc + lineInc
+                                TotalTaxSerivce = TotalTaxSerivce + lineTaxSerivce
 
                             Else
                                 subTotal = 0.0
                                 lineExc = 0.0
                                 lineTax = 0.0
                                 lineInc = 0.0
-
+                                lineTaxSerivce = 0.0
+                                calcualteLineExc = 0.0
                             End If
 
                         Else
-                            row.Cells("Amount").Value = subTotal
+                            row.Cells("Amount").Value = Math.Round(subTotal, 2, MidpointRounding.AwayFromZero)
+                            row.Cells("ItmExcAmount").Value = Math.Round(calcualteLineExc, 2, MidpointRounding.AwayFromZero)
+
                             TotalExc = TotalExc + lineExc
                             TotalTax = TotalTax + lineTax
                             TotalInc = TotalInc + lineInc
+                            TotalTaxSerivce = TotalTaxSerivce + lineTaxSerivce
 
                             If calculateAll = False Then
                                 subTotal = 0.0
                                 lineExc = 0.0
                                 lineTax = 0.0
                                 lineInc = 0.0
+                                lineTaxSerivce = 0.0
                                 isGroupstarted = False
+                                calcualteLineExc = 0.0
+
                             End If
                         End If
                         isGroupstarted = False
@@ -4820,10 +5151,15 @@ Public Class frmGlazingQuote
                 TotalExc = TotalExc + lineExc
                 TotalTax = TotalTax + lineTax
                 TotalInc = TotalInc + lineInc
+                TotalTaxSerivce = TotalTaxSerivce + lineTaxSerivce
+
             Next
             lblTotExcAmo.Text = Format(TotalExc, "0.00")
-            lblTotVatAmo.Text = Format(TotalTax, "0.00")
+            lblTotVatAmo.Text = Format(TotalTax + TotalTaxSerivce, "0.00")
             lblTotIncAmo.Text = Format(TotalInc, "0.00")
+            ToolTip1.SetToolTip(lblTotalVat, "Main Item/s: " & TotalTax & "  |  Glass Service/s: " & TotalTaxSerivce)
+            ToolTip1.SetToolTip(lblTotVatAmo, "Main Item/s: " & TotalTax & "  |  Glass Service/s: " & TotalTaxSerivce)
+
 
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
@@ -4969,6 +5305,24 @@ Public Class frmGlazingQuote
         Return addressInSingleLine
     End Function
 
+    Sub UpdateOrderHeaderWhileSaving(ByRef orderNumber As Integer)
+        Try
+
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub UpdateOrderLines()
+        Try
+
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
     Private Sub cmbCustProject_ValueChanged(sender As Object, e As EventArgs) Handles cmbCustProject.ValueChanged
         Try
             _ProjectId = cmbCustProject.SelectedRow.Cells("Id").Value
@@ -4982,8 +5336,6 @@ Public Class frmGlazingQuote
     End Sub
 
     Private Sub cmbCustJob_ValueChanged(sender As Object, e As EventArgs) Handles cmbCustJob.ValueChanged
-
-
         Try
             _JobId = cmbCustJob.SelectedRow.Cells("Id").Value
         Catch ex As Exception
@@ -4992,12 +5344,215 @@ Public Class frmGlazingQuote
     End Sub
 
     Private Sub cmbProjectStage_ValueChanged(sender As Object, e As EventArgs) Handles cmbProjectStage.ValueChanged
-
-
         Try
             _StageId = cmbProjectStage.SelectedRow.Cells("Id").Value
         Catch ex As Exception
             _StageId = 0
+        End Try
+    End Sub
+
+    Sub CopyExcel()
+        Try
+            isPasting = True
+            Dim row As UltraGridRow
+            Dim ms As MemoryStream = CType(Clipboard.GetData("XML Spreadsheet"), MemoryStream)
+            Dim quoteFiedType As Integer
+            If IsNothing(ms) = True Then
+                Exit Sub
+            End If
+            Dim b(CInt(ms.Length)) As Byte
+            Dim doc As New XmlDocument()
+            doc.Load(ms)
+            Dim elemList As XmlNodeList = doc.GetElementsByTagName("Row")
+            For Each items As XmlNode In elemList
+                If UG2.Rows.Count > 0 Then
+                    If UG2.Rows(UG2.Rows.Count - 1).Cells("QuoteFiedType").Value = "" Then
+                        ' DeleteEmptyRows("last")
+                    End If
+                End If
+                row = AddNewRow("after")
+
+                row.ParentCollection.Move(row, UG2.ActiveRow.Index)
+                Me.UG2.ActiveRowScrollRegion.ScrollRowIntoView(row)
+                If items.ChildNodes(1).InnerText <> "" Then
+                    quoteFiedType = QuateFiedTypesList.Text
+                    row.Cells("QuoteFiedType").Value = quoteFiedType
+                    row.Cells("LineNotes").Value = GetData(items, 0)
+                    row.Cells("LineComments").Value = GetData(items, 1)
+                    row.Cells("Height").Value = If(IsNumeric(GetData(items, 2)) = False, 0, Convert.ToInt32(GetData(items, 2)))
+                    row.Cells("Width").Value = If(IsNumeric(GetData(items, 3)) = False, 0, Convert.ToInt32(GetData(items, 3)))
+                    row.Cells("Qty").Value = If(IsNumeric(GetData(items, 4)) = False, 0, Convert.ToInt32(GetData(items, 4)))
+
+                Else
+                    If GetData(items, 0) <> "" Then
+                        quoteFiedType = QuateFiedTypesList.Header_Sub
+                        row.Cells("QuoteFiedType").Value = quoteFiedType
+                        row.Cells("LineComments").Value = GetData(items, 0)
+
+                    Else
+                        'row.Delete()
+                    End If
+                End If
+
+                '' Me.UG2.ActiveRow.PerformAutoSize()
+
+            Next
+            isPasting = False
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Private Sub CopyFromExcelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyFromExcelToolStripMenuItem.Click
+        CopyExcel()
+    End Sub
+
+    Private Function GetData(ByRef items As XmlNode, ByRef position As Integer)
+        Try
+            Dim value As String
+            Dim nodeCount = items.ChildNodes.Count
+            If nodeCount = position Then
+                Return ""
+                Exit Function
+            End If
+            value = items.ChildNodes(position).InnerText
+            If IsNothing(value) = False Then
+                Return value
+            Else
+                Return ""
+            End If
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+            Return ""
+        End Try
+    End Function
+
+    Sub DeleteEmptyRows(ByRef deleteMode As String)
+        Try
+            If deleteMode = "all" Then
+                For Each row As UltraGridRow In UG2.Rows
+                    row.Delete()
+                Next
+            ElseIf deleteMode = "last" Then
+                UG2.Rows(UG2.Rows.Count - 1).Delete()
+                UG2.Rows(UG2.Rows.Count - 1).ParentCollection.Move(UG2.Rows(UG2.Rows.Count - 1), UG2.ActiveRow.Index)
+                Me.UG2.ActiveRowScrollRegion.ScrollRowIntoView(UG2.Rows(UG2.Rows.Count - 1))
+            End If
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub calculatePriceUsingAmount(ByRef row As UltraGridRow)
+        Try
+            Dim itemAmount As Decimal
+            Dim itemPrice As Decimal = 0.0
+            Dim itemTaxRate As Decimal = 0.0
+            Dim itemTax As Decimal = 0.0
+            Dim itemExcAmount As Decimal = 0.0
+            Dim itemIncAmount As Decimal = 0.0
+            Dim volum As Decimal = 0.0
+            Dim sercieIncPrice As Decimal = 0.0
+
+            itemAmount = If(IsNumeric(row.Cells("Amount").Value) = True, row.Cells("Amount").Value, 0)
+            subItemIncPrice = If(IsNumeric(row.Cells("ServiceItemTotNet").Value) = True, row.Cells("ServiceItemTotNet").Value, 0)
+            'subItemIncPrice = If(IsNumeric(row.Cells("ServiceGross").Value) = True, row.Cells("ServiceGross").Value, 0)
+
+            If subItemIncPrice > 0 Then
+                itemAmount = itemAmount - subItemIncPrice
+            End If
+            If itemAmount > 0 Then
+                itemTax = If(IsNumeric(row.Cells("TaxRate").Value) = True, row.Cells("TaxRate").Value, 0)
+                'itemTax = If(IsNumeric(row.Cells("TaxRate").Text) = True, row.Cells("TaxRate").Text, 0)
+                volum = If(IsNumeric(row.Cells("Volume").Value) = True, row.Cells("Volume").Value, 0)
+                If volum = 0 Then
+                    volum = (If(IsNumeric(row.Cells("Height").Value) = True, row.Cells("Height").Value, 0) * If(IsNumeric(row.Cells("Width").Value) = True, row.Cells("Width").Value, 0)) / 1000000
+                End If
+                If volum = 0 Then
+                    volum = If(IsNumeric(row.Cells("Qty").Value) = True, row.Cells("Qty").Value, 0)
+                End If
+                itemPrice = Math.Round(itemAmount / volum, 6, MidpointRounding.AwayFromZero)
+
+                If itemTax > 0 Then
+                    itemTaxRate = Math.Round(itemAmount / itemTax, 2, MidpointRounding.AwayFromZero)
+                Else
+                    itemTaxRate = 0
+                End If
+
+                itemIncAmount = Math.Round(itemTaxRate + itemAmount, 2, MidpointRounding.AwayFromZero)
+                itemExcAmount = Math.Round(itemAmount, 2, MidpointRounding.AwayFromZero)
+                row.Cells("Amount").Value = itemAmount
+                row.Cells("Tax").Value = itemTaxRate
+                row.Cells("Price").Value = itemPrice
+                row.Cells("ItmExcAmount").Value = itemExcAmount
+                row.Cells("Net").Value = itemIncAmount
+                row.Cells("TaxRateValue").Value = itemTaxRate
+            End If
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub GetExpireDate(Optional ByRef newDateSet As DataSet = Nothing)
+        Try
+            If IsNothing(newDateSet) = True Then
+                newDateSet = GetQuoteDefaultData()
+            End If
+
+            If IsNothing(newDateSet) = False Then
+                If newDateSet.Tables(1).Rows.Count > 0 Then
+                    For Each newRow As DataRow In newDateSet.Tables(1).Rows
+                        expireDateCount = newRow.Item("defaultExpiryDate")
+                    Next
+                End If
+            End If
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Public Sub SetExpireDate(Optional ByRef newExpireDateCount As Integer = -1)
+        Try
+            GetExpireDate()
+            Dim dueDate As DateTime = txtOrdDate.DateTime
+            Dim expireDate As DateTime = txtDueDate.DateTime
+            If newExpireDateCount > -1 Then
+                txtDueDate.DateTime = dueDate.AddDays(newExpireDateCount)
+            Else
+                txtDueDate.DateTime = dueDate.AddDays(expireDateCount)
+            End If
+
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+
+    Sub GridCellAppearence(Optional ByRef dataRow As UltraGridRow = Nothing)
+        Dim row As UltraGridRow
+
+        If IsNothing(dataRow) Then
+            row = UG2.ActiveRow
+        Else
+            row = dataRow
+        End If
+
+        Try
+            If row.Cells("ServiceItemTotNet").Value > 0 Then
+                row.Cells("Height").Activation = Activation.NoEdit
+                row.Cells("Width").Activation = Activation.NoEdit
+            Else
+                row.Cells("Height").Activation = Activation.AllowEdit
+                row.Cells("Width").Activation = Activation.AllowEdit
+            End If
+
+        Catch ex As Exception
+
         End Try
     End Sub
 End Class

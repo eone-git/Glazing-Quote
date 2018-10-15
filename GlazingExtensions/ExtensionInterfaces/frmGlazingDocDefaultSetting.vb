@@ -70,14 +70,24 @@ Public Class frmGlazingDocDefaultSetting
             colPara.ParaValue = AgentID
             collspPara.Add(colPara)
 
-            If (startingTax <> ucmbDefaultTax.Value) Or (startingTaxState <> chkTaxInc.Checked) Then
+            If (startingTax <> ucmbDefaultTax.Value) Or (startingTaxState <> chkTaxInc.Checked) Or chkTaxRateFromCustomer.Checked = True Then
 
                 colPara.ParaName = "@isTaxInc"
-                colPara.ParaValue = taxCheckState
+                If chkTaxRateFromCustomer.Checked = True Then
+                    colPara.ParaValue = chkTaxRateFromCustomer.CheckState
+                Else
+                    colPara.ParaValue = taxCheckState
+                End If
+
                 collspPara.Add(colPara)
 
                 colPara.ParaName = "@defaultTaxtRate"
-                colPara.ParaValue = ucmbDefaultTax.Value
+                If IsNothing(ucmbDefaultTax.Value) = True Then
+                    colPara.ParaValue = -1
+                Else
+                    colPara.ParaValue = ucmbDefaultTax.Value
+                End If
+
                 collspPara.Add(colPara)
 
                 colPara.ParaName = "@publicVisibleState"
@@ -88,20 +98,29 @@ Public Class frmGlazingDocDefaultSetting
                 colPara.ParaValue = getGlobalDataByDefault
                 collspPara.Add(colPara)
 
-                'colPara.ParaName = "@getGlobalDataByDefault"
-                'colPara.ParaValue = getGlobalDataByDefault
-                'collspPara.Add(colPara)
+                colPara.ParaName = "@getTaxRateFromCustomer"
+                colPara.ParaValue = chkTaxRateFromCustomer.CheckState
+                collspPara.Add(colPara)
 
-                If modGlazingQuoteExtension.GQShowMessage("Do you want to change the default tax settings?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                colPara.ParaName = "@defaultExpiryDate"
+                colPara.ParaValue = txtDefaultExpiryDate.Text
+                collspPara.Add(colPara)
+
+                If modGlazingQuoteExtension.GQShowMessage("Do you want to change the default settings?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     If isExist = False Then
-                        newSQLQuery = "INSERT INTO GlzQuote_Defaults (isTaxInc, createdBy, defaultTaxtRate, publicVisibleState, getGlobalDataByDefault, hasDefaultDocStateColor,  defaultDocStateColor) " & _
-                        "VALUES (@isTaxInc, @createdBy, @defaultTaxtRate, @publicVisibleState, @getGlobalDataByDefault, @hasDefaultDocStateColor, @defaultDocStateColor )"
+                        newSQLQuery = "INSERT INTO GlzQuote_Defaults (isTaxInc, createdBy, defaultTaxtRate, publicVisibleState, getGlobalDataByDefault, hasDefaultDocStateColor,  defaultDocStateColor, getTaxRateFromCustomer, defaultExpiryDate) " & _
+                        "VALUES (@isTaxInc, @createdBy, @defaultTaxtRate, @publicVisibleState, @getGlobalDataByDefault, @hasDefaultDocStateColor, @defaultDocStateColor, @getTaxRateFromCustomer, @defaultExpiryDate )"
 
                     Else
                         newSQLQuery = "UPDATE GlzQuote_Defaults SET isTaxInc = @isTaxInc, defaultTaxtRate = @defaultTaxtRate, " & _
-                        " publicVisibleState = @publicVisibleState, getGlobalDataByDefault = @getGlobalDataByDefault, hasDefaultDocStateColor = @hasDefaultDocStateColor, defaultDocStateColor = @defaultDocStateColor  WHERE createdBy = @createdBy"
+                        " publicVisibleState = @publicVisibleState, getGlobalDataByDefault = @getGlobalDataByDefault, " & _
+                        "hasDefaultDocStateColor = @hasDefaultDocStateColor, defaultDocStateColor = @defaultDocStateColor, " & _
+                        "getTaxRateFromCustomer = @getTaxRateFromCustomer, defaultExpiryDate = @defaultExpiryDate " & _
+                        "WHERE createdBy = @createdBy"
 
                     End If
+                Else
+                    Exit Sub
                 End If
 
             Else
@@ -117,7 +136,13 @@ Public Class frmGlazingDocDefaultSetting
 
             'changes tax values in frmGlazingQuote
             If (startingTax <> ucmbDefaultTax.Value) Or (startingTaxState <> chkTaxInc.Checked) Then
-                ob.AfterDefaultTaxePriceChaged(ucmbDefaultTax.Value, ucmbDefaultTax.SelectedRow.Cells("TaxRate").Value, chkTaxInc.CheckState)
+                If chkTaxRateFromCustomer.Checked = True Then
+                    ob.AfterDefaultTaxePriceChaged(0, 0, chkTaxInc.CheckState, True)
+
+                Else
+                    ob.AfterDefaultTaxePriceChaged(ucmbDefaultTax.Value, ucmbDefaultTax.SelectedRow.Cells("TaxRate").Value, chkTaxInc.CheckState)
+
+                End If
 
             End If
             collspPara.Clear()
@@ -136,7 +161,7 @@ Public Class frmGlazingDocDefaultSetting
                 End If
 
             End If
-
+            ob.SetExpireDate(txtDefaultExpiryDate.Text)
         Catch ex As Exception
             modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MessageBoxButtons.OK)
 
@@ -180,7 +205,6 @@ Public Class frmGlazingDocDefaultSetting
                         'End If
 
                         GetDefaultGlobalSettings(row)
-
                         chkDefaultBackCol.Checked = Row("hasDefaultDocStateColor")
                         ucpBackColor.Color = Color.FromArgb(Row("defaultDocStateColor"))
 
@@ -231,14 +255,19 @@ Public Class frmGlazingDocDefaultSetting
 
 
     Sub GetDefaultGlobalSettings(ByVal rowGlobal As DataRow)
-        If rowGlobal("isTaxInc") = True Then
+        If rowGlobal("isTaxInc") = True And rowGlobal("getTaxRateFromCustomer") = False Then
             chkTaxInc.CheckState = CheckState.Checked
         Else
             chkTaxInc.CheckState = CheckState.Unchecked
         End If
+        chkTaxRateFromCustomer.Checked = rowGlobal("getTaxRateFromCustomer")
 
-        ucmbDefaultTax.Value = rowGlobal("defaultTaxtRate")
+        If rowGlobal("defaultTaxtRate") <> -1 Then
+            ucmbDefaultTax.Value = rowGlobal("defaultTaxtRate")
 
+        End If
+
+        txtDefaultExpiryDate.Text = rowGlobal("defaultExpiryDate")
         '----For global settings----
         'If rowGlobal("publicVisibleState") = 1 Then
         '    chkGlobalSave.CheckState = CheckState.Checked
@@ -364,7 +393,16 @@ Public Class frmGlazingDocDefaultSetting
     'End Sub
 
     Private Sub chkTaxInc_CheckedChanged(sender As Object, e As EventArgs) Handles chkTaxInc.CheckedChanged
-        'ucmbDefaultTax.Value = 0
+        Try
+            If chkTaxInc.Checked = True Then
+                TaxBaseComponentBehavior(True, chkTaxInc.Name)
+            Else
+                TaxBaseComponentBehavior(False, chkTaxInc.Name)
+            End If
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
     End Sub
 
     Sub SetQuoteStateDetails()
@@ -541,5 +579,51 @@ Public Class frmGlazingDocDefaultSetting
 
         End Try
 
+    End Sub
+
+    Private Sub chkTaxRateFromCustomer_CheckedChanged(sender As Object, e As EventArgs) Handles chkTaxRateFromCustomer.CheckedChanged
+        Try
+            If chkTaxRateFromCustomer.Checked = True Then
+                TaxBaseComponentBehavior(False, chkTaxRateFromCustomer.Name)
+            Else
+                TaxBaseComponentBehavior(True, chkTaxRateFromCustomer.Name)
+            End If
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
+    End Sub
+
+    Sub TaxBaseComponentBehavior(ByRef behavior As Boolean, fromComponent As String)
+        Try
+            If fromComponent <> "ucmbDefaultTax" Then
+                ucmbDefaultTax.Value = Nothing
+            End If
+
+            If fromComponent <> "chkTaxRateFromCustomer" Then
+                If chkTaxRateFromCustomer.Checked <> behavior Then
+                    chkTaxRateFromCustomer.Checked = Not behavior
+                End If
+            End If
+
+            If fromComponent <> "chkTaxInc" Then
+                If chkTaxInc.Checked <> behavior Then
+                    chkTaxInc.Checked = Not behavior
+                End If
+            End If
+
+            If fromComponent <> "ucmbDefaultTax" Then
+                ucmbDefaultTax.Enabled = behavior
+            End If
+
+            If fromComponent <> "chkTaxInc" Then
+                chkTaxInc.Enabled = behavior
+            End If
+
+
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical)
+
+        End Try
     End Sub
 End Class

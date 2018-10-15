@@ -5,13 +5,14 @@ Public Class clsGlazingDocStockItemHelper
     Dim moduleName As String = "Stock Item"
     Dim TemplatesItemObj As frmGlazingDocStockItemTemplate
     Dim StockItemObj As frmGlazingDocStockItem
+    Dim StockItemServicesObj As frmGlazingDocStockItemServices
     Dim clsSOModuleDefaultsObj As clsSOModuleDefaults
     Dim clsSOPricingAndUnitsObj As clsSOPricingAndUnits
     Dim clsSqlConnObj As New clsSqlConn
     Dim sqlQuary As String = ""
     Dim newDataSet As DataSet = Nothing
     Dim oSOModuleDefaults As New clsSOModuleDefaults
-
+    Public dataSetForItem As DataSet
 
     'Dim oPriceUnits As New clsSOPricingAndUnits
 
@@ -24,6 +25,14 @@ Public Class clsGlazingDocStockItemHelper
 
     Public Sub New(ByRef frmGlazingDocStockItemTemplateObj As frmGlazingDocStockItemTemplate)
         Me.TemplatesItemObj = frmGlazingDocStockItemTemplateObj
+    End Sub
+
+    Public Sub New(ByRef frmGlazingDocStockItemServicesObj As frmGlazingDocStockItemServices)
+        Me.StockItemServicesObj = frmGlazingDocStockItemServicesObj
+    End Sub
+
+    Public Sub New()
+
     End Sub
 
     'Public Sub SetPriceOnThisRow(ByRef ugRow As UltraGridRow)
@@ -47,21 +56,33 @@ Public Class clsGlazingDocStockItemHelper
 
     'End Sub
 
-    Function GetStkItemDetails(ByRef tempStockLink As Integer) As DataSet
-       
-        Try
-            sqlQuary = "SELECT     StkItem.Description_1, StkItem.cSimpleCode, spilStkTemplateItems.Stock_Sub_Link, StkItem.ufIIThickness, TaxRate.TaxRate, " & _
-                "spilStkTemplateItems.UnitPricePercen,  StkItem.uiIISRVPRICEID ,StkItem.uiIITemplPriceID,spilStkTemplateItems.iItemType,spilStkTemplateItems.iLineNo " & _
-                ",spilStkTemplateItems.UnitPrice,spilStkTemplateItems.IsPriceItem,spilStkTemplateItems.SRVPRICE_CATID,spilStkTemplateItems.iHeight, " & _
-                "spilStkTemplateItems.iWidth,spilStkTemplateItems.Units,spilStkTemplateItems.Motif,spilStkTemplateItems.Comment2, StkItem.TTI, spilStkTemplateItems.PriceTypeID, " & _
-                "StkItem_1.uiIITemplPriceID AS TemplatePriceTypeID, StkItem.Description_3,spilStkTemplateItems.fQuantity, StkItem.BOMItem " & _
-                "FROM  spilStkTemplateItems INNER JOIN " & _
-                "StkItem ON spilStkTemplateItems.Stock_Sub_Link = StkItem.StockLink INNER JOIN " & _
-                "TaxRate ON StkItem.TTI = TaxRate.Code INNER JOIN " & _
-                "StkItem AS StkItem_1 ON spilStkTemplateItems.StockLink = StkItem_1.StockLink " & _
-                "WHERE  (spilStkTemplateItems.StockLink =" & tempStockLink & ") AND spilStkTemplateItems.iItemType<>5 order by spilStkTemplateItems.iLineNo " & _
-                "; select BOMItem from StkItem where StockLink =" & tempStockLink & ""
+    Function GetStkItemDetails(Optional ByRef tempStockLink As Integer = -1) As DataSet
 
+        Try
+            If tempStockLink = -1 Then
+                sqlQuary = "SELECT     StkItem.Description_1, StkItem.cSimpleCode, spilStkTemplateItems.Stock_Sub_Link, StkItem.ufIIThickness, TaxRate.TaxRate, " & _
+                    "spilStkTemplateItems.UnitPricePercen,  StkItem.uiIISRVPRICEID ,StkItem.uiIITemplPriceID,spilStkTemplateItems.iItemType,spilStkTemplateItems.iLineNo " & _
+                    ",spilStkTemplateItems.UnitPrice,spilStkTemplateItems.IsPriceItem,spilStkTemplateItems.SRVPRICE_CATID,spilStkTemplateItems.iHeight, " & _
+                    "spilStkTemplateItems.iWidth,spilStkTemplateItems.Units,spilStkTemplateItems.Motif,spilStkTemplateItems.Comment2, StkItem.TTI, spilStkTemplateItems.PriceTypeID, " & _
+                    "StkItem_1.uiIITemplPriceID AS TemplatePriceTypeID, StkItem.Description_3,spilStkTemplateItems.fQuantity, StkItem.BOMItem " & _
+                    "FROM  spilStkTemplateItems INNER JOIN " & _
+                    "StkItem ON spilStkTemplateItems.Stock_Sub_Link = StkItem.StockLink INNER JOIN " & _
+                    "TaxRate ON StkItem.TTI = TaxRate.Code INNER JOIN " & _
+                    "StkItem AS StkItem_1 ON spilStkTemplateItems.StockLink = StkItem_1.StockLink "
+
+            Else
+                sqlQuary = "SELECT     StkItem.Description_1, StkItem.cSimpleCode, spilStkTemplateItems.Stock_Sub_Link, StkItem.ufIIThickness, TaxRate.TaxRate, " & _
+                    "spilStkTemplateItems.UnitPricePercen,  StkItem.uiIISRVPRICEID ,StkItem.uiIITemplPriceID,spilStkTemplateItems.iItemType,spilStkTemplateItems.iLineNo " & _
+                    ",spilStkTemplateItems.UnitPrice,spilStkTemplateItems.IsPriceItem,spilStkTemplateItems.SRVPRICE_CATID,spilStkTemplateItems.iHeight, " & _
+                    "spilStkTemplateItems.iWidth,spilStkTemplateItems.Units,spilStkTemplateItems.Motif,spilStkTemplateItems.Comment2, StkItem.TTI, spilStkTemplateItems.PriceTypeID, " & _
+                    "StkItem_1.uiIITemplPriceID AS TemplatePriceTypeID, StkItem.Description_3,spilStkTemplateItems.fQuantity, StkItem.BOMItem " & _
+                    "FROM  spilStkTemplateItems INNER JOIN " & _
+                    "StkItem ON spilStkTemplateItems.Stock_Sub_Link = StkItem.StockLink INNER JOIN " & _
+                    "TaxRate ON StkItem.TTI = TaxRate.Code INNER JOIN " & _
+                    "StkItem AS StkItem_1 ON spilStkTemplateItems.StockLink = StkItem_1.StockLink " & _
+                    "WHERE  (spilStkTemplateItems.StockLink =" & tempStockLink & ") AND spilStkTemplateItems.iItemType<>5 order by spilStkTemplateItems.iLineNo " & _
+                    "; select BOMItem from StkItem where StockLink =" & tempStockLink & ""
+            End If
             newDataSet = clsSqlConnObj.GET_DATA_SQL(sqlQuary)
             Return newDataSet
 
@@ -256,18 +277,18 @@ Public Class clsGlazingDocStockItemHelper
             sqlQuaryForController = sqlQuaryForController & "TaxRate ON StkItem.TTI = TaxRate.Code " & vbCrLf
             sqlQuaryForController = sqlQuaryForController & "WHERE  StkItem.uiIIItemType IN (1,2,3,4,16) and StkItem.ubIIGLASSSERVICE=0 and ItemActive = 1 order by StkItem.Description_2, StkItem.ufIIThickness"
 
-            Dim dataSetNew As DataSet = GetPriceTypeData(sqlQuaryForController)
+            dataSetForItem = GetPriceTypeData(sqlQuaryForController)
             Dim allowList() As String = UIHandler(allowListInput, displayMemberVal)
             Dim counter As Integer = 0
             Dim columName As String
             If IsNothing(StockItemObj) = False Then
                 'For StockItem
-                StockItemObj.ucmbItemCode.DataSource = dataSetNew.Tables(0)
+                StockItemObj.ucmbItemCode.DataSource = dataSetForItem.Tables(0)
                 StockItemObj.ucmbItemCode.DisplayMember = "Code"
                 StockItemObj.ucmbItemCode.ValueMember = valueMemberVal
                 StockItemObj.ucmbItemCode.Refresh()
 
-                StockItemObj.ucmbItemDes.DataSource = dataSetNew.Tables(0)
+                StockItemObj.ucmbItemDes.DataSource = dataSetForItem.Tables(0)
                 StockItemObj.ucmbItemDes.DisplayMember = "Description_1"
                 StockItemObj.ucmbItemDes.ValueMember = valueMemberVal
                 StockItemObj.ucmbItemDes.Refresh()
@@ -291,12 +312,12 @@ Public Class clsGlazingDocStockItemHelper
 
             ElseIf IsNothing(TemplatesItemObj) = False Then
                 'For TemplatesItemObj
-                TemplatesItemObj.ucmbItemCode.DataSource = dataSetNew.Tables(0)
+                TemplatesItemObj.ucmbItemCode.DataSource = dataSetForItem.Tables(0)
                 TemplatesItemObj.ucmbItemCode.DisplayMember = "Code"
                 TemplatesItemObj.ucmbItemCode.ValueMember = valueMemberVal
                 TemplatesItemObj.ucmbItemCode.Refresh()
 
-                TemplatesItemObj.ucmbItemDes.DataSource = dataSetNew.Tables(0)
+                TemplatesItemObj.ucmbItemDes.DataSource = dataSetForItem.Tables(0)
                 TemplatesItemObj.ucmbItemDes.DisplayMember = "Description_1"
                 TemplatesItemObj.ucmbItemDes.ValueMember = valueMemberVal
                 TemplatesItemObj.ucmbItemDes.Refresh()
@@ -334,11 +355,11 @@ Public Class clsGlazingDocStockItemHelper
 
             oPriceUnits.iDefaultStockPriceListID = oSOModuleDefaults.DefaultTradePriceListID ' iFormDefaultTradePriceListID
             iFormDefaultTradePriceListID = oSOModuleDefaults.DefaultTradePriceListID
-            If ugRow.Cells("IsPriceItem").Value = False Then
-                oPriceUnits.Set_PriceList_OnActiveRow_NotRelatingToPriceCalc(ugRow)
-            Else
-                oPriceUnits.GetStockPriceOnActiveRow(ugRow)
-            End If
+            'If ugRow.Cells("IsPriceItem").Value = False Then
+            '    oPriceUnits.Set_PriceList_OnActiveRow_NotRelatingToPriceCalc(ugRow)
+            'Else
+            oPriceUnits.GetStockPriceOnActiveRow(ugRow)
+            'End If
 
             SetPriceList(ugRow)
 
@@ -502,5 +523,94 @@ Public Class clsGlazingDocStockItemHelper
         End Try
 
     End Sub
+
+    Public Function CalculateTotalExc(ByRef TotalExc As Double, ByRef qty As Double, ByRef volume As Double, ByRef actualEnterdPrice As Double, ByRef quantity As Double, Optional ByRef subItemsPrice As Double = 0, Optional ByRef actualAmount As Double = 0, Optional ByRef excludeVolume As Boolean = False) As Double
+        Try
+            Dim enterdPrice As Double
+            Dim totalPrice As Double
+            Dim totalSubItemsAmount As Double
+            Dim totalGlassValue As Double
+
+            If subItemsPrice <> 0 Then
+                totalSubItemsAmount = subItemsPrice
+            Else
+                totalSubItemsAmount = GetSubItemPrice()
+            End If
+
+            If actualAmount = 0 Then
+                enterdPrice = actualEnterdPrice
+            Else
+                enterdPrice = actualAmount - subItemsPrice
+            End If
+
+            Dim exTempltePrice As Double = 0
+
+            If excludeVolume = False Then
+                totalGlassValue = (enterdPrice * volume) * qty
+            Else
+                totalGlassValue = (enterdPrice * 1) * qty
+            End If
+
+            'Calculate total
+            totalPrice = If(IsNumeric(totalSubItemsAmount) = True, totalSubItemsAmount, 0) + If(IsNumeric(totalGlassValue) = True, totalGlassValue, 0)
+            'actualTotalExc = totalPrice
+
+            If qty = 0 Or volume = 0 And excludeVolume = False Then
+                TotalExc = 0
+            Else
+                TotalExc = totalPrice
+            End If
+
+            Return TotalExc
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, moduleName & "(Calculate Total Exc)", MsgBoxStyle.Exclamation)
+            Return 0
+        End Try
+    End Function
+    Public Function GetSubItemPrice(Optional ByRef selectedItems As String = "") As Double
+        Try
+            Dim subItemsPrice As Double = 0
+
+            If StockItemObj.templateItemSubItemsPrice > 0 Then
+                'Get values from templte sub items grid
+                subItemsPrice = StockItemObj.templateItemSubItemsPrice
+            Else
+                'Get values from quation main grid
+                Dim itemLines() As String = selectedItems.Split(";")
+                For Each itemDetails As String In itemLines
+                    If itemDetails = "" Then
+                        Exit For
+                    End If
+                    Dim itemDetailsCol() As String = itemDetails.Split(",")
+                    subItemsPrice = subItemsPrice + itemDetailsCol(3)
+                Next
+            End If
+
+            Return subItemsPrice
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, moduleName & "(Item Price)", MsgBoxStyle.Exclamation)
+            Return 0
+        End Try
+    End Function
+
+    Public Function CalculateTaxAmount(ByRef taxRate As Double, ByRef totalExc As Double, Optional ByRef isTaxExclude As Boolean = True) As Double
+        Dim taxAmount As Double = 0
+        Try
+            Dim totalInc As Double
+            If isTaxExclude = False Then
+                taxRate = If(IsNothing(taxRate) = False, taxRate, 0)
+                totalExc = If(IsNothing(totalExc) = False, totalExc, 0)
+                taxAmount = (totalExc / 100) * taxRate
+            Else
+                taxAmount = 0
+            End If
+            Return taxAmount
+
+        Catch ex As Exception
+            Return taxAmount
+
+        End Try
+    End Function
+
 
 End Class

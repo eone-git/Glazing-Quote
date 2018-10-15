@@ -17,6 +17,12 @@ Public Class frmGlazingDocStockItemTemplate
     Public selectedItemsDisplay As String = ""
     Private selectedNewItemsDisplay As String = ""
 
+    Public isDiscard As Boolean = False
+    Public isDiscard2 As Boolean = False
+    Dim isDataSourceChanging = False
+
+
+
     Sub New(ByRef clsPriceUnitsObj As clsSOPricingAndUnits)
 
         ' This call is required by the designer.
@@ -38,8 +44,10 @@ Public Class frmGlazingDocStockItemTemplate
                 End If
             End If
 
-
+            'Dim foundRows() As DataRow
             If hasPreVal = True Then
+                ' newDataSet = clsGlazingDocStockItemHelperObj.GetStkItemDetails()
+
                 Dim itemLines() As String = selectedItems.Split(";")
                 For Each itemDetails As String In itemLines
                     clsInvDetLine = New clsInvDetailLine
@@ -49,13 +57,18 @@ Public Class frmGlazingDocStockItemTemplate
                     row = UG2.DisplayLayout.Bands(0).AddNew
                     UG2.ActiveRow = row
                     Dim itemDetailsCol() As String = itemDetails.Split(",")
+                    ucmbItemCode.Value = -99
+                    ucmbItemCode.Value = itemDetailsCol(0)
+                    'foundRows = newDataSet.Tables(0).Select("cSimpleCode='" & ucmbItemCode.SelectedRow.Cells("Code").Value & "'")
                     row.Cells("StockLink").Value = itemDetailsCol(0)
                     row.Cells("SimpleCode").Value = itemDetailsCol(0)
+                    row.Cells("ItemType").Value = ucmbItemCode.SelectedRow.Cells("uiIIItemType").Value
+                    'row.Cells("IsPriceItem").Value = foundRows(1).Item("IsPriceItem")
                     row.Cells("Description1").Value = itemDetailsCol(0)
-
                     row.Cells("PriceList").Value = itemDetailsCol(1)
                     row.Cells("PriceType").Value = itemDetailsCol(2)
                     row.Cells("Price").Value = itemDetailsCol(3)
+
                 Next
 
             Else
@@ -65,14 +78,14 @@ Public Class frmGlazingDocStockItemTemplate
                         row = UG2.DisplayLayout.Bands(0).AddNew
                         UG2.ActiveRow = row
                         ug2ActivRow = UG2.ActiveRow
+                        ucmbItemCode.Value = -99
                         ug2ActivRow.Cells("StockLink").Value = item("Stock_Sub_Link")
                         ug2ActivRow.Cells("SimpleCode").Value = item("Stock_Sub_Link")
                         ug2ActivRow.Cells("Description1").Value = item("Stock_Sub_Link")
                         ug2ActivRow.Cells("ItemType").Value = item("iItemType")
                         ug2ActivRow.Cells("IsPriceItem").Value = item("IsPriceItem")
-
                         ucmbItemCode.Value = item("Stock_Sub_Link")
-                        totalNewAmount = totalAmount + ug2ActivRow.Cells("Price").Value
+
                         'clsGlazingDocStockItemHelperObj.FillActiveRowFromSelectedProductParameters(ucmbItemCode, UG2.ActiveRow, oPriceUnits)
                         '  clsGlazingDocStockItemHelperObj.SetPriceOnThisRow(UG2.ActiveRow, oPriceUnits)
                     Next
@@ -92,10 +105,10 @@ Public Class frmGlazingDocStockItemTemplate
         End If
         SetItemData()
 
-        ucmbItemCode.Visible = True
-        ucmbItemCode.Enabled = True
-        ucmbPriceType.Visible = True
-        ucmbPriceType.Enabled = True
+        'ucmbItemCode.Visible = True
+        'ucmbItemCode.Enabled = True
+        'ucmbPriceType.Visible = True
+        'ucmbPriceType.Enabled = True
     End Sub
 
     Private Sub UG2_InitializeLayout(sender As Object, e As InitializeLayoutEventArgs) Handles UG2.InitializeLayout
@@ -152,10 +165,14 @@ Public Class frmGlazingDocStockItemTemplate
 
     Private Sub ucmbItemCode_RowSelected(sender As Object, e As RowSelectedEventArgs) Handles ucmbItemCode.RowSelected
         Try
-            If e.Row.Cells("Description_1").Value <> UG2.ActiveRow.Cells("Description1").Value Then
-                UG2.ActiveRow.Cells("Description1").Value = e.Row.Cells("StockLink").Value
-                clsGlazingDocStockItemHelperObj.FillActiveRowFromSelectedProductParameters(ucmbItemCode, UG2.ActiveRow, oPriceUnits)
-                clsGlazingDocStockItemHelperObj.SetPriceOnThisRow(UG2.ActiveRow, oPriceUnits)
+            If isDataSourceChanging = False Then
+                If e.Row.Cells("Description_1").Value <> UG2.ActiveRow.Cells("Description1").Value Then
+                    UG2.ActiveRow.Cells("Description1").Value = e.Row.Cells("StockLink").Value
+                    clsGlazingDocStockItemHelperObj.FillActiveRowFromSelectedProductParameters(ucmbItemCode, UG2.ActiveRow, oPriceUnits)
+                    clsGlazingDocStockItemHelperObj.SetPriceOnThisRow(UG2.ActiveRow, oPriceUnits)
+                End If
+            Else
+                isDataSourceChanging = False
             End If
         Catch ex As Exception
 
@@ -210,13 +227,15 @@ Public Class frmGlazingDocStockItemTemplate
                 totalAmount = totalNewAmount
             ElseIf Result = Windows.Forms.DialogResult.No Then
                 Dim Result2 As DialogResult = MessageBox.Show("Are you sure you want to discard the changes ?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If Result = Windows.Forms.DialogResult.Yes Then
+                If Result2 = Windows.Forms.DialogResult.Yes Then
+                    isDiscard = True
+                    Exit Sub
                 Else
                     e.Cancel = True
                 End If
 
             ElseIf Result = Windows.Forms.DialogResult.Cancel Then
-                e.Cancel = True
+            e.Cancel = True
 
             End If
         Catch ex As Exception
@@ -228,12 +247,40 @@ Public Class frmGlazingDocStockItemTemplate
         Try
             For Each rows As UltraGridRow In UG2.Rows
                 selectedNewItems = selectedNewItems & rows.Cells("StockLink").Value & "," & rows.Cells("PriceList").Value & "," & rows.Cells("PriceType").Value & "," & rows.Cells("Price").Value & rows.Cells("ItemType").Value & ";"
-
-                selectedNewItemsDisplay = selectedNewItemsDisplay & Chr(9) & "*" & rows.Cells("Description1").Value & vbCrLf
+                selectedNewItemsDisplay = selectedNewItemsDisplay & Chr(9) & "*" & rows.Cells("Description1").Text & vbCrLf
+                totalNewAmount = Math.Round(totalNewAmount + rows.Cells("Price").Value, 2, MidpointRounding.AwayFromZero)
 
             Next
         Catch ex As Exception
 
         End Try
+    End Sub
+    Private Sub FilterColumData(ByRef columName As String, ByRef condition As Integer, ByRef componentBand As UltraGridBand)
+        Try
+            componentBand.ColumnFilters.ClearAllFilters()
+            componentBand.ColumnFilters(columName).FilterConditions.Add(FilterComparisionOperator.Equals, condition)
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+
+    Private Sub ucmbItemCode_BeforeDropDown(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ucmbItemCode.BeforeDropDown
+        Try
+            'Dim oldcount As Integer = ucmbItemCode.Rows.Count
+            'Dim rowCol() As DataRow = clsGlazingDocStockItemHelperObj.dataSetForItem.Tables(0).Select("uiIIItemType='" & UG2.ActiveRow.Cells("ItemType").Value & "'")
+            'isDataSourceChanging = True
+            'ucmbItemCode.DataSource = rowCol
+            'Dim newCount As Integer = ucmbItemCode.Rows.Count
+            FilterColumData("uiIIItemType", UG2.ActiveRow.Cells("ItemType").Value, ucmbItemCode.DisplayLayout.Bands(0))
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+
+    Private Sub btnOk_Click(sender As Object, e As EventArgs) Handles btnOk.Click
+        Me.Close()
     End Sub
 End Class

@@ -25,11 +25,11 @@ Partial Class frmGlazingDocDefaultSetting
         Me.components = New System.ComponentModel.Container()
         Dim Appearance1 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraGridBand1 As Infragistics.Win.UltraWinGrid.UltraGridBand = New Infragistics.Win.UltraWinGrid.UltraGridBand("Band 0", -1)
-        Dim UltraGridColumn16 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateName")
-        Dim UltraGridColumn17 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("foreColor")
-        Dim UltraGridColumn18 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("backColor")
-        Dim UltraGridColumn19 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isActive")
-        Dim UltraGridColumn20 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("JQSID")
+        Dim UltraGridColumn1 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("quoteStateName")
+        Dim UltraGridColumn2 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("foreColor")
+        Dim UltraGridColumn3 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("backColor")
+        Dim UltraGridColumn4 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("isActive")
+        Dim UltraGridColumn5 As Infragistics.Win.UltraWinGrid.UltraGridColumn = New Infragistics.Win.UltraWinGrid.UltraGridColumn("JQSID")
         Dim Appearance2 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance3 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim Appearance4 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
@@ -46,18 +46,18 @@ Partial Class frmGlazingDocDefaultSetting
         Dim UltraDataColumn3 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("backColor")
         Dim UltraDataColumn4 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("isActive")
         Dim UltraDataColumn5 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("JQSID")
-        Dim Appearance14 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance15 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance16 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance19 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance20 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance21 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance22 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance23 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance24 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance25 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance26 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
-        Dim Appearance27 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance13 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance17 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance18 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance28 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance29 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance30 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance31 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance32 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance33 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance34 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance35 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
+        Dim Appearance36 As Infragistics.Win.Appearance = New Infragistics.Win.Appearance()
         Dim UltraDataColumn6 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("Quote State")
         Dim UltraDataColumn7 As Infragistics.Win.UltraWinDataSource.UltraDataColumn = New Infragistics.Win.UltraWinDataSource.UltraDataColumn("Column 1")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGlazingDocDefaultSetting))
@@ -84,11 +84,14 @@ Partial Class frmGlazingDocDefaultSetting
         Me.ucpQuoteState2 = New Infragistics.Win.UltraWinEditors.UltraColorPicker()
         Me.ucpQuoteState1 = New Infragistics.Win.UltraWinEditors.UltraColorPicker()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.gbGenaral = New System.Windows.Forms.GroupBox()
+        Me.txtDefaultExpiryDate = New System.Windows.Forms.TextBox()
         Me.ucmbDefaultTax = New Infragistics.Win.UltraWinGrid.UltraCombo()
+        Me.lblDefaultExpiryDate = New System.Windows.Forms.Label()
         Me.lblDefaultTax = New System.Windows.Forms.Label()
         Me.chkLoadGlobalDefault = New System.Windows.Forms.CheckBox()
         Me.chkGlobalSave = New System.Windows.Forms.CheckBox()
+        Me.chkTaxRateFromCustomer = New System.Windows.Forms.CheckBox()
         Me.chkTaxInc = New System.Windows.Forms.CheckBox()
         Me.UltraDataSource1 = New Infragistics.Win.UltraWinDataSource.UltraDataSource(Me.components)
         Me.Panel1.SuspendLayout()
@@ -104,7 +107,7 @@ Partial Class frmGlazingDocDefaultSetting
         CType(Me.ucpQuoteState2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ucpQuoteState1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
+        Me.gbGenaral.SuspendLayout()
         CType(Me.ucmbDefaultTax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.UltraDataSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -137,11 +140,11 @@ Partial Class frmGlazingDocDefaultSetting
         '
         Me.Panel1.Controls.Add(Me.gbColorOptions)
         Me.Panel1.Controls.Add(Me.Panel3)
-        Me.Panel1.Controls.Add(Me.GroupBox1)
+        Me.Panel1.Controls.Add(Me.gbGenaral)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(398, 433)
+        Me.Panel1.Size = New System.Drawing.Size(398, 454)
         Me.Panel1.TabIndex = 5
         '
         'gbColorOptions
@@ -166,15 +169,18 @@ Partial Class frmGlazingDocDefaultSetting
         Me.gbColorOptions.Controls.Add(Me.ucpQuoteState3)
         Me.gbColorOptions.Controls.Add(Me.ucpQuoteState2)
         Me.gbColorOptions.Controls.Add(Me.ucpQuoteState1)
-        Me.gbColorOptions.Location = New System.Drawing.Point(12, 119)
+        Me.gbColorOptions.Location = New System.Drawing.Point(11, 157)
         Me.gbColorOptions.Name = "gbColorOptions"
-        Me.gbColorOptions.Size = New System.Drawing.Size(375, 279)
+        Me.gbColorOptions.Size = New System.Drawing.Size(375, 261)
         Me.gbColorOptions.TabIndex = 7
         Me.gbColorOptions.TabStop = False
         Me.gbColorOptions.Text = "Quote state settings"
         '
         'chkDefaultBackCol
         '
+        Me.chkDefaultBackCol.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.chkDefaultBackCol.AutoSize = True
         Me.chkDefaultBackCol.Location = New System.Drawing.Point(6, 231)
         Me.chkDefaultBackCol.Name = "chkDefaultBackCol"
@@ -190,22 +196,22 @@ Partial Class frmGlazingDocDefaultSetting
         Appearance1.BorderColor = System.Drawing.SystemColors.InactiveCaption
         Me.ugColorOption.DisplayLayout.Appearance = Appearance1
         Me.ugColorOption.DisplayLayout.AutoFitStyle = Infragistics.Win.UltraWinGrid.AutoFitStyle.ResizeAllColumns
-        UltraGridColumn16.Header.Caption = "Quote State Name"
-        UltraGridColumn16.Header.VisiblePosition = 0
-        UltraGridColumn16.Width = 186
-        UltraGridColumn17.Header.Caption = "Font Color"
-        UltraGridColumn17.Header.VisiblePosition = 1
-        UltraGridColumn17.Width = 55
-        UltraGridColumn18.Header.Caption = "Backgorund Color"
-        UltraGridColumn18.Header.VisiblePosition = 2
-        UltraGridColumn18.Width = 44
-        UltraGridColumn19.Header.Caption = "Enable"
-        UltraGridColumn19.Header.VisiblePosition = 3
-        UltraGridColumn19.Width = 48
-        UltraGridColumn20.Header.VisiblePosition = 4
-        UltraGridColumn20.Hidden = True
-        UltraGridColumn20.Width = 62
-        UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn16, UltraGridColumn17, UltraGridColumn18, UltraGridColumn19, UltraGridColumn20})
+        UltraGridColumn1.Header.Caption = "Quote State Name"
+        UltraGridColumn1.Header.VisiblePosition = 0
+        UltraGridColumn1.Width = 182
+        UltraGridColumn2.Header.Caption = "Font Color"
+        UltraGridColumn2.Header.VisiblePosition = 1
+        UltraGridColumn2.Width = 59
+        UltraGridColumn3.Header.Caption = "Backgorund Color"
+        UltraGridColumn3.Header.VisiblePosition = 2
+        UltraGridColumn3.Width = 44
+        UltraGridColumn4.Header.Caption = "Enable"
+        UltraGridColumn4.Header.VisiblePosition = 3
+        UltraGridColumn4.Width = 48
+        UltraGridColumn5.Header.VisiblePosition = 4
+        UltraGridColumn5.Hidden = True
+        UltraGridColumn5.Width = 62
+        UltraGridBand1.Columns.AddRange(New Object() {UltraGridColumn1, UltraGridColumn2, UltraGridColumn3, UltraGridColumn4, UltraGridColumn5})
         Me.ugColorOption.DisplayLayout.BandsSerializer.Add(UltraGridBand1)
         Me.ugColorOption.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.ugColorOption.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]
@@ -280,6 +286,9 @@ Partial Class frmGlazingDocDefaultSetting
         '
         'ucpBackColor
         '
+        Me.ucpBackColor.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ucpBackColor.Color = System.Drawing.Color.Empty
         Me.ucpBackColor.Location = New System.Drawing.Point(157, 228)
         Me.ucpBackColor.Name = "ucpBackColor"
@@ -426,87 +435,106 @@ Partial Class frmGlazingDocDefaultSetting
         Me.Panel3.Controls.Add(Me.btnOK)
         Me.Panel3.Controls.Add(Me.btnCancel)
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel3.Location = New System.Drawing.Point(0, 404)
+        Me.Panel3.Location = New System.Drawing.Point(0, 425)
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(398, 29)
         Me.Panel3.TabIndex = 5
         '
-        'GroupBox1
+        'gbGenaral
         '
-        Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.gbGenaral.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.ucmbDefaultTax)
-        Me.GroupBox1.Controls.Add(Me.lblDefaultTax)
-        Me.GroupBox1.Controls.Add(Me.chkLoadGlobalDefault)
-        Me.GroupBox1.Controls.Add(Me.chkGlobalSave)
-        Me.GroupBox1.Controls.Add(Me.chkTaxInc)
-        Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(375, 101)
-        Me.GroupBox1.TabIndex = 6
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Default Item Price / Rate"
+        Me.gbGenaral.Controls.Add(Me.txtDefaultExpiryDate)
+        Me.gbGenaral.Controls.Add(Me.ucmbDefaultTax)
+        Me.gbGenaral.Controls.Add(Me.lblDefaultExpiryDate)
+        Me.gbGenaral.Controls.Add(Me.lblDefaultTax)
+        Me.gbGenaral.Controls.Add(Me.chkLoadGlobalDefault)
+        Me.gbGenaral.Controls.Add(Me.chkGlobalSave)
+        Me.gbGenaral.Controls.Add(Me.chkTaxRateFromCustomer)
+        Me.gbGenaral.Controls.Add(Me.chkTaxInc)
+        Me.gbGenaral.Location = New System.Drawing.Point(12, 12)
+        Me.gbGenaral.Name = "gbGenaral"
+        Me.gbGenaral.Size = New System.Drawing.Size(375, 139)
+        Me.gbGenaral.TabIndex = 6
+        Me.gbGenaral.TabStop = False
+        Me.gbGenaral.Text = "Genaral"
+        '
+        'txtDefaultExpiryDate
+        '
+        Me.txtDefaultExpiryDate.Location = New System.Drawing.Point(106, 106)
+        Me.txtDefaultExpiryDate.Name = "txtDefaultExpiryDate"
+        Me.txtDefaultExpiryDate.Size = New System.Drawing.Size(66, 20)
+        Me.txtDefaultExpiryDate.TabIndex = 3
         '
         'ucmbDefaultTax
         '
-        Appearance14.BackColor = System.Drawing.SystemColors.Window
-        Appearance14.BorderColor = System.Drawing.SystemColors.InactiveCaption
-        Me.ucmbDefaultTax.DisplayLayout.Appearance = Appearance14
+        Appearance13.BackColor = System.Drawing.SystemColors.Window
+        Appearance13.BorderColor = System.Drawing.SystemColors.InactiveCaption
+        Me.ucmbDefaultTax.DisplayLayout.Appearance = Appearance13
         Me.ucmbDefaultTax.DisplayLayout.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
         Me.ucmbDefaultTax.DisplayLayout.CaptionVisible = Infragistics.Win.DefaultableBoolean.[False]
-        Appearance15.BackColor = System.Drawing.SystemColors.ActiveBorder
-        Appearance15.BackColor2 = System.Drawing.SystemColors.ControlDark
-        Appearance15.BackGradientStyle = Infragistics.Win.GradientStyle.Vertical
-        Appearance15.BorderColor = System.Drawing.SystemColors.Window
-        Me.ucmbDefaultTax.DisplayLayout.GroupByBox.Appearance = Appearance15
-        Appearance16.ForeColor = System.Drawing.SystemColors.GrayText
-        Me.ucmbDefaultTax.DisplayLayout.GroupByBox.BandLabelAppearance = Appearance16
+        Appearance17.BackColor = System.Drawing.SystemColors.ActiveBorder
+        Appearance17.BackColor2 = System.Drawing.SystemColors.ControlDark
+        Appearance17.BackGradientStyle = Infragistics.Win.GradientStyle.Vertical
+        Appearance17.BorderColor = System.Drawing.SystemColors.Window
+        Me.ucmbDefaultTax.DisplayLayout.GroupByBox.Appearance = Appearance17
+        Appearance18.ForeColor = System.Drawing.SystemColors.GrayText
+        Me.ucmbDefaultTax.DisplayLayout.GroupByBox.BandLabelAppearance = Appearance18
         Me.ucmbDefaultTax.DisplayLayout.GroupByBox.BorderStyle = Infragistics.Win.UIElementBorderStyle.Solid
-        Appearance19.BackColor = System.Drawing.SystemColors.ControlLightLight
-        Appearance19.BackColor2 = System.Drawing.SystemColors.Control
-        Appearance19.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal
-        Appearance19.ForeColor = System.Drawing.SystemColors.GrayText
-        Me.ucmbDefaultTax.DisplayLayout.GroupByBox.PromptAppearance = Appearance19
+        Appearance28.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Appearance28.BackColor2 = System.Drawing.SystemColors.Control
+        Appearance28.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal
+        Appearance28.ForeColor = System.Drawing.SystemColors.GrayText
+        Me.ucmbDefaultTax.DisplayLayout.GroupByBox.PromptAppearance = Appearance28
         Me.ucmbDefaultTax.DisplayLayout.MaxColScrollRegions = 1
         Me.ucmbDefaultTax.DisplayLayout.MaxRowScrollRegions = 1
-        Appearance20.BackColor = System.Drawing.SystemColors.Window
-        Appearance20.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.ucmbDefaultTax.DisplayLayout.Override.ActiveCellAppearance = Appearance20
-        Appearance21.BackColor = System.Drawing.SystemColors.Highlight
-        Appearance21.ForeColor = System.Drawing.SystemColors.HighlightText
-        Me.ucmbDefaultTax.DisplayLayout.Override.ActiveRowAppearance = Appearance21
+        Appearance29.BackColor = System.Drawing.SystemColors.Window
+        Appearance29.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.ucmbDefaultTax.DisplayLayout.Override.ActiveCellAppearance = Appearance29
+        Appearance30.BackColor = System.Drawing.SystemColors.Highlight
+        Appearance30.ForeColor = System.Drawing.SystemColors.HighlightText
+        Me.ucmbDefaultTax.DisplayLayout.Override.ActiveRowAppearance = Appearance30
         Me.ucmbDefaultTax.DisplayLayout.Override.BorderStyleCell = Infragistics.Win.UIElementBorderStyle.Dotted
         Me.ucmbDefaultTax.DisplayLayout.Override.BorderStyleRow = Infragistics.Win.UIElementBorderStyle.Dotted
-        Appearance22.BackColor = System.Drawing.SystemColors.Window
-        Me.ucmbDefaultTax.DisplayLayout.Override.CardAreaAppearance = Appearance22
-        Appearance23.BorderColor = System.Drawing.Color.Silver
-        Appearance23.TextTrimming = Infragistics.Win.TextTrimming.EllipsisCharacter
-        Me.ucmbDefaultTax.DisplayLayout.Override.CellAppearance = Appearance23
+        Appearance31.BackColor = System.Drawing.SystemColors.Window
+        Me.ucmbDefaultTax.DisplayLayout.Override.CardAreaAppearance = Appearance31
+        Appearance32.BorderColor = System.Drawing.Color.Silver
+        Appearance32.TextTrimming = Infragistics.Win.TextTrimming.EllipsisCharacter
+        Me.ucmbDefaultTax.DisplayLayout.Override.CellAppearance = Appearance32
         Me.ucmbDefaultTax.DisplayLayout.Override.CellClickAction = Infragistics.Win.UltraWinGrid.CellClickAction.EditAndSelectText
         Me.ucmbDefaultTax.DisplayLayout.Override.CellPadding = 0
-        Appearance24.BackColor = System.Drawing.SystemColors.Control
-        Appearance24.BackColor2 = System.Drawing.SystemColors.ControlDark
-        Appearance24.BackGradientAlignment = Infragistics.Win.GradientAlignment.Element
-        Appearance24.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal
-        Appearance24.BorderColor = System.Drawing.SystemColors.Window
-        Me.ucmbDefaultTax.DisplayLayout.Override.GroupByRowAppearance = Appearance24
-        Appearance25.TextHAlignAsString = "Left"
-        Me.ucmbDefaultTax.DisplayLayout.Override.HeaderAppearance = Appearance25
+        Appearance33.BackColor = System.Drawing.SystemColors.Control
+        Appearance33.BackColor2 = System.Drawing.SystemColors.ControlDark
+        Appearance33.BackGradientAlignment = Infragistics.Win.GradientAlignment.Element
+        Appearance33.BackGradientStyle = Infragistics.Win.GradientStyle.Horizontal
+        Appearance33.BorderColor = System.Drawing.SystemColors.Window
+        Me.ucmbDefaultTax.DisplayLayout.Override.GroupByRowAppearance = Appearance33
+        Appearance34.TextHAlignAsString = "Left"
+        Me.ucmbDefaultTax.DisplayLayout.Override.HeaderAppearance = Appearance34
         Me.ucmbDefaultTax.DisplayLayout.Override.HeaderClickAction = Infragistics.Win.UltraWinGrid.HeaderClickAction.SortMulti
         Me.ucmbDefaultTax.DisplayLayout.Override.HeaderStyle = Infragistics.Win.HeaderStyle.WindowsXPCommand
-        Appearance26.BackColor = System.Drawing.SystemColors.Window
-        Appearance26.BorderColor = System.Drawing.Color.Silver
-        Me.ucmbDefaultTax.DisplayLayout.Override.RowAppearance = Appearance26
+        Appearance35.BackColor = System.Drawing.SystemColors.Window
+        Appearance35.BorderColor = System.Drawing.Color.Silver
+        Me.ucmbDefaultTax.DisplayLayout.Override.RowAppearance = Appearance35
         Me.ucmbDefaultTax.DisplayLayout.Override.RowSelectors = Infragistics.Win.DefaultableBoolean.[False]
-        Appearance27.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ucmbDefaultTax.DisplayLayout.Override.TemplateAddRowAppearance = Appearance27
+        Appearance36.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.ucmbDefaultTax.DisplayLayout.Override.TemplateAddRowAppearance = Appearance36
         Me.ucmbDefaultTax.DisplayLayout.ScrollBounds = Infragistics.Win.UltraWinGrid.ScrollBounds.ScrollToFill
         Me.ucmbDefaultTax.DisplayLayout.ScrollStyle = Infragistics.Win.UltraWinGrid.ScrollStyle.Immediate
         Me.ucmbDefaultTax.DisplayLayout.ViewStyleBand = Infragistics.Win.UltraWinGrid.ViewStyleBand.OutlookGroupBy
-        Me.ucmbDefaultTax.Location = New System.Drawing.Point(92, 27)
+        Me.ucmbDefaultTax.Location = New System.Drawing.Point(106, 27)
         Me.ucmbDefaultTax.Name = "ucmbDefaultTax"
-        Me.ucmbDefaultTax.Size = New System.Drawing.Size(277, 22)
+        Me.ucmbDefaultTax.Size = New System.Drawing.Size(263, 22)
         Me.ucmbDefaultTax.TabIndex = 4
+        '
+        'lblDefaultExpiryDate
+        '
+        Me.lblDefaultExpiryDate.AutoSize = True
+        Me.lblDefaultExpiryDate.Location = New System.Drawing.Point(3, 109)
+        Me.lblDefaultExpiryDate.Name = "lblDefaultExpiryDate"
+        Me.lblDefaultExpiryDate.Size = New System.Drawing.Size(94, 13)
+        Me.lblDefaultExpiryDate.TabIndex = 2
+        Me.lblDefaultExpiryDate.Text = "Default Expiry Day"
         '
         'lblDefaultTax
         '
@@ -520,7 +548,7 @@ Partial Class frmGlazingDocDefaultSetting
         'chkLoadGlobalDefault
         '
         Me.chkLoadGlobalDefault.AutoSize = True
-        Me.chkLoadGlobalDefault.Location = New System.Drawing.Point(202, 122)
+        Me.chkLoadGlobalDefault.Location = New System.Drawing.Point(195, 59)
         Me.chkLoadGlobalDefault.Name = "chkLoadGlobalDefault"
         Me.chkLoadGlobalDefault.Size = New System.Drawing.Size(173, 17)
         Me.chkLoadGlobalDefault.TabIndex = 0
@@ -531,7 +559,7 @@ Partial Class frmGlazingDocDefaultSetting
         'chkGlobalSave
         '
         Me.chkGlobalSave.AutoSize = True
-        Me.chkGlobalSave.Location = New System.Drawing.Point(202, 135)
+        Me.chkGlobalSave.Location = New System.Drawing.Point(195, 82)
         Me.chkGlobalSave.Name = "chkGlobalSave"
         Me.chkGlobalSave.Size = New System.Drawing.Size(107, 17)
         Me.chkGlobalSave.TabIndex = 0
@@ -539,10 +567,20 @@ Partial Class frmGlazingDocDefaultSetting
         Me.chkGlobalSave.UseVisualStyleBackColor = True
         Me.chkGlobalSave.Visible = False
         '
+        'chkTaxRateFromCustomer
+        '
+        Me.chkTaxRateFromCustomer.AutoSize = True
+        Me.chkTaxRateFromCustomer.Location = New System.Drawing.Point(6, 82)
+        Me.chkTaxRateFromCustomer.Name = "chkTaxRateFromCustomer"
+        Me.chkTaxRateFromCustomer.Size = New System.Drawing.Size(150, 17)
+        Me.chkTaxRateFromCustomer.TabIndex = 0
+        Me.chkTaxRateFromCustomer.Text = "Get tax rate from customer"
+        Me.chkTaxRateFromCustomer.UseVisualStyleBackColor = True
+        '
         'chkTaxInc
         '
         Me.chkTaxInc.AutoSize = True
-        Me.chkTaxInc.Location = New System.Drawing.Point(6, 74)
+        Me.chkTaxInc.Location = New System.Drawing.Point(6, 59)
         Me.chkTaxInc.Name = "chkTaxInc"
         Me.chkTaxInc.Size = New System.Drawing.Size(134, 17)
         Me.chkTaxInc.TabIndex = 0
@@ -558,7 +596,7 @@ Partial Class frmGlazingDocDefaultSetting
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(398, 433)
+        Me.ClientSize = New System.Drawing.Size(398, 454)
         Me.Controls.Add(Me.Panel1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
@@ -580,8 +618,8 @@ Partial Class frmGlazingDocDefaultSetting
         CType(Me.ucpQuoteState2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ucpQuoteState1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel3.ResumeLayout(False)
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
+        Me.gbGenaral.ResumeLayout(False)
+        Me.gbGenaral.PerformLayout()
         CType(Me.ucmbDefaultTax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.UltraDataSource1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -592,7 +630,7 @@ Partial Class frmGlazingDocDefaultSetting
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
     Friend WithEvents chkTaxInc As System.Windows.Forms.CheckBox
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents gbGenaral As System.Windows.Forms.GroupBox
     Friend WithEvents lblDefaultTax As System.Windows.Forms.Label
     Friend WithEvents ucmbDefaultTax As Infragistics.Win.UltraWinGrid.UltraCombo
     Friend WithEvents chkGlobalSave As System.Windows.Forms.CheckBox
@@ -617,4 +655,7 @@ Partial Class frmGlazingDocDefaultSetting
     Friend WithEvents UltraDataSource2 As Infragistics.Win.UltraWinDataSource.UltraDataSource
     Friend WithEvents UltraDataSource1 As Infragistics.Win.UltraWinDataSource.UltraDataSource
     Friend WithEvents chkDefaultBackCol As System.Windows.Forms.CheckBox
+    Friend WithEvents lblDefaultExpiryDate As System.Windows.Forms.Label
+    Friend WithEvents txtDefaultExpiryDate As System.Windows.Forms.TextBox
+    Friend WithEvents chkTaxRateFromCustomer As System.Windows.Forms.CheckBox
 End Class
