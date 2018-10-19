@@ -3384,6 +3384,9 @@ Public Class frmGlazingQuote
                 ElseIf e.Cell.Column.Key = "ServiceItemTotNet" Then
                     GridCellAppearence(e.Cell.Row)
 
+                ElseIf e.Cell.Column.Key = "QuoteFiedType" And e.Cell.Row.Cells("LineComments").Value <> "" Then
+                    RowCellData()
+
                 End If
 
                 If (isExistingOrder = True Or openedModeulename = "Temp") And e.Cell.Text <> "Stock Item" Then
@@ -5552,6 +5555,52 @@ DeleteRow:
             End If
 
         Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Sub RowCellData()
+        Try
+            Dim newRow As UltraGridRow
+            Dim oldRow As UltraGridRow
+
+            oldRow = UG2.ActiveRow
+            newRow = AddNewRow("end")
+
+
+            For Each cell As UltraGridCell In oldRow.Cells
+                If cell.Column.Key <> "QuoteFiedType" Then
+                    cell.Value = newRow.Cells(cell.Column.Key).Value
+                End If
+            Next
+            newRow.Delete()
+            UG2.ActiveCell = oldRow.Cells("QuoteFiedType")
+
+            'Me.UG2.ActiveRow.Cells(cell.Column.Key).Value = row.Cells(cell.Column.Key).Value
+            'If cell.Column.Key = "QuoteFiedType" Then
+            '    ucmbQuoteLineType.Value = row.Cells(cell.Column.Key).Value
+
+            'End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub tsbConvertToSalesOrder_Click(sender As Object, e As EventArgs) Handles tsbConvertToSalesOrder.Click
+        Try
+            If quoteOrdeIndex = 0 Then
+                If modGlazingQuoteExtension.GQShowMessage("Please save before convert." & vbCrLf & "Do you want to save now?", Me.Text, MsgBoxStyle.Critical, "question", "tsmConvertInToSalseOrder_Click") = Windows.Forms.DialogResult.Yes Then
+                    SaveDocument()
+                Else
+                    Exit Sub
+                End If
+            End If
+            Dim clsGlazingQuoteExtensionobj As New clsGlazingQuoteExtension
+            clsGlazingQuoteExtensionobj.CoverToOldSalesOrder(quoteOrdeIndex, GlassDocTypes.Quotation)
+            Me.Close()
+        Catch ex As Exception
+            modGlazingQuoteExtension.GQShowMessage(ex.Message, Me.Text, MsgBoxStyle.Critical, "warning", "tsmConvertInToSalseOrder_Click")
 
         End Try
     End Sub
